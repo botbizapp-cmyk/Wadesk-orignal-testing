@@ -179,11 +179,5 @@ return [
      */
     // Every /api/v1 route is guarded by the `auth.apikey` middleware, so mark
     // them all as requiring a Bearer API key in the OpenAPI docs.
-    'security_strategy' => [
-        \Dedoc\Scramble\SecurityDocumentation\MiddlewareAuthSecurityStrategy::class,
-        [
-            'middleware' => ['auth.apikey', 'auth', 'auth:*'],
-            'scheme'     => \Dedoc\Scramble\Support\Generator\SecurityScheme::http('bearer'),
-        ],
-    ],
+    'security_strategy' => null,
 ];
