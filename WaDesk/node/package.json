@@ -27,5 +27,7 @@
   "overrides": {
     "p-queue": "6.6.2"
   },
-  "scripts": {}
+  "scripts": {
+    "start": "node index.js"
+  }
 }
