@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposals &amp; Estimates – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to Proposals &amp; Estimates — building priced quotes with line items, tax and discount, the public accept/decline link and how it works, sending, the status lifecycle, one-click convert-to-invoice, and tips.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Proposals &amp; Estimates</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Proposals &amp; Estimates</strong> are priced quotes you send a customer before the sale. Each one has <strong>line items</strong>, optional <strong>tax</strong> and <strong>discount</strong>, and a <strong>shareable public link</strong> where the customer can <strong>accept or decline</strong> it themselves. When they accept, you convert it into an <a href="auto-invoicing.html">invoice</a> in one click. It's the bridge between a <a href="../growth/deals.html">deal</a> and getting paid.</p>
+                        <p>&ldquo;Estimate&rdquo; and &ldquo;proposal&rdquo; are the same underlying document &mdash; a priced quote &mdash; so everything here applies to both. You can create them by hand, or by asking the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a>: &ldquo;create an estimate for Priya: 2 hours consulting at 80&rdquo;.</p>
+                        <blockquote class="info"><strong>Where:</strong> the CRM area of the sidebar. Requires a plan that includes the CRM/quotes feature.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating a Quote</h2>
+                        <ol>
+                            <li><strong>New estimate/proposal.</strong> Pick the <strong>customer</strong> (an existing contact or company) and give it a title.</li>
+                            <li><strong>Add line items.</strong> Each line has a <strong>description</strong>, <strong>quantity</strong> and <strong>unit price</strong>. The line total and running subtotal calculate as you type.</li>
+                            <li><strong>Apply tax &amp; discount.</strong> Set a tax rate (percentage) and an optional discount; the <strong>grand total</strong> updates live.</li>
+                            <li><strong>Set the currency.</strong> The quote carries its own currency, formatted consistently everywhere it appears.</li>
+                            <li><strong>Add notes &amp; terms.</strong> Optional notes/terms for the customer (scope, validity, payment terms).</li>
+                            <li><strong>Set an expiry.</strong> Optionally a <strong>valid-until</strong> date so the quote lapses if not accepted in time.</li>
+                            <li><strong>Save.</strong> The quote gets a sequential number and a status of <em>Draft</em>.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Money is exact.</strong> Amounts are stored in minor units (e.g. paise/cents) and rounded only for display, so totals never drift by a rounding error &mdash; what the customer sees is what converts to the invoice.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="public-link">The Public Accept / Decline Link</h2>
+                        <p>Every quote has a <strong>public link</strong> the customer opens with no login. Step by step, from their side:</p>
+                        <ol>
+                            <li>They open the unique link (a secure, unguessable token &mdash; only someone with the link can view it).</li>
+                            <li>They see a clean page: your branding, the line items, tax/discount, the total, and your notes/terms.</li>
+                            <li>They click <strong>Accept</strong> or <strong>Decline</strong>.</li>
+                            <li>You're notified, and the quote's status updates instantly.</li>
+                        </ol>
+                        <ul>
+                            <li><strong>Accept</strong> &mdash; marks the quote <em>Accepted</em> and flags it ready to convert to an invoice.</li>
+                            <li><strong>Decline</strong> &mdash; marks it <em>Declined</em> so you know to follow up or revise.</li>
+                            <li>Once accepted or declined, the action is recorded against that quote for your audit trail.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="send">Sending a Quote</h2>
+                        <p>Share the public link wherever the customer is:</p>
+                        <ul>
+                            <li><strong>In a chat.</strong> Drop the link into the WhatsApp (or other channel) thread &mdash; the customer opens it on their phone and responds.</li>
+                            <li><strong>Via the copilot.</strong> &ldquo;Send Priya the estimate&rdquo; &mdash; the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a> sends the link after you confirm.</li>
+                            <li><strong>Copy the link</strong> to paste into an email or anywhere else.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="statuses">Status Lifecycle</h2>
+                        <table>
+                            <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Draft</strong></td><td>Created, not yet sent. Freely editable.</td></tr>
+                                <tr><td><strong>Sent</strong></td><td>Shared with the customer; awaiting their decision.</td></tr>
+                                <tr><td><strong>Accepted</strong></td><td>The customer accepted &mdash; ready to convert to an invoice.</td></tr>
+                                <tr><td><strong>Declined</strong></td><td>The customer declined &mdash; follow up or revise and re-send.</td></tr>
+                                <tr><td><strong>Expired</strong></td><td>Passed its valid-until date without a decision.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="convert">Convert to Invoice</h2>
+                        <p>Once a quote is <strong>Accepted</strong>, click <strong>Convert to invoice</strong>. WaDesk creates an <a href="auto-invoicing.html">invoice</a> with the same line items, tax and total, linked back to the quote and the customer. From there you can send the invoice, attach a <a href="payment-links.html">payment link</a>, and record the payment against it.</p>
+                        <blockquote class="info"><strong>Clean paper trail:</strong> the deal, the accepted quote, and the resulting invoice all link to the same customer &mdash; so you can trace any sale end to end.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tips">Tips &amp; Edge Cases</h2>
+                        <ul>
+                            <li><strong>Revise instead of editing a sent quote</strong> when terms change materially &mdash; duplicate it, adjust, and send the new version so the record of what the customer saw stays intact.</li>
+                            <li><strong>Expiry drives urgency</strong> &mdash; a valid-until date nudges a decision and auto-marks stale quotes Expired so your list stays clean.</li>
+                            <li><strong>Link a quote to a deal</strong> so your pipeline value reflects real, quoted numbers.</li>
+                            <li><strong>The copilot can report</strong> on quotes too &mdash; ask &ldquo;which estimates are still open?&rdquo;.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating a Quote</a></li>
+                    <li class="toc-h2"><a href="#public-link" class="toc-link">Accept / Decline Link</a></li>
+                    <li class="toc-h2"><a href="#send" class="toc-link">Sending a Quote</a></li>
+                    <li class="toc-h2"><a href="#statuses" class="toc-link">Status Lifecycle</a></li>
+                    <li class="toc-h2"><a href="#convert" class="toc-link">Convert to Invoice</a></li>
+                    <li class="toc-h2"><a href="#tips" class="toc-link">Tips &amp; Edge Cases</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

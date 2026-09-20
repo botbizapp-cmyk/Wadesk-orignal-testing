@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General FAQs – WaDesk SaaS Docs</title>
+    <meta name="description" content="General FAQs — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>General FAQs</h1>
+
+                    <p>Common questions about what <strong>WaDesk</strong> is, how the three WhatsApp engines work, what your CodeCanyon license allows, and whether you can run it as a multi-tenant SaaS or resell it. If you are evaluating WaDesk before buying, start here.</p>
+
+                    <section class="mb-12">
+                        <h2 id="product">About the Product</h2>
+
+                        <div class="mb-6">
+                            <h3 id="what-is-wadesk"><strong>Q: What exactly is WaDesk?</strong></h3>
+                            <p><strong>A:</strong> <strong>WaDesk</strong> is a self-hosted WhatsApp business platform built on Laravel 12. It combines a shared <strong>Team Inbox</strong>, <strong>bulk campaigns</strong>, a visual <strong>flow builder</strong>, <strong>template management</strong>, an <strong>AI suite</strong>, and a full <strong>multi-tenant admin panel</strong> with plans and billing. You install it once on your own server and own the whole stack &mdash; there are no per-message or per-seat fees charged by us.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="self-hosted"><strong>Q: Is it self-hosted or a cloud service?</strong></h3>
+                            <p><strong>A:</strong> WaDesk is <strong>fully self-hosted</strong>. You download the source from CodeCanyon and deploy it to your own hosting or VPS. There is no central WaDesk cloud your data passes through &mdash; all conversations, contacts, and credentials live on your server. See the <a href="installation.html">Installation FAQs</a> for hosting requirements.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="who-makes-it"><strong>Q: Who develops WaDesk?</strong></h3>
+                            <p><strong>A:</strong> WaDesk is a commercial product distributed on <strong>CodeCanyon</strong> by <strong>Media City</strong>. Support and updates are delivered through your CodeCanyon purchase. WaDesk is an independent product and is <strong>not affiliated with, endorsed by, or sponsored by WhatsApp or Meta</strong>. See the <a href="disclaimer.html">Disclaimer</a> for details.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engines">The Three WhatsApp Engines</h2>
+
+                        <div class="mb-6">
+                            <h3 id="engine-list"><strong>Q: What are the three engines, and how do they differ?</strong></h3>
+                            <p><strong>A:</strong> Every workspace connects WhatsApp through one of three interchangeable engines. The inbox, campaigns, flows, and templates all adapt to whichever engine a workspace is on:</p>
+                            <ul>
+                                <li><strong>Unofficial API:</strong> Connect any WhatsApp number by scanning a QR code, exactly like WhatsApp Web. Powered by the bundled Node.js bridge. Fastest to set up and needs no Meta approval, but it is unofficial and carries ban risk &mdash; see <a href="whatsapp-bans.html">WhatsApp &amp; Ban Safety</a>.</li>
+                                <li><strong>WhatsApp Cloud API (Meta):</strong> The official Meta Cloud API. Requires a verified WhatsApp Business Account and pre-approved message templates, but offers the highest trust and access to official features such as WhatsApp Forms and the verified green tick path.</li>
+                                <li><strong>Twilio WhatsApp:</strong> Send through a Twilio WhatsApp sender using Twilio's own content templates. A good fit for teams already using Twilio for their messaging and billing.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="engine-choice"><strong>Q: Which engine should I start with?</strong></h3>
+                            <p><strong>A:</strong> If you want to be live in minutes and are comfortable with the risk profile of an unofficial connection, start on the <strong>Unofficial API</strong>. If you are running a real business at scale, marketing to opted-in contacts, or need long-term stability, the <strong>Cloud API</strong> is the durable choice. Because engines are per-workspace, you can begin on the Unofficial API and migrate a workspace to the Cloud API later without changing how the app works.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="engine-feature-gaps"><strong>Q: Do all features work on every engine?</strong></h3>
+                            <p><strong>A:</strong> Most do, but a few are engine-specific. For example, native <strong>WhatsApp Forms</strong> require the Cloud API engine because they rely on Meta Flows, and template approval workflows differ between Cloud API and Twilio. WaDesk hides or gates engine-specific features automatically, so operators never hit a dead end.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="licensing">Licensing Basics</h2>
+
+                        <div class="mb-6">
+                            <h3 id="codecanyon-license"><strong>Q: What license do I get when I buy on CodeCanyon?</strong></h3>
+                            <p><strong>A:</strong> WaDesk is sold under the standard <strong>Envato Market licenses</strong>. The <strong>Regular License</strong> covers a single end product where end users are not charged for access. The <strong>Extended License</strong> is required when end users <strong>are</strong> charged for access &mdash; which is the case for a paid multi-tenant SaaS. Review the official terms on the <a href="https://codecanyon.net/licenses/standard" target="_blank" rel="noopener">Envato Market Standard Licenses</a> page.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="one-license-many-sites"><strong>Q: Can I use one license on multiple domains or installations?</strong></h3>
+                            <p><strong>A:</strong> No. Each license covers <strong>one single end product</strong> (one installation). If you want to run WaDesk for several unrelated businesses on separate installations, you need a separate license for each. Note this is different from <strong>multi-tenancy</strong> &mdash; one installation serving many client workspaces is a single end product (see below).</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="support-updates"><strong>Q: What about support and updates?</strong></h3>
+                            <p><strong>A:</strong> A purchase includes <strong>6 months of support</strong> from Media City through CodeCanyon, extendable at checkout or later. <strong>Updates are free for the lifetime of the item</strong> &mdash; you can download every future version from your CodeCanyon downloads page regardless of whether your support window is still active.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="multi-tenant-saas">Multi-Tenant &amp; SaaS</h2>
+
+                        <div class="mb-6">
+                            <h3 id="is-multi-tenant"><strong>Q: Is WaDesk multi-tenant out of the box?</strong></h3>
+                            <p><strong>A:</strong> Yes. WaDesk is multi-tenant by design. Each customer gets an isolated <strong>workspace</strong> with its own WhatsApp connection, contacts, team members, conversations, and branding. The admin panel includes subscription plans, free trials, coupons, wallet credits, and granular per-plan feature gating &mdash; everything you need to run it as a WhatsApp SaaS without writing code.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="charge-customers"><strong>Q: Can I charge my own customers a monthly subscription?</strong></h3>
+                            <p><strong>A:</strong> Yes &mdash; that is a primary use case. You define plans in the admin panel, connect one of the 30+ supported payment gateways, and customers subscribe and self-serve. Because you are charging end users for access, this requires the <strong>Extended License</strong> from CodeCanyon.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="tenant-isolation"><strong>Q: How isolated is each tenant's data?</strong></h3>
+                            <p><strong>A:</strong> Workspaces are logically separated, and team access is governed by role-based permissions (for example owner, manager, and agent roles). A user in one workspace cannot see another workspace's conversations, contacts, or settings. The platform owner (you) retains full oversight through the admin panel.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="white-label-resell">White-Label &amp; Reselling</h2>
+
+                        <div class="mb-6">
+                            <h3 id="white-label"><strong>Q: Can I white-label WaDesk with my own brand?</strong></h3>
+                            <p><strong>A:</strong> Yes. You can change the application name, logo, favicon, colors, and message footers. Branding can be set at the platform level and, where enabled, per workspace &mdash; so an agency can present its own brand to clients. No WaDesk or Media City branding is forced on the front end of your installation.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="can-i-resell"><strong>Q: Can I resell WaDesk itself?</strong></h3>
+                            <p><strong>A:</strong> You can sell <strong>access to your end product</strong> (subscriptions to your hosted WaDesk-powered service) under the Extended License. You <strong>cannot</strong> resell or redistribute the WaDesk source code, repackage it as your own item, or sell it on as a script &mdash; that violates the Envato license. In short: sell the service you build with it, not the code.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="customize"><strong>Q: Can I modify the source code?</strong></h3>
+                            <p><strong>A:</strong> Yes. You have full source access and may customize WaDesk for your own end product. Keep in mind that heavy core modifications can make future updates harder to apply, and support does not cover issues introduced by custom code changes. See the Developer Guide for safe extension points.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="setup-errors">Setup &amp; Configuration Errors</h2>
+
+                        <div class="mb-6">
+                            <h3 id="mail-errors"><strong>Q: Login, Register, or Reset / Forgot Password shows an error</strong></h3>
+                            <p><strong>A:</strong> These screens send email (account verification and password-reset links), so the error appears when your <strong>mail details have not been added in the mail settings</strong> yet. Add your SMTP / mail configuration in <strong>Admin &rarr; <a href="../admin-panel/system-settings.html">System Settings</a> &rarr; Mail</strong>, save, then clear the cache. Once valid mail settings are in place, login, registration, and password reset work normally.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="payment-gateway-error"><strong>Q: A payment gateway shows an error</strong></h3>
+                            <p><strong>A:</strong> Payment-gateway errors are almost always a configuration mismatch, not a script bug. Check each of these:</p>
+                            <ul>
+                                <li><strong>Currency &amp; currency code:</strong> confirm the currency and its code are set correctly in <strong>Admin &rarr; <a href="../admin-panel/localization.html">Currencies &amp; Languages</a></strong>. If you use multiple currencies, verify the currency code on each one.</li>
+                                <li><strong>Mail settings:</strong> make sure mail is configured (see above) &mdash; receipts and confirmations rely on it.</li>
+                                <li><strong>Enable the gateway after entering the API keys:</strong> entering keys is not enough &mdash; you must also switch the gateway to <strong>Enabled</strong> in <strong>Admin &rarr; <a href="../admin-panel/payment-gateways.html">Payment Gateways</a></strong>.</li>
+                                <li><strong>No $0 price:</strong> payment gateways do not accept a zero amount &mdash; every plan/product needs at least <strong>$1</strong> (or the equivalent in your currency). All prices and coupons are created in the WaDesk admin panel.</li>
+                            </ul>
+                            <blockquote class="warning"><strong>Sandbox vs. live:</strong> once your tests pass, switch the gateway to <strong>Live mode</strong>. Sandbox-mode accounts and test prices do <em>not</em> work in live mode &mdash; and live keys do not work in sandbox.</blockquote>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="blank-page"><strong>Q: The site is just showing a blank white page</strong></h3>
+                            <p><strong>A:</strong> A blank white screen is often caused by a <strong>space or special character in the app name or the "mail from" name</strong>. Open your <code>.env</code> file and remove spaces/special characters from <code>APP_NAME</code> and <code>MAIL_FROM_NAME</code> (or wrap the value in quotes), then clear the cache:</p>
+                            <pre>php artisan config:clear
+php artisan cache:clear</pre>
+                            <p>If the page is still blank, temporarily enable <a href="installation.html#debug-mode">debug mode</a> to see the underlying error.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="mixed-content"><strong>Q: Mixed content error</strong></h3>
+                            <p><strong>A:</strong> A mixed-content error means the page is served over HTTPS but some assets load over HTTP. Make sure <strong>SSL is installed properly</strong> on your VPS/server and that <code>APP_URL</code> uses <code>https://</code>. If you are behind Cloudflare, set the SSL mode to <strong>Full</strong> (or Full (Strict)). SSL establishes a secure, encrypted connection between the server and the browser so data cannot be intercepted &mdash; serve every asset over HTTPS to clear the warning.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="server-php">Server &amp; PHP Settings</h2>
+
+                        <div class="mb-6">
+                            <h3 id="upload-size"><strong>Q: How do I increase the PHP upload file-size limit? (file uploading issue)</strong></h3>
+                            <p><strong>A:</strong> Large file uploads need a higher limit than the PHP default. Edit your <code>php.ini</code> and raise these two values to suit your file sizes:</p>
+                            <pre>upload_max_filesize = 64M
+post_max_size = 64M</pre>
+                            <p>Save and restart PHP (or your server). On shared hosting you can usually change these under <strong>Select PHP Version &rarr; Options</strong> in cPanel/Plesk; if you do not have access, ask your hosting provider.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="phpinfo"><strong>Q: How do I create a phpinfo file to check my PHP settings?</strong></h3>
+                            <p><strong>A:</strong> <code>phpinfo()</code> is a built-in PHP function that outputs your PHP version, configuration, and loaded extensions &mdash; useful for troubleshooting (checking memory limits, upload limits, and enabled extensions). To create one:</p>
+                            <ol>
+                                <li>Log in to cPanel / Plesk / FTP and open your <code>public/</code> folder.</li>
+                                <li>Create a new file named <code>phpinfo.php</code> and add:</li>
+                            </ol>
+                            <pre>&lt;?php
+phpinfo();</pre>
+                            <p>Save the file, then visit it in your browser, e.g. <code>yourwebsite.com/public/phpinfo.php</code>.</p>
+                            <blockquote class="warning"><strong>Delete it afterwards.</strong> Do not leave <code>phpinfo.php</code> on a live site &mdash; it reveals sensitive server details (PHP version, extensions, paths). Use it only for troubleshooting, then remove it.</blockquote>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="proc-open"><strong>Q: How do I enable proc_open?</strong></h3>
+                            <p><strong>A:</strong> <code>proc_open</code> is a PHP function that runs a command in a new process. To enable it, make sure the <code>disable_functions</code> directive in your <code>php.ini</code> does <strong>not</strong> list <code>proc_open</code>. If it is there, remove it (or comment it out by adding a semicolon in front of the line), then restart PHP. If you cannot edit <code>php.ini</code>, ask your hosting provider to enable it for you.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="content-media">Content &amp; Media</h2>
+
+                        <div class="mb-6">
+                            <h3 id="demo-images"><strong>Q: Placeholder / demo images</strong></h3>
+                            <p><strong>A:</strong> Demo data is sample or placeholder content used to demonstrate how WaDesk works and to test its functionality. <strong>Any media &mdash; images, icons, or logos &mdash; shown in the preview or demo is not included in this item.</strong> If you want to use any of them in a commercial or non-commercial project, you must contact the respective authors for permission. The demo content also uses placeholder images.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="video-mute"><strong>Q: Why is video muted by default?</strong></h3>
+                            <p><strong>A:</strong> Autoplaying audio is intrusive, so most modern browsers <strong>block auto-playing sound</strong> by default. Video therefore starts muted; the viewer can unmute it manually. This is expected browser behaviour, not a bug.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#product" class="toc-link">About the Product</a></li>
+                    <li class="toc-h2"><a href="#engines" class="toc-link">The Three WhatsApp Engines</a></li>
+                    <li class="toc-h2"><a href="#licensing" class="toc-link">Licensing Basics</a></li>
+                    <li class="toc-h2"><a href="#multi-tenant-saas" class="toc-link">Multi-Tenant &amp; SaaS</a></li>
+                    <li class="toc-h2"><a href="#white-label-resell" class="toc-link">White-Label &amp; Reselling</a></li>
+                    <li class="toc-h2"><a href="#setup-errors" class="toc-link">Setup &amp; Configuration Errors</a></li>
+                    <li class="toc-h2"><a href="#server-php" class="toc-link">Server &amp; PHP Settings</a></li>
+                    <li class="toc-h2"><a href="#content-media" class="toc-link">Content &amp; Media</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attributes – WaDesk SaaS Docs</title>
+    <meta name="description" content="Attributes — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Attributes</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Attributes</strong> are the variables you drop into a message body &mdash; an order ID, a coupon code, a tracking URL, an appointment time &mdash; so one template personalises itself for every recipient. They are your reusable merge fields, and they exist because WhatsApp Business templates only accept <em>positional</em> placeholders, not named ones.</p>
+                        <p>Open it from the <strong>More</strong> menu under <strong>Attributes</strong>. The page lists every attribute in the workspace with its name, key, default value, description, and status, plus a side rail to filter by status, a search box, and a list / grid toggle.</p>
+                        <table>
+                            <thead>
+                                <tr><th>What</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Where to find it</td><td>More menu &rarr; Attributes</td></tr>
+                                <tr><td>Page size</td><td>12 per page.</td></tr>
+                                <tr><td>Scope</td><td>Per workspace &mdash; everyone on the team shares the same set of variables.</td></tr>
+                                <tr><td>In the picker</td><td>Only <strong>active</strong> attributes appear when you insert a variable.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Shared by workspace:</strong> attributes belong to the workspace, not to one person, so different workspaces never see each other's definitions.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="built-in-vs-custom">Built-in vs. custom variables</h2>
+                        <p>There are two kinds of variable you'll use while composing:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Kind</th><th>Where the value lives</th><th>Examples</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Built-in contact fields</strong></td><td>Already stored on every contact record.</td><td>first name, full name, mobile, email, language</td></tr>
+                                <tr><td><strong>Custom attributes</strong></td><td>Defined here on the Attributes page; filled in when you send from the contact's saved data (or the attribute's default).</td><td>order ID, tracking URL, discount code, appointment time</td></tr>
+                            </tbody>
+                        </table>
+                        <ul>
+                            <li>You don't create built-in fields &mdash; they come from the contact. You only manage <strong>custom attributes</strong> on this page.</li>
+                            <li>The slash picker lists your active custom attributes for insertion. Standard contact fields are inserted by the message editor itself.</li>
+                        </ul>
+                        <blockquote class="info"><strong>When to add one:</strong> if the value you want to personalise isn't a standard contact field, create a custom attribute for it. Otherwise just use the built-in field.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating an attribute</h2>
+                        <ol>
+                            <li>Click <strong>New attribute</strong> to open the create modal.</li>
+                            <li>Enter a <strong>display name</strong> and a <strong>key</strong> (both required).</li>
+                            <li>Optionally set a default value and a description.</li>
+                            <li>Leave <strong>Active</strong> on (the default) so the attribute appears in the slash picker, or turn it off to keep it defined but hidden.</li>
+                            <li>Save. It appears at the top of the table.</li>
+                        </ol>
+                        <h3>Field reference</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Limit / rule</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Display name</strong></td><td>Yes</td><td>Max 120 chars</td><td>The friendly label shown in the slash picker (for example "Order ID").</td></tr>
+                                <tr><td><strong>Key</strong></td><td>Yes</td><td>Max 64, letters / digits / <code>_</code> / <code>-</code>, unique in the workspace</td><td>The short name used behind the scenes. Use lowercase with underscores, e.g. <code>order_id</code>.</td></tr>
+                                <tr><td>Default value</td><td>No</td><td>Max 255 chars</td><td>Used when a contact is missing this value at send time.</td></tr>
+                                <tr><td>Description</td><td>No</td><td>Max 500 chars</td><td>A short note on what the attribute means.</td></tr>
+                                <tr><td>Active</td><td>No</td><td>On / off (default on)</td><td>When on, the attribute appears in the slash picker. Off hides it from the picker but keeps the definition.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>The key can't change.</strong> Once created, the key is read-only &mdash; the edit modal disables that field on purpose, because the key is already referenced in your templates and messages. You can rename the display name, edit the default and description, and flip Active, but not the key. To change a key, create a new attribute and update your templates.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="insert">Inserting attributes with the slash picker</h2>
+                        <p>To use an attribute, type <strong><code>/</code></strong> in any compose-aware message body &mdash; templates, broadcasts, WhatsApp campaigns, and the flow builder. A picker opens listing your <strong>active</strong> attributes.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Key</th><th>Action</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>/</code></td><td>Open the attribute picker.</td></tr>
+                                <tr><td><kbd>Enter</kbd></td><td>Insert the highlighted attribute.</td></tr>
+                                <tr><td><kbd>Esc</kbd></td><td>Close the picker without inserting.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Picking an attribute inserts the <strong>next positional placeholder</strong> &mdash; <code>{{1}}</code>, <code>{{2}}</code>, and so on &mdash; into the body, <em>not</em> the attribute's key. At send time WaDesk substitutes the recipient's value for that slot (or the attribute's default when the value is missing).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="meta-rules">Why positional placeholders (Meta rules)</h2>
+                        <p>WhatsApp Business templates accept only <strong>positional</strong> placeholders &mdash; <code>{{1}}</code>, <code>{{2}}</code>, <code>{{3}}</code> &mdash; never named ones like <code>{{name}}</code>. That's why the slash picker inserts a number instead of the key: it keeps your message compliant with what Meta will approve.</p>
+                        <ul>
+                            <li>Don't type attribute keys directly into a template body. Always use the slash picker so it inserts <code>{{N}}</code>.</li>
+                            <li>Placeholders must be <strong>1-based and contiguous</strong>: use <code>{{1}}</code>, <code>{{2}}</code>, <code>{{3}}</code> with no gaps and no jump to a higher number.</li>
+                        </ul>
+                        <h3>How the check works</h3>
+                        <p>When you save a message that contains placeholders (in templates, broadcasts, or campaigns), WaDesk checks that the numbers you used run <code>1, 2, 3, &hellip;</code> in order with no gaps. If they don't, the save is blocked with the message:</p>
+                        <blockquote class="info"><em>"Variable placeholders must be 1-based and contiguous (use {{1}}, {{2}}, {{3}}... no gaps)."</em></blockquote>
+                        <blockquote class="warning"><strong>Gaps are rejected.</strong> A body that jumps from <code>{{1}}</code> to <code>{{3}}</code> (skipping <code>{{2}}</code>), or that starts at <code>{{2}}</code>, will not save. Renumber so the placeholders run in order from 1. A body with no placeholders is always valid.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Managing the list</h2>
+                        <p>The table is fully interactive without page reloads:</p>
+                        <ul>
+                            <li><strong>Filter by status</strong> from the left rail: All, Active, Inactive. Each shows a live count.</li>
+                            <li><strong>Search</strong> by name, key, or description; results update as you type (debounced).</li>
+                            <li><strong>Edit</strong> a row to change its display name, default, description, or Active toggle (the key stays locked).</li>
+                            <li><strong>Delete</strong> a row after a confirmation prompt.</li>
+                            <li>Three stat tiles summarise the workspace: <strong>Total</strong>, <strong>Active</strong> (show in picker), and <strong>Inactive</strong> (hidden from picker).</li>
+                        </ul>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Active</strong></td><td>Appears in the slash picker while composing.</td></tr>
+                                <tr><td><strong>Inactive</strong></td><td>Hidden from the picker; the definition (and any placeholders already in saved messages) is untouched.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="best-practices">Best practices</h2>
+                        <ul>
+                            <li><strong>Always set a default value.</strong> If a contact is missing the value at send time, the default is used instead of the message failing or showing a blank slot.</li>
+                            <li><strong>Use snake_case keys.</strong> Keep them short and consistent: <code>order_id</code>, <code>tracking_url</code>, <code>discount_code</code>, <code>appointment_at</code>.</li>
+                            <li><strong>Deactivate instead of delete</strong> when retiring an attribute but keeping older templates working &mdash; toggle it off so it leaves the picker but the definition stays.</li>
+                        </ul>
+                        <h3>Where attributes are used</h3>
+                        <p>The same active attributes are available everywhere you write a message &mdash; the slash picker works in:</p>
+                        <ul>
+                            <li><strong>Templates</strong> (when creating a template)</li>
+                            <li><strong>Broadcasts</strong></li>
+                            <li><strong>WhatsApp campaigns</strong></li>
+                            <li><strong>The Flow builder</strong></li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Attribute doesn't appear in the slash picker</td><td>It's inactive. Edit it and turn <strong>Active</strong> on &mdash; the picker only loads active attributes.</td></tr>
+                                <tr><td>"Key already taken" on create</td><td>That key exists in this workspace (uniqueness is per workspace). Pick a different key.</td></tr>
+                                <tr><td>Key field is greyed out</td><td>Expected &mdash; keys are immutable after creation. Create a new attribute to change the key.</td></tr>
+                                <tr><td>Template won't save</td><td>Your placeholders aren't 1-based and contiguous. Renumber to <code>{{1}}</code>, <code>{{2}}</code>, ... with no gaps.</td></tr>
+                                <tr><td>Recipient saw a blank where a variable should be</td><td>The contact had no value for that attribute and you set no default. Add a default value.</td></tr>
+                                <tr><td>Key rejected as invalid</td><td>Keys allow only lowercase letters, digits, dash, and underscore, up to 64 characters.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#built-in-vs-custom" class="toc-link">Built-in vs. custom variables</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating an attribute</a></li>
+                    <li class="toc-h2"><a href="#insert" class="toc-link">Inserting attributes with the slash picker</a></li>
+                    <li class="toc-h2"><a href="#meta-rules" class="toc-link">Why positional placeholders (Meta rules)</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Managing the list</a></li>
+                    <li class="toc-h2"><a href="#best-practices" class="toc-link">Best practices</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

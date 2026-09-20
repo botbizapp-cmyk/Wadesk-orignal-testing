@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat (1-on-1) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Chat (1-on-1) — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Chat (1-on-1)</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Chat</strong> is the WhatsApp-Web-style, one-to-one customer conversation view. Open it from the <strong>Chat</strong> link in the top navigation. Use it to open a single thread, read the history, and reply with text, templates, media, or an AI-drafted message &mdash; just like WhatsApp Web, but inside your workspace.</p>
+                        <p>Chat is built around <em>queues</em>. A queue is one conversation: it can target a single number or be created as one send to many recipients, but you always work it as a single thread. The left rail filters your queues, the middle column lists them, and the right column is the open thread with the message box.</p>
+                        <blockquote class="info"><strong>How Chat differs from the other inboxes.</strong> Chat is the one-on-one customer view for <strong>managers and above</strong>. It is <em>not</em> the <a href="./team-inbox.html">Team Inbox</a>, the shared queue where agents pick up tickets with assignment, notes, and SLA tracking, and it is not <a href="./team-chat.html">Team Chat</a>, your internal team channels. Agents and viewers work the team queue; Chat is for managers and above.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engine-prerequisites">Engine &amp; plan prerequisites</h2>
+                        <p>Chat adapts to whichever <a href="../getting-started/connect-channel.html">WhatsApp engine</a> the workspace is on, and shows only conversations on the workspace's active engine &mdash; so a Cloud API workspace never sees leftover Unofficial-API threads. It also hides campaign conversations, which live under WA Campaigns.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Requirement</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Role</td><td>Manager or Admin. Agents and Viewers are sent to Team Inbox instead.</td></tr>
+                                <tr><td>Engine</td><td>Works on all three engines &mdash; Unofficial API, WhatsApp Cloud API, and Twilio WhatsApp. Each send is routed through the workspace's active engine automatically.</td></tr>
+                                <tr><td>Connected number</td><td>At least one connected number. On the Unofficial API the picker lists paired phones; on Cloud API / Twilio it lists your provider numbers.</td></tr>
+                                <tr><td>Wallet credits</td><td>Each real send uses one message credit. If you're out of credits, the send is blocked and marked failed.</td></tr>
+                                <tr><td>Multi-device (optional)</td><td>If your plan includes multi-device sending, the compose window lets you pick several numbers and splits recipients evenly across them. Without that plan feature, a send always uses a single number.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Approved templates and the 24-hour window.</strong> On the Cloud API and Twilio engines, WhatsApp only allows free-form messages within the 24-hour customer-service window. To open a conversation or reply after that window closes, send an <a href="../automation/templates.html">approved template</a> (see <a href="#templates">Sending an approved template</a>). The Unofficial API does not enforce this window.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="conversation-list">The conversation list</h2>
+                        <p>The middle column lists your queues, newest activity first. Each card shows the title, a preview of the last message, a status pill, and a recipient count. Selecting a card opens the thread on the right.</p>
+                        <h3 id="filters-and-search">Filters &amp; search</h3>
+                        <p>The left rail filters the list by status. The counts next to each filter update live as you send:</p>
+                        <ul>
+                            <li><strong>All chats</strong> &mdash; every (non-archived) conversation in the workspace for the current engine.</li>
+                            <li><strong>Scheduled</strong> &mdash; queues with messages set to fire at a future time.</li>
+                            <li><strong>Archived</strong> &mdash; conversations you have archived (hidden from the other filters).</li>
+                            <li><strong>Sent</strong>, <strong>Pending</strong>, <strong>Failed</strong> &mdash; roll-up by the conversation's last send outcome.</li>
+                        </ul>
+                        <p>Above the list you can also:</p>
+                        <ul>
+                            <li><strong>Search queues</strong> &mdash; type to find a queue by its title or last-message preview.</li>
+                            <li><strong>Filter by number</strong> &mdash; show only queues sent from one connected number.</li>
+                            <li><strong>Sort</strong> &mdash; Newest, Oldest, A to Z, or Z to A.</li>
+                        </ul>
+                        <p>The left rail also shows your <strong>approved template</strong> counts by category (Marketing, Utility, Authentication) for quick reference.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="conversation-status">Conversation status pills</h2>
+                        <p>After every send WaDesk rolls the conversation's status up from the actual outcomes of its individual messages, so the pill never lies (a queue isn't "sent" if every recipient failed):</p>
+                        <table>
+                            <thead>
+                                <tr><th>Pill</th><th>When it shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>scheduled</strong></td><td>Every message is queued for a future time and none has sent or failed yet.</td></tr>
+                                <tr><td><strong>sent</strong></td><td>At least one message reached sent / delivered / read.</td></tr>
+                                <tr><td><strong>partial</strong></td><td>A mix &mdash; some messages sent, some failed.</td></tr>
+                                <tr><td><strong>failed</strong></td><td>Every outbound message failed.</td></tr>
+                                <tr><td><strong>pending</strong></td><td>Saved but not yet dispatched.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Archived conversations show under the Archived filter while still displaying their underlying status, so an archived failure is still visible at a glance.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="starting-a-conversation">Starting a conversation</h2>
+                        <p>Click the <strong>Compose</strong> (pencil) button to open the new-queue modal. A queue is a single message sent to one or many recipients:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Queue name</strong></td><td>A label for your own reference, e.g. "Diwali launch &mdash; VIPs" (required).</td></tr>
+                                <tr><td><strong>Number</strong></td><td>The number to send from. On a multi-device plan you can pick several, and recipients are split evenly across them.</td></tr>
+                                <tr><td><strong>Recipients</strong></td><td>Either type numbers (separated by commas or new lines, duplicates removed) or choose a <a href="../growth/contacts.html">contact group</a> (pulls every contact's mobile number from that group).</td></tr>
+                                <tr><td><strong>Message</strong></td><td>The first message (up to 4096 characters).</td></tr>
+                                <tr><td><strong>Schedule (optional)</strong></td><td>Pick a future date and time in your time zone. The send must be at least one minute in the future.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>When you submit, WaDesk creates the conversation, sends to each recipient through the active engine, and sets the conversation's status from the results. As you type a number, the box can suggest numbers you've messaged before.</p>
+                        <blockquote class="info"><strong>Scheduled vs. immediate sends.</strong> Immediate sends use wallet credits when you submit. Scheduled sends are charged only when they actually fire, so a cancelled scheduled queue never ties up your balance.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="composing">Composing a reply</h2>
+                        <p>With a thread open, the composer at the bottom mirrors WhatsApp Web. You can:</p>
+                        <ul>
+                            <li><strong>Type text</strong> &mdash; up to 4096 characters, with a Bold formatting shortcut and an emoji picker.</li>
+                            <li><strong>Attach media</strong> &mdash; images, video, audio, or a document (PDF / Word), up to 10&nbsp;MB. Accepted types are validated server-side (jpg/jpeg/png/gif/webp, mp4/webm, mp3/wav, pdf/doc/docx). A preview banner appears before you send.</li>
+                            <li><strong>Share a location</strong> &mdash; attach latitude/longitude (validated to real coordinate ranges) as a location message.</li>
+                            <li><strong>Schedule the message</strong> &mdash; pick a future time from the attach menu; a "Scheduled for&hellip;" indicator shows until it fires.</li>
+                            <li><strong>Send a template</strong> &mdash; see <a href="#templates">Sending an approved template</a> below.</li>
+                        </ul>
+                        <p>The recipient for a reply is worked out automatically, so replies always go back to the right person without you re-entering a number &mdash; even on a thread the customer started.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-draft-assist">AI draft assist</h2>
+                        <p>The <strong>AI assist</strong> button (sparkle icon) on the thread header drafts and reworks messages for you, using the last 30 messages in the conversation as context. Available tools:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Tool</th><th>What it returns</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Summarize</strong></td><td>A 4&ndash;6 bullet summary (intent, key facts, blockers, next step).</td></tr>
+                                <tr><td><strong>Suggest reply</strong></td><td>A short, friendly ready-to-send draft in the customer's language.</td></tr>
+                                <tr><td><strong>Rewrite</strong></td><td>Restates your last reply in a different tone you pick.</td></tr>
+                                <tr><td><strong>Translate</strong></td><td>Translates the customer's last message into a chosen language.</td></tr>
+                                <tr><td><strong>Extract</strong></td><td>Pulls structured details as JSON (name, phone, email, intent, products mentioned, dates, order id).</td></tr>
+                                <tr><td><strong>Tone</strong></td><td>Analyses sentiment, urgency, and a frustration score (0&ndash;10) as JSON.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Needs an AI key.</strong> AI assist uses your workspace's own AI key or the admin-provided key (OpenAI, Anthropic Claude, or Google Gemini), and is subject to your plan's AI access. With no key configured it returns a clearly-labelled demo response so the screen still works &mdash; see the <a href="../ai/ai-training.html">AI Suite</a> for setup.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="templates">Sending an approved template</h2>
+                        <p>Open the attach menu and choose <strong>Template</strong> to pick from your Meta-approved library (the same templates the <a href="../automation/templates.html">Templates</a> page and campaigns use). Select a card, preview it on the right, and send it to the current thread.</p>
+                        <p>WaDesk fills in placeholders for you on send, using the conversation's matched contact:</p>
+                        <ul>
+                            <li>Named placeholders like <code>{{name}}</code>, <code>{{phone}}</code>, and <code>{{email}}</code> are filled from the matched contact.</li>
+                            <li>Numbered placeholders like <code>{{1}}</code> are filled from the template's variable settings.</li>
+                            <li><strong>Authentication</strong> templates generate a fresh six-digit code per send and place it in the body and the "Copy code" button.</li>
+                            <li>Button links and copy-code values are filled in too, so dynamic links and coupon codes carry the real, recipient-specific values.</li>
+                        </ul>
+                        <p>Only <strong>approved</strong> templates appear here. Sending a template is the supported way to start a conversation or reply outside the 24-hour window on the Cloud API and Twilio engines.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="message-actions">Per-message actions</h2>
+                        <p>Hovering a message bubble opens a WhatsApp-style menu:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Pin</strong></td><td>Pins the message in the thread. On the Unofficial API it also pushes the pinned-bubble indicator to the recipient's WhatsApp.</td></tr>
+                                <tr><td><strong>Star</strong></td><td>Stars the message for the operator. Syncs to your WhatsApp Web starred list; the recipient is not notified.</td></tr>
+                                <tr><td><strong>React</strong></td><td>Adds an emoji reaction (or clears it). Best-effort delivery to the recipient on the Unofficial API.</td></tr>
+                                <tr><td><strong>Forward</strong></td><td>Copies the message (text + media + location) into another conversation and sends it there. Consumes one credit; refunded if it fails.</td></tr>
+                                <tr><td><strong>Delete</strong></td><td>Removes the message from the thread (soft delete &mdash; the row is retained for audit).</td></tr>
+                                <tr><td><strong>Info</strong></td><td>Shows the message's status timeline &mdash; created, scheduled, sent, delivered, read &mdash; plus the from/to numbers and any failure reason.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Toggling state.</strong> A pin, star, or reaction can be turned off the same way you turned it on (click again to clear it). Reactions and pins are pushed to the recipient where the engine supports it; if the connection is briefly unavailable, your local record still stays correct.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="archive-restore">Archiving &amp; restoring</h2>
+                        <p>Use the <strong>Archive</strong> button on the thread header to move a conversation into the Archived filter and out of your day-to-day list. Open the <strong>Archived</strong> filter and use <strong>Unarchive</strong> (restore) to bring it back. Archiving does not delete anything &mdash; the full history is preserved. To remove a conversation entirely, delete it from the thread's <strong>More</strong> menu.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="retry-resend">Retry, resend &amp; send now</h2>
+                        <p>The thread's gear / <strong>More</strong> menu carries queue-level actions for handling delivery outcomes:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Retry failed</strong></td><td>Re-attempts every failed message in the conversation and clears its failure reason. The conversation pill returns to <em>sent</em> once nothing is left failing.</td></tr>
+                                <tr><td><strong>Send again (resend)</strong></td><td>Duplicates the most recent outgoing message and sends it again, without retyping.</td></tr>
+                                <tr><td><strong>Send now</strong></td><td>On a scheduled queue, fires every still-scheduled message immediately instead of waiting for its scheduled time.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Failed sends and credits.</strong> When a send is rejected, the message is marked <em>failed</em> with the reason recorded, and the credit charged for it is automatically refunded &mdash; you are never billed for a message that didn't go out. A common reason is "Out of credits"; top up your wallet and retry.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Out of message credits" on send</td><td>The wallet is empty. Top up your wallet or earn credits via the affiliate program, then retry.</td></tr>
+                                <tr><td>Send fails outside the 24h window (Cloud API / Twilio)</td><td>Free-form messages are only allowed inside WhatsApp's 24-hour service window. Send an approved template to re-open the conversation.</td></tr>
+                                <tr><td>A just-sent conversation vanished from the list</td><td>Chat shows only the active engine's conversations. If the workspace's active engine doesn't match the conversation, it's hidden &mdash; check you're on the right engine.</td></tr>
+                                <tr><td>"No recipient on this conversation"</td><td>The thread has no number to reply to (rare, on threads the customer started). Recreate the queue with the number typed in.</td></tr>
+                                <tr><td>Compose window shows the wrong / offline number</td><td>The number picker matches the active engine; a Cloud API workspace lists provider numbers, not the old Unofficial API phone. Connect or select the correct engine's number.</td></tr>
+                                <tr><td>AI assist returns a "demo response"</td><td>No AI key is set for the workspace (and no admin key). Add a key in the AI Suite.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#engine-prerequisites" class="toc-link">Engine &amp; plan prerequisites</a></li>
+                    <li class="toc-h2"><a href="#conversation-list" class="toc-link">The conversation list</a></li>
+                    <li class="toc-h2"><a href="#conversation-status" class="toc-link">Conversation status pills</a></li>
+                    <li class="toc-h2"><a href="#starting-a-conversation" class="toc-link">Starting a conversation</a></li>
+                    <li class="toc-h2"><a href="#composing" class="toc-link">Composing a reply</a></li>
+                    <li class="toc-h2"><a href="#ai-draft-assist" class="toc-link">AI draft assist</a></li>
+                    <li class="toc-h2"><a href="#templates" class="toc-link">Sending an approved template</a></li>
+                    <li class="toc-h2"><a href="#message-actions" class="toc-link">Per-message actions</a></li>
+                    <li class="toc-h2"><a href="#archive-restore" class="toc-link">Archiving &amp; restoring</a></li>
+                    <li class="toc-h2"><a href="#retry-resend" class="toc-link">Retry, resend &amp; send now</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

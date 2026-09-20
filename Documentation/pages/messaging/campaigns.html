@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns – WaDesk SaaS Docs</title>
+    <meta name="description" content="Campaigns — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Campaigns</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Campaigns</strong> are WaDesk's bulk-outreach tool, reached from <strong>WA Campaigns</strong> in the top navigation. A single campaign delivers one message &mdash; free text, an approved template, an interactive message with buttons, a media message, or a whole automation <em>flow</em> &mdash; to an audience built from contacts, contact groups, typed-in numbers, an uploaded CSV, or any mix of these.</p>
+                        <p>Every recipient is tracked individually the moment you launch, so the detail page shows who was queued, sent, delivered, read, replied, clicked, or failed &mdash; with each failure showing its own reason. Campaigns are tied to your workspace <em>and</em> its active engine, so teammates share one campaign history and switching engines never shows a wrong-engine sender list.</p>
+                        <p>The campaign builder also includes <strong>A/B testing</strong>, per-recipient <strong>link tracking</strong>, an <strong>AI copy generator</strong>, and billing that <strong>refunds the charge automatically</strong> when a send fails.</p>
+                        <blockquote class="info"><strong>Access:</strong> Campaigns require the <strong>Admin</strong> workspace role and a plan that includes the Campaign feature. Your plan also sets a limit on how many campaigns the workspace can create.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engines">Engines &amp; Templates</h2>
+                        <p>A campaign always sends through the workspace's <strong>active engine</strong>, chosen by the platform admin under <strong>Admin &rarr; Settings &rarr; System Message</strong> (only one engine is active platform-wide). The template requirement differs by engine:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Engine</th><th>Template requirement</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Unofficial API</strong></td><td>Any text body works. Templates are just convenient saved snippets &mdash; no Meta approval needed.</td></tr>
+                                <tr><td><strong>Business API</strong> (Meta Cloud)</td><td>Outreach must use a <strong>Meta-approved</strong> template. The create form rejects a template that isn't approved.</td></tr>
+                                <tr><td><strong>Twilio</strong></td><td>Accepts a plain body like the Unofficial API; a template registered with Twilio sends as a proper Twilio template, otherwise it sends as plain text.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Only the Business API enforces the approved-template requirement. The number picker in step 1 also matches the active engine: Unofficial API workspaces see their paired phones, while Cloud API / Twilio workspaces see their provider numbers &mdash; so you can never pick a wrong-engine sender that would silently fail.</p>
+                        <blockquote class="warning"><strong>Authentication (OTP) templates cannot be used in a campaign.</strong> Each recipient needs a unique verifiable code that only your own system can create and check, so the form blocks any authentication template. Send those one at a time from the transactional template send instead.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="message-types">Message Types</h2>
+                        <p>Step 1 (Setup) sets the <strong>campaign type</strong>, which decides what the Compose step shows and how the outgoing message is built:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>What it sends</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Custom message</strong></td><td>A free-text message &mdash; the body <em>is</em> the message, with an optional header, footer, buttons, and quick replies.</td></tr>
+                                <tr><td><strong>Button</strong></td><td>An interactive message with tappable buttons and quick replies.</td></tr>
+                                <tr><td><strong>Media</strong></td><td>A media message (image, video, or document) with a caption.</td></tr>
+                                <tr><td><strong>Template</strong></td><td>An approved template &mdash; its body, header, footer, buttons, media header, or a <strong>carousel</strong>, sent exactly as approved.</td></tr>
+                                <tr><td><strong>Flow</strong></td><td>Starts a fresh automation flow for each recipient &mdash; not a single message. The flow itself controls delays, branching, and follow-up sends. (The flow must be <strong>active</strong> in this workspace.)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>For approved <strong>template</strong> campaigns on the Business API, WaDesk builds the full rich message (buttons, carousel cards, media headers, even authentication-code structure) and wraps links for click tracking. <strong>Carousel</strong> cards are supported: each card's title, body, footer, and link buttons are filled in and tracked individually.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="personalization">Personalization &amp; AI Copy</h2>
+                        <p>Bodies, headers, footers, and button labels are personalized in two steps:</p>
+                        <ol>
+                            <li><strong>Workspace-wide values first.</strong> Placeholders that are the same for everyone &mdash; for example <code>{{promo_key}}</code>, <code>{{order_id}}</code>, or numbered placeholders like <code>{{1}}</code> &mdash; are filled in once for the whole campaign.</li>
+                            <li><strong>Per-contact placeholders second.</strong> Then these placeholders are filled in for each recipient:</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Placeholder</th><th>Fills in with</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>{{name}}</code></td><td>Contact's display name</td></tr>
+                                <tr><td><code>{{first_name}}</code></td><td>Contact's first name</td></tr>
+                                <tr><td><code>{{last_name}}</code></td><td>Contact's last name</td></tr>
+                                <tr><td><code>{{mobile}}</code> / <code>{{phone}}</code></td><td>Contact's mobile number</td></tr>
+                                <tr><td><code>{{email}}</code></td><td>Contact's email</td></tr>
+                            </tbody>
+                        </table>
+                        <p>If the message comes out empty for a recipient (a missing template, or all placeholders blank), that recipient is marked <strong>failed</strong> with "Empty message body" rather than sending a blank message.</p>
+                        <h3 id="ai-copy">Build with AI</h3>
+                        <p>The <strong>Build with AI</strong> button drafts a complete campaign from a short brief:</p>
+                        <ol>
+                            <li>WaDesk lists the text AI models your admin has enabled (OpenAI, Anthropic, Google); voice-only providers aren't offered here.</li>
+                            <li>You fill in a brief: business name (required), product, goal, audience, offer, preferred call-to-action label and link, tone, and any notes.</li>
+                            <li>WaDesk generates a campaign name, a message body (with <code>*bold*</code> / <code>_italic_</code> formatting and an optional <code>{{name}}</code> placeholder), an optional footer, a primary button label and link, and up to three quick replies &mdash; all pasted straight into the builder for you to edit.</li>
+                        </ol>
+                        <p>The generator follows the rules by design: it avoids spammy wording, all-caps shouting, and emojis, and the lengths are capped (body up to 1024 characters; footer, button, and quick-reply labels 25&ndash;60 characters) so it never produces copy the form would reject.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="audience">Audience, CSV &amp; Dedup</h2>
+                        <p>The Recipients step builds the send list from up to four sources, in any combination:</p>
+                        <ol>
+                            <li><strong>Contacts</strong> &mdash; pick individual contacts.</li>
+                            <li><strong>Contact groups</strong> &mdash; pick groups, and WaDesk pulls in each group's members for you.</li>
+                            <li><strong>Manual numbers</strong> &mdash; paste numbers into the box, one per line or separated by spaces, commas, or semicolons.</li>
+                            <li><strong>CSV upload</strong> &mdash; upload a <code>.csv</code> or <code>.txt</code> file (up to 5&nbsp;MB). WaDesk detects a header row (looking for columns like name, phone, mobile, number, or contact) and reads the phone column, falling back to the first column.</li>
+                        </ol>
+                        <p>Numbers from the box and the CSV are cleaned to digits only and must be at least 8 digits to count. Each number is <strong>matched to an existing contact</strong> and reused; if there's no match, WaDesk <strong>creates a contact automatically</strong> named "Recipient &middot; &lt;last 4 digits&gt;" so reporting stays consistent. Finally, all four sources are merged and <strong>de-duplicated</strong> so each person appears exactly once.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Contacts already unsubscribed at the workspace level are flagged in the campaign's recipient analytics, and a reply containing a STOP or UNSUB keyword unsubscribes that contact workspace-wide, so future campaigns and broadcasts automatically skip the number.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ab-testing">A/B Testing</h2>
+                        <p>On the Review step you can enable <strong>A/B testing</strong> to compare two templates against one audience:</p>
+                        <ol>
+                            <li>Toggle <strong>A/B testing</strong> on.</li>
+                            <li>Pick <strong>template A</strong> and <strong>template B</strong>.</li>
+                            <li>Set the <strong>split percentage</strong> with the slider (10&ndash;90, default 50) &mdash; the share of the audience that receives variant A.</li>
+                        </ol>
+                        <p>WaDesk records which variant each recipient received, so the detail page can compare delivery and engagement between A and B.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="scheduling">Scheduling</h2>
+                        <p>The Schedule step offers three send modes:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Mode</th><th>Behaviour</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Send now</strong></td><td>The campaign starts sending immediately and its status becomes <em>running</em>.</td></tr>
+                                <tr><td><strong>Scheduled</strong></td><td>Saved with a date, time, and time zone; status stays <em>scheduled</em> until the chosen moment, then it sends automatically.</td></tr>
+                                <tr><td><strong>Recurring</strong></td><td>A repeating campaign with a <strong>Repeat</strong> pattern (daily / weekly / monthly) and an optional <strong>Repeat until</strong> end date. After each run it sets itself up for the next time and returns to <em>scheduled</em>, stopping once it passes the end date.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The time zone you pick defaults to your <strong>workspace time zone</strong>, so a campaign set for "9:00&nbsp;AM Asia/Kolkata" fires at that local moment no matter where the server is. Recurring runs use that same local time, so the clock time stays the same across daylight-saving changes &mdash; "9&nbsp;AM every week" stays 9&nbsp;AM.</p>
+                        <blockquote class="info"><strong>How scheduled campaigns fire.</strong> The background service that powers WhatsApp checks every 30&nbsp;seconds for any campaign whose time has come and sends it &mdash; using the same path as <strong>Send now</strong>, with safeguards so it never sends twice. A scheduled campaign therefore goes out within about half a minute of its scheduled time, as long as the connection is up.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="statuses">Campaign &amp; Recipient Statuses</h2>
+                        <p>A campaign carries an overall status, while every recipient tracks its own delivery state. The detail page updates live (about every 15&nbsp;seconds), so the tiles and the status pill update while a send is in progress.</p>
+                        <h3 id="campaign-status">Campaign status</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>scheduled</strong></td><td>Saved for a future date/time (or recurring) and waiting to fire.</td></tr>
+                                <tr><td><strong>running</strong></td><td>Currently dispatching messages to recipients.</td></tr>
+                                <tr><td><strong>completed</strong></td><td>Every recipient has been attempted; the send has finished.</td></tr>
+                                <tr><td><strong>cancelled</strong></td><td>Stopped by you (via Cancel); can be restarted with Resume.</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The campaign couldn't run &mdash; e.g. a flow campaign whose flow is inactive or missing, no connected number, or the sending service was unreachable.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="recipient-status">Per-recipient status</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning &amp; trigger</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>queued</strong></td><td>Created at launch, waiting its turn to be sent.</td></tr>
+                                <tr><td><strong>sent</strong></td><td>Accepted by WhatsApp.</td></tr>
+                                <tr><td><strong>delivered</strong></td><td>WhatsApp confirmed delivery.</td></tr>
+                                <tr><td><strong>read</strong></td><td>The recipient opened the message (when read receipts are available).</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The send didn't succeed; the reason is shown and the wallet charge is refunded (see below).</td></tr>
+                                <tr><td><strong>unsubscribed</strong></td><td>The recipient replied with a STOP or UNSUB keyword; the contact is opted out workspace-wide.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Common failure reasons include "No mobile number on contact", "Out of credits", "Empty message body", a Meta/provider error message, or (for flow campaigns) "Sending service unreachable". Late or out-of-order updates only ever move a recipient <em>forward</em> (queued &rarr; sent &rarr; delivered &rarr; read), never backward. The detail tiles add <strong>Delivered</strong>, <strong>Read</strong>, <strong>Replies</strong>, and <strong>Clicks</strong> as those signals arrive, and the headline counts are recalculated on every update so repeated reports never double-count.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="billing">Wallet Charge &amp; Refund-on-Fail</h2>
+                        <p>Campaign sends are billed against your <strong>wallet</strong>, one credit per recipient. The accounting is built to never overcharge:</p>
+                        <ol>
+                            <li>Before each send, WaDesk checks the wallet. If it can't cover the message, the recipient is marked <strong>failed</strong> with "Out of credits" and no charge is taken.</li>
+                            <li>The credit is charged just before the message is sent.</li>
+                            <li>If WhatsApp accepts the message, the recipient is marked <strong>sent</strong>.</li>
+                            <li>If the send fails for any reason, the recipient is marked <strong>failed</strong> and the charge is <strong>refunded automatically</strong>, with the failure reason attached.</li>
+                        </ol>
+                        <p>On the Business API, if a template send fails, WaDesk refunds and marks it failed rather than quietly re-sending it as plain text &mdash; which would both double-charge and send a worse message.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Send, Pause, Resume, Cancel &amp; Retry</h2>
+                        <p>From the campaigns list and the detail page you can act on a campaign throughout its life:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Send now</strong></td><td>Fires a scheduled campaign immediately &mdash; sets the status to <em>running</em> and sends to the queued recipients now.</td></tr>
+                                <tr><td><strong>Cancel</strong></td><td>Stops a scheduled or running campaign (status becomes <em>cancelled</em>).</td></tr>
+                                <tr><td><strong>Resume</strong></td><td>Sets a cancelled campaign back to <em>running</em>.</td></tr>
+                                <tr><td><strong>Edit</strong></td><td>Allowed only while the campaign is a <em>draft</em>, <em>paused</em>, or <em>scheduled</em>; finished campaigns can no longer be edited.</td></tr>
+                                <tr><td><strong>Delete</strong></td><td>Removes the campaign and all its recipient records. Bulk delete is available from the list.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>To recover from failures, fix the cause first (reconnect the number, top up credits, correct a media link), then re-run the campaign. Each failed recipient shows its own error, and the <strong>retry backlog</strong> tile on the list page shows the total number of failed recipients across the workspace so you can spot a systemic problem at a glance.</p>
+                        <blockquote class="info"><strong>Tip:</strong> The list filters (status, message type, date range) and live search update without a full page reload. Sidebar counts always reflect the whole workspace, not the current filter.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ban-safety">Ban-Safety &amp; Pacing</h2>
+                        <p>Sending at scale on WhatsApp carries a real risk of a number being rate-limited or banned &mdash; especially on the Unofficial API. WaDesk paces every bulk send using safety controls your admin sets under <strong>Admin &rarr; Settings &rarr; System Message &rarr; Sender pacing</strong>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Control</th><th>Default</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Message gap</td><td>3 seconds</td><td>Delay between one message and the next, varied randomly by &plusmn;20% so it looks human.</td></tr>
+                                <tr><td>Batch size</td><td>50 recipients</td><td>How many messages go out before a pause (when batching is on).</td></tr>
+                                <tr><td>Batch gap</td><td>5 minutes</td><td>Cooldown between batches, also varied randomly by &plusmn;20%.</td></tr>
+                                <tr><td>Enable batches</td><td>off</td><td>Master switch for batch pausing.</td></tr>
+                                <tr><td>Daily cap (Unofficial API)</td><td>4000 / day / number</td><td>Maximum messages a single number can send per day (resets daily). Sending from that number stops once the cap is hit.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>WaDesk also guards against sending into a dropped Unofficial API connection: if the connection drops mid-run, the job is paused (instead of marking every remaining recipient as failed) and the paused state is shown in the dashboard.</p>
+                        <blockquote class="warning"><strong>Protect your number.</strong> Only message people who opted in. Warm up new numbers with small audiences before large blasts, keep copy personalized and relevant, stay well under the daily cap, and prefer approved templates and the official Business API for cold outreach. Sending unsolicited bulk messages, reusing one message to thousands of strangers, or turning off pacing is the fastest way to get a WhatsApp number banned. On the Business API, mind template quality too: WaDesk refuses to launch a campaign on a template Meta has paused or whose quality score is below your minimum &mdash; pushing volume through a struggling template makes it worse and risks a block, so wait for the score to recover instead of forcing the send.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#engines" class="toc-link">Engines &amp; Templates</a></li>
+                    <li class="toc-h2"><a href="#message-types" class="toc-link">Message Types</a></li>
+                    <li class="toc-h2"><a href="#personalization" class="toc-link">Personalization &amp; AI Copy</a></li>
+                    <li class="toc-h2"><a href="#audience" class="toc-link">Audience, CSV &amp; Dedup</a></li>
+                    <li class="toc-h2"><a href="#ab-testing" class="toc-link">A/B Testing</a></li>
+                    <li class="toc-h2"><a href="#scheduling" class="toc-link">Scheduling</a></li>
+                    <li class="toc-h2"><a href="#statuses" class="toc-link">Campaign &amp; Recipient Statuses</a></li>
+                    <li class="toc-h2"><a href="#billing" class="toc-link">Wallet Charge &amp; Refund</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Send, Pause, Resume, Cancel</a></li>
+                    <li class="toc-h2"><a href="#ban-safety" class="toc-link">Ban-Safety &amp; Pacing</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

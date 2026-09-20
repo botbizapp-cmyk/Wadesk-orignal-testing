@@ -1,0 +1,30 @@
+{
+    "_note": "INDICATIVE reference only — a starting rate card of Meta WhatsApp per-message rates by RECIPIENT country x category. Loaded by 'Sync Meta costs' on /admin/settings/wallet-rules as a fallback. For EXACT rates, download your official 'rates by country' CSV (in your currency) from business.whatsapp.com/products/platform-pricing#rates or WhatsApp Manager and use 'Import my rate card'. Meta prices by the RECIPIENT's country; rates change only on Jan 1 / Apr 1 / Jul 1 / Oct 1. Values below are USD unless a row sets its own currency, and are converted to the workspace currency on load.",
+    "version": "2026-07",
+    "rates": [
+        { "country": "IN", "currency": "INR", "marketing": 0.7846, "utility": 0.115, "authentication": 0.115 },
+        { "country": "US", "currency": "USD", "marketing": 0.025, "utility": 0.004, "authentication": 0.004 },
+        { "country": "GB", "currency": "USD", "marketing": 0.0529, "utility": 0.0157, "authentication": 0.0466 },
+        { "country": "DE", "currency": "USD", "marketing": 0.1365, "utility": 0.0550, "authentication": 0.0768 },
+        { "country": "BR", "currency": "USD", "marketing": 0.0625, "utility": 0.0080, "authentication": 0.0315 },
+        { "country": "MX", "currency": "USD", "marketing": 0.0436, "utility": 0.0080, "authentication": 0.0239 },
+        { "country": "ID", "currency": "USD", "marketing": 0.0411, "utility": 0.0200, "authentication": 0.0300 },
+        { "country": "AE", "currency": "USD", "marketing": 0.0384, "utility": 0.0157, "authentication": 0.0157 },
+        { "country": "SA", "currency": "USD", "marketing": 0.0455, "utility": 0.0157, "authentication": 0.0157 },
+        { "country": "NG", "currency": "USD", "marketing": 0.0516, "utility": 0.0110, "authentication": 0.0304 },
+        { "country": "ZA", "currency": "USD", "marketing": 0.0379, "utility": 0.0084, "authentication": 0.0223 },
+        { "country": "EG", "currency": "USD", "marketing": 0.1073, "utility": 0.0134, "authentication": 0.0212 },
+        { "country": "PK", "currency": "USD", "marketing": 0.0473, "utility": 0.0055, "authentication": 0.0134 },
+        { "country": "BD", "currency": "USD", "marketing": 0.0400, "utility": 0.0060, "authentication": 0.0140 },
+        { "country": "TR", "currency": "USD", "marketing": 0.0057, "utility": 0.0022, "authentication": 0.0042 },
+        { "country": "PH", "currency": "USD", "marketing": 0.0203, "utility": 0.0080, "authentication": 0.0203 },
+        { "country": "VN", "currency": "USD", "marketing": 0.0225, "utility": 0.0080, "authentication": 0.0170 },
+        { "country": "TH", "currency": "USD", "marketing": 0.0400, "utility": 0.0080, "authentication": 0.0231 },
+        { "country": "MY", "currency": "USD", "marketing": 0.0860, "utility": 0.0140, "authentication": 0.0310 },
+        { "country": "SG", "currency": "USD", "marketing": 0.0900, "utility": 0.0200, "authentication": 0.0357 },
+        { "country": "FR", "currency": "USD", "marketing": 0.1409, "utility": 0.0300, "authentication": 0.0672 },
+        { "country": "IT", "currency": "USD", "marketing": 0.0691, "utility": 0.0300, "authentication": 0.0304 },
+        { "country": "ES", "currency": "USD", "marketing": 0.0615, "utility": 0.0200, "authentication": 0.0319 },
+        { "country": "*",  "currency": "USD", "marketing": 0.0500, "utility": 0.0150, "authentication": 0.0300 }
+    ]
+}

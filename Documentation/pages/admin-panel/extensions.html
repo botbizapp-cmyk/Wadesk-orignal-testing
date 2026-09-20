@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add-ons &amp; Extensions – WaDesk SaaS Docs</title>
+    <meta name="description" content="Install, deactivate and remove add-on modules in WaDesk — upload an extension ZIP, run in-place modules from addon/, and deactivate without deleting files.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Add-ons &amp; Extensions</h1>
+
+                    <p>Extensions add whole <strong>features</strong> to WaDesk &mdash; a new channel, a new tool &mdash; that ship as code, not as a billing package. You manage them from <strong>Admin &rarr; Extensions</strong> (<code>/admin/extensions</code>). This is different from <a href="addons.html">Add-on Packages</a>, which are à-la-carte feature packs a <em>customer</em> buys on top of a plan.</p>
+
+                    <blockquote class="info">Two kinds of add-on live here: <strong>uploaded extensions</strong> (a ZIP you install through this page) and <strong>in-place modules</strong> (code already sitting in <code>addon/&lt;slug&gt;/</code> that runs without any upload). Both appear under <em>Installed add-ons</em>.</blockquote>
+
+                    <h2 id="upload">How to upload &amp; install an add-on</h2>
+                    <p>An add-on is delivered as a <code>.zip</code>. To install it:</p>
+                    <ol>
+                        <li>Go to <strong>Admin &rarr; Extensions</strong>.</li>
+                        <li><strong>Verify your purchase code</strong> first &mdash; paste your CodeCanyon purchase code and confirm it. This is the same licence check the Updater uses; installation is refused until it passes.</li>
+                        <li>Click <strong>Choose file</strong> and pick the add-on <code>.zip</code>, then <strong>Install</strong>.</li>
+                        <li>WaDesk inspects the package <em>before</em> writing anything &mdash; a malformed or too-new package is rejected while your install is still untouched. On success it merges the code in and runs any database migrations the add-on ships.</li>
+                    </ol>
+                    <p>The result message tells you exactly what happened: how many files were merged, how many protected paths were skipped, and whether the database was updated. Protected paths (your <code>.env</code>, <code>storage/</code>, the database, uploaded media) are <strong>never</strong> overwritten.</p>
+
+                    <h2 id="sections">The sections on this page</h2>
+                    <ul>
+                        <li><strong>Install an add-on</strong> &mdash; the licence + upload box at the top.</li>
+                        <li><strong>Installed add-ons</strong> &mdash; every active add-on, each on its own card with its version and status:
+                            <ul>
+                                <li>An <strong>uploaded extension</strong> (DB-tracked) shows a <em>Disable</em> toggle and a <em>Remove</em> button.</li>
+                                <li>An <strong>in-place module</strong> (e.g. the Instagram add-on) shows an <em>Active / Inactive</em> badge, an <em>In-place module</em> tag, and a <em>Remove</em> / <em>Re-activate</em> button.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h2 id="remove">Deactivate or remove an add-on</h2>
+                    <p><strong>Remove</strong> behaves differently for the two kinds, and never touches your data &mdash; that always stays in the database.</p>
+                    <ul>
+                        <li><strong>In-place module &mdash; Remove = deactivate.</strong> Clicking <em>Remove</em> drops a hidden marker so the module stops loading &mdash; its pages, automations, routes and classes go quiet &mdash; but every <strong>file is kept on disk</strong>. Nothing is deleted, so you can hit <em>Re-activate</em> any time and it works again immediately, with no re-upload. The card then shows <em>Inactive</em>.</li>
+                        <li><strong>Uploaded extension &mdash; Remove = delete files.</strong> This removes the files that were installed (tracked from the moment it was added, so core files are never touched). Its data stays in the database.</li>
+                        <li><strong>Disable</strong> (uploaded extensions only) switches an extension off without deleting anything &mdash; a lighter alternative to Remove.</li>
+                    </ul>
+
+                    <blockquote class="warning"><strong>Instagram runs one engine at a time.</strong> If the native Instagram add-on is <em>active</em> here, you cannot also connect a remote Instagram product &mdash; deactivate (Remove) the native add-on first. See <a href="instagram-engine.html">Instagram Engine</a>.</blockquote>
+
+                    <h2 id="related">Related pages</h2>
+                    <ul>
+                        <li><a href="instagram-engine.html">Instagram Engine — native add-on vs remote</a></li>
+                        <li><a href="addons.html">Add-on Packages (billing)</a></li>
+                        <li><a href="../update-details/changelog.html">Change Log</a></li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#upload" class="toc-link">How to upload &amp; install</a></li>
+                    <li class="toc-h2"><a href="#sections" class="toc-link">The sections on this page</a></li>
+                    <li class="toc-h2"><a href="#remove" class="toc-link">Deactivate or remove</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

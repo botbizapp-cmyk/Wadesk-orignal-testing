@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Multiple Engines at Once – WaDesk SaaS Docs</title>
+    <meta name="description" content="Multi-engine workspaces — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Run Multiple Engines at Once</h1>
+                    <p>A workspace is not locked to a single channel. WaDesk lets one workspace connect <strong>any combination of the three engines &mdash; Unofficial API, WhatsApp Cloud API (Meta), and Twilio &mdash; at the same time</strong>, and use them side by side across the whole app.</p>
+                    <blockquote class="info"><strong>New in v1.1.</strong> Earlier versions used one engine per workspace. From v1.1 a workspace can hold several connected senders across different engines simultaneously.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="why">Why use more than one engine</h2>
+                        <ul>
+                            <li>Keep a fast, no-approval <strong>Unofficial API</strong> number for support chats <em>and</em> an official <strong>Cloud API</strong> number for templated marketing &mdash; in the same workspace.</li>
+                            <li>Add a <strong>Twilio</strong> sender for regions or numbers you run through Twilio.</li>
+                            <li>Spread load and reduce risk by sending from several numbers.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">How to set it up</h2>
+                        <ol>
+                            <li>Your platform admin sets which engines are allowed under <strong>Admin &rarr; Settings</strong> (allowed sending engines) and on the workspace's plan.</li>
+                            <li>On the <strong>Devices</strong> screen, connect each number as usual: scan a QR for an Unofficial API number, run Embedded Signup (or enter Meta details) for a Cloud API number, and enter your Twilio sender details for Twilio. Each connected sender appears as its own card.</li>
+                            <li>That's it &mdash; the rest of the app now offers all of them.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How sending &amp; replies work</h2>
+                        <ul>
+                            <li><strong>Grouped sender pickers.</strong> Campaigns, Broadcasts, Scheduled messages, Flows, and the Chat composer show the available senders <em>grouped by engine</em>, so you choose exactly which number sends.</li>
+                            <li><strong>Per-message routing.</strong> The correct engine is resolved for each message based on the sender you picked &mdash; a single campaign always goes out through the engine of its chosen sender.</li>
+                            <li><strong>Reply on the same channel.</strong> Inbound messages are tagged with the engine they arrived on, and replies go back out on that same channel, so a customer who messaged your Cloud API number is answered from it.</li>
+                            <li><strong>Engine badges &amp; filters.</strong> The inbox, dashboards, and message history label each item with its engine and let you filter by it.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="gates">Feature differences between engines</h2>
+                        <p>Some features are engine-specific and the app adapts automatically:</p>
+                        <ul>
+                            <li><strong>WhatsApp Forms</strong> and native template management are <strong>Cloud API</strong> features.</li>
+                            <li><strong>Twilio</strong> sends use Content Templates (ContentSid).</li>
+                            <li>The <strong>Unofficial API</strong> needs the bundled Node bridge running; Cloud API and Twilio do not.</li>
+                        </ul>
+                        <p>Developer detail on each engine: <a href="../developer-guide/engines.html">WhatsApp Engines</a>. Channel setup: <a href="connect-channel.html">Connecting a Channel</a>.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#why" class="toc-link">Why use more than one</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">How to set it up</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">Sending &amp; replies</a></li>
+                    <li class="toc-h2"><a href="#gates" class="toc-link">Feature differences</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

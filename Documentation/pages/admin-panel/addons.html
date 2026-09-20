@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add-on Packages – WaDesk SaaS Docs</title>
+    <meta name="description" content="Add-on Packages — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Add-on Packages</h1>
+                    <p><strong>Add-on packages</strong> let you sell extra features or higher limits <em>on top of</em> a customer's existing plan &mdash; à la carte, like credit packages but for capabilities. A customer buys an add-on <strong>after</strong> they already have a plan, and its perks stack onto that plan without changing it.</p>
+                    <blockquote class="info"><strong>Where it lives.</strong> Add-ons have their own admin section at <strong>Admin &rarr; Add-ons</strong>, and customers buy and see them on a dedicated <strong>Add-ons</strong> tab in their account.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="how">How it works</h2>
+                        <ul>
+                            <li>An add-on carries its own set of feature flags and limits. When a workspace owns an active add-on, its perks are <strong>merged on top of the base plan</strong>: on/off features are turned on if either the plan or the add-on grants them, and numeric limits stack.</li>
+                            <li>Add-ons are independent products &mdash; one base plan, plus any number of add-ons a customer chooses to buy.</li>
+                            <li>An add-on can also carry an optional <strong>data-retention</strong> setting (see below).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">How to create an add-on (admin)</h2>
+                        <ol>
+                            <li>Go to <strong>Admin &rarr; Add-ons</strong> and choose <strong>New add-on</strong>.</li>
+                            <li>Set its name, price, and billing cycle, then switch on the features and set the limits this add-on grants.</li>
+                            <li>(Optional) Set a <strong>data-retention</strong> window &mdash; the number of days after a plan expires before the workspace's data is automatically wiped (0 = never).</li>
+                            <li>Save and toggle it active. It now appears for customers to buy.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="buy">How a customer buys one</h2>
+                        <ol>
+                            <li>The customer must already be on a paid plan.</li>
+                            <li>They open <strong>Account &rarr; Add-ons</strong>, pick an add-on, and check out through your normal payment gateways.</li>
+                            <li>On successful payment, the add-on is attached to their workspace and its features/limits take effect immediately, alongside their plan.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="retention">Data retention &amp; auto-wipe</h2>
+                        <p>A plan or add-on can specify how long to keep a workspace's data after its subscription lapses. Once that window passes, WaDesk automatically wipes the expired workspace's data. The cleanup runs by itself in the background (on the platform's heartbeat) &mdash; no cron job to configure. Set the retention days to <code>0</code> to keep data indefinitely.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="vs-credits">Add-ons vs. credit packages</h2>
+                        <ul>
+                            <li><strong>Credit packages</strong> top up the wallet with spendable balance (see <a href="coupons-credits.html">Coupons &amp; Credits</a>).</li>
+                            <li><strong>Add-on packages</strong> unlock <em>features and limits</em> on top of a plan &mdash; they are not spendable balance.</li>
+                            <li>Both are bought after a plan and are managed by the admin; they can be used together.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#how" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Create an add-on</a></li>
+                    <li class="toc-h2"><a href="#buy" class="toc-link">How a customer buys</a></li>
+                    <li class="toc-h2"><a href="#retention" class="toc-link">Data retention</a></li>
+                    <li class="toc-h2"><a href="#vs-credits" class="toc-link">Add-ons vs. credits</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

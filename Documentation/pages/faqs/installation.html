@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation FAQs – WaDesk SaaS Docs</title>
+    <meta name="description" content="Installation FAQs — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Installation FAQs</h1>
+
+                    <p>Hosting, server requirements, the Node.js bridge, SSL, and updates. For the full step-by-step setup, see the <a href="../installation/web-installer.html">Web Installer Guide</a> and <a href="../installation/server-requirements.html">Server Requirements</a>. The questions below answer the things buyers most often ask before purchasing.</p>
+
+                    <section class="mb-12">
+                        <h2 id="hosting">Hosting &amp; Requirements</h2>
+
+                        <div class="mb-6">
+                            <h3 id="requirements"><strong>Q: What are the minimum requirements?</strong></h3>
+                            <p><strong>A:</strong> WaDesk runs on a standard Laravel 12 stack:</p>
+                            <ul>
+                                <li><strong>PHP 8.2 or higher</strong> with the usual extensions (BCMath, Ctype, cURL, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML, Zip)</li>
+                                <li><strong>MySQL 8.0+</strong> (MariaDB 10.6+ is also supported)</li>
+                                <li>Apache or Nginx with <code>mod_rewrite</code>, or LiteSpeed</li>
+                                <li>A queue worker for background jobs (campaigns, webhooks, scheduled sends)</li>
+                                <li><strong>Node.js 18+</strong> &mdash; required; the Node bridge carries the send path and the scheduler for every engine (see below)</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="shared-vs-vps"><strong>Q: Can I run WaDesk on shared hosting, or do I need a VPS?</strong></h3>
+                            <p><strong>A:</strong> The <strong>Node bridge must stay running for every engine</strong> &mdash; it dispatches WhatsApp Cloud API and Twilio sends and runs the scheduler for broadcasts, campaigns, and scheduled messages &mdash; so the real question is whether your host can keep a long-lived Node process alive.</p>
+                            <ul>
+                                <li><strong>Cloud API or Twilio:</strong> Shared hosting can work <em>only if</em> it can run the persistent Node bridge &mdash; many cPanel / Plesk hosts provide a <strong>&ldquo;Setup Node.js App&rdquo;</strong> tool that does exactly this. Because the bridge dispatches these sends and runs the scheduler, if your host cannot keep a Node process running, sends and scheduled / bulk jobs stop &mdash; use a VPS instead.</li>
+                                <li><strong>Unofficial API:</strong> A <strong>VPS or dedicated server with SSH is strongly recommended</strong>. The Node.js bridge is a persistent process that must stay running to hold the WhatsApp Web session alive. Most shared hosts will not let you run a long-lived Node process, so the QR connection will keep dropping.</li>
+                            </ul>
+                            <blockquote class="info"><strong>Recommendation:</strong> For any production or multi-tenant SaaS deployment, use a VPS. It gives you the control over Node, queue workers, and process management (for example with PM2 or Supervisor) that WaDesk needs to run reliably.</blockquote>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="how-to-install"><strong>Q: How is WaDesk installed?</strong></h3>
+                            <p><strong>A:</strong> WaDesk ships with a guided <strong>web installer</strong>. You upload the files, create an empty database, point your domain at the <code>public</code> folder, and visit your domain in a browser. The installer runs database migrations, seeds default data, and creates your admin account automatically. Full steps are in the <a href="../installation/web-installer.html">Web Installer Guide</a>.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="node-bridge">The Node.js Bridge (Unofficial API)</h2>
+
+                        <div class="mb-6">
+                            <h3 id="why-node"><strong>Q: Why does the Unofficial API need a separate Node.js service?</strong></h3>
+                            <p><strong>A:</strong> The Unofficial API connects to WhatsApp using a Node.js library that speaks WhatsApp Web's protocol. Laravel (PHP) cannot hold that live socket connection itself, so WaDesk bundles a small <strong>Node.js bridge</strong> that maintains the WhatsApp session, renders the pairing QR code, sends outgoing messages, and forwards inbound messages back to the Laravel app via webhooks.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="node-required"><strong>Q: Do I need Node.js even if I only use the official engines?</strong></h3>
+                            <p><strong>A:</strong> Yes. The Node bridge is part of the send path for the official engines too &mdash; <strong>WhatsApp Cloud API (WABA)</strong> sends are dispatched through the bridge (it holds the per-phone WABA credentials and makes the Graph API call), and the bridge runs the scheduler plus the bulk-send pipeline (broadcasts, campaigns, scheduled messages, flows) for <strong>every</strong> engine, including Twilio. Only a single, one-off direct Twilio API send bypasses it. Treat the Node bridge as required for any production install.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="keep-node-running"><strong>Q: How do I keep the bridge running permanently?</strong></h3>
+                            <p><strong>A:</strong> Run the bridge as a managed process so it restarts automatically after a crash or server reboot. On a VPS, <strong>PM2</strong> or a <strong>systemd</strong> service is the typical choice. If the Node process stops, <strong>sending stops</strong>: Unofficial API devices go offline, WABA dispatch fails, and the scheduler + bulk pipeline (broadcasts, campaigns, scheduled, flows) pause until it returns. Unofficial API sessions re-establish automatically once the bridge is back.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ssl-domain">SSL &amp; Domain</h2>
+
+                        <div class="mb-6">
+                            <h3 id="need-ssl"><strong>Q: Do I need SSL (HTTPS)?</strong></h3>
+                            <p><strong>A:</strong> Yes &mdash; HTTPS is effectively mandatory. Both the <strong>Meta Cloud API</strong> and <strong>Twilio</strong> require a publicly reachable <strong>HTTPS webhook URL</strong> to deliver inbound messages and status callbacks; they will not POST to plain HTTP. A free Let's Encrypt certificate is sufficient. Set <code>APP_URL</code> to your <code>https://</code> domain and clear the config cache after changing it.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="remove-public"><strong>Q: Can I remove "public" from the URL?</strong></h3>
+                            <p><strong>A:</strong> Yes. On the first run a fresh install loads at <code>https://yourdomain.com/public</code> (or <code>https://app.yourdomain.com/public</code> on a subdomain) &mdash; that is normal. The <strong>standard way</strong> to remove <code>/public</code> is to create a <code>.htaccess</code> file in your <strong>project root folder</strong> (the folder above <code>public</code>) and add:</p>
+                            <pre>&lt;IfModule mod_rewrite.c&gt;
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+&lt;/IfModule&gt;</pre>
+                            <p>This rewrites every request into <code>public</code>, so the site opens at <code>https://yourdomain.com</code> without <code>/public</code>. It needs <code>mod_rewrite</code> enabled, and afterwards your <code>APP_URL</code> should be the clean address without <code>/public</code>. On a VPS you can instead point the domain's document root straight at the <code>public</code> folder. For Cloudflare users, set the SSL mode to <strong>Full</strong> or <strong>Full (Strict)</strong> to avoid mixed-content and redirect-loop errors. Full setup context is in the <a href="../installation/web-installer.html#remove-public">Web Installer Guide</a>.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="webhooks-reachable"><strong>Q: My inbound messages or ad leads are not arriving. Why?</strong></h3>
+                            <p><strong>A:</strong> Almost always a webhook reachability problem. Confirm that your domain is publicly accessible over HTTPS, that the webhook URL and verify token are saved correctly in Meta/Twilio, and that no firewall or "under construction" page is blocking the callback route. Inbound delivery on the official engines depends entirely on Meta or Twilio being able to reach your server.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="updates">Updates &amp; Maintenance</h2>
+
+                        <div class="mb-6">
+                            <h3 id="how-to-update"><strong>Q: How do I update to a new version?</strong></h3>
+                            <p><strong>A:</strong> Download the latest package from your CodeCanyon downloads, then replace the application files while preserving your <code>.env</code> file, <code>storage</code> directory, and any uploaded media. Run database migrations to apply schema changes and clear the caches afterward. <strong>Always take a full backup of your files and database before updating.</strong></p>
+                            <pre>php artisan migrate --force
+php artisan config:clear
+php artisan view:clear</pre>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="updates-cost"><strong>Q: Do updates cost extra?</strong></h3>
+                            <p><strong>A:</strong> No. Updates are <strong>free for the lifetime of the item</strong>. Your CodeCanyon support window covers assistance, but new versions themselves are always available to download at no additional cost.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="backups"><strong>Q: Does WaDesk back itself up?</strong></h3>
+                            <p><strong>A:</strong> Backups are <strong>your responsibility</strong> as the server operator. WaDesk does not provide automated off-site backups. Schedule regular backups of your MySQL database and the <code>storage</code> directory, and keep a recent copy before any update or server change. See the <a href="disclaimer.html">Disclaimer</a> for the full data-responsibility statement.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security-config">Security &amp; Configuration</h2>
+
+                        <div class="mb-6">
+                            <h3 id="hide-env"><strong>Q: How do I hide or deny access to the <code>.env</code> file?</strong></h3>
+                            <p><strong>A:</strong> When your document root points at the <code>public/</code> folder, the <code>.env</code> file already sits outside the web root and cannot be reached from a browser. As an extra safeguard &mdash; especially if the whole project lives in your web root &mdash; create a <code>.htaccess</code> file in your <strong>project root folder</strong> and add:</p>
+                            <pre>&lt;Files .env&gt;
+    Require all denied
+&lt;/Files&gt;</pre>
+                            <p>This blocks any direct web request to <code>.env</code>. On older Apache (2.2) use <code>Order allow,deny</code> then <code>Deny from all</code> inside the same block. Never expose <code>.env</code> &mdash; it holds your app key, database credentials, and API/payment keys.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="debug-mode"><strong>Q: How do I turn debug mode on or off?</strong></h3>
+                            <p><strong>A:</strong> Debug mode shows detailed error pages, which helps you track down a problem on your site. <strong>Do not leave it on for long on a live site</strong> &mdash; it can reveal sensitive details. To change it:</p>
+                            <ol>
+                                <li>Log in to your FTP account (or the hosting File Manager).</li>
+                                <li>Open and edit the <code>.env</code> file.</li>
+                                <li>Find <code>APP_DEBUG</code> and set the value:</li>
+                            </ol>
+                            <pre>APP_DEBUG=false   # OFF - recommended on live sites
+APP_DEBUG=true    # ON  - shows detailed errors</pre>
+                            <p>Save and upload the file, then clear the config cache so the change is read:</p>
+                            <pre>php artisan config:clear</pre>
+                            <p><code>false</code> means debug mode is OFF; <code>true</code> means it is ON.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="errors">Troubleshooting Common Errors</h2>
+                        <p>These are the errors buyers most often hit right after installing. <strong>Most are server or configuration issues, not script bugs.</strong> For a fuller walkthrough see the <a href="../installation/troubleshooting.html">Troubleshooting</a> page.</p>
+
+                        <div class="mb-6">
+                            <h3 id="no-app-key"><strong>Q: "No application encryption key has been specified"</strong></h3>
+                            <p><strong>A:</strong> Laravel cannot read a valid <code>APP_KEY</code> from your <code>.env</code>. Check, in order:</p>
+                            <ul>
+                                <li>Confirm the <code>.env</code> file exists &mdash; it is a hidden dotfile, so it may only <em>look</em> missing (see the next question).</li>
+                                <li>Confirm <code>APP_KEY=base64:...</code> is present and not blank. The installer sets it for you &mdash; <strong>do not change or remove it</strong>, as it is used to decrypt stored data.</li>
+                                <li>If the key is present but the error persists, clear the cached config: <code>php artisan config:clear</code>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="env-missing"><strong>Q: My <code>.env</code> file is missing</strong></h3>
+                            <p><strong>A:</strong> Most of the time the <code>.env</code> file is not missing &mdash; it is just hidden, because filenames starting with a dot are hidden by default. Show hidden files for your environment below:</p>
+                            <div class="tabs-container">
+                                <div class="tabs-header">
+                                    <button class="tab-btn active" data-tab="env-cpanel">cPanel</button>
+                                    <button class="tab-btn" data-tab="env-hostinger">Hostinger</button>
+                                    <button class="tab-btn" data-tab="env-plesk">Plesk</button>
+                                    <button class="tab-btn" data-tab="env-aapanel">aaPanel</button>
+                                    <button class="tab-btn" data-tab="env-localhost">Localhost</button>
+                                    <button class="tab-btn" data-tab="env-vps">VPS (SSH)</button>
+                                </div>
+                                <div class="tab-content active" id="env-cpanel">
+                                    <ol>
+                                        <li>Log in to cPanel and open <strong>File Manager</strong> (under the Files panel).</li>
+                                        <li>Click <strong>Settings</strong> in the top-right of the File Manager.</li>
+                                        <li>Choose the <strong>Document Root</strong> (you can usually leave this as the default).</li>
+                                        <li>Tick <strong>Show Hidden Files (dotfiles)</strong> and click <strong>Save</strong>.</li>
+                                    </ol>
+                                    <p>The <code>.env</code> file now appears in your project root.</p>
+                                </div>
+                                <div class="tab-content" id="env-hostinger">
+                                    <ol>
+                                        <li>Open <strong>hPanel &rarr; Files &rarr; File Manager</strong>.</li>
+                                        <li>Click the <strong>Settings</strong> gear icon in the top-right toolbar.</li>
+                                        <li>Enable <strong>Show hidden files</strong> (dotfiles).</li>
+                                        <li>Open your app folder (usually <code>public_html</code>) &mdash; the <code>.env</code> file is now listed.</li>
+                                    </ol>
+                                </div>
+                                <div class="tab-content" id="env-plesk">
+                                    <ol>
+                                        <li>Go to <strong>Websites &amp; Domains &rarr; File Manager</strong>.</li>
+                                        <li>Open the <strong>Settings</strong> (gear) menu in the File Manager toolbar.</li>
+                                        <li>Enable <strong>Show Hidden Files (dotfiles)</strong>.</li>
+                                        <li>Open your app's document root &mdash; the <code>.env</code> file is now visible.</li>
+                                    </ol>
+                                </div>
+                                <div class="tab-content" id="env-aapanel">
+                                    <ol>
+                                        <li>Open the <strong>Files</strong> menu in aaPanel.</li>
+                                        <li>Navigate to your site directory (e.g. <code>/www/wwwroot/yourdomain</code>).</li>
+                                        <li>aaPanel's file manager lists dotfiles by default, so <code>.env</code> is already shown. If you do not see it, refresh the folder.</li>
+                                    </ol>
+                                </div>
+                                <div class="tab-content" id="env-localhost">
+                                    <p>On your own computer the file is not truly hidden by the app &mdash; your file explorer or editor is simply not showing dotfiles.</p>
+                                    <ul>
+                                        <li><strong>Windows Explorer:</strong> open your project folder (e.g. <code>D:\laragon\www\wadesk</code>) and turn on <strong>View &rarr; Show &rarr; Hidden items</strong>.</li>
+                                        <li><strong>Any OS:</strong> open the project in a code editor (VS Code, Sublime, PhpStorm) &mdash; dotfiles like <code>.env</code> are shown in the file tree by default.</li>
+                                    </ul>
+                                    <p>If <code>.env</code> genuinely does not exist yet, it means the installer has not written it &mdash; run the web installer, which creates it for you.</p>
+                                </div>
+                                <div class="tab-content" id="env-vps">
+                                    <p>Over SSH, list hidden files with <code>ls -la</code> &mdash; dotfiles are shown, so <code>.env</code> appears:</p>
+                                    <pre>cd /var/www/wadesk
+ls -la
+nano .env</pre>
+                                    <p>Use <code>nano .env</code> or <code>vim .env</code> to view or edit it. If it is genuinely absent, the installer has not written it yet (or it was deleted) &mdash; restore it from your backup or re-run the installer.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="error-419"><strong>Q: 419 "Page Expired" error</strong></h3>
+                            <p><strong>A:</strong> A 419 means the session/CSRF token could not be validated &mdash; almost always because sessions are not being saved on your host, <strong>not a script bug</strong>. Fix it by:</p>
+                            <ul>
+                                <li>Making sure <code>storage/</code> and <code>storage/framework/sessions/</code> are writable (see <a href="../installation/server-requirements.html#file-permissions">File Permissions</a>).</li>
+                                <li>Confirming you are on <strong>PHP 8.2+</strong> and using the recommended PHP settings below.</li>
+                                <li>Increasing the session lifetime &mdash; set <code>SESSION_LIFETIME</code> higher in <code>.env</code> (or <code>config/session.php</code>) so sessions do not expire too quickly.</li>
+                                <li>Clearing caches after any change: <code>php artisan config:clear</code>.</li>
+                            </ul>
+                            <p>Recommended <code>php.ini</code> settings:</p>
+                            <pre>memory_limit = 256M
+max_execution_time = 300
+max_input_time = 300
+upload_max_filesize = 64M
+post_max_size = 64M</pre>
+                            <p>See the Troubleshooting page's <a href="../installation/troubleshooting.html#csrf-419">419 section</a> for more.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="no-driver"><strong>Q: "Could not find driver" (SQL error)</strong></h3>
+                            <p><strong>A:</strong> The database driver is not configured or enabled. Work through:</p>
+                            <ul>
+                                <li>Open <code>.env</code> and confirm <code>DB_CONNECTION=mysql</code>.</li>
+                                <li>Ensure the <code>pdo_mysql</code> PHP extension is installed and enabled.</li>
+                                <li>Confirm the connection details are correct &mdash; <code>DB_HOST</code>, <code>DB_PORT</code>, <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, <code>DB_PASSWORD</code> &mdash; and that the database server is running.</li>
+                                <li>Confirm you are on a supported PHP version (8.2+) and the DB user can access the database.</li>
+                                <li>Restart your server / PHP-FPM after changes.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="no-ziparchive"><strong>Q: "Class 'ZipArchive' not found"</strong></h3>
+                            <p><strong>A:</strong> The PHP <strong>zip</strong> extension is not enabled on your server. Enable it (in cPanel/Plesk under "Select PHP Version &rarr; Extensions", or in your <code>php.ini</code>) and the error clears. This is a server setting, not a script issue &mdash; if you are unsure how to enable it, ask your hosting provider.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="no-curl"><strong>Q: "curl_init()" error</strong></h3>
+                            <p><strong>A:</strong> The PHP <strong>curl</strong> extension is not enabled. Enable it the same way (PHP extension manager or <code>php.ini</code>) and the error clears. Again a server setting, not a script issue &mdash; your host can enable it for you if needed.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="db-no-tables"><strong>Q: MySQL / the database is not creating tables</strong></h3>
+                            <p><strong>A:</strong> The database user does not have enough rights. The user must have <strong>ALL PRIVILEGES</strong> on the database so the installer can run <code>CREATE TABLE</code>. Grant full privileges (see <a href="../installation/web-installer.html#create-database">Creating the Database</a>) and re-run. If you are unsure how, ask your hosting provider.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="error-404"><strong>Q: 404 "Not Found" error</strong></h3>
+                            <p><strong>A:</strong> A 404 means the requested file could not be found &mdash; a server/setup issue, <strong>not a script bug</strong>. Check:</p>
+                            <ul>
+                                <li>All files extracted and uploaded properly (nothing truncated or half-uploaded).</li>
+                                <li>The document root points at the <code>public/</code> folder, or the root <code>.htaccess</code> rewrite is in place (see <a href="../installation/web-installer.html#remove-public">Remove public From the URL</a>).</li>
+                                <li>Folder permissions are correct (see <a href="../installation/server-requirements.html#file-permissions">File Permissions</a>).</li>
+                                <li>The URL is correct, port 80/443 is open, and the server is up.</li>
+                            </ul>
+                            <p>If it persists, your host can check the server logs for the exact cause.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="error-403"><strong>Q: 403 "Forbidden" error</strong></h3>
+                            <p><strong>A:</strong> A 403 means access was denied. There are two cases:</p>
+                            <ul>
+                                <li><strong>Inside the app:</strong> the logged-in user's role does not have permission for that page. Edit the user's role to grant the needed permission, then save/update.</li>
+                                <li><strong>At the server level</strong> (before the app loads): usually a missing <code>index.php</code>, wrong folder permissions, or a directory-listing block. Confirm the files uploaded correctly and permissions are right.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="payload-error"><strong>Q: "Payload" error</strong></h3>
+                            <p><strong>A:</strong> A payload error usually means the data sent to the server in a request was missing, malformed, or too large. Check that required fields are filled and valid, and that your PHP <code>post_max_size</code> and <code>upload_max_filesize</code> are large enough for what you are submitting (see the 419 settings above). An expired session (419) can also surface as a payload issue &mdash; clear caches and retry.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="env-not-read"><strong>Q: My <code>.env</code> changes are not taking effect</strong></h3>
+                            <p><strong>A:</strong> Laravel caches its configuration, so edits to <code>.env</code> may not show until the cache is rebuilt. Run:</p>
+                            <pre>php artisan config:clear
+php artisan cache:clear
+php artisan config:cache</pre>
+                            <p>Then restart your server. On shared hosting, also check for a server-side cache (Cloudflare, Varnish) that could be holding old responses.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#hosting" class="toc-link">Hosting &amp; Requirements</a></li>
+                    <li class="toc-h2"><a href="#node-bridge" class="toc-link">The Node.js Bridge</a></li>
+                    <li class="toc-h2"><a href="#ssl-domain" class="toc-link">SSL &amp; Domain</a></li>
+                    <li class="toc-h2"><a href="#updates" class="toc-link">Updates &amp; Maintenance</a></li>
+                    <li class="toc-h2"><a href="#security-config" class="toc-link">Security &amp; Configuration</a></li>
+                    <li class="toc-h2"><a href="#errors" class="toc-link">Troubleshooting Common Errors</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

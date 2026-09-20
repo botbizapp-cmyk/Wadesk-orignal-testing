@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateways – WaDesk SaaS Docs</title>
+    <meta name="description" content="Payment Gateways — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Payment Gateways</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Payment Gateways</strong> (<strong>Admin &rarr; Payment gateways</strong>) is where you turn on the payment methods your customers use to pay for subscriptions and credits. WaDesk ships with <strong>30 gateways</strong> covering cards, wallets, bank transfer, crypto, and dozens of regional methods.</p>
+                        <p>Every gateway is already listed, so there is no "install" step. For each one you open its card, enter its credentials, pick sandbox or live, choose which currencies it accepts, and switch it on. Credentials are encrypted when stored, secrets are never shown back in plain text, and customers only ever see gateways that accept their currency.</p>
+                        <p>On each card you can:</p>
+                        <ul>
+                            <li><strong>Save</strong> the credentials, mode (sandbox/live), display order, and accepted currencies. Every save is recorded in the audit log.</li>
+                            <li><strong>Activate</strong> or deactivate the gateway &mdash; you cannot activate until its required fields are filled in (see below).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="catalog">The Gateway Catalog</h2>
+                        <p>Each gateway is a <strong>collapsed card</strong> &mdash; only the header row (name, status, mode badge, region tags) shows until you click it open, then the credentials form expands in place. A stats strip up top counts total gateways, how many are <strong>Active</strong>, the number of <strong>India-region</strong> options, and <strong>Crypto</strong> options.</p>
+                        <p>The five "top" gateways are fully implemented and tested; the remaining 25 round out the global catalog. A sample of what's available:</p>
+                        <table>
+                            <thead><tr><th>Gateway</th><th>What it accepts</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Stripe</strong></td><td>Cards (Visa/MC/Amex), Apple Pay, Google Pay &mdash; global. Uses Stripe Checkout Sessions.</td></tr>
+                                <tr><td><strong>Razorpay</strong></td><td>Indian cards, UPI, netbanking, wallets, EMI. Standard Checkout modal.</td></tr>
+                                <tr><td><strong>PayPal</strong></td><td>Worldwide PayPal balance + cards via PayPal Checkout (Orders v2).</td></tr>
+                                <tr><td><strong>Paddle</strong></td><td>Merchant-of-record for SaaS &mdash; cards + global tax handling.</td></tr>
+                                <tr><td><strong>Mollie</strong></td><td>European cards, iDEAL, Bancontact, SEPA, Klarna.</td></tr>
+                                <tr><td><strong>Paystack / Flutterwave</strong></td><td>Africa &mdash; cards, bank, USSD, mobile money.</td></tr>
+                                <tr><td><strong>Coinbase Commerce</strong></td><td>Crypto &mdash; BTC, ETH, USDC, DAI, LTC, BCH.</td></tr>
+                                <tr><td><strong>Bank Transfer / Offline</strong></td><td>Show your bank details or mark orders paid manually (for enterprise quotes). No credentials required.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The full set also includes Square, Braintree, 2Checkout, Mercado Pago, iyzico, Authorize.Net, SSLCommerz, Instamojo, PhonePe, Cashfree, PayU, Midtrans, Xendit, Tap, HyperPay, PayTR, Fondy, Skrill, and CinetPay.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="region-tabs">Category Tabs &amp; Currency Badges</h2>
+                        <p>Thirty drivers in one list would be unwieldy, so the page groups them into <strong>category tabs</strong>. Click a tab to filter the cards; each tab shows a live count. A gateway can belong to several tabs, and its first few categories appear as small badges on its card header.</p>
+                        <table>
+                            <thead><tr><th>Tab</th><th>Covers</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>All</strong></td><td>Every gateway available.</td></tr>
+                                <tr><td><strong>Popular</strong></td><td>Stripe, PayPal, Razorpay, Paddle, Square, Braintree, Mollie, Authorize.Net.</td></tr>
+                                <tr><td><strong>India</strong></td><td>Razorpay, Instamojo, Cashfree, Paytm, PhonePe, PayU.</td></tr>
+                                <tr><td><strong>Asia</strong></td><td>Xendit, Midtrans, Paytm, PhonePe, SSLCommerz, HyperPay, Tap.</td></tr>
+                                <tr><td><strong>MENA</strong></td><td>HyperPay, Tap, PayTR, iyzico, Fondy.</td></tr>
+                                <tr><td><strong>Europe</strong></td><td>Mollie, Paddle, Stripe, PayTR, iyzico, Fondy.</td></tr>
+                                <tr><td><strong>US / CA</strong></td><td>Stripe, PayPal, Square, Braintree, Authorize.Net, 2Checkout.</td></tr>
+                                <tr><td><strong>Africa</strong></td><td>Paystack, Flutterwave, CinetPay.</td></tr>
+                                <tr><td><strong>LATAM</strong></td><td>Mercado Pago.</td></tr>
+                                <tr><td><strong>Crypto</strong></td><td>Coinbase Commerce.</td></tr>
+                                <tr><td><strong>Offline</strong></td><td>Bank transfer / cash on delivery.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>A <strong>search box</strong> below the tabs filters by gateway name or slug, so you can jump straight to the one you need. Each card header also carries two status badges: <strong>Active / Disabled</strong> and a <strong>mode badge</strong> (amber <em>sandbox</em> or coral <em>live</em>), plus a <em>Keys saved</em> badge once credentials are on file.</p>
+                        <p>Currencies are handled by a <strong>pill-grid picker</strong> inside each card: each active currency is a clickable pill, selected pills turn solid, and the count of selected currencies is shown live. The selection is the gateway's <em>supported currencies</em> whitelist &mdash; <strong>leave it empty to accept every currency</strong>. At checkout a workspace only sees gateways whose whitelist is empty or contains the order's currency.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="configuring">Configuring a Gateway</h2>
+                        <p>Open a gateway card and you'll see a credentials form showing only the fields that gateway actually needs. Each field has a label, a required marker, and often a hint about the value's format. Fill them in, set the other options, and click <strong>Save</strong>.</p>
+                        <p>Below the credentials, every card has the same three controls:</p>
+                        <table>
+                            <thead><tr><th>Setting</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Mode</strong></td><td>Sandbox or Live. Sandbox uses the gateway's test environment so you can verify the flow without real money. (PayPal, for example, switches its API base between <code>api-m.sandbox.paypal.com</code> and <code>api-m.paypal.com</code> based on this.)</td></tr>
+                                <tr><td><strong>Sort order</strong></td><td>Controls the order gateways appear in at checkout (lower first).</td></tr>
+                                <tr><td><strong>Supported currencies</strong></td><td>The pill-grid whitelist. None selected = accept all. Workspaces only see gateways that accept their currency.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note &mdash; leave blank to keep:</strong> A saved secret is never shown back in the page; the field stays empty with a <code>•••••••••• (saved &mdash; leave blank to keep)</code> placeholder. On save, a blank secret keeps the stored value &mdash; only typing a new value overwrites it. So you can change mode or currencies without re-typing your keys.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credential-fields">Credential Fields for the Major Gateways</h2>
+                        <p>For the big three, here is exactly <strong>where to GET each value</strong> from the provider's dashboard and <strong>which WaDesk field to PASTE it into</strong>. Required fields are marked with an asterisk and must be present before the gateway can be activated.</p>
+
+                        <h3 id="stripe-fields">Stripe</h3>
+                        <p>Get all three values from the Stripe Dashboard at <a href="https://dashboard.stripe.com/apikeys">dashboard.stripe.com/apikeys</a> (and the Webhooks page for the signing secret). Toggle <em>View test data</em> in the dashboard to get <code>test</code> keys for sandbox.</p>
+                        <table>
+                            <thead><tr><th>WaDesk field</th><th>Where to get it</th></tr></thead>
+                            <tbody>
+                                <tr><td>Publishable key</td><td>Stripe &rarr; Developers &rarr; API keys &rarr; <em>Publishable key</em> (<code>pk_live_…</code> / <code>pk_test_…</code>).</td></tr>
+                                <tr><td>Secret key <strong>*</strong></td><td>Same page &rarr; <em>Secret key</em> (<code>sk_live_…</code> / <code>sk_test_…</code>). Reveal once and copy.</td></tr>
+                                <tr><td>Webhook secret</td><td>Stripe &rarr; Developers &rarr; <a href="https://dashboard.stripe.com/webhooks">Webhooks</a> &rarr; add an endpoint pointing at your WaDesk webhook URL (see below) &rarr; copy the <em>Signing secret</em> (<code>whsec_…</code>). Lets WaDesk verify that webhook calls really came from Stripe.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="razorpay-fields">Razorpay</h3>
+                        <p>Get the key pair from the Razorpay Dashboard at <a href="https://dashboard.razorpay.com/app/keys">dashboard.razorpay.com/app/keys</a> (Settings &rarr; API Keys &rarr; <em>Generate Key</em>). Use the <em>Test Mode</em> switch for sandbox keys.</p>
+                        <table>
+                            <thead><tr><th>WaDesk field</th><th>Where to get it</th></tr></thead>
+                            <tbody>
+                                <tr><td>Key ID <strong>*</strong></td><td>API Keys page &rarr; <em>Key Id</em> (<code>rzp_live_…</code> / <code>rzp_test_…</code>).</td></tr>
+                                <tr><td>Key secret <strong>*</strong></td><td>Shown once at generation as <em>Key Secret</em>. Copy immediately.</td></tr>
+                                <tr><td>Webhook secret</td><td>Dashboard &rarr; Settings &rarr; <a href="https://dashboard.razorpay.com/app/webhooks">Webhooks</a> &rarr; create a webhook to your WaDesk URL and set a secret; paste that same secret here. Lets WaDesk verify that webhook calls really came from Razorpay.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="paypal-fields">PayPal</h3>
+                        <p>Get the credentials from the PayPal Developer Dashboard at <a href="https://developer.paypal.com/dashboard/applications/live">developer.paypal.com/dashboard/applications</a> &rarr; <em>Apps &amp; Credentials</em>. Switch between the <em>Sandbox</em> and <em>Live</em> tabs to match your WaDesk Mode, then open your app.</p>
+                        <table>
+                            <thead><tr><th>WaDesk field</th><th>Where to get it</th></tr></thead>
+                            <tbody>
+                                <tr><td>Client ID <strong>*</strong></td><td>Your REST app &rarr; <em>Client ID</em>.</td></tr>
+                                <tr><td>Client secret <strong>*</strong></td><td>Same app &rarr; <em>Secret</em> (click to reveal / generate).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>All other gateways</strong> follow the same shape &mdash; open the card to see its exact fields, each with a hint. Common patterns: Mollie uses an API key, Coinbase Commerce uses an API key plus a webhook shared secret, Paystack/Flutterwave use a public and a secret key, Authorize.Net uses a login ID and transaction key, and Bank Transfer / Offline need no credentials at all.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="webhooks">Webhook &amp; Callback URLs to Register</h2>
+                        <p>WaDesk exposes one webhook endpoint and one return/callback endpoint per gateway, both keyed by the gateway slug. Register these at the corresponding provider so payments confirm reliably even if the customer closes the tab.</p>
+                        <table>
+                            <thead><tr><th>Purpose</th><th>URL to register at the provider</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Webhook</strong> (async server-to-server notification, <code>POST</code>)</td><td><code>https://YOUR-DOMAIN/payment/webhook/{gateway}</code></td></tr>
+                                <tr><td><strong>Return / callback</strong> (browser redirect after pay, <code>GET</code> &amp; <code>POST</code>)</td><td><code>https://YOUR-DOMAIN/payment/callback/{gateway}</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p>Replace <code>{gateway}</code> with the gateway's short name (shown as <code>slug: …</code> on each card). Concrete examples:</p>
+                        <table>
+                            <thead><tr><th>Gateway</th><th>Webhook URL</th><th>Register at</th></tr></thead>
+                            <tbody>
+                                <tr><td>Stripe</td><td><code>https://YOUR-DOMAIN/payment/webhook/stripe</code></td><td>Stripe &rarr; Developers &rarr; <a href="https://dashboard.stripe.com/webhooks">Webhooks</a> &rarr; Add endpoint. Then copy its signing secret into the <em>Webhook secret</em> field.</td></tr>
+                                <tr><td>Razorpay</td><td><code>https://YOUR-DOMAIN/payment/webhook/razorpay</code></td><td>Razorpay &rarr; Settings &rarr; <a href="https://dashboard.razorpay.com/app/webhooks">Webhooks</a>. Set the same secret you put in the <em>Webhook secret</em> field.</td></tr>
+                                <tr><td>PayPal</td><td><code>https://YOUR-DOMAIN/payment/webhook/paypal</code></td><td>PayPal Developer &rarr; your app &rarr; <em>Webhooks</em>. (PayPal confirms the payment on the return; the webhook is optional reinforcement.)</td></tr>
+                                <tr><td>Coinbase Commerce</td><td><code>https://YOUR-DOMAIN/payment/webhook/coinbase</code></td><td>Coinbase Commerce &rarr; Settings &rarr; Webhook subscriptions.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The webhook URL is intentionally open (gateways can't log in) but WaDesk <strong>verifies each call's signature</strong> against the webhook secret you saved, so only genuine calls from the provider are accepted. If no webhook secret is set, the check is skipped (fine in sandbox, but always set a secret before going live).</p>
+                        <blockquote class="info"><strong>Note:</strong> The return/callback URL is what WaDesk hands the gateway as the success URL during checkout, so it usually doesn't need manual registration. The <strong>webhook URL is the one you paste into the provider's dashboard</strong>, and for Stripe/Razorpay it must be paired with the matching webhook secret in WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="activating">Activating, the Required-Fields Guard &amp; Sandbox vs Live</h2>
+                        <p>Each gateway has an <strong>Activate / Disable</strong> button in its card header. Activating makes the gateway available at checkout; deactivating removes it.</p>
+                        <blockquote class="warning"><strong>Guardrail &mdash; required fields before activate:</strong> You cannot activate a gateway until its <em>required</em> fields (those marked <strong>*</strong>) are filled in. If you try, activation is refused with a message listing the missing fields &mdash; for example "Configure required fields first: Secret key" &mdash; and the blocked attempt is recorded in the audit log. This stops a half-configured gateway from appearing at checkout and failing on the customer's first payment.</blockquote>
+                        <p>Recommended path for any new gateway:</p>
+                        <ol>
+                            <li>Get your <strong>test/sandbox</strong> credentials from the provider (use its test-mode switch) and paste them into the card.</li>
+                            <li>Register the <a href="#webhooks">webhook URL</a> in the provider's <em>test</em> environment and paste the resulting signing secret into the <em>Webhook secret</em> field.</li>
+                            <li>Set <strong>Mode</strong> to Sandbox, save, and <strong>Activate</strong>.</li>
+                            <li>Run a test checkout to confirm the full flow works end to end.</li>
+                            <li>Swap in your <strong>live</strong> credentials and the live webhook secret, switch Mode to Live, and save.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Caution:</strong> Always confirm you've switched to <strong>Live</strong> mode before announcing a gateway to customers &mdash; a gateway left in Sandbox will accept test cards but never settle real money. The card's mode badge turns coral when it is Live.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security">Security &amp; Auditing</h2>
+                        <p>Credentials are <strong>encrypted</strong> when stored and are never shown back in plain text in the form.</p>
+                        <p>Every change is written to the audit log &mdash; but never the secret values themselves. On save, the log records <em>which</em> fields were updated, the chosen mode, and the supported currencies. Activations, deactivations, and blocked-activation attempts (with the list of missing fields) are all recorded too, so you have a full history of how your payment setup evolved.</p>
+                        <blockquote class="warning"><strong>Caution &mdash; after a server encryption-key change:</strong> Credentials are encrypted with your app's master encryption key. If that key is ever changed (a server-level maintenance task), the previously stored credentials can no longer be read. After any such change, re-enter the credentials for every active gateway.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>"Configure required fields first: …"</strong></td>
+                                    <td>You tried to activate before filling a required (<strong>*</strong>) field. Open the card, complete the listed fields, save, then activate.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Webhook not received</strong></td>
+                                    <td>The URL registered at the provider is wrong or unreachable. Confirm it is exactly <code>https://YOUR-DOMAIN/payment/webhook/{gateway}</code> over HTTPS, that the domain is publicly reachable, and that it's registered in the matching environment (test vs live). Check the provider's webhook delivery/log panel for the response code.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Signature mismatch</strong></td>
+                                    <td>The webhook secret in WaDesk doesn't match the one set at the provider, or you're verifying a test webhook against a live secret. Re-copy the signing secret (Stripe <code>whsec_…</code> / your Razorpay webhook secret) and make sure Mode matches the keys.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Currency unsupported</strong> / gateway missing at checkout</td>
+                                    <td>The order's currency isn't in the gateway's <em>Supported currencies</em> list. Either add the currency pill, or clear the list to accept all. Also confirm the gateway is <strong>Active</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>"Secret key missing" error from a gateway</strong></td>
+                                    <td>The required secret was never saved, or was lost after a server encryption-key change. Re-paste it. Remember a blank field keeps the old value &mdash; if the old value is gone, you must type a fresh one.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Payment succeeds at the gateway but order stays unpaid</strong></td>
+                                    <td>The return or webhook didn't reach WaDesk (tab closed early, webhook misconfigured). Fix the webhook URL/secret so the confirmation lands; WaDesk can also reconcile a late confirmation.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Live mode charges fail but sandbox worked</strong></td>
+                                    <td>You're still using test keys, or you updated the keys but left Mode on Sandbox (or vice-versa). Make sure live keys, Live mode, and the live webhook secret are all set together.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No gateways listed at all</strong></td>
+                                    <td>The gateway catalog didn't load. Ask your support team to re-run the install setup to restore the gateway list.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./ai-keys.html">AI &amp; API Keys</a> &mdash; the same pre-seeded, encrypted, leave-blank-to-keep credential pattern, applied to AI providers.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; where gateway saves, activations, and blocked attempts are recorded.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#catalog" class="toc-link">The Gateway Catalog</a></li>
+                    <li class="toc-h2"><a href="#region-tabs" class="toc-link">Category Tabs &amp; Currency Badges</a></li>
+                    <li class="toc-h2"><a href="#configuring" class="toc-link">Configuring a Gateway</a></li>
+                    <li class="toc-h2"><a href="#credential-fields" class="toc-link">Credential Fields (Major Gateways)</a></li>
+                    <li class="toc-h2"><a href="#webhooks" class="toc-link">Webhook &amp; Callback URLs</a></li>
+                    <li class="toc-h2"><a href="#activating" class="toc-link">Activating &amp; Sandbox vs Live</a></li>
+                    <li class="toc-h2"><a href="#security" class="toc-link">Security &amp; Auditing</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

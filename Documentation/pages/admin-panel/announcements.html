@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements – WaDesk SaaS Docs</title>
+    <meta name="description" content="Announcements — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Announcements</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Announcements</strong> (<strong>Admin &rarr; Announcements</strong>) lets the platform owner publish a short message in the scrolling bar that appears on every signed-in page. Use it for product news, maintenance notices, promotions, or any one-line message you want every operator to see.</p>
+                        <p>The list shows a stats strip &mdash; <strong>Total</strong>, <strong>Active</strong>, <strong>Expired</strong>, and <strong>Scheduled</strong> &mdash; plus a searchable list you can filter by status. From it you can create, edit, toggle, and delete announcements.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating an Announcement</h2>
+                        <p>Click <strong>New announcement</strong>. The form is split into three sections.</p>
+
+                        <h3>1. Message</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Text <em>(required)</em></td><td>One short sentence, up to 500 characters. Shown on every signed-in page.</td></tr>
+                                <tr><td>Tone</td><td>Sets the bar's colour: <strong>Info</strong> (dark ink), <strong>Promo</strong> (dark wood), <strong>Warning</strong> (amber), or <strong>Success</strong> (green). Defaults to Info.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>2. Link &amp; visibility</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Link URL</td><td>Optional. When set, the whole bar becomes clickable. Accepts a relative path (<code>/pricing</code>) or full URL.</td></tr>
+                                <tr><td>Link label</td><td>Optional CTA chip shown next to the message, e.g. "Learn more".</td></tr>
+                                <tr><td>Active</td><td>Show the bar right now, provided the current time is inside the schedule window.</td></tr>
+                                <tr><td>Dismissible</td><td>Let each user close the bar; the dismissal is remembered in their browser.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>3. Scheduling</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Timezone</td><td>The timezone the start/expiry times below are interpreted in. Defaults to the app timezone.</td></tr>
+                                <tr><td>Starts at</td><td>When the bar becomes visible. Blank = visible from now.</td></tr>
+                                <tr><td>Expires at</td><td>When the bar stops showing. Blank = never expires. Must be on or after the start time.</td></tr>
+                                <tr><td>Sort order</td><td>Lower numbers appear first when multiple announcements are active.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Save with <strong>Create announcement</strong>. Editing an existing one shows the same three sections with <strong>Save changes</strong>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="scheduling">Scheduling &amp; Timezones</h2>
+                        <p>The date/time inputs themselves carry no timezone information, so WaDesk uses the <strong>Timezone</strong> dropdown to interpret them: it reads your start and expiry times <em>as if</em> they were in the timezone you picked, then converts to UTC for storage. This means an announcement scheduled for "9:00 AM" goes live at 9:00 AM in the timezone you selected, regardless of where your server runs.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Always check the Timezone dropdown before setting a launch time &mdash; it defaults to the app timezone, which may differ from your own. An announcement only shows when it is <strong>Active</strong> <em>and</em> the current moment is inside its start/expiry window, so scheduling and the Active toggle work together.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Managing Announcements</h2>
+                        <p>From the index list you can:</p>
+                        <ul>
+                            <li><strong>Filter</strong> by status &mdash; All, Active, Inactive, or Expired &mdash; and search by message text or link label.</li>
+                            <li><strong>Toggle</strong> an announcement on or off without opening the editor.</li>
+                            <li><strong>Edit</strong> any field, including its schedule and tone.</li>
+                            <li><strong>Delete</strong> one you no longer need.</li>
+                        </ul>
+                        <p>The status buckets are derived from the data: <em>Active</em> means it is on and inside its window; <em>Scheduled</em> means a start time is set in the future; <em>Expired</em> means its expiry time has passed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="marquee">The Public Announcement Bar</h2>
+                        <p>Active announcements appear in the scrolling bar at the top of every signed-in page, in <strong>sort order</strong>. The bar's colour comes from the chosen tone, the optional link makes the whole bar clickable, and a dismissible announcement shows a close control that the user's browser remembers.</p>
+                        <p>For speed, the current set of announcements is briefly cached. WaDesk <strong>refreshes that cache automatically</strong> whenever you create, edit, toggle, or delete an announcement, so your changes appear right away with no manual step.</p>
+                        <blockquote class="info"><strong>Note:</strong> Keep the marquee uncluttered &mdash; one or two active announcements read best. If several are active at once they are ordered by the Sort order field, lowest first.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; platform branding and the general configuration.</li>
+                            <li><a href="./support-guidebook.html">Support &amp; Guidebook</a> &mdash; the help articles and support desk shown to users.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating an Announcement</a></li>
+                    <li class="toc-h2"><a href="#scheduling" class="toc-link">Scheduling &amp; Timezones</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Managing Announcements</a></li>
+                    <li class="toc-h2"><a href="#marquee" class="toc-link">The Public Announcement Bar</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

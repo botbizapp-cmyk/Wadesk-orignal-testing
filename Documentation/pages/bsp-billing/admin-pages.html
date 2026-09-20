@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pages — Pricing, Income &amp; Reseller Billing – WaDesk SaaS Docs</title>
+    <meta name="description" content="Admin Pages for BSP message billing — Message pricing, Message income and Reseller billing — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Admin Pages — Pricing, Income &amp; Reseller Billing</h1>
+                    <p>These three admin pages are where you, the platform owner, run the <strong>pay-per-message (BSP) billing</strong> side of WaDesk: set the price your customers pay for each message, watch the profit you make on top of Meta's wholesale cost, and connect your Meta credit line so customers can be billed through you instead of paying Meta directly. All money on every one of these pages is shown in your <strong>platform currency</strong> &mdash; whatever you have configured &mdash; and is never hardcoded.</p>
+                    <blockquote class="info"><strong>Where they live.</strong> All three pages sit under <strong>Admin &rarr; Billing</strong> in the left sidebar: <em>Message pricing</em>, <em>Message income</em> and <em>Reseller billing</em>. The URLs below use the example base <code>http://192.168.1.189:8008</code> &mdash; replace that with your own admin domain.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="pricing">1. Message pricing</h2>
+                        <p><strong>URL:</strong> <code>http://192.168.1.189:8008/admin/settings/wallet-rules</code> &nbsp;(<strong>Admin &rarr; Billing &rarr; Message pricing</strong>)</p>
+                        <p>This is your rate card. It defines what every message <em>costs you</em> from Meta and what you <em>charge the customer</em>, per country and per message category.</p>
+
+                        <h3 id="pricing-toggle">Pay-per-message toggle</h3>
+                        <p>At the top is the <strong>pay-per-message</strong> switch. Turning it on makes the wallet-billing model the platform-wide default, so the machinery that charges each message from a customer's wallet is active. In practice, though, whether any individual customer is actually billed this way is driven by <em>that customer's own connect choice</em> (see <a href="customer-flow.html">Customer Flow</a>): a customer who picks &ldquo;I pay Meta directly&rdquo; is never charged from a wallet, even while the toggle is on.</p>
+
+                        <h3 id="pricing-table">The per-country pricing table</h3>
+                        <p>Below the toggle is the pricing table &mdash; one searchable list covering all ~250 countries. Search by country name to jump to a row. Each row has these fields:</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Country</strong></td><td>The destination country the message is sent to. Every country Meta prices is listed; use the search box to filter.</td></tr>
+                                <tr><td><strong>Category</strong></td><td>The WhatsApp message category the rate applies to: <em>marketing</em>, <em>utility</em>, <em>authentication</em> or <em>service</em>. Meta prices each category differently, so each has its own row/column.</td></tr>
+                                <tr><td><strong>You charge</strong></td><td>A money amount in the platform currency (for example <code>1.00</code>) &mdash; the price the customer's wallet is debited for one message of that country + category.</td></tr>
+                                <tr><td><strong>Meta cost</strong></td><td>A money amount in the platform currency &mdash; Meta's wholesale cost to you for that same message.</td></tr>
+                                <tr><td><strong>Your margin</strong></td><td>Calculated live as <em>You charge &minus; Meta cost</em>. This is your profit per message and updates as you type.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Free or service rows can be left at <code>0.00</code> for both columns &mdash; for example service (customer-initiated) conversations that Meta no longer charges for.</p>
+
+                        <h3 id="pricing-sync">Sync Meta costs</h3>
+                        <p>The <strong>Sync Meta costs</strong> button fills the <em>Meta cost</em> column for every country at once, pulling Meta's current wholesale rates and converting them into your platform currency. Use it so you don't have to type Meta's side by hand; then adjust your <em>You charge</em> column to set your margin.</p>
+
+                        <h3 id="pricing-import">Import my rate card</h3>
+                        <p><strong>Import my rate card</strong> lets you upload a CSV of rates instead of editing rows one by one. It accepts the official WhatsApp Manager rates export, and understands two shapes:</p>
+                        <ul>
+                            <li><strong>Meta's wide format</strong> &mdash; one row per country with separate <em>Marketing</em>, <em>Utility</em> and <em>Authentication</em> columns.</li>
+                            <li><strong>A simple long format</strong> &mdash; one row per country + category + rate.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Dynamic currency.</strong> Everything on this page &mdash; You charge, Meta cost, margin, synced rates and imported rates &mdash; is stored and shown in the platform currency. Nothing is hardcoded to a specific currency.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="income">2. Message income</h2>
+                        <p><strong>URL:</strong> <code>http://192.168.1.189:8008/admin/bsp</code> &nbsp;(<strong>Admin &rarr; Billing &rarr; Message income</strong>)</p>
+                        <p>This is your platform profit-and-loss for messaging. It reads the <code>message_charges</code> ledger &mdash; the record written every time a message is billed &mdash; and rolls it up:</p>
+                        <ul>
+                            <li><strong>Total revenue</strong> &mdash; the sum of what customers paid across all billed messages.</li>
+                            <li><strong>Total Meta cost</strong> &mdash; the sum of Meta's wholesale cost for those same messages.</li>
+                            <li><strong>Your margin</strong> &mdash; total revenue &minus; total Meta cost, i.e. the profit you kept.</li>
+                        </ul>
+                        <p>Below the totals is a <strong>per-workspace breakdown</strong>, so you can see revenue, Meta cost and margin for each customer workspace. All figures are in the platform currency.</p>
+                        <blockquote class="info"><strong>Tip.</strong> This is the page to open after a test send &mdash; the profit for that message appears here once the charge is written.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reseller">3. Reseller billing (Meta)</h2>
+                        <p><strong>URL:</strong> <code>http://192.168.1.189:8008/admin/bsp/credit</code> &nbsp;(<strong>Admin &rarr; Billing &rarr; Reseller billing</strong>)</p>
+                        <p>This page connects <em>your</em> Meta credit line so that customers who choose &ldquo;Bill me through us&rdquo; can send without their own Meta payment method &mdash; Meta bills you, and you bill the customer's wallet. It is a two-step setup.</p>
+
+                        <h3 id="reseller-connect">Step 1 — Connect</h3>
+                        <p>Enter your Meta reseller credentials once:</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it is</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Meta Business ID</strong></td><td>The ID of your Meta Business that owns the credit line.</td></tr>
+                                <tr><td><strong>System-user token</strong></td><td>A password field. It is stored <strong>encrypted</strong> and never echoed back to the screen once saved.</td></tr>
+                                <tr><td><strong>Extended credit line ID</strong></td><td>Your Meta extended credit line's ID. Leave blank to have it detected automatically.</td></tr>
+                                <tr><td><strong>Graph API version</strong></td><td>The Meta Graph API version to call. Defaults to <code>v25.0</code>.</td></tr>
+                                <tr><td><strong>Meta rates endpoint</strong></td><td>Optional. A custom endpoint for pulling Meta's wholesale rates, if you use one.</td></tr>
+                                <tr><td><strong>Auto-attach on connect</strong></td><td>A toggle: when a customer connects a number and picks &ldquo;Bill me through us&rdquo;, automatically share your credit line to that number.</td></tr>
+                                <tr><td><strong>Bill in (currency)</strong></td><td>The default currency your credit line is billed in.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="reseller-attach">Step 2 — Attach</h3>
+                        <p>Sharing your credit line with a specific customer number is called <em>attaching</em>. Here you:</p>
+                        <ul>
+                            <li>Pick a customer's connected WhatsApp number from a dropdown &mdash; shown <strong>by workspace/name, never raw IDs</strong>.</li>
+                            <li>Choose the <strong>billing currency</strong> for that attachment.</li>
+                            <li>Press <strong>Attach credit line</strong> to share your credit line to that number.</li>
+                        </ul>
+                        <p>To backfill everyone at once there is an <strong>Attach all connected now</strong> button, which attaches your credit line to every already-connected number in one action.</p>
+
+                        <h3 id="reseller-table">Attached-accounts table</h3>
+                        <p>The table lists every number your credit line is currently shared with:</p>
+                        <table>
+                            <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Workspace name</strong></td><td>The customer the number belongs to.</td></tr>
+                                <tr><td><strong>WABA</strong></td><td>The WhatsApp Business Account, shown by its last digits.</td></tr>
+                                <tr><td><strong>Allocation id</strong></td><td>Meta's ID for the credit-line share to that number.</td></tr>
+                                <tr><td><strong>Currency</strong></td><td>The billing currency of that attachment.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Whether the share is active.</td></tr>
+                                <tr><td><strong>Revoke</strong></td><td>Action to unshare your credit line from that number.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="reseller-guide">Setup guide panel</h3>
+                        <p>On the right of the page a <strong>Setup guide</strong> links out to the Meta documentation you need &mdash; <a href="https://business.facebook.com">business.facebook.com</a> and Meta's access-tokens documentation &mdash; to create the Business, system user and token. For the full walkthrough see <a href="../bsp-billing/meta-setup.html">Meta credit-line setup</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sidebar-location">Sidebar location</h2>
+                        <p>All three pages live together under <strong>Admin &rarr; Billing</strong> in the left sidebar &mdash; <em>Message pricing</em> (your rate card), <em>Message income</em> (your P&amp;L) and <em>Reseller billing</em> (your Meta credit line). Set your rates first, connect and attach your credit line second, and watch the income roll in third.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#pricing" class="toc-link">1. Message pricing</a></li>
+                    <li class="toc-h2"><a href="#income" class="toc-link">2. Message income</a></li>
+                    <li class="toc-h2"><a href="#reseller" class="toc-link">3. Reseller billing</a></li>
+                    <li class="toc-h2"><a href="#sidebar-location" class="toc-link">Sidebar location</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

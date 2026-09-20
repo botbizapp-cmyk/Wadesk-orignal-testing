@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Flow — Connect, Choose Billing &amp; Add Money – WaDesk SaaS Docs</title>
+    <meta name="description" content="The customer BSP billing flow — connect a number, choose how to be billed, add money to the wallet and spend it — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Customer Flow — Connect, Choose Billing &amp; Add Money</h1>
+                    <p>This page follows a <strong>customer</strong> (a workspace user) end to end through pay-per-message billing: connecting a WhatsApp number, choosing how they want to pay for messages, topping up their wallet, and then spending it as they send. Every money value the customer sees is shown in the <strong>platform currency</strong>.</p>
+                    <blockquote class="info"><strong>Background reading.</strong> For the big picture of how BSP billing works see the <a href="../bsp-billing/overview.html">Overview</a>, and for the admin side see <a href="../bsp-billing/admin-pages.html">Admin Pages</a>. URLs below use the example base <code>http://192.168.1.189:8008</code> &mdash; that is the admin's own domain; your customers use your real domain.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="connect">1. Connect a WhatsApp number</h2>
+                        <p><strong>URL:</strong> <code>http://192.168.1.189:8008/devices</code></p>
+                        <p>The customer connects a WhatsApp number on the <strong>Devices</strong> page as usual. As soon as the number connects, they are asked <strong>&ldquo;How do you want to be billed for messages?&rdquo;</strong> and shown two cards:</p>
+                        <table>
+                            <thead><tr><th>Card</th><th>What it means for the customer</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Card A — &ldquo;I pay Meta directly&rdquo;</strong></td><td>The customer's own Meta payment method is billed by Meta for messages. WaDesk does not charge a per-message wallet fee &mdash; they only need an active plan for the platform features.</td></tr>
+                                <tr><td><strong>Card B — &ldquo;Bill me through [Brand]&rdquo;</strong></td><td>The customer tops up a wallet inside WaDesk, and each message is charged from that wallet at your rate. They need <strong>no Meta payment method</strong> &mdash; you handle the Meta billing on your credit line.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>When Card B is unavailable.</strong> If the platform's Meta credit line has not been set up (see <a href="../bsp-billing/admin-pages.html#reseller">Reseller billing</a>), Card B is shown <strong>disabled</strong> with a &ldquo;Not available yet&rdquo; note, because there is nothing to bill messages against.</blockquote>
+                        <p>Choosing <strong>Card B</strong> does two things: it saves the customer's billing choice, and it <strong>auto-attaches the platform's credit line to that number</strong> so messages can start being billed immediately.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="add-money">2. Add money to the wallet</h2>
+                        <p><strong>URL:</strong> <code>http://192.168.1.189:8008/account?tab=wallet</code></p>
+                        <p>On the wallet tab there is an <strong>&ldquo;Add money to your wallet&rdquo;</strong> box. The customer can:</p>
+                        <ul>
+                            <li>Type <strong>any amount</strong>, or tap a quick chip &mdash; <strong>500 / 1000 / 2000 / 5000</strong>.</li>
+                            <li>Pay through a payment gateway.</li>
+                            <li>See the money land in their wallet balance (the top-up runs through the checkout route <code>/checkout/wallet</code>).</li>
+                        </ul>
+                        <p>All amounts are shown in the platform currency. The older <strong>fixed credit bundles</strong> are still available as a secondary <em>&ldquo;Or buy a bundle&rdquo;</em> option beneath the free-amount box, for customers who prefer preset packs.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="spend">3. Spend it</h2>
+                        <p>Once there is money in the wallet, every message the customer sends deducts from it at the <strong>per-destination price</strong> (the country + category rate you set on <a href="../bsp-billing/admin-pages.html#pricing">Message pricing</a>). The wallet tab shows:</p>
+                        <ul>
+                            <li><strong>Balance</strong> &mdash; how much money is left.</li>
+                            <li><strong>Spent (30 days)</strong> &mdash; how much has been used recently.</li>
+                            <li>A <strong>&ldquo;how billing works&rdquo;</strong> explainer so the customer understands per-message charging.</li>
+                        </ul>
+                        <p>When the balance runs low the customer gets a <strong>low-balance alert</strong>. If it reaches zero, the next campaign or broadcast is <strong>blocked at launch</strong> with a &ldquo;top up to send&rdquo; message, so no sending happens without funds.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="test">4. Test it end to end</h2>
+                        <p>Use this checklist to confirm the whole funnel works before going live:</p>
+                        <ol>
+                            <li><strong>Enable a gateway</strong> at <code>http://192.168.1.189:8008/admin/settings/payment-gateways</code> &mdash; the <em>Offline / Manual</em> gateway is ideal for testing without real money.</li>
+                            <li><strong>Connect a number</strong> at <code>/devices</code>.</li>
+                            <li><strong>Pick Card B</strong> (&ldquo;Bill me through us&rdquo;) so the credit line attaches.</li>
+                            <li><strong>Add money</strong> on <code>/account?tab=wallet</code>.</li>
+                            <li><strong>Send a message</strong>.</li>
+                            <li><strong>Watch the balance drop</strong> on the wallet tab, and the <strong>profit appear</strong> on <code>http://192.168.1.189:8008/admin/bsp</code> (Message income).</li>
+                        </ol>
+                        <blockquote class="info"><strong>Related.</strong> See the <a href="../bsp-billing/overview.html">Overview</a> for how the pieces fit together and <a href="../bsp-billing/admin-pages.html">Admin Pages</a> for the pricing, income and reseller-billing screens behind this flow.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#connect" class="toc-link">1. Connect a number</a></li>
+                    <li class="toc-h2"><a href="#add-money" class="toc-link">2. Add money</a></li>
+                    <li class="toc-h2"><a href="#spend" class="toc-link">3. Spend it</a></li>
+                    <li class="toc-h2"><a href="#test" class="toc-link">4. Test it end to end</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

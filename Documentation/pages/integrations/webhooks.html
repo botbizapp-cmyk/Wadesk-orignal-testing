@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhooks – WaDesk SaaS Docs</title>
+    <meta name="description" content="Webhooks — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Webhooks</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Outbound webhooks</strong> let WaDesk push events out to your own systems in real time &mdash; a CRM, a data warehouse, Zapier, Make, n8n, or any HTTPS endpoint. Whenever an event you've subscribed to happens in your workspace, WaDesk sends a JSON request to your URL, optionally signed so you can verify it really came from WaDesk.</p>
+                        <p>Manage them under <strong>More &rarr; Webhooks</strong>. Webhooks are <strong>shared across the whole workspace</strong>: every member sees every endpoint, no matter who created it. When an event happens, WaDesk delivers it to every active endpoint in that workspace that subscribed to the event (or to the wildcard <code>*</code>).</p>
+                        <blockquote class="warning"><strong>Plan limits.</strong> Outbound webhooks are a paid-plan feature, and each plan allows a set number of endpoints. If your plan doesn't include the feature, or you've hit your limit, creating a new endpoint is blocked with an upgrade prompt. You can still edit and pause/resume the endpoints you already have.</blockquote>
+                        <blockquote class="info"><strong>Two different directions &mdash; don't mix them up.</strong> This page is about webhooks WaDesk <em>sends to you</em>. The webhook that <em>Meta or Twilio sends to WaDesk</em> (incoming messages, delivery receipts) is a single endpoint set up once by your administrator &mdash; see <a href="#inbound">Inbound vs Outbound</a> at the bottom.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating an Endpoint</h2>
+                        <p>Click <strong>Add a webhook</strong> on the index and fill in the form. The right rail shows a live <strong>sample payload</strong> and a <strong>Test fire</strong> action so you can wire up and validate your receiver before any real event arrives.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Webhook URL</strong></td><td>Yes</td><td>The address WaDesk sends to. Must be a valid URL &mdash; use HTTPS. Stored <strong>encrypted</strong>.</td></tr>
+                                <tr><td><strong>Method</strong></td><td>No</td><td>The HTTP method used to deliver &mdash; <code>POST</code> (the default) or <code>PUT</code>.</td></tr>
+                                <tr><td><strong>Internal name</strong></td><td>No</td><td>A label to recognise the endpoint, e.g. &ldquo;Production CRM relay&rdquo;. Up to 191 characters.</td></tr>
+                                <tr><td><strong>Environment</strong></td><td>No</td><td>A free-text tag for organising endpoints (defaults to <code>Production</code>).</td></tr>
+                                <tr><td><strong>Events</strong></td><td>Yes</td><td>Pick at least one event. See <a href="#events">Event Types</a>.</td></tr>
+                                <tr><td><strong>Signing secret</strong></td><td>No (recommended)</td><td>Used to sign each delivery so you can verify it. Stored <strong>encrypted</strong>. See <a href="#security">Signing &amp; Verification</a>.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>No</td><td>Whether the endpoint is active (receiving events) when you save. On by default.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Everything sensitive is encrypted.</strong> The URL, the secret, and the event list are all encrypted in the database and only unlocked in memory at the moment a delivery is sent &mdash; so a database leak won't expose your endpoints or secrets.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="events">Event Types</h2>
+                        <p>These are the events you can subscribe an endpoint to. Subscribe to any subset &mdash; an endpoint only receives the events in its list. The event name is what appears in the <code>event</code> / <code>eventType</code> fields of every payload.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Event</th><th>Fires when</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>message_received</code></td><td>An inbound message is received from a contact.</td></tr>
+                                <tr><td><code>message_sent</code></td><td>An outbound message is accepted for sending.</td></tr>
+                                <tr><td><code>message_delivered</code></td><td>An outbound message is delivered to the recipient's device.</td></tr>
+                                <tr><td><code>message_read</code></td><td>An outbound message is read (recipient has read receipts on).</td></tr>
+                                <tr><td><code>message_failed</code></td><td>An outbound message fails to send &mdash; payload carries the failure reason.</td></tr>
+                                <tr><td><code>broadcast_created</code></td><td>A broadcast is created.</td></tr>
+                                <tr><td><code>broadcast_status_updated</code></td><td>A broadcast's overall status changes.</td></tr>
+                                <tr><td><code>broadcast_message_status_updated</code></td><td>A single broadcast recipient's message changes status.</td></tr>
+                                <tr><td><code>campaign_created</code></td><td>A campaign is created.</td></tr>
+                                <tr><td><code>campaign_status_updated</code></td><td>A campaign's status changes.</td></tr>
+                                <tr><td><code>campaign_contact_status_updated</code></td><td>A campaign contact's status changes.</td></tr>
+                                <tr><td><code>campaign_contact_clicked</code></td><td>A campaign contact clicks a tracked link.</td></tr>
+                                <tr><td><code>campaign_contact_replied</code></td><td>A campaign contact replies.</td></tr>
+                                <tr><td><code>contact_opt_in</code></td><td>A contact's subscription state changes &mdash; opt-in <em>or</em> opt-out (a STOP keyword, or the unsubscribe toggle on a contact). The payload carries <code>opted_in</code> (boolean), an <code>action</code> of <code>unsubscribed</code> / <code>resubscribed</code>, and a <code>source</code>.</td></tr>
+                                <tr><td><code>contact_updated</code></td><td>A contact record is edited (from the contact detail screen).</td></tr>
+                                <tr><td><code>device_status_updated</code></td><td>A device's connection status changes (connected / disconnected / pairing).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Every event above is live.</strong> All sixteen fire the moment the action happens. The delivery to your endpoint is sent <em>after</em> the action finishes, so a slow receiver on your end never delays a send, an incoming message, or a status update inside WaDesk.</blockquote>
+                        <blockquote class="info"><strong>Wildcard.</strong> Subscribe an endpoint to <code>*</code> to receive <em>every</em> event type, including any added in future releases. Use it as a catch-all; use an explicit list when your receiver only handles specific events.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="payload">Delivery Payload</h2>
+                        <p>Every delivery is a JSON body with the same outer "envelope" for all events; the event-specific fields live under <code>data</code>. The request is sent with <code>Content-Type: application/json</code>.</p>
+                        <h3>Envelope</h3>
+                        <table>
+                            <thead><tr><th>Key</th><th>Type</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td>string (UUID)</td><td>A unique ID for <em>this delivery</em>. Use it for idempotency / de-duplication.</td></tr>
+                                <tr><td><code>event</code></td><td>string</td><td>The event name, e.g. <code>message_delivered</code>.</td></tr>
+                                <tr><td><code>eventType</code></td><td>string</td><td>The same value as <code>event</code> (provided for receivers that key on either name).</td></tr>
+                                <tr><td><code>created</code></td><td>string (ISO-8601)</td><td>When WaDesk built the payload, e.g. <code>2026-05-29T18:32:08+00:00</code>.</td></tr>
+                                <tr><td><code>timestamp</code></td><td>integer (Unix)</td><td>Event time in seconds. Mirrors the upstream event time when one is available, else the build time.</td></tr>
+                                <tr><td><code>data</code></td><td>object</td><td>The event-specific payload (fields vary by event).</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>Example &mdash; <code>message_delivered</code></h3>
+                        <p>A real delivery looks like this. The <code>data</code> block for the <code>message_*</code> family carries the message identity, the recipient, the WhatsApp message id (<code>wamid</code>), and &mdash; on failure &mdash; the typed error code and reason:</p>
+                        <pre>POST /your/endpoint HTTP/1.1
+Host: api.yourbrand.example
+Content-Type: application/json
+X-WaDesk-Signature: 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+
+{
+  "id": "3a8f7e2c-91b5-4d0f-a7a1-d6c8e4b9f2c0",
+  "event": "message_delivered",
+  "eventType": "message_delivered",
+  "created": "2026-05-29T18:32:08+00:00",
+  "timestamp": 1780000328,
+  "data": {
+    "workspace_id": 42,
+    "user_id": 7,
+    "message_id": 918273,
+    "wamid": "wamid.HBgLOTE5ODc2NTQzMjEwFQIAERgSM0E...",
+    "recipient": "+919876543210",
+    "status": "delivered",
+    "timestamp": 1780000328,
+    "error_code": null,
+    "error_reason": null,
+    "pricing": { "billable": true, "category": "marketing" },
+    "conversation": { "id": "abc123...", "origin": { "type": "marketing" } }
+  }
+}</pre>
+                        <blockquote class="info"><strong>On a failed send</strong> (<code>message_failed</code>) the same <code>data</code> shape carries <code>status: "failed"</code> with <code>error_code</code> and <code>error_reason</code> populated from the provider. Broadcast events add a <code>broadcast_id</code> / <code>broadcast_name</code> and an <code>aggregate</code> block with running <code>sent / delivered / read / failed / clicked / total</code> counters. Always code defensively &mdash; treat unknown keys as optional.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security">Signing &amp; Verification</h2>
+                        <p>If you set a <strong>signing secret</strong> on an endpoint, every delivery includes this header:</p>
+                        <pre>X-WaDesk-Signature: &lt;hex&gt;</pre>
+                        <p>The value is <code>HMAC-SHA256</code> computed over the <strong>exact JSON request body</strong> (the whole envelope, not just <code>data</code>), using your endpoint's secret as the key, encoded as lowercase hex. If no secret is set, the header is omitted entirely.</p>
+                        <h3>Verifying on your side</h3>
+                        <p>Recompute the HMAC over the <em>raw</em> request body (before any JSON parsing or re-serialisation) and compare it to the header in constant time:</p>
+                        <pre># Pseudo-code — works in any language
+secret   = "the secret you configured on the endpoint"
+raw_body = read_raw_request_body()          # bytes, exactly as received
+expected = hex( hmac_sha256(secret, raw_body) )
+given    = request.header("X-WaDesk-Signature")
+
+if not constant_time_equals(expected, given):
+    return 401                              # reject — do not process
+process(json_parse(raw_body))               # safe to handle now</pre>
+                        <pre>// Node.js (Express, raw body required)
+const crypto = require('crypto');
+const expected = crypto
+  .createHmac('sha256', SECRET)
+  .update(req.rawBody)                       // Buffer of the raw body
+  .digest('hex');
+const given = req.get('X-WaDesk-Signature') || '';
+const ok = expected.length === given.length &&
+  crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(given));
+if (!ok) return res.status(401).end();</pre>
+                        <pre>// PHP (mirrors how WaDesk signs it)
+$expected = hash_hmac('sha256', $rawBody, $secret);
+$given    = $_SERVER['HTTP_X_WADESK_SIGNATURE'] ?? '';
+if (!hash_equals($expected, $given)) { http_response_code(401); exit; }</pre>
+                        <blockquote class="warning"><strong>Verify before you parse.</strong> Always compute the HMAC on the raw body bytes &mdash; re-serialising the parsed JSON can reorder keys or change whitespace and break the signature. Compare in constant time. Treat a missing or mismatched signature as a failed request and discard it. Keep the secret confidential: anyone who has it can forge valid-looking deliveries.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="health">Delivery, Retries &amp; Health</h2>
+                        <p>Each delivery is a single HTTP request with a <strong>10-second timeout</strong>. A delivery counts as <strong>successful on any <code>2xx</code> response</strong>; anything else (a 4xx, a 5xx, a timeout, a DNS failure, or a connection error) counts as a failure. For every attempt, WaDesk records the status code, how long it took, the response body, and any error text, and updates the endpoint's success and failure counts plus when it last fired.</p>
+                        <p>An endpoint is automatically marked as <strong>failing</strong> after three failures in a row. It keeps receiving events while failing &mdash; the flag is just a health warning, not a pause. To actually stop deliveries, pause the endpoint.</p>
+                        <table>
+                            <thead>
+                                <tr><th>State</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>active</strong></td><td>Enabled and not flagged &mdash; delivering normally.</td></tr>
+                                <tr><td><strong>failing</strong></td><td>Enabled but recent deliveries are erroring. Still receives events.</td></tr>
+                                <tr><td><strong>paused</strong></td><td>Disabled &mdash; receives no events at all.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Design your receiver to be idempotent and fast.</strong> Respond <code>2xx</code> immediately and do heavy work asynchronously on your side. De-duplicate on the envelope <code>id</code> &mdash; the same logical event can be re-delivered, and inbound provider retries upstream can produce more than one notification. A slow endpoint inflates your p95 latency and risks the failing flag.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="monitoring">Monitoring &amp; Analytics</h2>
+                        <p>The Webhooks index gives you a live health overview across all endpoints in the workspace:</p>
+                        <ul>
+                            <li><strong>Endpoints</strong> &mdash; total configured, plus active / paused counts.</li>
+                            <li><strong>Events fired (24h)</strong> &mdash; deliveries in the last day.</li>
+                            <li><strong>Success rate</strong> &mdash; percentage of <code>2xx</code> responses over the last 24h.</li>
+                            <li><strong>Latency p95</strong> &mdash; 95th-percentile delivery latency.</li>
+                            <li><strong>Event mix</strong> &mdash; the top events by volume over 24h.</li>
+                            <li><strong>Recent deliveries</strong> &mdash; a feed of the latest attempts with their status codes.</li>
+                        </ul>
+                        <p>Opening a single endpoint shows the <strong>last 7 days</strong> of deliveries: a daily success-vs-failure chart, status-code buckets (<code>2xx</code> / <code>4xx</code> / <code>5xx</code> / other), p95 latency, retry and failure counts, and a table of recent deliveries with their response details. You can filter the index by state (all / active / paused / failing) and search by URL, name, or event.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Managing &amp; Test-firing Endpoints</h2>
+                        <p>For each endpoint you can:</p>
+                        <ul>
+                            <li><strong>Test fire</strong> &mdash; send a sample payload (a <code>test_fire</code> event with a friendly greeting in <code>data.message</code>) and see the live status code and latency the same way a real event would record them. It signs the request with your secret too, so it validates the full path including verification.</li>
+                            <li><strong>Toggle</strong> &mdash; pause or resume the endpoint.</li>
+                            <li><strong>Edit</strong> &mdash; change the URL, events, secret, method, name, or environment.</li>
+                            <li><strong>Delete</strong> &mdash; remove the endpoint and stop all deliveries to it.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip.</strong> After editing an endpoint, run <strong>Test fire</strong> to confirm your receiver still accepts the payload and the signature before relying on live events. A successful test fire records a normal delivery row, so it also appears in the analytics.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbound">Inbound vs Outbound</h2>
+                        <p>These are two completely different things &mdash; keep them straight:</p>
+                        <table>
+                            <thead><tr><th></th><th>Outbound webhooks (this page)</th><th>Inbound platform webhook</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Direction</strong></td><td>WaDesk &rarr; your systems</td><td>Meta / Twilio &rarr; WaDesk</td></tr>
+                                <tr><td><strong>Who configures</strong></td><td>You, per workspace, under More &rarr; Webhooks</td><td>The platform administrator, once</td></tr>
+                                <tr><td><strong>What it carries</strong></td><td>Your subscribed lifecycle events</td><td>Inbound WhatsApp messages + delivery / read / failed receipts from the provider</td></tr>
+                                <tr><td><strong>Endpoint</strong></td><td>Any URL you own</td><td>A single fixed WaDesk URL (below)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The inbound platform webhook is one shared endpoint that both Meta and Twilio post to (WaDesk detects which provider by the request shape):</p>
+                        <pre>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</pre>
+                        <ul>
+                            <li><strong>Meta (Cloud API / WABA).</strong> Paste this URL in your Meta app dashboard under <em>WhatsApp &rarr; Configuration &rarr; Callback URL</em>, set the <em>Verify token</em> to the value saved in admin settings, and subscribe to the <code>messages</code> and <code>message_status</code> fields. Meta first does a <code>GET</code> verification handshake (it echoes back its challenge only if the verify token matches), then signs every <code>POST</code> with <code>X-Hub-Signature-256</code>, which WaDesk validates against the configured Meta App Secret.</li>
+                            <li><strong>Twilio.</strong> Paste the same URL as the inbound / status callback on your Twilio Messaging Service. Twilio signs each request with <code>X-Twilio-Signature</code>, which WaDesk validates against your Twilio Auth Token.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Where to set the provider side.</strong> The verify token, Meta App Secret, the Unofficial API Server URL setting, and Twilio credentials all live on the admin <a href="../../pages/admin-panel/system-settings.html#providers">System Settings &rarr; WhatsApp provider configuration</a> page, which also displays this exact callback URL with a copy button. You do not need an outbound webhook to receive inbound messages &mdash; that is what the inbound endpoint is for.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating an Endpoint</a></li>
+                    <li class="toc-h2"><a href="#events" class="toc-link">Event Types</a></li>
+                    <li class="toc-h2"><a href="#payload" class="toc-link">Delivery Payload</a></li>
+                    <li class="toc-h2"><a href="#security" class="toc-link">Signing &amp; Verification</a></li>
+                    <li class="toc-h2"><a href="#health" class="toc-link">Delivery, Retries &amp; Health</a></li>
+                    <li class="toc-h2"><a href="#monitoring" class="toc-link">Monitoring &amp; Analytics</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Managing &amp; Test-firing Endpoints</a></li>
+                    <li class="toc-h2"><a href="#inbound" class="toc-link">Inbound vs Outbound</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

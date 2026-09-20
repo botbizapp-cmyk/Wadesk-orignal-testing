@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog – WaDesk SaaS Docs</title>
+    <meta name="description" content="Catalog — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Catalog</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Catalog</strong> lets a workspace manage a product catalog and send products straight into WhatsApp chats &mdash; as a single product card, a multi-product list, a carousel, or a plain catalog link. Find it under <strong>More &rarr; WhatsApp Catalog</strong> (also linked from the <strong>Integrations</strong> page); it's <strong>admin-only</strong>.</p>
+                        <p>Catalog is its own area &mdash; deliberately <em>not</em> buried inside the Store. It has four tabs:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Tab</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Setup</strong></td><td>Connect a Meta Commerce Catalog, sync products to Meta, manage commerce and automation settings, and see the catalog health score.</td></tr>
+                                <tr><td><strong>Send</strong></td><td>Send products to any phone number (no existing conversation required).</td></tr>
+                                <tr><td><strong>Collections</strong></td><td>Save reusable product groups and send any of them as a multi-product message in one click.</td></tr>
+                                <tr><td><strong>Activity</strong></td><td>A log of recent catalog sends.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Works on either engine:</strong> everything works on the Unofficial API using WhatsApp carousels with no Meta setup at all. Linking a Meta Commerce Catalog is optional and only adds value for verified WhatsApp Cloud API (WABA) numbers &mdash; it powers the official catalog button on your business profile, the cart, and order notifications.</blockquote>
+                        <blockquote class="info"><strong>Plan-gated:</strong> the Catalog is part of the <strong>WhatsApp Storefront</strong> plan feature. On a plan without it, the page shows an upgrade prompt and you can't add or edit products. Platform admins are exempt.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites</h2>
+                        <p>What you need depends on how you intend to send:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Goal</th><th>Requirement</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Send a catalog at all</td><td>At least one <strong>connected WhatsApp device</strong>. Pair one on the Devices page &mdash; an Unofficial API QR pair (free) or a Meta-verified WABA number.</td></tr>
+                                <tr><td>Carousel / list / single-product sends</td><td>A connected device only. WhatsApp carousels are sent through the Unofficial API with no Meta account.</td></tr>
+                                <tr><td>Meta catalog button, cart, order notifications</td><td>A <strong>Meta Commerce Catalog</strong> plus a verified WABA, connected on the Setup tab (see below).</td></tr>
+                                <tr><td>Products to send</td><td>Products with status Active (and in stock, for the picker). Manage them under the Store.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The Setup tab adapts automatically to one of three situations:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Situation</th><th>What you see</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>No device</strong></td><td>A "Connect a device first" prompt linking to the Devices page.</td></tr>
+                                <tr><td><strong>Unofficial API device, no Meta</strong></td><td>A "Ready to send" card &mdash; carousel sends work immediately. Linking Meta is offered under an optional <em>advanced</em> section, plus a connected-devices summary and quick stats (products, shops, recent sends).</td></tr>
+                                <tr><td><strong>Meta catalog connected</strong></td><td>The full sync screen: Total / Synced / Pending / Failed counters, sync controls, commerce settings, and the products table with each row's Meta status.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-meta">Connecting a Meta Business Catalog</h2>
+                        <p>Linking Meta is optional. You only need it for the official catalog button, cart, and order webhook on a verified WABA number.</p>
+                        <h3>Where to get the credentials</h3>
+                        <ul>
+                            <li><strong>Catalog ID</strong> &mdash; in <a href="https://business.facebook.com">Meta Commerce Manager</a>, open your catalog; the numeric ID is in the URL / catalog settings.</li>
+                            <li><strong>WABA ID</strong> and <strong>Phone number ID</strong> &mdash; from your WhatsApp Business Account in Meta Business settings / the WhatsApp Manager (optional).</li>
+                            <li><strong>Access token</strong> &mdash; a Meta access token with catalog permissions (it starts with <code>EAA</code>) if you connect directly to Meta, or your <strong>360dialog API key</strong> if you connect through 360dialog.</li>
+                        </ul>
+                        <h3>Steps</h3>
+                        <ol>
+                            <li>On the <strong>Setup</strong> tab, open the connect form. It's the main form when nothing is connected yet, or sits under the <em>Optional &middot; advanced</em> section once an Unofficial API device is ready.</li>
+                            <li>Fill in the fields below.</li>
+                            <li>Click <strong>Connect &amp; verify</strong>. WaDesk immediately checks the catalog with Meta.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Provider</td><td>Yes</td><td>Meta Cloud (connect directly to Meta) or 360dialog (connect through the 360dialog provider).</td></tr>
+                                <tr><td>Catalog ID</td><td>Yes</td><td>The numeric Meta catalog ID (max 64 chars).</td></tr>
+                                <tr><td>Catalog name</td><td>No</td><td>A friendly label shown on screen.</td></tr>
+                                <tr><td>WABA ID</td><td>No</td><td>WhatsApp Business Account ID.</td></tr>
+                                <tr><td>Phone number ID</td><td>No</td><td>The connected number's ID.</td></tr>
+                                <tr><td>Access token / API key</td><td>Yes</td><td>Your Meta access token or 360dialog API key (20&ndash;4096 characters). <strong>Stored securely</strong>, never shown back, never logged.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Verification is instant.</strong> If the credentials are wrong, the connection is removed straight away so you can retry, and the error is shown right on the access-token field. One connection is kept per provider, updated whenever you reconnect.</blockquote>
+                        <blockquote class="warning"><strong>Disconnecting</strong> removes the stored credentials <em>and</em> clears each product's sync status so WaDesk stops syncing. Products are <strong>not</strong> deleted from Meta &mdash; they stay in your Meta catalog; WaDesk simply stops tracking them. The button asks you to confirm.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="products">Adding &amp; managing products</h2>
+                        <p>Products are managed under the Store (the Setup tab links there via <strong>Manage products</strong>). The same product works for every engine, and is only copied to Meta when you sync. Open <strong>Add product</strong> to create one.</p>
+                        <h3>Field reference</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Limit / rule</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Name</td><td>Yes</td><td>Max 191</td><td>Product title. Also forms the product's web link.</td></tr>
+                                <tr><td>SKU</td><td>No</td><td>Max 96</td><td>Your own product code. When set, Meta uses it as the product's unique ID.</td></tr>
+                                <tr><td>Short description</td><td>No</td><td>Max 2000</td><td>Shown in catalog cards and WhatsApp share links.</td></tr>
+                                <tr><td>Full description</td><td>No</td><td>Max 65535</td><td>The product-page body (basic formatting allowed).</td></tr>
+                                <tr><td>Price</td><td>Yes</td><td>0&ndash;1,000,000</td><td>The selling price.</td></tr>
+                                <tr><td>Compare-at price</td><td>No</td><td>0&ndash;1,000,000</td><td>Optional "was" price, shown struck through when higher than the price.</td></tr>
+                                <tr><td>Currency</td><td>Yes</td><td>One of 21 codes</td><td>INR, USD, EUR, GBP, AED, KES, NGN, ZAR, BRL, MXN, CRC, PHP, IDR, SGD, MYR, THB, VND, EGP, PKR, BDT, LKR.</td></tr>
+                                <tr><td>Image (upload)</td><td>No</td><td>Image, max 4&nbsp;MB</td><td>Main image.</td></tr>
+                                <tr><td>Image URL</td><td>No</td><td>Link, max 1024</td><td>Instead of uploading, paste a direct image link. Square (1:1) at 1024&times;1024 px or larger recommended.</td></tr>
+                                <tr><td>Gallery URLs</td><td>No</td><td>Up to 12 links</td><td>Extra images for the product detail page (duplicates removed, capped at 12).</td></tr>
+                                <tr><td>Available for sale (in stock)</td><td>No</td><td>On / off (default on)</td><td>In-stock switch. Off hides the product from the storefront and the send picker.</td></tr>
+                                <tr><td>Stock qty</td><td>No</td><td>0&ndash;1,000,000</td><td>Inventory count (blank = unlimited).</td></tr>
+                                <tr><td>Weight (grams)</td><td>No</td><td>0&ndash;1,000,000</td><td>Used for shipping calculations.</td></tr>
+                                <tr><td>Category</td><td>No</td><td>Max 96</td><td>Free-text category (with suggestions). Groups the send picker and the storefront filter.</td></tr>
+                                <tr><td>Tags</td><td>No</td><td>Max 1024</td><td>Comma-separated; tidied into a unique list.</td></tr>
+                                <tr><td>Status</td><td>No</td><td>Active / Draft / Archived (default Active)</td><td>Active = live, Draft = hidden but editable, Archived = hidden but kept in records.</td></tr>
+                                <tr><td>Sort order</td><td>No</td><td>0&ndash;9999</td><td>Lower numbers appear first.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>How availability is decided</h3>
+                        <p>Meta needs to know if each item is available. WaDesk works it out automatically (unless you override it): Active with stock above zero &rarr; <strong>in stock</strong>; sold out &rarr; <strong>out of stock</strong>; any non-Active status &rarr; <strong>discontinued</strong>.</p>
+                        <blockquote class="warning"><strong>Never change a SKU after the first sync.</strong> Once a product is synced, Meta uses its SKU (or an automatic fallback code when you have no SKU) as the product's permanent identity. Changing it makes Meta treat the item as a brand-new product.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sync">Syncing products to Meta</h2>
+                        <p>When a Meta catalog is connected, the Setup tab shows four live counters &mdash; <strong>Total</strong>, <strong>Synced</strong>, <strong>Pending</strong>, <strong>Failed</strong> &mdash; and a products table with each row's Meta status. Syncing happens right away, so you see the results immediately.</p>
+                        <h3>The three controls</h3>
+                        <ol>
+                            <li><strong>Sync to Meta</strong> &mdash; sends products to Meta in batches of up to <strong>1000 at a time</strong> (Meta's limit). It keeps going automatically until everything pending or failed has been sent, showing a progress bar and a running log. By default it only sends products that are unsynced or previously failed; already-synced products are skipped.</li>
+                            <li><strong>Sync</strong> (per row) &mdash; the <strong>Sync</strong> link on a single product row sends just that one product.</li>
+                            <li><strong>Refresh status</strong> &mdash; checks Meta for results and flips pending rows to synced or failed. Run this after a sync; the page reloads when any statuses change.</li>
+                        </ol>
+                        <h3>Per-product sync status</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Unsynced</td><td>Never sent to Meta (or the sync status was cleared when you disconnected).</td></tr>
+                                <tr><td>Pending</td><td>Sent to Meta and awaiting confirmation.</td></tr>
+                                <tr><td>Synced</td><td>Meta confirmed it went through. Stamped with the sync time.</td></tr>
+                                <tr><td>Failed</td><td>Meta rejected the item, or the request errored. The reason is shown under the row.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Each synced product needs a public web link.</strong> When a product has no link of its own, WaDesk uses your storefront's public address plus the product. Only products with status Active can be synced.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="auto-resync">Automatic re-sync</h2>
+                        <p>Once a Meta catalog is connected, WaDesk keeps it in step with your products <strong>automatically</strong> &mdash; you no longer have to remember to click <strong>Sync to Meta</strong> after every change. Whenever a product's price, stock, image, name, description, brand, category, or status changes &mdash; from a storefront edit, a Shopify or WooCommerce sync, anywhere &mdash; just that product is sent to Meta and marked Pending; the next status check flips it to Synced.</p>
+                        <ul>
+                            <li><strong>Only meaningful changes</strong> trigger it &mdash; editing the internal sync fields alone never causes a loop.</li>
+                            <li><strong>Bulk imports are batched</strong>, not sent one at a time: a large Shopify/Woo import is settled in a single pass.</li>
+                            <li><strong>Never blocks a save</strong> &mdash; if a sync hiccups, it's logged and the product still saves. Workspaces with no linked catalog do nothing.</li>
+                        </ul>
+                        <h3>Scheduled sweep (optional)</h3>
+                        <p>As a safety net, WaDesk can run a periodic background sweep that re-sends anything the automatic sync missed and settles any pending items across every connected catalog. The automatic sync already keeps catalogs current, so this is only an extra backstop. Ask your administrator to enable the scheduled sweep if you want belt-and-braces.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="health">Catalog health score</h2>
+                        <p>The Setup tab shows a <strong>health score</strong> (0&ndash;100) &mdash; the share of your products that can actually sell. A product Meta will hide (and therefore a lost sale) is one that is <strong>missing an image</strong>, <strong>missing a price</strong>, or whose <strong>last sync failed</strong>. The card breaks the problem down by type and lists the affected products with a one-click <strong>Fix &rarr;</strong> link straight to each product's editor.</p>
+                        <table>
+                            <thead><tr><th>Signal</th><th>Why it matters</th></tr></thead>
+                            <tbody>
+                                <tr><td>No image</td><td>Meta rejects/hides imageless products &mdash; buyers never see them.</td></tr>
+                                <tr><td>No price (0 or blank)</td><td>Unsellable; hidden from the catalog.</td></tr>
+                                <tr><td>Sync error</td><td>Meta rejected the item; fix the cause and re-sync.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>A score of 100 with the message &ldquo;Every product is catalog-ready&rdquo; means nothing needs attention.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="commerce-settings">Commerce settings</h2>
+                        <p>Below the sync controls, two commerce toggles are pushed to Meta when you save:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Setting</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Show catalog in business profile</td><td>Adds the "Catalog" button to your WhatsApp Business profile.</td></tr>
+                                <tr><td>Enable cart</td><td>Lets buyers add multiple products before sending the order.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info">Both default to on when you first connect the catalog. Saving pushes the change to Meta; if Meta rejects it, the error is shown inline.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Automation: order acknowledgement &amp; concierge</h2>
+                        <p>The Setup tab has an <strong>Automation</strong> card that turns the catalog into a self-serving sales channel. Both features are saved instantly without any call to Meta.</p>
+                        <h3>Cart-order acknowledgement</h3>
+                        <p>When a buyer sends a WhatsApp <strong>cart</strong> (a catalog order), Meta records it but doesn't reply &mdash; leaving the buyer in silence, which kills conversion. With acknowledgement on (default), WaDesk instantly replies with an <strong>order-received</strong> message: a summary, item count, total, and an optional payment link. It uses an approved template if you've set one, otherwise plain text &mdash; and it works on either engine.</p>
+                        <table>
+                            <thead><tr><th>Setting</th><th>Effect</th></tr></thead>
+                            <tbody>
+                                <tr><td>Auto-reply when a customer sends a cart</td><td>Main on/off switch (default on).</td></tr>
+                                <tr><td>Payment link base (optional)</td><td>WaDesk adds the order number to the end; leave blank to just confirm receipt.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>Catalog concierge</h3>
+                        <p>When a customer types a product question &mdash; e.g. <em>&ldquo;red shoes under 2000&rdquo;</em> &mdash; the concierge works out what they mean (keywords plus price range), searches your products, and replies automatically with a matching <strong>multi-product message</strong>. It's <strong>off by default</strong>, fires only on genuine product questions, waits 30 seconds between replies to the same person to prevent floods, and stays quiet when nothing matches unless you opt in.</p>
+                        <table>
+                            <thead><tr><th>Setting</th><th>Effect</th></tr></thead>
+                            <tbody>
+                                <tr><td>Catalog concierge</td><td>Turn on/off (default off).</td></tr>
+                                <tr><td>Reply header</td><td>Heading on the auto-reply (e.g. &ldquo;Here&rsquo;s what I found&rdquo;).</td></tr>
+                                <tr><td>Max products</td><td>How many matches to show (1&ndash;30).</td></tr>
+                                <tr><td>Reply when nothing matches</td><td>Off by default; turn on to send a &ldquo;no match&rdquo; note.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info">The concierge searches name, category, brand and description, shows the strongest matches first, and respects the price range (&ldquo;under&rdquo;, &ldquo;over&rdquo;, &ldquo;between X and Y&rdquo;). It needs a connected catalog to send the multi-product message.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="collections">Collections (product sets)</h2>
+                        <p>The <strong>Collections</strong> tab lets you save a named, reusable group of products once &mdash; e.g. <em>Summer Sale</em> or <em>Best Sellers</em> &mdash; then send it as a multi-product message whenever you like, without re-picking products every time.</p>
+                        <ul>
+                            <li><strong>Create / edit / delete</strong> collections with a searchable product picker (up to 30 products, WhatsApp's limit for a multi-product message).</li>
+                            <li>Each collection shows its product thumbnails and count.</li>
+                            <li><strong>Send</strong> a collection to any phone number right from the card &mdash; it works the same way as the Send tab's product-list format.</li>
+                            <li>The latest product details are pulled in at send time, so a product edited or removed later stays consistent.</li>
+                        </ul>
+                        <blockquote class="info">Collections belong to your workspace, and the products send in the order you added them.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="send">Sending products to a customer</h2>
+                        <p>The <strong>Send</strong> tab is a four-step form for sending products to people who haven't necessarily messaged you yet (within WhatsApp's rules). It works like the campaign builder, so the steps will feel familiar.</p>
+                        <ol>
+                            <li><strong>Recipients</strong> &mdash; pick from <em>contact groups</em>, <em>individual contacts</em>, or <em>manual numbers</em> (paste one per line, comma, or semicolon; digits only, at least 8). A live counter shows the de-duplicated total. The limit is <strong>500 recipients per send</strong>.</li>
+                            <li><strong>Format &amp; sender</strong> &mdash; choose the send format (below) and which connected device to send from (or let WaDesk pick the active one). You can also pick a shop for context.</li>
+                            <li><strong>Products</strong> &mdash; products are shown grouped by category for the chosen shop. Search and tick the ones you want. Switching the shop updates the picker instantly.</li>
+                            <li><strong>Message &amp; send</strong> &mdash; add an optional message (up to 1024 characters), an optional header and footer (up to 60 each), and send. A side panel summarises recipients, products, and format.</li>
+                        </ol>
+                        <h3 id="send-formats">Send formats</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Format</th><th>What the customer sees</th><th>Products</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Single product</strong></td><td>One rich product card.</td><td>1 product</td></tr>
+                                <tr><td><strong>Product list / carousel</strong></td><td>A scrollable multi-product list or carousel.</td><td>Up to 30 products</td></tr>
+                                <tr><td><strong>Catalog link</strong></td><td>A plain text message with a link to your catalog &mdash; no product selection needed.</td><td>&mdash;</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>How it works</h3>
+                        <p>For each recipient, WaDesk finds or starts a conversation, so the send shows up afterwards in the <strong>Team Inbox</strong> under that chat and is logged on the Activity tab. The send goes out through whichever engine is connected (Cloud API or Unofficial API). Afterwards you see how many sent, how many failed, and the first few error reasons.</p>
+                        <blockquote class="warning"><strong>24-hour window:</strong> the <strong>single product</strong> and <strong>product list</strong> formats require the buyer to have messaged you within the last 24 hours (WhatsApp's customer-service window). The <strong>catalog link</strong> format is plain text and works anytime. You also need at least one connected device and (for the two product formats) at least one selected product.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="activity">Activity log</h2>
+                        <p>The <strong>Activity</strong> tab lists recent catalog sends for the workspace. It shows the destination number and how long ago each send happened, giving you a quick record of what went out. A shorter version of the same list appears in the Send tab's side panel.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Connect a device first" on Setup</td><td>No connected device. Pair one on the Devices page (free QR or WABA).</td></tr>
+                                <tr><td>Connect &amp; verify fails</td><td>Wrong Catalog ID or token. The connection is removed automatically; recheck the ID in Commerce Manager and that the token has catalog permissions, then retry.</td></tr>
+                                <tr><td>Products stuck on Pending</td><td>Click <strong>Refresh status</strong> to check Meta. Meta confirms the batch on its own side after a moment.</td></tr>
+                                <tr><td>A row shows Failed</td><td>Read the error shown under the row. Common causes: missing image URL, no public link (set up a storefront), or a Meta policy rejection. Fix and re-sync.</td></tr>
+                                <tr><td>Send returns "no recipients"</td><td>None of your sources gave a valid number. Numbers must be digits-only and at least 8 digits; pick a group/contact or paste numbers with country codes.</td></tr>
+                                <tr><td>Send returns "too many"</td><td>Over the 500-recipient limit. Split into smaller batches.</td></tr>
+                                <tr><td>Send returns "no products"</td><td>The single-product and product-list formats need at least one selected Active product. The catalog link format doesn't.</td></tr>
+                                <tr><td>Product send delivered as nothing</td><td>The recipient is outside the 24-hour window. Use the catalog link format, or wait for the customer to message first.</td></tr>
+                                <tr><td>Duplicate product appeared on Meta</td><td>A SKU was changed after the first sync. Restore the original SKU; never change it after syncing.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#connect-meta" class="toc-link">Connecting a Meta Business Catalog</a></li>
+                    <li class="toc-h2"><a href="#products" class="toc-link">Adding &amp; managing products</a></li>
+                    <li class="toc-h2"><a href="#sync" class="toc-link">Syncing products to Meta</a></li>
+                    <li class="toc-h2"><a href="#auto-resync" class="toc-link">Automatic re-sync</a></li>
+                    <li class="toc-h2"><a href="#health" class="toc-link">Catalog health score</a></li>
+                    <li class="toc-h2"><a href="#commerce-settings" class="toc-link">Commerce settings</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Automation: order ack &amp; concierge</a></li>
+                    <li class="toc-h2"><a href="#collections" class="toc-link">Collections (product sets)</a></li>
+                    <li class="toc-h2"><a href="#send" class="toc-link">Sending products to a customer</a></li>
+                    <li class="toc-h2"><a href="#activity" class="toc-link">Activity log</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

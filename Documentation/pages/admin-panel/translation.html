@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation – WaDesk SaaS Docs</title>
+    <meta name="description" content="Translation — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Translation</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk can translate incoming messages and write auto-replies in the customer's own language. You choose which <strong>translation provider</strong> to use, and WaDesk automatically falls back to a backup provider if one goes down &mdash; so a single outage never stops replies.</p>
+                        <p>Two admin screens cover this feature:</p>
+                        <ul>
+                            <li><strong>Admin &rarr; Translation Providers</strong> &mdash; set up provider credentials, the default provider, the backup order, and the compliance lockdown.</li>
+                            <li><strong>Admin &rarr; Translation Usage</strong> &mdash; a read-only dashboard showing volume and estimated cost.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Works out of the box.</strong> <strong>MyMemory</strong> is active on a fresh install with no API key, so multi-language auto-reply works immediately. Plug in a paid provider only when you want higher quality, self-hosted privacy, or to satisfy a compliance policy.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="providers">The Pre-Seeded Providers</h2>
+                        <p>Like Payment Gateways and <a href="./ai-keys.html">AI Provider Keys</a>, every translation provider is pre-installed &mdash; there is no setup step to add one. You simply fill in credentials, pick a default, and switch it on. These providers are included:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Type</th><th>Credentials</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>MyMemory</strong></td><td>Free, unofficial</td><td>None (optional admin email)</td><td>Out-of-box default. ~50k requests/day per IP when an admin email is set.</td></tr>
+                                <tr><td><strong>LibreTranslate</strong></td><td>Self-hosted, open-source</td><td>Endpoint URL + optional key</td><td>Host it yourself via Docker so no customer data leaves your infrastructure.</td></tr>
+                                <tr><td><strong>DeepL</strong></td><td>Official, paid</td><td>API key</td><td>Premium quality, especially for European languages. Free tier ~500k chars/month.</td></tr>
+                                <tr><td><strong>Google Cloud</strong></td><td>Official, paid</td><td>API key / credentials</td><td>Official Google Translate API. Roughly $20 per 1M characters.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> Alongside the four providers above, WaDesk also supports an unofficial free <em>Google (GTX)</em> endpoint. It counts as an unofficial provider for the compliance lockdown (see below).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="configuring">Configuring Provider Credentials</h2>
+                        <p>On the <strong>Translation Providers</strong> page each provider is a card. The fields shown depend on the provider &mdash; a paid provider shows an API-key field, LibreTranslate shows a server URL field, and MyMemory shows "no credentials required."</p>
+                        <ol>
+                            <li>Type the credentials into the card's fields. Secret fields render as masked password inputs; an already-saved secret shows a <code>&bull;&bull;&bull;&bull;&bull;&bull;&bull;</code> placeholder.</li>
+                            <li>Optionally set a <strong>Sort order</strong> (lower = higher priority in the fallback chain).</li>
+                            <li>Click <strong>Save</strong>.</li>
+                        </ol>
+                        <p>Then toggle the card <strong>Activate</strong>. Activation is guarded: if any <em>required</em> credential field is still empty, the toggle is blocked with a message telling you which fields to fill &mdash; this prevents a half-configured driver from failing silently at runtime.</p>
+                        <blockquote class="warning"><strong>Secrets are encrypted, and only saved when changed.</strong> Credentials are stored encrypted. Leaving a masked secret field blank keeps the existing value; the audit log records <em>which</em> credential keys changed, never the values.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="default-fallback">The Default &amp; the Fallback Chain</h2>
+                        <p>Translation is resilient by design. WaDesk picks a provider in this order:</p>
+                        <ol>
+                            <li>The provider marked <strong>Default</strong> (if active).</li>
+                            <li>Otherwise, the active provider with the lowest <strong>Sort order</strong>.</li>
+                            <li>If a translation fails, WaDesk retries the <em>next</em> active provider in sort order &mdash; the <strong>backup chain</strong>.</li>
+                            <li>As a last resort it falls back to the built-in MyMemory provider, and finally to the original (untranslated) text.</li>
+                        </ol>
+                        <h3 id="set-default">Setting the default</h3>
+                        <p>Use a card's <strong>Make default</strong> button. A provider must be <em>active</em> before it can become the default. Setting a new default automatically clears the flag on the previous one.</p>
+                        <h3 id="ordering">Ordering the chain</h3>
+                        <p>Set each provider's <strong>Sort order</strong> to control retry priority (lower runs first). The default is always tried first; the rest are tried in ascending sort order. A typical paid setup: DeepL as default (sort 0), Google Cloud next (sort 1), and MyMemory last (sort 9) as a free safety net.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="lockdown">Compliance Lockdown (Official Providers Only)</h2>
+                        <p>Some enterprise security policies prohibit routing customer data through unofficial third-party endpoints. The <strong>Compliance lockdown</strong> panel at the top of the providers page enforces this with one toggle.</p>
+                        <p>When lockdown is <strong>ON</strong>, the backup chain skips the unofficial / free providers (MyMemory, LibreTranslate, and the free Google GTX endpoint) entirely and routes translation only through the official paid APIs (<strong>DeepL</strong> and <strong>Google Cloud</strong>). Skipped providers are greyed out and tagged "Lockdown &middot; skipped" on their cards, and the built-in MyMemory safety net is also disabled.</p>
+                        <blockquote class="warning"><strong>Guarded so you can't brick translation.</strong> Lockdown refuses to turn on until at least one official paid provider (DeepL or Google Cloud) is both active <em>and</em> configured with a key. If none qualifies, the toggle is rejected with an explanatory message. Both enabling and disabling lockdown are audit-logged.</blockquote>
+                        <p>This setting is platform-wide. (A complementary per-workspace <em>data residency</em> setting can further restrict which providers a given workspace may use, so one install can host EU-strict and unrestricted workspaces side by side.)</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cache-dictionary">The 24h Cache &amp; Common-Phrases Dictionary</h2>
+                        <p>Not every translation calls a provider. Two layers sit in front to cut cost and delay:</p>
+                        <ul>
+                            <li><strong>Common-phrases dictionary.</strong> A built-in dictionary handles frequent short phrases (greetings, confirmations, common replies) instantly &mdash; no provider call at all.</li>
+                            <li><strong>24-hour cache.</strong> A translated phrase is remembered for 24 hours, so the same incoming text within that window is reused instead of calling the provider again.</li>
+                        </ul>
+                        <p>Dictionary and cache results are free, and neither appears in the usage dashboard &mdash; that page deliberately counts only the <em>provider calls</em> that actually went out. The dashboard estimates roughly how often the cache and dictionary saved you a call.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="usage-dashboard">The Usage Dashboard</h2>
+                        <p><strong>Admin &rarr; Translation Usage</strong> is a read-only report &mdash; nothing on it changes settings. Pick a date range with the <strong>From</strong> / <strong>To</strong> filter (it defaults to the current month). It is built for the owner or finance lead who wants to know "what is this translation feature costing me."</p>
+                        <h3 id="headline">Headline metrics</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Card</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Provider calls</strong></td><td>Number of billable calls that went to a provider, plus the estimated % handled by the cache / dictionary instead.</td></tr>
+                                <tr><td><strong>Characters translated</strong></td><td>Total characters in and out &mdash; the basis for per-character pricing.</td></tr>
+                                <tr><td><strong>Estimated cost</strong></td><td>Worked out from each provider's published per-character rate.</td></tr>
+                                <tr><td><strong>Fallback hits</strong></td><td>Times the main provider failed and a backup caught it &mdash; a high number means your main provider is unreliable.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="breakdowns">Breakdowns</h3>
+                        <ul>
+                            <li><strong>By provider.</strong> Calls, characters, cost, and the published rate per 1M characters for each provider used in the range (free providers show "free").</li>
+                            <li><strong>Last 30 days.</strong> A daily bar chart of characters translated; hover any bar for that day's date, character count, and cost.</li>
+                            <li><strong>Top spending workspaces.</strong> The ten workspaces with the highest translation cost in the range, each linking to its <a href="./workspaces.html">workspace detail</a> page. Useful for spotting which customers drive your translation bill.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> If a range shows no data, send a non-English message to a connected number that has an auto-reply set up, then refresh &mdash; only provider calls are logged here.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#providers" class="toc-link">The Pre-Seeded Providers</a></li>
+                    <li class="toc-h2"><a href="#configuring" class="toc-link">Configuring Provider Credentials</a></li>
+                    <li class="toc-h2"><a href="#default-fallback" class="toc-link">The Default &amp; the Fallback Chain</a></li>
+                    <li class="toc-h2"><a href="#lockdown" class="toc-link">Compliance Lockdown</a></li>
+                    <li class="toc-h2"><a href="#cache-dictionary" class="toc-link">The 24h Cache &amp; Dictionary</a></li>
+                    <li class="toc-h2"><a href="#usage-dashboard" class="toc-link">The Usage Dashboard</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

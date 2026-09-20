@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Forms – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Forms — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Forms</h1>
+
+                    <blockquote class="warning" style="border-left-color: #0a7d68;">
+                        <strong>Official Cloud API only.</strong> WhatsApp Forms are built on Meta's technology and require the <strong>WhatsApp Cloud API</strong> connection. On an Unofficial API or Twilio workspace this feature is hidden, and visiting it directly just sends you back to the <em>More</em> menu with an explanation. Connect an official Cloud API number to enable it.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>WhatsApp Forms</strong> are interactive forms that appear right inside the chat — the customer fills out fields (text, dropdowns, choices, dates) on a WhatsApp card and submits without leaving the conversation. You build a form once, publish it to Meta, and then send it from a flow.</p>
+                        <p>Find them under <strong>More &rarr; WhatsApp Forms</strong>. The list shows each form's status (draft / published), how many fields it has, and how many submissions it's received, plus a workspace-wide submissions total.</p>
+                        <blockquote class="info"><strong>Forms vs. Templates:</strong> a <em>template</em> is a message you send out. A <em>form</em> is an interactive card the customer fills in. Use a form when you need structured information back — lead capture, surveys, appointment requests, support intake.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Prerequisites</h2>
+                        <ul>
+                            <li>The workspace must use the <strong>WhatsApp Cloud API</strong> (official) connection.</li>
+                            <li>A connected Meta account with valid credentials — publishing fails (and tells you what's missing) if anything is incomplete.</li>
+                            <li>To actually send a form you use it inside a flow: in the Flow builder, the <strong>WhatsApp Form</strong> step sends your published form as an interactive message.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="build">Build a form</h2>
+                        <ol>
+                            <li>Go to <strong>WhatsApp Forms</strong> and click <strong>Create Form</strong> to open the builder.</li>
+                            <li>Set the <strong>title</strong> (for your reference only — not shown to the customer), an optional <strong>purpose</strong>, and the <strong>audience type</strong> (see the audience table below).</li>
+                            <li>Add one or more <strong>screens</strong> from the left rail. Each screen holds a set of fields; a multi-screen form moves from one screen to the next.</li>
+                            <li>Add <strong>fields</strong> to each screen (see the field-type table). For each field, set the label, whether it's required, the options (for choice fields), and an optional hint.</li>
+                            <li>Optionally set a per-contact <strong>submission limit</strong> with a "limit reached" note, a custom <strong>Send button label</strong>, and a <strong>thank-you note</strong>.</li>
+                            <li>Click <strong>Save draft</strong> — the form is saved as a <em>draft</em>.</li>
+                        </ol>
+                        <p>The whole form is saved each time, and a live WhatsApp-bubble preview on the right shows how the customer will see each screen.</p>
+                        <blockquote class="info"><strong>Field IDs matter.</strong> Each field has a short ID. That ID is how you reference the field's answer later in your flow — write it as <code>{{form_&lt;field_id&gt;}}</code>. Keep each field's ID unique within a form.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="field-types">Field types</h2>
+                        <p>These are the field types you can add to a form:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field type</th><th>What it is</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Short text</strong></td><td>Single-line text.</td></tr>
+                                <tr><td><strong>Paragraph</strong></td><td>Multi-line text.</td></tr>
+                                <tr><td><strong>Email</strong></td><td>Text checked as a valid email.</td></tr>
+                                <tr><td><strong>Phone</strong></td><td>Text checked as a valid phone number.</td></tr>
+                                <tr><td><strong>Number</strong></td><td>Numbers only.</td></tr>
+                                <tr><td><strong>Dropdown</strong></td><td>Single choice from a list.</td></tr>
+                                <tr><td><strong>Single pick</strong></td><td>Single choice, shown as radio buttons.</td></tr>
+                                <tr><td><strong>Multi pick</strong></td><td>Multiple choices (checkboxes).</td></tr>
+                                <tr><td><strong>Date</strong></td><td>Date selection.</td></tr>
+                                <tr><td><strong>Heading</strong></td><td>A display-only section title — <strong>not collected</strong> in the submission.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="audience-mapping">Audience type</h3>
+                        <p>The audience type you pick tells Meta how to classify your form:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Audience type</th><th>Meta classifies it as</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Lead capture</td><td>Lead generation</td></tr>
+                                <tr><td>Survey</td><td>Survey</td></tr>
+                                <tr><td>Feedback</td><td>Survey</td></tr>
+                                <tr><td>Appointment</td><td>Appointment booking</td></tr>
+                                <tr><td>Onboarding</td><td>Sign-up</td></tr>
+                                <tr><td>Support</td><td>Customer support</td></tr>
+                                <tr><td>Other</td><td>Other</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="publish">Publish to Meta</h2>
+                        <p>When you click <strong>Save &amp; publish</strong>, WaDesk sends your form to Meta and makes it live for you — no technical steps to do yourself. On success the form's status changes to <strong>published</strong>, the publish time is recorded, and the form becomes selectable in the Flow builder's WhatsApp Form step.</p>
+                        <p>If publishing fails, the error message is saved on the form and shown so you can fix it and try again. WaDesk picks up where it left off rather than starting over.</p>
+                        <blockquote class="info"><strong>WaDesk handles the technical side.</strong> You design your screens and fields visually; WaDesk turns them into the exact format Meta requires — including making sure every field actually captures its answer, and that multi-screen forms move from screen to screen and send all the answers back at the end. You never have to touch any code.</blockquote>
+                        <blockquote class="warning"><strong>Editing un-publishes.</strong> Saving changes to a <em>published</em> form drops it back to <strong>draft</strong>. You must publish again before the new version is live.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="send-collect">Send &amp; track submissions</h2>
+                        <ul>
+                            <li><strong>Send:</strong> a published form is sent by the Flow builder's <strong>WhatsApp Form</strong> step as an interactive message. WaDesk tags each send so the customer's answers can be matched back to the exact conversation that's waiting.</li>
+                            <li><strong>Collect:</strong> when the customer submits, WaDesk receives the answers, matches them to the right contact and conversation, and records them as a <strong>submission</strong> (and bumps the form's count).</li>
+                            <li><strong>Continue the flow:</strong> the answers flow back into the conversation so later steps can use each one. Reference a field's answer as <code>{{form_&lt;field_id&gt;}}</code>.</li>
+                            <li><strong>Limit:</strong> if you set a per-contact submission limit, the customer sees your "limit reached" note instead of being able to submit again.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Manage forms</h2>
+                        <ul>
+                            <li><strong>Duplicate:</strong> makes a copy as a fresh draft (titled "(copy)", with zero submissions) so you can build a variant without touching the live one.</li>
+                            <li><strong>Edit:</strong> reopen the builder anytime — remember that saving changes to a published form returns it to draft until you publish again.</li>
+                            <li><strong>Delete:</strong> removes the form. Forms belong to your workspace — you can only see, edit, publish, or delete forms in your own workspace.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Forms menu is missing / a link sends you back to <em>More</em></td><td>The workspace isn't on the official Cloud API connection. Connect a Cloud API number.</td></tr>
+                                <tr><td>"No Meta account configured" on publish</td><td>No Meta account is connected for this workspace — connect Meta first.</td></tr>
+                                <tr><td>"Meta credentials missing"</td><td>The account is connected but its credentials are blank. Re-enter them.</td></tr>
+                                <tr><td>Publish fails with a Meta error</td><td>The exact message is shown on the form. Common causes: an unsupported category, or content Meta rejects. Fix and publish again.</td></tr>
+                                <tr><td>Submissions never arrive</td><td>The form must be sent <em>from the WhatsApp Form step inside a flow</em>; a form sent any other way can't link the answers back. Also confirm WhatsApp is set up to deliver incoming messages for the number.</td></tr>
+                                <tr><td>Edited form behaves like the old version</td><td>Editing drops it to draft — publish again to push the new version live.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#build" class="toc-link">Build a form</a></li>
+                    <li class="toc-h2"><a href="#field-types" class="toc-link">Field types</a></li>
+                    <li class="toc-h2"><a href="#publish" class="toc-link">Publish to Meta</a></li>
+                    <li class="toc-h2"><a href="#send-collect" class="toc-link">Send &amp; track submissions</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Manage forms</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

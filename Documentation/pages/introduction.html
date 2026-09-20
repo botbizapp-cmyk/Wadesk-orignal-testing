@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction – WaDesk SaaS Docs</title>
+    <meta name="description" content="Introduction — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <script src="../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Introduction</h1>
+
+                    <blockquote class="warning" style="border-left-color: #0a7d68;">
+                        <strong>Ready to install?</strong> Skip ahead to the <a href="./installation/web-installer.html">Web Installer Guide</a> &mdash; upload the files, create a database, and visit your domain. The installer sets everything up for you, including your admin login and starter data.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="about-wadesk">About <strong>WaDesk</strong></h2>
+                        <p><strong>WaDesk SaaS</strong> is an <strong>AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform</strong> &mdash; a complete WhatsApp business platform that you host on your own server. It gives your team one place to talk to customers on WhatsApp, run marketing at scale, automate replies, answer calls with AI, and even sell the whole thing to your own clients as a paid subscription service.</p>
+                        <p>It is a full product, not a single-purpose script. In one install you get a shared <strong>Team Inbox</strong>, <strong>bulk campaigns and broadcasts</strong>, a <strong>visual flow builder</strong>, <strong>WhatsApp template management</strong>, an <strong>AI suite</strong> (chat assistants plus a voice agent), <strong>Click-to-WhatsApp ads</strong>, e-commerce and Google Workspace integrations, and a full <strong>admin panel</strong> with plans, billing, coupons, credits, and white-label branding.</p>
+                        <p>It is built to grow with you &mdash; from a single business number to an agency running hundreds of separate client accounts &mdash; without changing how the app works.</p>
+                        <p>This Introduction is the big-picture map. If you only read one page before installing, read this one. It explains the <em>three sending engines</em>, how separate client <em>workspaces</em> work, the full feature list, what the product is built with, and how the pieces fit together.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="three-engines">The Engine Model: Three Ways to Send</h2>
+                        <p>The most important idea in WaDesk is that every workspace connects WhatsApp through <strong>one of three sending engines</strong>. You can swap between them freely &mdash; the inbox, campaigns, flows, and templates all adapt &mdash; but each one connects to WhatsApp in a different way.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Engine</th><th>How it connects</th><th>In one line</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Unofficial API</strong></td><td>Links your number like WhatsApp Web</td><td>Link any number by scanning a QR code, just like WhatsApp Web. Fastest to start, no Meta approval, but the highest risk of a WhatsApp ban.</td></tr>
+                                <tr><td><strong>WhatsApp Cloud API (Meta)</strong></td><td>Connects directly to Meta</td><td>The official channel. Needs a verified WhatsApp Business Account and approved templates, and unlocks trust, scale, and native Forms.</td></tr>
+                                <tr><td><strong>Twilio WhatsApp</strong></td><td>Sends through your Twilio account</td><td>Send through a Twilio sender using Twilio's templates. Ideal if you already use Twilio.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each workspace picks one engine, and its login details are stored safely &mdash; encrypted so they can't be read directly from the database.</p>
+                        <h3 id="how-a-send-picks-an-engine">How WaDesk chooses an engine for each message</h3>
+                        <p>When WaDesk sends a message, it picks the engine in a fixed order, so the result is always predictable:</p>
+                        <ol>
+                            <li><strong>The admin's allowed list comes first.</strong> The platform owner can limit which engines are available across the whole install (all three are allowed by default). Any engine not on the list is skipped &mdash; this is how an owner runs a single-engine install.</li>
+                            <li><strong>The workspace's own engine.</strong> If the workspace is connected with an allowed engine, that one is used.</li>
+                            <li><strong>The platform default.</strong> If nothing else applies, WaDesk falls back to the default engine (the Unofficial API).</li>
+                        </ol>
+                        <blockquote class="info"><strong>Engine-specific features are handled for you.</strong> A few features only work on one engine &mdash; for example, native <strong>WhatsApp Forms</strong> need the Cloud API, and interactive buttons and lists become numbered text on Twilio. The app hides or adjusts these for each workspace, so you never hit a dead end. Full detail is in the <a href="./developer-guide/engines.html">WhatsApp Engines</a> guide and in <a href="./getting-started/connect-channel.html">Connecting a Channel</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="workspace-model">The Workspace Model (Separate Spaces per Client)</h2>
+                        <p>WaDesk is built to handle many separate clients. A <strong>workspace</strong> is a sealed space for one business or one client &mdash; everything you do happens <em>inside</em> the workspace you currently have selected, and nothing leaks into another.</p>
+
+                        <table>
+                            <thead>
+                                <tr><th>A workspace scopes&hellip;</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Channel &amp; engine</strong></td><td>Its own WhatsApp connection and connected numbers &mdash; one workspace can run the Unofficial API while another runs the Cloud API.</td></tr>
+                                <tr><td><strong>Plan &amp; billing</strong></td><td>The subscription plan, free-trial window, message/device/user caps, and feature gates.</td></tr>
+                                <tr><td><strong>Contacts &amp; conversations</strong></td><td>The contact list, opt-in state, the Team Inbox, and all chat history.</td></tr>
+                                <tr><td><strong>Content &amp; automation</strong></td><td>Templates, broadcasts, campaigns, flows, auto-replies, and scheduled messages.</td></tr>
+                                <tr><td><strong>Team &amp; roles</strong></td><td>The members invited to the workspace and the role each holds inside it.</td></tr>
+                                <tr><td><strong>Branding &amp; settings</strong></td><td>Brand color, logo, timezone, business hours, message footer, and notification preferences.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>When someone registers, WaDesk automatically creates their first workspace (named after them), makes them the <strong>owner</strong>, and starts them on the <strong>Starter</strong> plan with a free trial. They can create more workspaces from the switcher in the header, up to the limit set by their plan. Switching workspaces changes the whole app &mdash; including which sending engine is active &mdash; in one click.</p>
+                        <p>Inside a workspace, access is controlled by <strong>roles and permissions</strong>. Owners and admins manage everything; managers, agents, and viewers see progressively less. Paid features are unlocked by the workspace's <strong>plan</strong>, and this is always enforced on the server &mdash; simply hiding a button is never relied on for security. See <a href="./getting-started/workspaces.html">Workspaces &amp; Switching</a> and <a href="./security/plan-enforcement.html">Plan Enforcement</a> for the full picture.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="feature-landscape">The Full Feature Landscape</h2>
+                        <p>A grouped map of what is in the box. Each area has a dedicated guide; this is the bird's-eye view.</p>
+
+                        <h3 id="fl-conversations">Conversations</h3>
+                        <ul>
+                            <li><strong>Team Inbox</strong> &mdash; shared inbox with assignment, notes, snooze, tags, resolve, canned replies, a Kanban view, collision detection, auto-assignment rules, and SLA timers.</li>
+                            <li><strong>Chat</strong> &mdash; quick 1-to-1 sends; <strong>Team Chat</strong> &mdash; internal, Slack-style channels for your staff with @mentions and an approval flow.</li>
+                            <li><strong>Message History</strong> &mdash; a searchable log of everything sent and received.</li>
+                        </ul>
+
+                        <h3 id="fl-outreach">Marketing &amp; Outreach</h3>
+                        <ul>
+                            <li><strong>Campaigns</strong> and template <strong>Broadcasts</strong> &mdash; audience-targeted bulk sends with pacing controls and per-recipient delivery / read / failed / queued tracking and retry.</li>
+                            <li><strong>Scheduled Messages</strong> &mdash; one-off and recurring sends by timezone; <strong>Link Generator</strong> &mdash; trackable short links with click analytics.</li>
+                            <li><strong>Meta Ads</strong> &mdash; Click-to-WhatsApp ad campaigns via the Meta Marketing API.</li>
+                        </ul>
+
+                        <h3 id="fl-automation">Templates &amp; Automation</h3>
+                        <ul>
+                            <li><strong>WhatsApp Templates</strong> &mdash; build, lint, and submit to Meta; send with variables, carousels, headers, and buttons.</li>
+                            <li><strong>Flows</strong> &mdash; a no-code drag-and-drop builder (text, buttons, lists, conditions, delays, AI, Google Sheets/Docs/Forms, appointments, Google Meet, and commerce).</li>
+                            <li><strong>Auto Reply</strong>, a website <strong>Chatbot Widget</strong>, and native <strong>WhatsApp Forms</strong> (Cloud API only).</li>
+                        </ul>
+
+                        <h3 id="fl-ai">AI Suite</h3>
+                        <ul>
+                            <li><strong>AI Training</strong> &mdash; train chat assistants on URLs, text, and Q&amp;A pairs to power the widget and auto-replies.</li>
+                            <li><strong>AI Call Assistant</strong> &mdash; a voice agent that answers phone calls and runs your tools mid-call; <strong>Call Logs</strong> &mdash; transcripts, recordings, and tool-call timelines.</li>
+                            <li>Bring-your-own AI keys (OpenAI, Anthropic Claude, Google Gemini) configured once by the admin.</li>
+                        </ul>
+
+                        <h3 id="fl-commerce">Commerce &amp; Appointments</h3>
+                        <ul>
+                            <li><strong>Catalog &amp; Storefront</strong> &mdash; product lists sent in chat, plus a hosted storefront and order tracking.</li>
+                            <li><strong>Appointments</strong> &mdash; slot-based booking with Google Calendar / Meet links, usable inside flows.</li>
+                        </ul>
+
+                        <h3 id="fl-contacts">Contacts &amp; Data</h3>
+                        <ul>
+                            <li><strong>Contacts &amp; Groups</strong> &mdash; CSV import, tagging, segmentation, and search; <strong>Attributes</strong> &mdash; built-in and custom variables for personalization.</li>
+                            <li><strong>Analytics</strong> &mdash; delivery, read, and conversion charts across campaigns and devices.</li>
+                        </ul>
+
+                        <h3 id="fl-integrations">Integrations</h3>
+                        <ul>
+                            <li><strong>Google Workspace</strong> (Calendar, Meet, Sheets, Docs, Forms), <strong>Shopify / WooCommerce / HubSpot</strong>, outbound <strong>Webhooks</strong>, and a companion <strong>Browser Extension</strong>.</li>
+                        </ul>
+
+                        <h3 id="fl-saas">Multi-Client SaaS &amp; Admin</h3>
+                        <ul>
+                            <li>Separate <strong>workspaces</strong>, role-based access, subscription <strong>plans</strong> with around 30 feature switches, free trials, and a per-feature paywall.</li>
+                            <li><strong>30 payment gateways</strong>, multi-currency, coupons, credit packages, and a wallet; admin dashboards for users, workspaces, plans, finance, security, and content.</li>
+                            <li><strong>White-label branding</strong> for the whole platform and per workspace (removing WaDesk branding is a plan option), two-factor login, fine-grained permissions, and a full audit log.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tech-stack">What It's Built With</h2>
+                        <p>WaDesk is built on the popular Laravel framework, plus a small helper service for the Unofficial API channel. The key requirements and technologies:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Area</th><th>Technology</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Core application</strong></td><td>Laravel 12, running on PHP 8.2 or newer</td></tr>
+                                <tr><td><strong>Database</strong></td><td>MySQL 8.0 or newer (MariaDB 10.6 or newer also supported)</td></tr>
+                                <tr><td><strong>Interface</strong></td><td>A fast, modern web interface styled with Tailwind CSS</td></tr>
+                                <tr><td><strong>Unofficial API engine</strong></td><td>A bundled helper service that handles QR pairing, sending, and incoming messages</td></tr>
+                                <tr><td><strong>Official channels</strong></td><td>WhatsApp Cloud API (from Meta) and Twilio WhatsApp</td></tr>
+                                <tr><td><strong>AI providers</strong></td><td>Bring your own keys for OpenAI, Anthropic Claude, and Google Gemini (chat and voice)</td></tr>
+                                <tr><td><strong>Background work</strong></td><td>Uses the database by default; can be switched to Redis for higher volume</td></tr>
+                                <tr><td><strong>Payments</strong></td><td>30 payment gateways with multi-currency support</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-pieces-fit">How the Pieces Fit Together</h2>
+                        <p>It helps to picture WaDesk as three parts working together. Knowing which part does what makes installation, troubleshooting, and scaling far easier.</p>
+                        <ol>
+                            <li><strong>The main app (the brain).</strong> This is everything you see in the browser, and the home of all your data: workspaces, contacts, conversations, templates, flows, plans, billing, and the admin panel. It stores your login details securely, enforces your plan limits, queues up messages to send, and draws every screen. This is the one part that must always be running.</li>
+                            <li><strong>The helper service (the WhatsApp connection).</strong> A small companion that the main app talks to. It is required for the <strong>Unofficial API</strong> &mdash; it keeps the WhatsApp connection alive, handles QR pairing and sending, and passes incoming messages back to the app. It also carries traffic for the Cloud API engine. You start it once and point WaDesk at its address in the admin settings. Twilio does <em>not</em> use this helper.</li>
+                            <li><strong>Meta &amp; Twilio (the official channels).</strong> For the <strong>Cloud API</strong>, Meta hosts your WhatsApp Business Account; WaDesk sends through Meta and receives incoming messages and status updates from it. For <strong>Twilio</strong>, the app talks to Twilio directly (no helper service), and Twilio delivers incoming messages back to an address you set up in your Twilio account.</li>
+                        </ol>
+                        <p>Outgoing messages always start in the main app, which chooses the engine (admin allowed list, then the workspace's engine, then the platform default) and hands the message to the right channel. Incoming messages arrive automatically &mdash; from the Unofficial API, Meta, or Twilio &mdash; and land back in the same conversation in the Team Inbox. For the full technical breakdown see the <a href="./developer-guide/architecture.html">Architecture</a> and <a href="./developer-guide/node-bridge.html">Node Bridge</a> guides.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="key-advantages">Key Advantages</h2>
+                        <ul>
+                            <li><strong>Self-Hosted &amp; Owned:</strong> Run it on your own server. No per-seat SaaS fees, no data leaving your infrastructure.</li>
+                            <li><strong>Works with any engine:</strong> Start free on the Unofficial API and move clients to the official Cloud API later &mdash; without changing how the app works.</li>
+                            <li><strong>SaaS ready:</strong> Subscription plans, 30 payment gateways, free trials, coupons, wallet credits, and per-plan feature controls.</li>
+                            <li><strong>Built for many clients:</strong> Separate workspaces, role-based team access, and per-workspace branding.</li>
+                            <li><strong>Ban-aware:</strong> Template checks, sending-speed controls, and engine-appropriate safeguards to reduce the risk of WhatsApp blocking your number.</li>
+                            <li><strong>White-label:</strong> Swap logos, colors, app name, and message footers for the whole platform and per workspace.</li>
+                            <li><strong>Secure and audited:</strong> Two-factor login, role-based permissions, and a log of every sensitive admin action.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-this-doc-is-organized">How This Documentation is Organized</h2>
+                        <p>The sidebar follows the same path you'll take using the product:</p>
+                        <ul>
+                            <li><strong>Installation</strong> &mdash; get WaDesk online with the web installer, then the post-install checklist.</li>
+                            <li><strong>Getting Started</strong> &mdash; workspaces, connecting a channel, the dashboard, and plans.</li>
+                            <li><strong>Team Inbox &amp; Messaging</strong>, <strong>Templates &amp; Automation</strong>, <strong>AI Suite</strong>, <strong>Commerce</strong>, and <strong>Marketing &amp; Contacts</strong> &mdash; one page per feature you see in the top navigation and the <em>More</em> menu.</li>
+                            <li><strong>Integrations</strong> and <strong>Account &amp; Team</strong> &mdash; connecting outside services and managing your own account.</li>
+                            <li><strong>Admin Panel</strong> &mdash; everything the platform owner controls.</li>
+                            <li><strong>Developer Guide</strong>, <strong>Security</strong>, <strong>FAQs</strong>, and <strong>Update Log</strong> &mdash; deeper technical and reference material.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#about-wadesk" class="toc-link">About <strong>WaDesk</strong></a></li>
+                    <li class="toc-h2"><a href="#three-engines" class="toc-link">The Engine Model</a></li>
+                    <li class="toc-h2"><a href="#workspace-model" class="toc-link">The Workspace Model</a></li>
+                    <li class="toc-h2"><a href="#feature-landscape" class="toc-link">The Full Feature Landscape</a></li>
+                    <li class="toc-h2"><a href="#tech-stack" class="toc-link">Technology Stack</a></li>
+                    <li class="toc-h2"><a href="#how-pieces-fit" class="toc-link">How the Pieces Fit Together</a></li>
+                    <li class="toc-h2"><a href="#key-advantages" class="toc-link">Key Advantages</a></li>
+                    <li class="toc-h2"><a href="#how-this-doc-is-organized" class="toc-link">How This Documentation is Organized</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../';</script>
+<script src="../assets/sidebar.js"></script>
+</body>
+
+</html>

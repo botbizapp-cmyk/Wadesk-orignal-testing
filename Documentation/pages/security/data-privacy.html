@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data &amp; Privacy – WaDesk SaaS Docs</title>
+    <meta name="description" content="Data &amp; Privacy — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Data &amp; Privacy</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>Because WaDesk is self-hosted, your data lives entirely on your own server &mdash; nothing leaves your systems except the calls you make to WhatsApp, your payment gateway, and any AI provider you set up. Inside the app, three things keep that data safe: every secret is <strong>encrypted</strong>, each <strong>workspace is kept separate</strong> so customers can't see each other's data, and sensitive actions are recorded in an <strong>audit trail</strong>. A GDPR/CCPA cookie-consent banner covers the public-facing side.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="encryption">Encryption at Rest</h2>
+                        <p>Provider credentials and other secrets are encrypted with strong, industry-standard encryption (AES-256) before they're ever saved to the database. The following sensitive data is encrypted:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Data</th><th>Protection</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>WhatsApp provider credentials (Cloud API app secret, access token, and webhook verify token; Twilio SID and token; Unofficial API device info)</td><td>Encrypted</td></tr>
+                                <tr><td>Per-workspace AI provider API keys (OpenAI, Anthropic, Gemini)</td><td>Encrypted</td></tr>
+                                <tr><td>Admin / platform AI keys</td><td>Encrypted</td></tr>
+                                <tr><td>2FA authenticator secret &amp; recovery codes</td><td>Encrypted</td></tr>
+                                <tr><td>Payment-gateway credentials</td><td>Encrypted</td></tr>
+                                <tr><td>Integration tokens (Shopify, WooCommerce, HubSpot, Google)</td><td>Encrypted</td></tr>
+                                <tr><td>Account passwords</td><td>bcrypt one-way hash (can never be read back)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Decryption fails gracefully: if a secret can't be unlocked (for example after the encryption key is changed), the app simply asks you to re-enter that key instead of breaking. Nothing crashes.</p>
+                        <blockquote class="warning"><strong>Important:</strong> Everything above is protected by your app's encryption key (<code>APP_KEY</code>). Set a strong, unique key when you install, keep it out of source control, and back it up safely &mdash; <strong>if you lose it, every encrypted credential becomes unrecoverable</strong>, and changing it invalidates all stored secrets and 2FA setups. Never reuse the key across different environments.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="isolation">Per-Workspace Data Isolation</h2>
+                        <p>The <strong>workspace</strong> is the top-level boundary between customers. A user can belong to several workspaces and switch between them, and each one holds completely separate data &mdash; contacts, conversations, campaigns, flows, templates, devices, AI keys, and provider settings.</p>
+                        <p>Every piece of data is tagged with the workspace it belongs to, and the app only ever reads data for the workspace you're currently in &mdash; so one customer's data can never leak into another's. Within a workspace, roles (owner, admin, agent, viewer) further limit what each member can see and do.</p>
+                        <blockquote class="info"><strong>Note:</strong> Platform staff work in a separate admin area and aren't put through the workspace gate, because workspaces are a customer concept. Customer data is reached through the workspace, not by staff browsing the database directly.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="audit-log">Audit Log</h2>
+                        <p>Sensitive actions are recorded in a tamper-resistant, append-only audit trail. Each entry captures:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Recorded</th><th>What it captures</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Level</td><td>Whether it was a platform-wide (admin) action or a workspace action</td></tr>
+                                <tr><td>Who</td><td>The signed-in user who performed the action</td></tr>
+                                <tr><td>Workspace</td><td>The workspace the action belongs to</td></tr>
+                                <tr><td>Action</td><td>The event name (e.g. <code>billing.payment.captured</code>, <code>admin.security.policy_updated</code>)</td></tr>
+                                <tr><td>What was affected</td><td>The specific record the action changed</td></tr>
+                                <tr><td>Details</td><td>A label plus any extra context &mdash; with secrets stripped out, see below</td></tr>
+                                <tr><td>Origin</td><td>The IP address and browser the request came from</td></tr>
+                                <tr><td>Result</td><td><code>success</code>, <code>warning</code>, or <code>failure</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p>A separate security log captures security-tab events &mdash; turning 2FA on or off, failed 2FA attempts, signing devices out, and password changes &mdash; with the same who / workspace / IP / browser context. Neither log can ever block the action it's recording: if writing the log fails, the action still goes through. The Admin Security dashboard presents these entries as a risk queue with key figures (open risks, blocked login attempts, 2FA coverage).</p>
+
+                        <h3 id="secret-scrubbing">Secret Scrubbing</h3>
+                        <p>As an extra safeguard, before any audit entry is saved, its details are scanned and any value that looks like a secret &mdash; anything labelled <code>password</code>, <code>secret</code>, <code>token</code>, <code>api_key</code>, <code>credential</code>, <code>private</code>, <code>access_key</code>, <code>client_secret</code>, <code>webhook</code>, <code>signing</code>, or <code>bearer</code> &mdash; is replaced with <code>[REDACTED]</code>. The label is kept so you can still see <em>what</em> changed, just never the secret value itself. This is a backstop to make sure a secret can never accidentally end up in an audit entry. A few fields that only hold field <em>names</em> (not the secrets) are left as-is.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="retention">Audit Retention &amp; Pruning</h2>
+                        <p>Old audit entries are removed automatically once they pass the retention window. The default window is <strong>365 days</strong>, and you can change it under <strong>Admin &rarr; Security</strong>. If you'd rather run the cleanup by hand, these commands are available:</p>
+                        <pre><code>php artisan audit:prune              # use the configured retention period
+php artisan audit:prune --days=180   # one-off: use 180 days instead
+php artisan audit:prune --dry-run    # report what would be deleted, delete nothing</code></pre>
+                        <p>Setting the retention to <strong>0 turns pruning off entirely</strong> &mdash; useful where compliance requires keeping records permanently. The cleanup deletes in small batches so it can't overwhelm a large database.</p>
+                        <blockquote class="warning"><strong>Important:</strong> Choose a retention period that matches your compliance and legal-hold requirements before going live. Pruning is permanent &mdash; run the <code>--dry-run</code> option first to see how much would be deleted, and make sure your database backups capture any audit records you might need beyond the retention window.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cookie-consent">GDPR Cookie Consent</h2>
+                        <p>The public site shows a GDPR/CCPA cookie-consent banner. It has two parts: a compact banner (a bottom bar, top bar, or centered box, depending on the admin setting) with <strong>Decline / Customize / Accept All</strong>, and a detailed preferences box with three categories &mdash; <em>Strictly Necessary</em> (always on), <em>Analytics</em>, and <em>Marketing</em>.</p>
+                        <p>The visitor's choice is saved in a cookie named <code>wadesk_cookie_consent</code>. On every page, only the trackers for the categories the visitor allowed are loaded &mdash; so analytics and marketing scripts never run until consent is given. Admins set the banner text, style, policy links, and behaviour from the privacy settings page, and the banner respects the browser's <strong>Do Not Track</strong> signal when that option is turned on.</p>
+                        <blockquote class="info"><strong>Note:</strong> Set your Privacy Policy and Cookies Policy URLs in the admin privacy settings so the consent banner can link to them &mdash; required for a compliant disclosure.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#encryption" class="toc-link">Encryption at Rest</a></li>
+                    <li class="toc-h2"><a href="#isolation" class="toc-link">Per-Workspace Data Isolation</a></li>
+                    <li class="toc-h2"><a href="#audit-log" class="toc-link">Audit Log</a></li>
+                    <li class="toc-h2"><a href="#retention" class="toc-link">Audit Retention &amp; Pruning</a></li>
+                    <li class="toc-h2"><a href="#cookie-consent" class="toc-link">GDPR Cookie Consent</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

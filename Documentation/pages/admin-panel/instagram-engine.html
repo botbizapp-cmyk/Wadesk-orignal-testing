@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Engine – WaDesk SaaS Docs</title>
+    <meta name="description" content="Run Instagram in WaDesk either as the native in-place add-on or by connecting a separate InstaMagic / Instaflow deployment — and why only one engine works at a time.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Instagram Engine</h1>
+
+                    <p>WaDesk can drive Instagram in <strong>two ways</strong>, and you pick one. Both are managed from <strong>Admin &rarr; Extensions</strong> (<code>/admin/extensions</code>).</p>
+                    <ul>
+                        <li><strong>Native add-on</strong> &mdash; the Instagram module installed in place (<code>addon/instagram/</code>). Everything runs inside this WaDesk: inbox, flows, auto-replies, posts and comment moderation, on Meta's official Instagram Graph API. See <a href="extensions.html">Add-ons &amp; Extensions</a> to install it.</li>
+                        <li><strong>Remote InstaMagic / Instaflow</strong> &mdash; a separate Instagram product running as its own deployment, connected to WaDesk by URL + a shared secret. No code is uploaded; the two apps just talk.</li>
+                    </ul>
+
+                    <blockquote class="warning"><strong>One engine at a time.</strong> Instagram will only run through <em>one</em> of these at once &mdash; the two can't both own the same Instagram webhook and UI. WaDesk enforces this for you:
+                        <ul>
+                            <li>If the <strong>native add-on is active</strong>, connecting a remote InstaMagic is refused &mdash; deactivate (Remove) the native add-on first.</li>
+                            <li>If a <strong>remote InstaMagic is connected</strong>, installing the native Instagram add-on is refused &mdash; disconnect the remote first.</li>
+                        </ul>
+                        A <em>deactivated</em> native add-on no longer counts as active, so you can switch to remote without deleting its files.
+                    </blockquote>
+
+                    <h2 id="native">Option A — Native add-on</h2>
+                    <p>Install the Instagram add-on from <strong>Admin &rarr; Extensions</strong> (upload its ZIP, or it may already be present as an in-place module). Once active it appears under <em>Installed add-ons</em> with an <em>Active</em> badge. To switch away from it, click <strong>Remove</strong> on its card &mdash; that <em>deactivates</em> it (files are kept) so you can either re-activate later or connect a remote product instead. Full steps: <a href="extensions.html#remove">Deactivate or remove an add-on</a>.</p>
+
+                    <h2 id="connect">Option B — Connect a remote InstaMagic / Instaflow</h2>
+                    <ol>
+                        <li>Make sure the native Instagram add-on is <strong>not active</strong> (deactivate it if it is).</li>
+                        <li>On <strong>Admin &rarr; Extensions</strong>, open the connect form and enter:
+                            <ul>
+                                <li><strong>Deployment URL</strong> &mdash; the base URL of your InstaMagic / Instaflow install.</li>
+                                <li><strong>Shared secret</strong> &mdash; the handshake secret both sides agree on (stored encrypted; leave blank to keep the existing one).</li>
+                                <li><strong>Display name</strong> &mdash; the product name shown across the app (e.g. <em>InstaMagic</em>).</li>
+                            </ul>
+                        </li>
+                        <li>Save. WaDesk runs a <strong>handshake</strong> against the remote deployment; on success the card shows <em>Connected</em>. If the secret is rejected or the URL can't be reached, you'll get a clear reason and nothing is marked connected.</li>
+                    </ol>
+                    <p>To stop using it, click <strong>Disconnect</strong> &mdash; this wipes the stored URL + secret and flips the connection off, so WaDesk stops treating Instagram as connected. You're then free to install the native add-on instead.</p>
+
+                    <h2 id="related">Related pages</h2>
+                    <ul>
+                        <li><a href="extensions.html">Add-ons &amp; Extensions — install / deactivate</a></li>
+                        <li><a href="../developer-guide/engines.html">Messaging Engines</a></li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#native" class="toc-link">Option A — Native add-on</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Option B — Connect remote</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Call Assistant – WaDesk SaaS Docs</title>
+    <meta name="description" content="AI Call Assistant — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>AI Call Assistant</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>AI Call Assistant</strong> is a voice agent that answers WhatsApp business phone calls, holds a real spoken conversation with the caller, can look things up or take actions mid-call (its <em>skills</em>), and records every call in <a href="./call-logs.html">Call Logs</a>. You build and manage assistants under <strong>More &rarr; AI Call Assistant</strong>.</p>
+                        <p>You use this page to set up the assistant and review its calls. The live conversation itself &mdash; turning the caller's voice into text, sending it to the AI, turning the AI's reply into speech, and playing it back &mdash; runs automatically in the background once a call comes in. The assistant simply uses the settings you save here.</p>
+                        <p>Each assistant belongs to one workspace and is built with a five-step wizard: <strong>Identity</strong>, <strong>AI Brain</strong>, <strong>Skills</strong>, <strong>Voice</strong>, and <strong>Routing</strong>. Every assistant has a status (Live, Draft, or Paused) and an on/off switch; it only answers calls when it is switched on and set to Live.</p>
+                        <blockquote class="info"><strong>Prerequisite &mdash; the admin sets the provider keys.</strong> The AI provider keys (OpenAI, Anthropic Claude, Google Gemini) and voice keys (ElevenLabs for the spoken voice, Deepgram for transcription) are set up once by the platform admin under <a href="../admin-panel/ai-keys.html">Admin &rarr; AI &amp; API Keys</a>. You do <strong>not</strong> need to paste a key &mdash; every assistant uses the admin's keys automatically (see <a href="#byok">Your own keys vs admin keys</a>). Add a per-assistant key only if you want this one assistant billed to your own account.</blockquote>
+                        <blockquote class="info"><strong>Plan-gated &mdash; two features.</strong> Building assistants needs the <strong>AI Voice Agent</strong> plan feature. The calls those assistants answer, plus the <a href="./call-logs.html">Call Logs</a> viewer, need <strong>WhatsApp Calling</strong> &mdash; the same feature behind <a href="./wa-calling.html">WhatsApp Calling</a>. Playing back call recordings needs a third feature, <strong>Call Recording</strong>. If your plan doesn't include these, the menu items are hidden.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How a live call works</h2>
+                        <p>Knowing what happens during a call makes every wizard field easier to understand. Each call runs through these steps:</p>
+                        <ol>
+                            <li><strong>WhatsApp delivers the call.</strong> An incoming call arrives for your number, tagged with the caller's details and which assistant should answer.</li>
+                            <li><strong>The assistant loads your settings.</strong> It pulls in the assistant's configuration and the voice keys for your workspace. If either the transcription key (Deepgram) or the speech key (ElevenLabs) is missing, the call is <strong>declined up front</strong> so the voicemail fallback handles it instead of leaving the caller in silence.</li>
+                            <li><strong>The call connects.</strong> The audio link to the caller is set up and answered.</li>
+                            <li><strong>Greeting.</strong> As soon as the line is live, the agent speaks a greeting &mdash; picked at random from your greeting variations &mdash; so the caller never hears dead air.</li>
+                            <li><strong>Listen.</strong> The caller's speech is transcribed to text in real time (using Deepgram). Each finished sentence becomes one transcript turn.</li>
+                            <li><strong>Think.</strong> The agent takes the recent conversation (roughly the last 12 turns) plus your behaviour brief and asks the AI model you chose for a reply.</li>
+                            <li><strong>Speak.</strong> The reply text is turned into a natural voice (using ElevenLabs) and played back to the caller.</li>
+                            <li><strong>Loop / exit.</strong> Listen, Think, and Speak repeat. If the caller says a hangup keyword, the agent speaks the goodbye line and ends the call. When the call ends, recordings are saved and the final transcript is stored.</li>
+                        </ol>
+                        <p>Transcript turns are saved as the call happens, which is why a call in progress already shows a growing transcript in <a href="./call-logs.html">Call Logs</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating an assistant</h2>
+                        <p>From the AI Call Assistant list, click <strong>New assistant</strong>. The wizard always saves the full assistant state at once, so you can jump between steps freely and click <strong>Save</strong> at any time. Saving a brand-new assistant returns you to its edit URL so you can keep refining it.</p>
+                        <ol>
+                            <li><strong>Open the wizard</strong> (or open an existing assistant to edit it).</li>
+                            <li><strong>Work through the five steps</strong> below. The side panel shows a live, text-only preview of how a call would read, plus the chosen AI provider and voice.</li>
+                            <li><strong>Set the status.</strong> Leave it as <em>Draft</em> while building; flip the Live switch in Step&nbsp;1 when you are ready for it to answer real calls.</li>
+                            <li><strong>Click Save.</strong> The assistant is saved to your workspace, and all skills are saved exactly as shown in the form.</li>
+                            <li><strong>Test from a real phone</strong> before relying on it &mdash; the in-app preview is text-only and doesn't test the voice or the actual phone call.</li>
+                        </ol>
+                        <p>A brand-new assistant starts with the defaults shown in the reference tables below; you can change any of them.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-1-identity">Step 1 &middot; Identity &amp; persona</h2>
+                        <p>Defines who the agent is and how it opens a call.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Required</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Agent name</strong></td><td>Yes (max 120)</td><td>&mdash;</td><td>Shown in call logs and transcripts, e.g. "Riley &middot; Acme Support".</td></tr>
+                                <tr><td><strong>Languages the agent speaks</strong></td><td>No</td><td>English</td><td>One or more languages. The <em>first</em> one is used to transcribe the caller's speech for that call.</td></tr>
+                                <tr><td><strong>Starting persona</strong></td><td>No</td><td>Support</td><td>A preset that sets the tone &mdash; see the persona table below. You can override the wording in Step&nbsp;2.</td></tr>
+                                <tr><td><strong>Greeting variations</strong></td><td>No (max 5)</td><td>One default line</td><td>Several opening lines; one is picked at random per call so it doesn't sound robotic.</td></tr>
+                                <tr><td><strong>Live switch</strong></td><td>No</td><td>On</td><td>Together with the status, controls whether the agent answers calls.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="personas">Persona presets</h3>
+                        <table>
+                            <thead><tr><th>Persona</th><th>Character</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Support</strong></td><td>Patient, helpful, resolves issues calmly.</td></tr>
+                                <tr><td><strong>Sales</strong></td><td>Friendly, persuasive, qualifies before pitching.</td></tr>
+                                <tr><td><strong>Scheduler</strong></td><td>Crisp, calendar-aware, books slots end-to-end.</td></tr>
+                                <tr><td><strong>Concierge</strong></td><td>Warm, contextual, remembers prior callers.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-2-brain">Step 2 &middot; AI Brain</h2>
+                        <p>Chooses which AI model powers the agent and how it behaves. You can use any of three providers &mdash; pick one, then set the exact model name, an optional key of your own, the behaviour brief, an optional knowledge-page link, and three personality sliders.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Required</th><th>Default</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Provider</strong></td><td>Yes</td><td>Gemini</td><td>Gemini (Google), OpenAI, or Anthropic.</td></tr>
+                                <tr><td><strong>Model</strong></td><td>Yes (max 80)</td><td><code>gemini-2.5-flash-lite</code></td><td>The exact model name, typed in free-text, so you can switch to a newer model without waiting for an app update.</td></tr>
+                                <tr><td><strong>Your own key</strong></td><td>No (max 500)</td><td>blank</td><td>Optional; leave blank to use the admin's key. See <a href="#byok">Your own keys vs admin keys</a>.</td></tr>
+                                <tr><td><strong>Behaviour brief</strong></td><td>No (max 6000)</td><td>blank</td><td>Instructions that shape every reply &mdash; who the agent is and how it should act.</td></tr>
+                                <tr><td><strong>Knowledge source URL</strong></td><td>No (max 500, must be a web link)</td><td>blank</td><td>A web page the agent can draw on for your own content.</td></tr>
+                                <tr><td><strong>Warmth / Formality / Pace</strong></td><td>No</td><td>60 / 50 / 50</td><td>Sliders from 0&ndash;100. Pace controls how concise the agent is.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="model-reference">Model reference</h3>
+                        <p>These are the model names the wizard suggests for each provider. The default for a new voice agent is <code>gemini-2.5-flash-lite</code> &mdash; chosen because Gemini responds fastest on voice calls.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Suggested models</th><th>Use it for</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Gemini &middot; Google</td><td><code>gemini-2.5-flash-lite</code> (default), <code>gemini-2.5-flash</code>, <code>gemini-2.5-pro</code></td><td>Fastest on voice; flash-lite for high call volume, pro for the hardest reasoning.</td></tr>
+                                <tr><td>GPT &middot; OpenAI</td><td><code>gpt-4o-mini</code>, <code>gpt-4o</code>, <code>gpt-4.1</code></td><td>Best reasoning and use of skills.</td></tr>
+                                <tr><td>Claude &middot; Anthropic</td><td><code>claude-haiku-4-5-20251001</code>, <code>claude-sonnet-4-6</code>, <code>claude-opus-4-7</code></td><td>Steadiest tone; haiku for fast cheap calls, opus for complex policy.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="behaviour-brief">Behaviour brief &amp; personality</h3>
+                        <ul>
+                            <li><strong>Behaviour brief.</strong> State who the agent is, what to ask for, which skills to use, and when to hand off to a human. If you leave it blank, the agent uses a generic instruction: "you are a helpful voice assistant on a phone call &mdash; reply with one short sentence at a time so the caller can interject."</li>
+                            <li><strong>Knowledge source (web link).</strong> An optional page the agent can reference so it answers from your own content.</li>
+                            <li><strong>Warmth / Formality / Pace.</strong> Fine-tune the delivery beyond a single tone setting. Pace also keeps the agent concise so it doesn't over-talk.</li>
+                            <li><strong>Your own key.</strong> Leave blank to use the admin's key. If a key is already saved, the field shows "saved &middot; leave blank to keep" and an empty box never erases it.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-3-skills">Step 3 &middot; Skills (tools)</h2>
+                        <p>A <strong>skill</strong> lets the agent call out to one of your web services in the middle of a conversation &mdash; to look up an order, book a slot, or create a ticket. The agent is told "call this if the caller asks about X"; when it decides to, it sends a request to your web address with the details it picked up from the conversation, then uses the response in its reply. Each assistant can have up to <strong>25</strong> skills.</p>
+                        <table>
+                            <thead><tr><th>Skill field</th><th>Required</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Function name</strong></td><td>Yes (max 80)</td><td>How the agent refers to the skill, e.g. <code>track_order</code>.</td></tr>
+                                <tr><td><strong>Trigger keywords</strong></td><td>No</td><td>Phrases the agent listens for; when heard, it pulls the details from the caller's words and runs the skill.</td></tr>
+                                <tr><td><strong>Request method</strong></td><td>Yes</td><td>One of GET, POST, PUT, PATCH, or DELETE (matching how your web service expects to be called).</td></tr>
+                                <tr><td><strong>URL</strong></td><td>Yes (max 600, must be a web link)</td><td>The web address to call.</td></tr>
+                                <tr><td><strong>Headers</strong></td><td>No</td><td>Optional sign-in headers, as name/value pairs.</td></tr>
+                                <tr><td><strong>Parameters</strong></td><td>No</td><td>The data to send with the request.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Skills can chain: the agent calls one, reads the response, then calls another in the same turn. You can use <code>@placeholder</code> tokens in skill values that are auto-filled from the caller's history. Every skill the agent uses is recorded in the <a href="./call-logs.html#detail">tool-call timeline</a> with its details and the time into the call.</p>
+                        <blockquote class="info"><strong>Save behaviour.</strong> Saving stores the skills exactly as shown in the form &mdash; so removing a skill in the form removes it on save, and there are never leftover entries.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-4-voice">Step 4 &middot; Voice &amp; listening</h2>
+                        <p>Controls how the agent sounds (text-to-speech) and how it hears the caller (speech-to-text).</p>
+                        <h3 id="tts">Text-to-speech engine (the voice)</h3>
+                        <table>
+                            <thead><tr><th>Engine</th><th>Character</th></tr></thead>
+                            <tbody>
+                                <tr><td>ElevenLabs (default)</td><td>Premium, natural-sounding &mdash; the most lifelike voices, and the one used today.</td></tr>
+                                <tr><td>OpenAI</td><td>Fast, six built-in voices.</td></tr>
+                                <tr><td>Deepgram Aura</td><td>Ultra-fast responses.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="stt">Speech-to-text engine (the listening)</h3>
+                        <table>
+                            <thead><tr><th>Engine</th><th>Character</th></tr></thead>
+                            <tbody>
+                                <tr><td>ElevenLabs &middot; Deep Analysis (default)</td><td>Deep-analysis transcription.</td></tr>
+                                <tr><td>Deepgram Nova-2</td><td>Fastest &mdash; the engine used for the live call loop.</td></tr>
+                                <tr><td>OpenAI Whisper</td><td>Most accurate.</td></tr>
+                                <tr><td>Google Speech</td><td>Google's speech recognition.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="voice-extras">Voice ID, your own key &amp; noise suppression</h3>
+                        <ul>
+                            <li><strong>Voice ID</strong> (max 80) &mdash; optional specific voice; leave blank for the provider's default (ElevenLabs falls back to its "Rachel" voice).</li>
+                            <li><strong>Your own voice key</strong> (max 500) &mdash; optional; same "blank keeps the saved key" behaviour as the AI key.</li>
+                            <li><strong>Background noise suppression</strong> (default on) &mdash; strips traffic, fan, and keyboard sounds before transcription, improving accuracy on noisy lines.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-5-routing">Step 5 &middot; Routing &amp; recording</h2>
+                        <p>Decides what gets recorded, what happens on voicemail, and when to hand off to a person.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Record agent audio</strong></td><td>On</td><td>Saves the AI voice side of the call.</td></tr>
+                                <tr><td><strong>Record caller audio</strong></td><td>On</td><td>Saves the caller's side. Also needs the <strong>Call Recording</strong> plan feature.</td></tr>
+                                <tr><td><strong>Auto transcript</strong></td><td>On</td><td>Saves the turn-by-turn transcript.</td></tr>
+                                <tr><td><strong>Voicemail / no-answer behaviour</strong></td><td>Leave message</td><td>See the table below.</td></tr>
+                                <tr><td><strong>Hangup keywords</strong></td><td>bye, goodbye</td><td>Words that end the call; the agent speaks the goodbye line, then hangs up after about 1.5 seconds.</td></tr>
+                                <tr><td><strong>Hand off to team</strong></td><td>blank</td><td>When the AI is unsure, send the conversation to a <a href="../messaging/team-inbox.html">Team Inbox</a> queue. Blank means no handoff.</td></tr>
+                                <tr><td><strong>Goodbye line</strong></td><td>"Thank you for calling. Goodbye!"</td><td>The closing message the agent speaks before hanging up (max 500).</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="voicemail">Voicemail / no-answer behaviour</h3>
+                        <table>
+                            <thead><tr><th>Option</th><th>What happens</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Leave message</strong></td><td>Speaks the greeting and hangs up.</td></tr>
+                                <tr><td><strong>Retry in 1 hour</strong></td><td>Schedules a callback automatically.</td></tr>
+                                <tr><td><strong>Silent log</strong></td><td>Hangs up; only logs the attempt.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Recordings and transcripts appear in <a href="./call-logs.html">Call Logs</a> exactly as you set them here &mdash; the three recording switches are independent, so a call can have a transcript but no audio, or one side of the audio but not the other.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="byok">Your own keys vs admin keys</h2>
+                        <p>Both the AI key and the voice key are <strong>optional</strong> and stored securely. The platform decides which key to use at call time in this order:</p>
+                        <ol>
+                            <li><strong>Your workspace's own key.</strong> If your plan allows your own keys <em>and</em> your workspace has an active key for that provider, your key is used and usage bills to you.</li>
+                            <li><strong>Admin's key.</strong> Otherwise the admin's key for that provider (from <a href="../admin-panel/ai-keys.html">Admin &rarr; AI &amp; API Keys</a>) is used, and usage counts toward your workspace's monthly AI usage limit.</li>
+                            <li><strong>Neither.</strong> If no key is available, you'll see a clear error &mdash; and on a live call, the call is declined so voicemail handles it rather than the caller hearing silence.</li>
+                        </ol>
+                        <p>In practice: leave both key fields blank and the assistant uses the admin keys automatically. Add a key only when this specific assistant needs a different voice or its own quota.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="managing">Managing assistants</h2>
+                        <p>From the list you can:</p>
+                        <ul>
+                            <li><strong>Pause / Go live</strong> &mdash; switch an assistant between Live and Paused without opening the wizard.</li>
+                            <li><strong>Duplicate</strong> &mdash; copies the full configuration and all skills into a new <em>draft</em> named "(copy)", handy for spinning up a variant.</li>
+                            <li><strong>Delete</strong> &mdash; removes the assistant but keeps its call logs readable. Calls already in progress continue; new calls go unanswered.</li>
+                        </ul>
+                        <p>The list shows per-status counts (all, live, draft, paused) and, for each assistant, its model, voice provider, skill count, and how many calls it handled in the last 24 hours. A "Call logs" shortcut sits next to "New assistant".</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cost">Cost cautions</h2>
+                        <blockquote class="warning"><strong>A live voice agent bills three AI meters per call</strong> &mdash; the AI model (tokens in and out), speech-to-text (seconds of audio transcribed), and text-to-speech (characters spoken) &mdash; on top of your WhatsApp/WABA calling minutes. Premium voices and larger models cost noticeably more per minute.</blockquote>
+                        <ul>
+                            <li><strong>Keep assistants in Draft until tested.</strong> A badly written brief that makes the agent ramble inflates both the AI and voice spend on every call.</li>
+                            <li><strong>Prefer the lite / mini / haiku models</strong> and a concise Pace for high call volume.</li>
+                            <li><strong>Watch per-call cost</strong> on the <a href="./call-logs.html#detail">call detail</a> page, which breaks out the three metered parts: AI usage, transcription, and the spoken voice.</li>
+                            <li>When you use admin keys, AI usage counts toward your plan's monthly usage limit; hitting the limit blocks further AI calls until you upgrade or switch to your own key.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td>The assistant never answers calls</td><td>It must be switched on <em>and</em> set to Live. Check the Step&nbsp;1 Live switch and the status badge in the list. Also confirm your plan includes <strong>WhatsApp Calling</strong> and a number is routed to this assistant.</td></tr>
+                                <tr><td>Caller hears a click then silence, or the call is declined</td><td>The call is declined when the transcription (Deepgram) or voice (ElevenLabs) key is missing for your workspace. Have the admin set both under <a href="../admin-panel/ai-keys.html">AI &amp; API Keys</a>; the voicemail fallback handles the caller meanwhile.</td></tr>
+                                <tr><td>The agent talks but cannot hear the caller</td><td>The transcription key is missing or the line is very noisy. Check the Deepgram key and turn on Background noise suppression in Step&nbsp;4.</td></tr>
+                                <tr><td>A skill never fires</td><td>Tighten the trigger keywords and confirm the web address can be reached. Check the tool-call timeline in <a href="./call-logs.html#detail">Call Logs</a> to see whether the agent tried the call.</td></tr>
+                                <tr><td>The menu item is missing entirely</td><td>Your plan lacks the <strong>AI Voice Agent</strong> feature. Upgrade or move to a plan that includes it.</td></tr>
+                                <tr><td>A saved key seems to disappear</td><td>Keys are stored securely and never shown back; the field reads "saved &middot; leave blank to keep". An empty box keeps the saved key &mdash; type a new value only to replace it.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How a live call works</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating an assistant</a></li>
+                    <li class="toc-h2"><a href="#step-1-identity" class="toc-link">Step 1 &middot; Identity</a></li>
+                    <li class="toc-h2"><a href="#step-2-brain" class="toc-link">Step 2 &middot; AI Brain</a></li>
+                    <li class="toc-h2"><a href="#step-3-skills" class="toc-link">Step 3 &middot; Skills</a></li>
+                    <li class="toc-h2"><a href="#step-4-voice" class="toc-link">Step 4 &middot; Voice</a></li>
+                    <li class="toc-h2"><a href="#step-5-routing" class="toc-link">Step 5 &middot; Routing</a></li>
+                    <li class="toc-h2"><a href="#byok" class="toc-link">Your own keys vs admin keys</a></li>
+                    <li class="toc-h2"><a href="#managing" class="toc-link">Managing assistants</a></li>
+                    <li class="toc-h2"><a href="#cost" class="toc-link">Cost cautions</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

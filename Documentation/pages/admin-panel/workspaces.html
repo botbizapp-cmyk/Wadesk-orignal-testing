@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspaces – WaDesk SaaS Docs</title>
+    <meta name="description" content="Workspaces — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Workspaces</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>A <strong>workspace</strong> is a self-contained customer account &mdash; its own connected numbers, contacts, campaigns, team, and plan. The Workspaces area (Admin &rarr; Workspaces) is where you, the platform owner, manage every workspace on the system: create them, check their health and revenue, adjust their plan and limits, log in as them to troubleshoot, and suspend them when needed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="workspace-list">The Workspace List</h2>
+                        <p>The list shows 12 workspaces per page with a strip of totals across the top: total workspaces, active, suspended, trial, new this month, total monthly recurring revenue (MRR), and a retention percentage (active &divide; total).</p>
+                        <p>You can filter and sort the list:</p>
+                        <ul>
+                            <li><strong>Search</strong> &mdash; matches workspace name, web address, or the owner's name/email.</li>
+                            <li><strong>Status</strong> &mdash; Active or Suspended.</li>
+                            <li><strong>Plan</strong> &mdash; limit to a specific plan.</li>
+                            <li><strong>Sort</strong> &mdash; by MRR (default), creation date, or last-seen.</li>
+                        </ul>
+                        <p>Each row shows the plan name (as a coloured pill), estimated MRR, the last 7 days' sent-message volume, and a health badge using the same Good / Watch / Risk scale as the dashboard.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="creating-workspaces">Creating a Workspace</h2>
+                        <p>Click <strong>Create</strong>. A workspace needs a name and an owner; the web address is generated from the name if you leave it blank.</p>
+                        <p>The owner can be assigned in one of two modes:</p>
+                        <ul>
+                            <li><strong>Existing user</strong> &mdash; pick an account that already exists.</li>
+                            <li><strong>Invite</strong> &mdash; enter a new name and email; the platform creates an Owner account with a random password and emails an invite plus a reset link. The new owner is forced to set their password on first login.</li>
+                        </ul>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Name / Web address</strong></td><td>Display name and the address used in links (generated from the name if blank, must be unique).</td></tr>
+                                <tr><td><strong>Custom domain</strong></td><td>Optional white-label domain. If set, a domain setup prompt appears after creation.</td></tr>
+                                <tr><td><strong>Plan</strong></td><td>The plan to start on. Blank = treated as free/trial.</td></tr>
+                                <tr><td><strong>Industry, Country, Timezone, Currency</strong></td><td>Profile details (timezone defaults to Asia/Kolkata).</td></tr>
+                                <tr><td><strong>Billing cycle</strong></td><td>Monthly, quarterly, annual, custom, or trial.</td></tr>
+                                <tr><td><strong>Caps</strong></td><td>Optional hard limits: monthly messages, daily messages, connected numbers, users.</td></tr>
+                                <tr><td><strong>Pre-seed sample data</strong></td><td>Fill the new workspace with example data so it isn't empty on first login.</td></tr>
+                                <tr><td><strong>Bill to platform credit</strong></td><td>Charge usage to your own platform credit instead of the customer.</td></tr>
+                                <tr><td><strong>Skip onboarding email</strong></td><td>Don't send the automated welcome emails.</td></tr>
+                                <tr><td><strong>Admin note</strong></td><td>Internal note about this workspace, only visible to admins.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> Like user creation, if the invite email can't be delivered the workspace is still created &mdash; you'll get a notice explaining the skip, and you can re-send credentials later.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="detail-page">The Detail Page</h2>
+                        <p>Clicking a workspace opens its detail dashboard &mdash; everything about one workspace on a single screen:</p>
+                        <ul>
+                            <li>A 30-day message volume chart (sent vs delivered) with totals and delivered / read percentages.</li>
+                            <li>Counts of connected numbers, campaigns, broadcasts, contacts, and team members.</li>
+                            <li>MRR and a rough lifetime value (MRR &times; months active).</li>
+                            <li>The plan's <strong>effective limits</strong> &mdash; the limit actually in force for each item after any per-workspace overrides are applied.</li>
+                            <li>Recent paid orders.</li>
+                            <li>The internal admin note.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="impersonate">Impersonate (Log in as Owner)</h2>
+                        <p>The detail page has an <strong>Impersonate</strong> action. It logs you into the workspace as its owner so you can see exactly what the customer sees &mdash; invaluable for reproducing a support issue or verifying a configuration. A banner reminds you that you're impersonating, and a single click stops impersonation and returns you to the admin panel.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> While impersonating you act with the owner's full access. Anything you do (sending messages, changing settings) happens as that customer. Make changes only when you mean to, and stop impersonating as soon as you're done.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="editing">Editing &amp; Suspending</h2>
+                        <p>The <strong>Edit</strong> button opens a form for changing the workspace's name, web address, custom domain, owner, plan, profile details, caps, and admin note. Plan and owner changes are recorded in the audit log with their before and after values.</p>
+                        <p><strong>Suspend / Reactivate</strong> flips the workspace's active status. A suspended workspace shows a red badge in the list and is blocked from normal operation until reactivated. <strong>Move to trash</strong> soft-deletes the workspace entirely.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="overrides">Per-Workspace Limit Overrides</h2>
+                        <p>Every numeric limit on a plan can be overridden for a single workspace, without changing the plan for everyone else. This is how you grant a generous customer extra headroom or temporarily lift a cap.</p>
+                        <p>Overrides are entered on the workspace detail page. Leave a field blank to use the plan's value; enter a number to override it. By convention, <strong>-1 means unlimited</strong>. The "effective limit" shown on the detail page is the override if there is one, otherwise the plan value.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Overrides are the right tool for one-off exceptions ("give Acme Corp 5 extra devices this month"). If you find yourself overriding the same limit for many workspaces, that's a signal to adjust the <a href="./plans-packages.html">plan</a> itself instead.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#workspace-list" class="toc-link">The Workspace List</a></li>
+                    <li class="toc-h2"><a href="#creating-workspaces" class="toc-link">Creating a Workspace</a></li>
+                    <li class="toc-h2"><a href="#detail-page" class="toc-link">The Detail Page</a></li>
+                    <li class="toc-h2"><a href="#impersonate" class="toc-link">Impersonate (Log in as Owner)</a></li>
+                    <li class="toc-h2"><a href="#editing" class="toc-link">Editing &amp; Suspending</a></li>
+                    <li class="toc-h2"><a href="#overrides" class="toc-link">Per-Workspace Limit Overrides</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

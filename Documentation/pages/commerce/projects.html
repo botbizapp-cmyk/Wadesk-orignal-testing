@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to Projects — the In-progress / Overdue / Completed board and how columns are computed, creating and updating a project, the progress slider, linking a customer and value, calendar integration, and how it fits the CRM.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Projects</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Projects</strong> track the work you deliver <em>after</em> the sale &mdash; onboarding, a website build, a campaign, a retainer month. Each project links to a customer, has a due date and a <strong>progress</strong> value, and sits on a board grouped by status so you can see at a glance what's on track, what's late, and what's done. It closes the loop from lead &rarr; deal &rarr; quote &rarr; invoice &rarr; <strong>delivery</strong>.</p>
+                        <blockquote class="info"><strong>Where:</strong> the CRM area of the sidebar. You can also start one via the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a> &mdash; &ldquo;start a project for the Acme website, due next Friday&rdquo;.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="board">The Board &amp; How Columns Are Computed</h2>
+                        <p>Projects are grouped into three columns, derived automatically from status and due date &mdash; you don't move cards by hand between these; they follow the data:</p>
+                        <table>
+                            <thead><tr><th>Column</th><th>How a project lands here</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>In progress</strong></td><td>Active (not complete) and the due date is today or in the future.</td></tr>
+                                <tr><td><strong>Overdue</strong></td><td>Active (not complete) but the due date has already passed &mdash; the ones to chase.</td></tr>
+                                <tr><td><strong>Completed</strong></td><td>Marked done (progress at 100% / status complete), regardless of due date.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Because the split is computed, a project silently moves from <em>In progress</em> to <em>Overdue</em> the moment its due date passes &mdash; no one has to remember to flag it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating &amp; Updating a Project</h2>
+                        <ol>
+                            <li><strong>New project.</strong> Give it a name and link a <strong>customer</strong> (contact or company).</li>
+                            <li><strong>Set a due date.</strong> This drives the board and the calendar.</li>
+                            <li><strong>Set progress.</strong> Drag the <strong>progress slider</strong> (0&ndash;100%) to reflect how far along the work is; the board re-sorts as you go.</li>
+                            <li><strong>Record value &amp; notes.</strong> Optionally a project value and notes for context.</li>
+                            <li><strong>Complete it.</strong> Push progress to 100% (or mark complete) and it moves to the Completed column.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="progress">Tracking Progress</h2>
+                        <ul>
+                            <li>The <strong>progress slider</strong> gives a quick, visual sense of how each project is tracking &mdash; useful in a team stand-up view.</li>
+                            <li>Update progress as milestones land; the card reflects it immediately.</li>
+                            <li>Overdue-but-incomplete projects stand out in their own column so nothing quietly slips.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="calendar">Projects on the Calendar</h2>
+                        <p>Every project due date also appears on the CRM <strong>Calendar</strong>, alongside task deadlines, deal close dates and quote expiries &mdash; one month grid for every commitment your team has, so nothing slips across the whole CRM, not just projects.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="fit">How It Fits the CRM</h2>
+                        <ul>
+                            <li><strong>From a won deal.</strong> When a <a href="../growth/deals.html">deal</a> closes, spin up a project to deliver it &mdash; keeping sales and delivery on the same customer record.</li>
+                            <li><strong>With tasks.</strong> Break a project into assignable tasks with their own due dates and reminders.</li>
+                            <li><strong>With the copilot.</strong> Ask the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a> to create a project, update progress, or list what's overdue.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#board" class="toc-link">The Board</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating &amp; Updating</a></li>
+                    <li class="toc-h2"><a href="#progress" class="toc-link">Tracking Progress</a></li>
+                    <li class="toc-h2"><a href="#calendar" class="toc-link">Projects on the Calendar</a></li>
+                    <li class="toc-h2"><a href="#fit" class="toc-link">How It Fits the CRM</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

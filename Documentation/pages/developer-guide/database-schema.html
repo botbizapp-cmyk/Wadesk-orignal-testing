@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Schema – WaDesk SaaS Docs</title>
+    <meta name="description" content="Database Schema reference — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Database Schema</h1>
+                    <p>WaDesk runs on a standard Laravel relational schema (MySQL / MariaDB). Almost everything is scoped to a <strong>workspace</strong> &mdash; the tenant boundary &mdash; so a query, an API key, and a UI session all see only their workspace's rows. This page maps the tables you will meet most often, grouped by area.</p>
+                    <blockquote class="warning"><strong>Do not write to these tables directly.</strong> Sensitive columns (provider credentials, secrets) are encrypted at rest, and plan limits/usage are enforced in application code. Go through the <a href="api-endpoints.html">API</a> or the platform's own services so encryption, plan enforcement, and event dispatch all run.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="tenancy">Tenancy &amp; Identity</h2>
+                        <table>
+                            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>workspaces</code></td><td>The tenant. Owns a plan, limits, branding, and settings; almost every other row carries a <code>workspace_id</code>.</td></tr>
+                                <tr><td><code>users</code></td><td>People who log in. A user's <code>current_workspace_id</code> selects the active tenant.</td></tr>
+                                <tr><td><code>workspace_user</code></td><td>Membership + role (owner / admin / manager / agent) linking users to workspaces.</td></tr>
+                                <tr><td><code>teams</code>, <code>team_user</code></td><td>Sub-groups inside a workspace for inbox routing and permissions.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="senders">Senders (Multi-Engine)</h2>
+                        <table>
+                            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>devices</code></td><td>Unofficial-API (web) numbers &mdash; one row per paired phone, with connection status.</td></tr>
+                                <tr><td><code>wa_provider_configs</code></td><td>WhatsApp Cloud (WABA) and Twilio numbers &mdash; one row per connected number, with encrypted credentials.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Polymorphic sender.</strong> A conversation's <code>device_id</code> points at <code>devices</code> for Unofficial, or <code>wa_provider_configs</code> for WABA/Twilio &mdash; disambiguated by the row's <code>provider</code> column. The two tables share id sequences, so always pair the id with the provider.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="crm">CRM &amp; Conversations</h2>
+                        <table>
+                            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>contacts</code>, <code>contact_groups</code></td><td>Customer records (name, phone, email, custom attributes) and their segments.</td></tr>
+                                <tr><td><code>conversations</code></td><td>One thread per number, with <code>inbox_status</code>, assignment, unread counts, and the provider/engine it belongs to.</td></tr>
+                                <tr><td><code>inbox_messages</code> / <code>messages</code></td><td>Individual inbound/outbound messages, media paths, and provider message IDs used to reconcile delivery/read receipts.</td></tr>
+                                <tr><td><code>deals</code>, <code>deal_stages</code>, <code>deal_activities</code></td><td>The sales pipeline (Kanban) and its per-deal timeline.</td></tr>
+                                <tr><td><code>attributes</code></td><td>Workspace-level merge attributes used to resolve <code>{{token}}</code> placeholders.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sending">Sending &amp; Automation</h2>
+                        <table>
+                            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>wa_templates</code></td><td>Message templates, their <code>variable_map</code>, <code>parameter_format</code> (POSITIONAL / NAMED), and Meta approval status.</td></tr>
+                                <tr><td><code>keyword_replies</code></td><td>Auto Reply rules &mdash; keyword / welcome / away / out-of-hours triggers, match method, and the reply.</td></tr>
+                                <tr><td><code>flows</code></td><td>Visual chatbot flows (nodes + edges) run by the flow engine.</td></tr>
+                                <tr><td><code>wp_campaigns</code> + recipient rows</td><td>Campaigns and their per-recipient send state (queued / sent / delivered / read / failed).</td></tr>
+                                <tr><td><code>broadcasts</code></td><td>One-off bulk sends and recipient status.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="billing">Billing</h2>
+                        <table>
+                            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>packages</code></td><td>Plans and add-ons (<code>type = plan | addon</code>), their feature flags and numeric limits (blank = unlimited), and add-on grants.</td></tr>
+                                <tr><td><code>orders</code></td><td>Checkout orders &mdash; also the source of admin invoices.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#tenancy" class="toc-link">Tenancy &amp; Identity</a></li>
+                    <li class="toc-h2"><a href="#senders" class="toc-link">Senders</a></li>
+                    <li class="toc-h2"><a href="#crm" class="toc-link">CRM &amp; Conversations</a></li>
+                    <li class="toc-h2"><a href="#sending" class="toc-link">Sending &amp; Automation</a></li>
+                    <li class="toc-h2"><a href="#billing" class="toc-link">Billing</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

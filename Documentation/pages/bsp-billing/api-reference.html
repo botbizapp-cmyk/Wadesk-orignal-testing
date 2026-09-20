@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Graph API Reference (credit lines, tokens, pricing) — 2026 – WaDesk SaaS Docs</title>
+    <meta name="description" content="Meta Graph API Reference for credit lines, access tokens and 2026 pricing — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Meta Graph API Reference (credit lines, tokens, pricing) — 2026</h1>
+                    <p>A precise reference for the Meta Graph API calls that power WaDesk's reseller billing: creating access tokens, reading and sharing credit lines, revoking them, and understanding how Meta prices messages in 2026. All endpoints are relative to the Graph API base described below.</p>
+
+                    <blockquote class="info"><strong>Prerequisite.</strong> These calls require Solution Partner status and a system-user token &mdash; see <a href="meta-setup.html">Meta Setup — Solution Partner, Token &amp; Credit Line</a> first.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="basics">1. Graph API basics</h2>
+                        <ul>
+                            <li><strong>Base URL:</strong> <code>https://graph.facebook.com/v25.0/</code></li>
+                            <li><strong>Auth:</strong> Bearer authentication using your <strong>system-user token</strong> &mdash; send it as <code>Authorization: Bearer &lt;token&gt;</code> (or as an <code>access_token</code> query parameter).</li>
+                            <li><strong>Version:</strong> <code>v25.0</code> is the latest stable release (as of February 2026). Bump the version only <strong>after verifying payload compatibility</strong> against Meta's changelog &mdash; newer versions can change field names and behavior.</li>
+                        </ul>
+                        <pre><code>curl -H "Authorization: Bearer {SYSTEM_USER_TOKEN}" \
+  https://graph.facebook.com/v25.0/{BUSINESS_ID}/extendedcredits</code></pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tokens">2. Access token creation</h2>
+                        <p>Create a permanent token from a System User (role Admin) under <strong>business.facebook.com &rarr; Business settings &rarr; Users &rarr; System users</strong>. The token is displayed only once &mdash; copy it immediately. Required scopes:</p>
+                        <ul>
+                            <li><code>business_management</code></li>
+                            <li><code>whatsapp_business_management</code></li>
+                            <li><code>whatsapp_business_messaging</code></li>
+                        </ul>
+                        <p>Full walkthrough: <a href="meta-setup.html">Meta Setup, Step 3</a>. Official docs: <a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens/" target="_blank" rel="noopener">WhatsApp access tokens</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credit-get">3. Credit line — GET the ID</h2>
+                        <pre><code>GET /{BUSINESS_ID}/extendedcredits</code></pre>
+                        <ul>
+                            <li><strong>Permission:</strong> <code>business_management</code></li>
+                            <li><strong>Role:</strong> Admin or Financial Editor</li>
+                            <li><strong>Returns:</strong> the credit line <code>id</code></li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="attach">4. Credit line — SHARE + ATTACH (current method)</h2>
+                        <p>The current one-call method shares your credit line with a customer's WABA and attaches it in a single request:</p>
+                        <pre><code>POST /{EXTENDED_CREDIT_LINE_ID}/whatsapp_credit_sharing_and_attach
+  params:
+    waba_id        (the customer's WhatsApp Business Account ID)
+    waba_currency  (AUD | EUR | GBP | IDR | INR | USD)
+
+  returns:
+    allocation_config_id
+    waba_id</code></pre>
+                        <blockquote class="warning"><strong>Currency is locked after attach.</strong> <code>waba_currency</code> cannot be changed once the credit line is attached to that WABA. Allowed values: <strong>AUD, EUR, GBP, IDR, INR, USD</strong>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="attach-alt">5. Credit line — SHARE + ATTACH (alternate 3-step)</h2>
+                        <p>The older three-step sequence is useful for testing or when you need the intermediate values:</p>
+                        <pre><code>a) GET /{WABA_ID}?fields=owner_business_info
+   -> the customer's business portfolio id (BUSINESS_PORTFOLIO_ID)
+
+b) POST /{EXTENDED_CREDIT_LINE_ID}/whatsapp_credit_sharing
+     ?receiving_business_id={BUSINESS_PORTFOLIO_ID}
+   -> allocation_config_id
+
+c) POST /{EXTENDED_CREDIT_LINE_ID}/whatsapp_credit_attach</code></pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="revoke">6. Credit line — REVOKE</h2>
+                        <p>To stop billing a customer's WABA to your credit line:</p>
+                        <pre><code>a) GET /{EXTENDED_CREDIT_LINE_ID}/owning_credit_allocation_configs
+     ?receiving_business_id={CLIENT_BUSINESS_ID}
+   -> allocation_config_id
+
+b) DELETE /{allocation_config_id}
+
+c) GET /{allocation_config_id}?fields=request_status
+   -> should read "DELETED"</code></pre>
+                        <blockquote class="warning"><strong>Note.</strong> A credit line <strong>cannot be changed once attached</strong> &mdash; to correct a mistake (for example, the wrong currency) you must revoke and re-attach.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="pricing">7. 2026 pricing model (per-message)</h2>
+                        <p>Since <strong>1 July 2025</strong>, Meta bills <strong>per delivered template message</strong> &mdash; <em>not</em> per 24-hour conversation as it did previously. The rate charged depends on two things:</p>
+                        <ul>
+                            <li>the <strong>recipient's country</strong>, and</li>
+                            <li>the <strong>template category</strong>.</li>
+                        </ul>
+                        <p>There are four categories:</p>
+                        <table>
+                            <thead><tr><th>Category</th><th>What it covers</th><th>Cost</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Marketing</strong></td><td>Promotions, offers, announcements</td><td>Highest rate</td></tr>
+                                <tr><td><strong>Utility</strong></td><td>Order updates, receipts, account notices</td><td>Much cheaper; volume tiers</td></tr>
+                                <tr><td><strong>Authentication</strong></td><td>One-time passwords, verification codes</td><td>Much cheaper; volume tiers</td></tr>
+                                <tr><td><strong>Service</strong></td><td>Free-form replies within the 24-hour customer service window</td><td><strong>Free</strong>, no monthly cap</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Utility &amp; Authentication messages are far cheaper than Marketing &mdash; roughly <strong>80&ndash;90% lower</strong> &mdash; and both have <strong>volume tiers</strong> that reduce the unit rate at scale. Service messages (replies inside the 24-hour window) are <strong>free with no monthly cap</strong>.</p>
+                        <p><strong>Illustrative US rates (~2026 &mdash; these change):</strong></p>
+                        <table>
+                            <thead><tr><th>Category</th><th>Approx. US rate</th></tr></thead>
+                            <tbody>
+                                <tr><td>Marketing</td><td>~$0.025 per message</td></tr>
+                                <tr><td>Utility</td><td>~$0.004 per message</td></tr>
+                                <tr><td>Authentication</td><td>~$0.004 per message</td></tr>
+                                <tr><td>Service</td><td>Free</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Across markets, marketing rates range roughly <strong>$0.01&ndash;$0.14</strong> depending on the country. Meta updates rates on its own schedule (<strong>typically quarterly</strong>).</p>
+                        <blockquote class="info"><strong>Your customer's total = Meta rate + your markup.</strong> WaDesk adds your configured margin on top of the wholesale Meta rate and charges the customer's wallet on delivery.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sync">8. Where WaDesk fetches costs</h2>
+                        <p>The <strong>"Sync Meta costs"</strong> button on <code>/admin/settings/wallet-rules</code> pulls the <strong>wholesale cost per country</strong> &mdash; from the configured rates endpoint, or the bundled official rate card, or an uploaded CSV &mdash; and converts each rate into the platform currency. From there your markup and wallet charging apply automatically.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sources">Sources</h2>
+                        <ul>
+                            <li><a href="https://developers.facebook.com/docs/whatsapp/embedded-signup/manage-accounts/share-and-revoke-credit-lines/" target="_blank" rel="noopener">Share and revoke credit lines (Meta developer docs)</a></li>
+                            <li><a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens/" target="_blank" rel="noopener">WhatsApp access tokens (Meta developer docs)</a></li>
+                            <li><a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/solution-providers/overview" target="_blank" rel="noopener">Solution Providers — Overview (Meta developer docs)</a></li>
+                            <li><a href="https://www.facebook.com/business/help/1684730811624773" target="_blank" rel="noopener">Apply for a WhatsApp credit line (Meta Business Help)</a></li>
+                            <li><a href="https://business.whatsapp.com/products/platform-pricing" target="_blank" rel="noopener">WhatsApp Platform pricing</a></li>
+                        </ul>
+                        <blockquote class="warning"><strong>Note.</strong> Rates and endpoints reflect Meta as of 2026. Always confirm against Meta's official docs, since Meta changes rates on a schedule.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#basics" class="toc-link">1. Graph API basics</a></li>
+                    <li class="toc-h2"><a href="#tokens" class="toc-link">2. Access token creation</a></li>
+                    <li class="toc-h2"><a href="#credit-get" class="toc-link">3. Credit line — GET the ID</a></li>
+                    <li class="toc-h2"><a href="#attach" class="toc-link">4. Share + attach (current)</a></li>
+                    <li class="toc-h2"><a href="#attach-alt" class="toc-link">5. Share + attach (3-step)</a></li>
+                    <li class="toc-h2"><a href="#revoke" class="toc-link">6. Revoke</a></li>
+                    <li class="toc-h2"><a href="#pricing" class="toc-link">7. 2026 pricing model</a></li>
+                    <li class="toc-h2"><a href="#sync" class="toc-link">8. Where WaDesk fetches costs</a></li>
+                    <li class="toc-h2"><a href="#sources" class="toc-link">Sources</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

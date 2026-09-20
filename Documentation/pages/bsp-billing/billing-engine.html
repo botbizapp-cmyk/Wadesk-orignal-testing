@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the Billing Engine Works (charge-on-delivery) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Technical reference for WaDesk's charge-on-delivery billing engine — MessageBillingService, settleDelivered / settleFailed / precheck, the 7 settle points, and the message_charges ledger.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>How the Billing Engine Works (charge-on-delivery)</h1>
+                    <p>WaDesk charges for messaging on a <strong>charge-on-delivery</strong> model: money moves only when Meta (or the underlying engine) confirms a message was actually delivered. This page is the technical reference for the engine that does it. It is written for a platform admin or developer.</p>
+                    <blockquote class="info"><strong>One place, one truth.</strong> All message money moves through a single service: <code>app/Services/MessageBillingService.php</code>. There is no other code path that debits or refunds a wallet for a message. If you want to understand the money, you only have to read one class.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="core-methods"><i class="fa-solid fa-gears mr-2"></i>The three core methods</h2>
+
+                        <h3 id="settle-delivered"><code>settleDelivered(workspaceId, wamid, toPhone, category, provider, source)</code></h3>
+                        <ul>
+                            <li>Called on the <strong>DELIVERED</strong> (or READ) webhook for a message.</li>
+                            <li>Charges the wallet <strong>exactly once per message id (<code>wamid</code>)</strong>, at the price for the destination <strong>country &times; category</strong> (e.g. India marketing, US utility).</li>
+                            <li><strong>Idempotent:</strong> <code>message_charges.wamid</code> is a <strong>UNIQUE</strong> column, so a webhook that fires two, three or five times still charges once. Duplicate delivery events are a no-op.</li>
+                            <li>Records a <code>message_charges</code> row &mdash; the single <strong>source of P&amp;L</strong> (revenue and cost) for that message.</li>
+                            <li>Deducts money from the wallet, and <strong>never takes the balance below zero</strong>.</li>
+                        </ul>
+
+                        <h3 id="settle-failed"><code>settleFailed(workspaceId, wamid)</code></h3>
+                        <ul>
+                            <li>Called when Meta reports the message <strong>failed / undelivered</strong>.</li>
+                            <li><strong>Reverses the exact charge</strong> that was taken for that <code>wamid</code>, so customers never pay for messages that did not arrive.</li>
+                            <li><strong>Idempotent:</strong> reversing an already-refunded (or never-charged) message is safe and does nothing extra.</li>
+                        </ul>
+
+                        <h3 id="precheck"><code>precheck(workspace, count)</code></h3>
+                        <ul>
+                            <li>A <strong>LAUNCH gate</strong>, run <em>before</em> a campaign, broadcast or scheduled blast goes out.</li>
+                            <li>If a reseller wallet <strong>cannot cover</strong> the estimated cost of <code>count</code> messages, the send is <strong>BLOCKED</strong> before a single message leaves &mdash; the user is told to <em>"top up to send"</em>.</li>
+                            <li>This closes the <strong>"empty wallet still sends free"</strong> leak. Because charge-on-delivery only charges <em>after</em> a message ships, without this gate a customer with an empty wallet could otherwise fire an entire blast that gets recorded as free (see <a href="#free-cases">free cases</a> below).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="per-client-switch"><i class="fa-solid fa-toggle-on mr-2"></i>The per-client switch</h2>
+                        <p><code>MessageBillingService::payPerMessageFor(workspace)</code> decides whether a given workspace is billed per message:</p>
+                        <ul>
+                            <li><strong>TRUE</strong> for <strong>reseller</strong> workspaces (flagged by <code>workspaces.bill_to_platform_credit</code>): always charge the wallet on delivery; the plan's message-limit is <strong>ignored</strong>.</li>
+                            <li><strong>FALSE</strong> for <strong>meta_direct</strong> workspaces: normal plan quota applies; there is <strong>no wallet charge</strong> for messages.</li>
+                        </ul>
+                        <p>This single boolean is what makes the same delivery webhook behave as "resell and charge" for one customer and "just count against the plan" for another.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="settle-points"><i class="fa-solid fa-diagram-project mr-2"></i>The 7 settle points</h2>
+                        <p>Every place a delivery status can arrive calls the same engine. These are the seven wired settle points:</p>
+                        <table>
+                            <thead><tr><th>#</th><th>Channel / path</th><th>Where it calls the engine</th></tr></thead>
+                            <tbody>
+                                <tr><td>1</td><td>WABA (Cloud API)</td><td><code>WaWebhookController::applyStatus</code></td></tr>
+                                <tr><td>2</td><td>Twilio</td><td><code>TwilioStatusController</code></td></tr>
+                                <tr><td>3</td><td>Broadcasts</td><td><code>BroadcastsController::nodeMessageStatus</code></td></tr>
+                                <tr><td>4</td><td>Campaigns</td><td><code>WaCampaignsController::nodeContactStatus</code></td></tr>
+                                <tr><td>5</td><td>Scheduled sends</td><td><code>ScheduledController::updateContactStatus</code></td></tr>
+                                <tr><td>6</td><td>Chat (1:1)</td><td><code>ChatController::nodeChatMessageStatus</code></td></tr>
+                                <tr><td>7</td><td>Unofficial-API flow / auto-reply mirror</td><td><code>WaInboundController</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each of these receives a delivery/failure event, resolves the <code>wamid</code>, and calls <code>settleDelivered</code> or <code>settleFailed</code>. Because they all funnel into <code>MessageBillingService</code>, pricing, idempotency and refunds behave identically no matter which channel produced the message.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ledger"><i class="fa-solid fa-table-list mr-2"></i>The ledger: <code>message_charges</code></h2>
+                        <p>This table is the P&amp;L record. One row per message id.</p>
+                        <table>
+                            <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>workspace_id</code></td><td>The customer (workspace) that owns the message.</td></tr>
+                                <tr><td><code>wamid</code></td><td>The provider message id. <strong>UNIQUE</strong> &mdash; this is what makes charging idempotent.</td></tr>
+                                <tr><td><code>to_country</code></td><td>Destination country, resolved from the recipient phone; half of the price key.</td></tr>
+                                <tr><td><code>category</code></td><td>Message category (marketing / utility / authentication / service); the other half of the price key.</td></tr>
+                                <tr><td><code>credits</code></td><td>The amount charged, in <strong>money-minor</strong> (cents). This is what left the wallet.</td></tr>
+                                <tr><td><code>revenue_minor</code></td><td>Your selling price for this message, in money-minor &mdash; what the customer paid you.</td></tr>
+                                <tr><td><code>cost_minor</code></td><td>Meta's wholesale cost for this message, in money-minor &mdash; what Meta bills you. Margin = <code>revenue_minor &minus; cost_minor</code>.</td></tr>
+                                <tr><td><code>status</code></td><td>One of <code>free</code> (rate 0 or within-quota), <code>charged</code> (wallet debited), or <code>refunded</code> (delivery failed, charge reversed).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="free-cases"><i class="fa-solid fa-circle-info mr-2"></i>Refunds, idempotency &amp; "free" cases</h2>
+                        <ul>
+                            <li><strong>Refund-on-failed.</strong> A failed delivery triggers <code>settleFailed</code>, which reverses the precise charge and flips the row to <code>refunded</code>. Customers are never charged for messages that did not arrive.</li>
+                            <li><strong>Idempotency.</strong> Both charge and refund are keyed on the unique <code>wamid</code>. Repeated webhooks &mdash; common with Meta &mdash; never double-charge or double-refund.</li>
+                            <li><strong>Free case: rate 0.</strong> Service messages and free-entry-point / within-24h-window replies price at 0 and are recorded as <code>free</code>.</li>
+                            <li><strong>Free case: within plan quota (meta_direct).</strong> These workspaces have <code>payPerMessageFor = FALSE</code>; their messages count against the plan and are never wallet-charged.</li>
+                            <li><strong>Free case: empty wallet at delivery.</strong> If a reseller wallet is empty when the delivery webhook lands, the charge is recorded as <code>free</code> because <em>the message already went out</em> &mdash; the engine will not push the wallet negative. This is precisely why the <a href="#precheck">LAUNCH precheck</a> matters: it stops the blast at launch, before delivery, so an empty wallet cannot ship free traffic.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sequence"><i class="fa-solid fa-list-ol mr-2"></i>End-to-end sequence</h2>
+                        <ol>
+                            <li><strong>Send</strong> &mdash; a message is dispatched (after <code>precheck</code> passed, for blasts).</li>
+                            <li><strong>Meta / engine delivers</strong> the message to the recipient.</li>
+                            <li><strong>Delivery webhook</strong> arrives at one of the 7 settle points.</li>
+                            <li><strong><code>settleDelivered</code></strong> charges the wallet once and writes the <code>message_charges</code> ledger row.</li>
+                            <li><strong>If it later fails</strong>, <code>settleFailed</code> reverses that exact charge and marks the row <code>refunded</code>.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related"><i class="fa-solid fa-link mr-2"></i>Related pages</h2>
+                        <ul>
+                            <li><a href="../bsp-billing/overview.html">BSP &amp; Reseller Billing — Overview</a></li>
+                            <li><a href="../bsp-billing/meta-setup.html">Meta setup &amp; credit line</a></li>
+                            <li><a href="../bsp-billing/admin-pages.html">Admin pages (pricing / income / reseller credit-line)</a></li>
+                            <li><a href="../bsp-billing/customer-flow.html">Customer flow</a></li>
+                            <li><a href="../bsp-billing/api-reference.html">API reference</a></li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#core-methods" class="toc-link">The three core methods</a></li>
+                    <li class="toc-h2"><a href="#per-client-switch" class="toc-link">The per-client switch</a></li>
+                    <li class="toc-h2"><a href="#settle-points" class="toc-link">The 7 settle points</a></li>
+                    <li class="toc-h2"><a href="#ledger" class="toc-link">The ledger: message_charges</a></li>
+                    <li class="toc-h2"><a href="#free-cases" class="toc-link">Refunds, idempotency &amp; free cases</a></li>
+                    <li class="toc-h2"><a href="#sequence" class="toc-link">End-to-end sequence</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

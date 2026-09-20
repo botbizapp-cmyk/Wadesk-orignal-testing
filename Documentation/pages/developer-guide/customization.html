@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customization Guide – WaDesk SaaS Docs</title>
+    <meta name="description" content="Customization Guide — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Customization Guide</h1>
+
+                    <blockquote class="info">
+                        <strong>Audience:</strong> developers and resellers white-labelling or extending WaDesk &mdash; themes, branding, the asset build, languages, and the environment settings that change behaviour without touching code.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">What You Can Customize</h2>
+                        <p>Most white-label changes are <strong>no-code</strong>: logos, colours, app name, and message footers are admin settings. Deeper changes &mdash; restyling, new pages, new translations &mdash; touch the front-end build. This page covers both, in roughly increasing order of effort:</p>
+                        <ul>
+                            <li><strong>Themes</strong> &mdash; the four built-in looks and how the theme switch works.</li>
+                            <li><strong>Branding</strong> &mdash; logos, favicon, app name, and outbound footers.</li>
+                            <li><strong>Front-end build</strong> &mdash; Vite + Tailwind v4, when and how to rebuild.</li>
+                            <li><strong>Languages</strong> &mdash; the translation files and adding a new one.</li>
+                            <li><strong>Environment settings</strong> &mdash; behaviour you change in the <code>.env</code> file.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="themes">Themes</h2>
+                        <p>The dashboard ships four themes: <code>paper</code> (default), <code>bright</code>, <code>dark</code>, and <code>doodle</code>. The active theme is applied by setting a <code>data-theme</code> attribute on the page; the CSS then styles each theme off it:</p>
+                        <pre>
+html[data-theme="dark"]   .ts-control { ... }
+html[data-theme="bright"] .ts-dropdown { ... }
+/* paper is the default — no attribute set */</pre>
+                        <p>The user's choice is remembered in their browser (a <code>wa-theme</code> cookie) and applied on the very first paint so the page never flashes the wrong theme on reload. The server reads the same cookie so server-rendered parts (notably the logo) match the active theme straight away &mdash; the cookie, not a saved profile setting, is the source of truth.</p>
+                        <blockquote class="warning"><strong>Adding a theme:</strong> register the new theme key, add its <code>html[data-theme="..."]</code> rules in the CSS, and add it to the theme switcher. An unknown saved value safely falls back to <code>paper</code>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="branding">Branding &amp; White-Label</h2>
+                        <p>Brand assets come from admin settings &mdash; no code edits needed:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Asset</th><th>Configured at</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Per-theme logo (one per theme)</td><td>Admin &rarr; Settings &rarr; General</td></tr>
+                                <tr><td>Favicon</td><td>Admin &rarr; Settings &rarr; General</td></tr>
+                                <tr><td>App name</td><td>Admin settings (falls back to the app's configured name)</td></tr>
+                                <tr><td>Billing identity (company, address, tax ID&hellip;)</td><td>Admin &rarr; Checkout Settings (printed on invoices)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Logos fall back gracefully: a missing per-theme logo uses the default <code>paper</code> logo, and if no logo is set at all the UI shows a text wordmark instead.</p>
+
+                        <h3 id="footers">Outbound Message Footers</h3>
+                        <p>The footer added to outbound messages is decided per-workspace:</p>
+                        <ul>
+                            <li>If the workspace's plan does <strong>not</strong> include "remove branding" &rarr; the platform's default footer (set by the admin) is used.</li>
+                            <li>If the plan <strong>does</strong> include "remove branding" &rarr; the workspace's own footer is used if set, otherwise no footer at all.</li>
+                        </ul>
+                        <p>The footer is added to plain-text messages and to the footer line on button/interactive messages. Approved WhatsApp templates are excluded &mdash; their content cannot be changed after approval. The bridge is given the final footer along with the rest of a number's settings.</p>
+                        <blockquote class="warning"><strong>No emojis &mdash; SVG only.</strong> The product's style is inline SVG icons (16&times;16, <code>currentColor</code> stroke), never emoji. Keep any custom UI, log lines, and message text emoji-free to match.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="build">Front-End Build (Vite + Tailwind v4)</h2>
+                        <p>The front-end is compiled with Vite 7 and Tailwind CSS v4. The build has two style entry points &mdash; one for the dashboard/admin and one for the public landing pages &mdash; plus the main app script, as declared in <code>vite.config.js</code>:</p>
+                        <pre>
+// vite.config.js
+laravel({
+  input: [
+    'resources/css/app.css',       // dashboard / admin / user shell
+    'resources/css/frontend.css',  // public landing pages
+    'resources/js/app.js',
+  ],
+  refresh: true,
+})</pre>
+                        <p>Tailwind v4 is configured in CSS: the colour palette and fonts are defined in an <code>@theme {}</code> block inside the dashboard stylesheet.</p>
+                        <p>Commands (from the project root):</p>
+                        <pre>
+npm install        # install front-end deps (first time)
+npm run dev        # dev server with hot reload (development)
+npm run build      # compile production assets</pre>
+                        <blockquote class="info"><strong>Rebuild after any front-end change.</strong> Editing the stylesheets or scripts, or adding new Tailwind classes, needs <code>npm run build</code> for production (or a running <code>npm run dev</code> in development). The whole local stack &mdash; web server, queue, logs, and the asset build &mdash; can be started together with <code>composer dev</code>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="languages">Adding Languages</h2>
+                        <p>Translations are flat JSON files in the <code>lang/</code> directory, keyed by the English source string. WaDesk ships <code>en.json</code> plus 20 translated locales:</p>
+                        <pre>
+lang/
+├── en.json   (source)
+├── ar.json  bn.json  de.json  es.json  fr.json  he.json  hi.json
+├── id.json  it.json  ja.json  ko.json  nl.json  pl.json  pt.json
+└── ru.json  th.json  tr.json  ur.json  vi.json  zh-CN.json</pre>
+                        <p>Each file maps the original string to its translation:</p>
+                        <pre>
+// lang/fr.json
+{
+  "Team Inbox": "Bo&icirc;te de r&eacute;ception d'&eacute;quipe",
+  "Send message": "Envoyer le message"
+}</pre>
+                        <p>To add a new language:</p>
+                        <ol>
+                            <li>Copy <code>lang/en.json</code> to <code>lang/&lt;code&gt;.json</code> (e.g. <code>lang/sv.json</code>) and translate the values.</li>
+                            <li>The default and fallback language are set by <code>APP_LOCALE</code> / <code>APP_FALLBACK_LOCALE</code> in the <code>.env</code> file (both <code>en</code> by default); users switch language using the in-app language switcher.</li>
+                            <li>A built-in tool can scan the app for any newly-added text and append it to the translation files, keeping them in sync as you add features.</li>
+                        </ol>
+                        <p>Right-to-left languages (Arabic, Hebrew, Urdu) are already included, and the UI handles right-to-left layout automatically.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="env">.env Knobs</h2>
+                        <p>Behaviour you change without touching code. The most relevant for customization and deployment:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Variable</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>APP_NAME</code></td><td>Default app name (admin <code>app_name</code> setting overrides it in the UI).</td></tr>
+                                <tr><td><code>APP_URL</code></td><td>Public base URL. Must be the real HTTPS domain &mdash; used to build media URLs, Twilio <code>StatusCallback</code>, and links Meta must be able to fetch.</td></tr>
+                                <tr><td><code>APP_LOCALE</code> / <code>APP_FALLBACK_LOCALE</code></td><td>Default + fallback language (both <code>en</code> out of the box).</td></tr>
+                                <tr><td><code>DB_*</code></td><td>MySQL connection (host, port, database, username, password).</td></tr>
+                                <tr><td><code>QUEUE_CONNECTION</code></td><td>Queue driver &mdash; <code>database</code> by default; switch to <code>redis</code> for higher throughput.</td></tr>
+                                <tr><td><code>CACHE_STORE</code> / <code>SESSION_DRIVER</code></td><td>Cache + session backends (both <code>database</code> by default).</td></tr>
+                                <tr><td><code>SERVER_URL</code></td><td>The address of the Node bridge, used by the send path and scheduler.</td></tr>
+                                <tr><td><code>NODE_WEBHOOK_TOKEN</code></td><td>Shared secret that authenticates the app and the bridge to each other. <strong>Must match</strong> the value in <code>node/.env</code>.</td></tr>
+                                <tr><td><code>MAIL_*</code></td><td>Outbound email for invoices, notifications, and password resets.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Several of these also have an admin-panel equivalent that takes precedence &mdash; for example the default WhatsApp engine, the allowed engines, the Meta API version, and the bridge URL. Prefer the admin UI for those; the <code>.env</code> values act as fallbacks at startup.</p>
+                        <blockquote class="info"><strong>After editing <code>.env</code>:</strong> clear the config cache (<code>php artisan config:clear</code>, or <code>config:cache</code> in production). Changes are not picked up while a stale cached config exists.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="conventions">Conventions to Respect</h2>
+                        <ul>
+                            <li><strong>Inline SVG icons only</strong> &mdash; no emoji anywhere in the UI, scripts, or logs.</li>
+                            <li><strong>Encrypted credentials</strong> &mdash; always read and write engine credentials through the provided helpers, never the raw stored value.</li>
+                            <li><strong>Engine-aware UI</strong> &mdash; gate engine-specific features behind the active-engine check so operators never hit a dead end.</li>
+                            <li><strong>Rebuild assets</strong> after any front-end change; clear the config cache after any <code>.env</code> change.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next">Related Pages</h2>
+                        <ul>
+                            <li><a href="./architecture.html">Architecture Overview</a> &mdash; the layout these files live in.</li>
+                            <li><a href="./engines.html">WhatsApp Engines</a> &mdash; how engine selection and footers reach a send.</li>
+                            <li><a href="./node-bridge.html">Node Bridge &amp; Realtime</a> &mdash; the bridge that the <code>SERVER_URL</code> / <code>NODE_WEBHOOK_TOKEN</code> knobs configure.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">What You Can Customize</a></li>
+                    <li class="toc-h2"><a href="#themes" class="toc-link">Themes</a></li>
+                    <li class="toc-h2"><a href="#branding" class="toc-link">Branding &amp; White-Label</a></li>
+                    <li class="toc-h2"><a href="#build" class="toc-link">Front-End Build</a></li>
+                    <li class="toc-h2"><a href="#languages" class="toc-link">Adding Languages</a></li>
+                    <li class="toc-h2"><a href="#env" class="toc-link">.env Knobs</a></li>
+                    <li class="toc-h2"><a href="#conventions" class="toc-link">Conventions to Respect</a></li>
+                    <li class="toc-h2"><a href="#next" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

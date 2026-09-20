@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Integration – WaDesk SaaS Docs</title>
+    <meta name="description" content="Trello integration — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Trello Integration</h1>
+                    <p>Connect a Trello board to WaDesk so that <strong>activity on your board can trigger a WhatsApp action</strong> &mdash; for example, when a member is assigned to a card, notify them on WhatsApp.</p>
+                    <blockquote class="info"><strong>How it works.</strong> Trello calls a WaDesk webhook whenever something happens on the board you registered; WaDesk reads the event and runs the matching action.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="what">What it does</h2>
+                        <ul>
+                            <li>Reacts to Trello board events &mdash; e.g. <em>a member added to a card</em> (assignment) &mdash; and turns them into a WhatsApp action through WaDesk.</li>
+                            <li>Keeps your project board and your WhatsApp outreach in sync without manual copy-paste.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">How to set it up</h2>
+                        <ol>
+                            <li>In WaDesk, open <strong>Integrations</strong> and choose <strong>Trello</strong>.</li>
+                            <li>Provide your Trello API credentials/token as prompted on the page.</li>
+                            <li>Register a <strong>board webhook</strong> pointing at the WaDesk Trello endpoint shown on the integration page, for the board you want to watch.</li>
+                            <li>Trigger an event on the board (e.g. assign a member to a card) to confirm the action fires.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="notes">Good to know</h2>
+                        <ul>
+                            <li>Trello sends a verification request (HEAD/POST) when a webhook is created; WaDesk's endpoint accepts it.</li>
+                            <li>Availability of the integration can depend on your plan.</li>
+                            <li>For pushing WaDesk events into other tools, see <a href="webhooks.html">Webhooks</a>; for HubSpot/store sync, see <a href="ecommerce.html">E-commerce &amp; CRM</a>.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#what" class="toc-link">What it does</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">How to set it up</a></li>
+                    <li class="toc-h2"><a href="#notes" class="toc-link">Good to know</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

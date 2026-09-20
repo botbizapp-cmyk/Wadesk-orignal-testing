@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Health – WaDesk SaaS Docs</title>
+    <meta name="description" content="System Health — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>System Health</h1>
+
+                    <p>System Health is a single screen that answers one question at a glance: <strong>is the whole system up?</strong> It runs a set of live probes against the parts WaDesk depends on &mdash; the database, cache, queue, the Node WhatsApp bridge, and media storage &mdash; and shows you an overall status plus the recent activity of the platform. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>Rather than logging into a server to check whether services are running, you open one page and read the result. System Health probes each critical dependency in real time and rolls the results into an overall status banner, so you can confirm everything is healthy &mdash; or immediately spot what is broken.</p>
+                        <p>You will find it in the admin sidebar under <strong>Admin &rarr; System Health</strong> (URL <code>/admin/health</code>).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="probes">Core Probes</h2>
+                        <p>Each probe is <strong>independent and tolerant</strong> &mdash; one failing probe never takes down the page, it just reports that one part as unhealthy. The core probes are:</p>
+                        <table>
+                            <thead><tr><th>Probe</th><th>What it checks</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Database</strong></td><td>That the database responds, reported with its ping time.</td></tr>
+                                <tr><td><strong>Cache</strong></td><td>A live read/write round-trip against the cache.</td></tr>
+                                <tr><td><strong>Queue</strong></td><td>The number of pending jobs and failed jobs waiting in the queue.</td></tr>
+                                <tr><td><strong>Node WhatsApp bridge</strong></td><td>The bridge is pinged &mdash; any HTTP response means it is alive; a connection refused means it is down.</td></tr>
+                                <tr><td><strong>Media storage</strong></td><td>A full write / read / delete round-trip against storage, reported with its timing.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Tip:</strong> The Node WhatsApp bridge probe treats <em>any</em> HTTP reply as healthy &mdash; it is checking that the process is reachable, not that a particular response came back. So even an error response confirms the bridge is up; only a refused connection marks it down.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="status-banner">Overall Status &amp; Activity</h2>
+                        <p>At the top of the page an <strong>overall status banner</strong> summarises every probe into one of three states:</p>
+                        <ul>
+                            <li><strong>Operational</strong> &mdash; everything is healthy.</li>
+                            <li><strong>Degraded</strong> &mdash; something is impaired but the platform is still running.</li>
+                            <li><strong>Down</strong> &mdash; a critical dependency has failed.</li>
+                        </ul>
+                        <p>Beneath the banner, <strong>last-24h activity counters</strong> show how busy the platform has been: messages, AI calls, conversations, and webhooks. <strong>Response-time bars</strong> visualise how quickly each probe responded, so a slow database or storage round-trip is easy to see.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="throughput-engines">Throughput &amp; Engine Status</h2>
+                        <p>The page also shows operational detail about messaging:</p>
+                        <ul>
+                            <li>A <strong>14-day message-throughput chart</strong>, so you can see the volume trend and whether sending has stalled.</li>
+                            <li><strong>Per-engine connected-number cards</strong> for each messaging engine &mdash; <strong>Unofficial API</strong>, <strong>WhatsApp Cloud</strong>, and <strong>Twilio</strong> &mdash; each showing connected numbers versus the total configured. This is how you catch numbers that have silently disconnected.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="host-vitals">Host Vitals</h2>
+                        <p>A host-vitals panel reports the environment the platform is running in, so you can spot a server-level problem such as a disk filling up:</p>
+                        <ul>
+                            <li><strong>PHP version</strong> and <strong>Laravel version</strong>.</li>
+                            <li><strong>Free disk</strong> space.</li>
+                            <li><strong>Memory limit</strong>.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="auto-refresh">Auto-Refresh</h2>
+                        <p>The page <strong>auto-refreshes every 20 seconds</strong>, so you can leave it open during an incident or a deployment and watch the status update on its own without reloading.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="using-it">When to Use It</h2>
+                        <p>Open System Health to instantly catch problems such as:</p>
+                        <ul>
+                            <li>a <strong>down Node WhatsApp bridge</strong> &mdash; the reason sends and inbound messages stop flowing;</li>
+                            <li>a <strong>backlog of failed jobs</strong> in the queue;</li>
+                            <li>a <strong>full disk</strong>, before it causes wider failures;</li>
+                            <li><strong>numbers that have disconnected</strong>, shown in the per-engine cards.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan-permission">Plan &amp; Permission</h2>
+                        <p>System Health is <strong>platform admin only</strong>. It reports on the whole install &mdash; servers, queues, and every engine &mdash; so it is not available inside customer workspaces.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./ai-dashboard.html">AI Usage Dashboard</a> &mdash; platform-wide AI token and cost analytics.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; security posture and the record of sensitive actions.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#probes" class="toc-link">Core Probes</a></li>
+                    <li class="toc-h2"><a href="#status-banner" class="toc-link">Overall Status &amp; Activity</a></li>
+                    <li class="toc-h2"><a href="#throughput-engines" class="toc-link">Throughput &amp; Engine Status</a></li>
+                    <li class="toc-h2"><a href="#host-vitals" class="toc-link">Host Vitals</a></li>
+                    <li class="toc-h2"><a href="#auto-refresh" class="toc-link">Auto-Refresh</a></li>
+                    <li class="toc-h2"><a href="#using-it" class="toc-link">When to Use It</a></li>
+                    <li class="toc-h2"><a href="#plan-permission" class="toc-link">Plan &amp; Permission</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

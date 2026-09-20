@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupons &amp; Credits – WaDesk SaaS Docs</title>
+    <meta name="description" content="Coupons &amp; Credits — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Coupons &amp; Credits</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>This area covers the two levers you use to win and reward customers at checkout:</p>
+                        <ul>
+                            <li><strong>Coupons</strong> (<strong>Admin &rarr; Coupons</strong>) &mdash; discount codes a customer types at checkout. Percent or fixed, time-bounded, plan-scoped, and capped however you like.</li>
+                            <li><strong>Credit packages</strong> (<strong>Admin &rarr; Credit packages</strong>) &mdash; pay-as-you-go bundles that sell a fixed number of message credits for a fixed price.</li>
+                        </ul>
+                        <p>Both live under the Billing &amp; Plans group in the admin sidebar, and both feed the same checkout that powers your <a href="./plans-packages.html">plans</a> and <a href="./billing-finance.html">billing</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="coupons-list">The Coupons List</h2>
+                        <p>The coupon index shows every code in your catalog, newest first, 12 per page. A four-card KPI strip sits at the top:</p>
+                        <table>
+                            <thead><tr><th>KPI</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Total coupons</strong></td><td>Every coupon in the catalog, active or not.</td></tr>
+                                <tr><td><strong>Active</strong></td><td>Coupons currently accepting redemptions.</td></tr>
+                                <tr><td><strong>Expired</strong></td><td>Coupons whose expiry date is in the past.</td></tr>
+                                <tr><td><strong>Total redemptions</strong></td><td>All-time uses summed across every coupon.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Below the KPIs are status pills (All, Active, Disabled, Expired) and a search box that matches the code or its description. The table lists each coupon's code and description, its discount (a percentage, or a fixed amount in your default currency), a <strong>uses</strong> counter shown as <code>used / max</code> (or <code>used / &infin;</code> when uncapped), and a validity range. Expired rows are dimmed.</p>
+                        <p>Each row has an inline <strong>Active</strong> toggle that flips the coupon on or off instantly, and a menu with <strong>Edit</strong> and <strong>Delete</strong>.</p>
+                        <blockquote class="info"><strong>Deleting is safe for past buyers:</strong> Removing a coupon returns its code to the pool for reuse but does <strong>not</strong> claw back discounts &mdash; workspaces that already redeemed it keep what they got. If you only want to stop new redemptions, just toggle it off rather than deleting.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="coupon-form">Creating &amp; Editing a Coupon</h2>
+                        <p>Creating and editing a coupon use the same form, organised into four numbered sections. The fields below match the form exactly.</p>
+
+                        <h3 id="coupon-identity">Section 1 &mdash; Identity</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Code</strong> <em>(required)</em></td><td>What the customer types at checkout, e.g. <code>WELCOME10</code>. Always uppercased on save and must be unique.</td></tr>
+                                <tr><td><strong>Description</strong></td><td>Shown to the customer at checkout (for example "10% off the first month for new signups").</td></tr>
+                                <tr><td><strong>Admin note</strong></td><td>Internal only, never shown to customers &mdash; a place for batch/campaign context.</td></tr>
+                                <tr><td><strong>Active</strong></td><td>When on, customers can redeem it at checkout. On by default.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="coupon-discount">Section 2 &mdash; Discount</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Type</strong> <em>(required)</em></td><td><strong>Percent (%)</strong> or <strong>Fixed amount</strong>.</td></tr>
+                                <tr><td><strong>Amount</strong> <em>(required)</em></td><td>For percent type, <code>10</code> means 10% off. For fixed, <code>10</code> means 10 currency units off.</td></tr>
+                                <tr><td><strong>Max discount cap</strong></td><td>Percent type only. Caps the discount value &mdash; e.g. "20% off, but never more than $50." Blank = no cap.</td></tr>
+                                <tr><td><strong>Currency lock</strong></td><td>Restricts redemption to a single currency. Most relevant for fixed-amount coupons so "10 off" doesn't mean wildly different things across currencies. Blank = any currency.</td></tr>
+                                <tr><td><strong>Minimum order amount</strong></td><td>The order must reach this subtotal before the coupon applies. <code>0</code> = no minimum.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Always cap percentage coupons:</strong> A 30%-off code with no cap behaves very differently on a $9 plan versus a $384 annual plan. Set a <strong>Max discount cap</strong> on any percent coupon you don't want applied to your highest tiers.</blockquote>
+
+                        <h3 id="coupon-eligibility">Section 3 &mdash; Eligibility</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Applicable plans</strong></td><td>A multi-select of your active plans. Leave it empty to apply to <em>any</em> plan; pick one or more to scope the coupon to just those tiers.</td></tr>
+                                <tr><td><strong>Starts at</strong></td><td>When the coupon becomes redeemable. Blank = available immediately.</td></tr>
+                                <tr><td><strong>Expires at</strong></td><td>When it stops working. Blank = never expires. Must be on or after the start date.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="coupon-limits">Section 4 &mdash; Limits &amp; Behaviour</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Max total redemptions</strong></td><td>How many times the code can be used across <em>all</em> customers. Blank = unlimited.</td></tr>
+                                <tr><td><strong>Per-user limit</strong></td><td>How many times a single customer can redeem it. Blank = unlimited.</td></tr>
+                                <tr><td><strong>First purchase only</strong></td><td>When on, only workspaces with no paid orders yet can use it &mdash; ideal for acquisition codes.</td></tr>
+                                <tr><td><strong>Stackable with other coupons</strong></td><td>When on, the code can be combined with another active coupon at checkout. Off by default.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Save with <strong>Create coupon</strong> (or <strong>Save changes</strong> when editing). From then on, the code is checked against all these rules whenever a customer applies it at checkout.</p>
+                        <blockquote class="info"><strong>Recipe &mdash; a launch promo:</strong> Type <code>Percent</code>, Amount <code>25</code>, Max discount cap <code>50</code>, turn on <strong>First purchase only</strong>, set <strong>Max total redemptions</strong> to your budget (say 200), set an <strong>Expires at</strong> date, and leave <strong>Applicable plans</strong> empty. That's "25% off your first order, capped at $50, first 200 new customers, time-limited."</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credit-packages">Credit Packages</h2>
+                        <p>Credit packages are pay-as-you-go bundles: a customer pays a fixed price and receives a fixed number of message credits. They're sold from the checkout page and shown on a workspace's wallet. They sit alongside subscriptions &mdash; a workspace can be on a plan <em>and</em> top up with credits.</p>
+                        <p>The index lists every package with its name, slug, price, credit count, a computed <strong>credits-per-currency-unit</strong> value, an optional badge, and an active/disabled status. Each row has <strong>Edit</strong>, <strong>Enable/Disable</strong>, and <strong>Delete</strong>.</p>
+                        <blockquote class="info"><strong>Fixed conversion, by design:</strong> Each package buys exactly the credit count you set, <em>independent</em> of the per-unit conversion rate configured in <a href="./system-settings.html">Settings</a>. That lets you offer volume deals &mdash; a bigger bundle can include proportionally more credits than the base rate &mdash; without touching the global rate.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credit-form">Creating &amp; Editing a Credit Package</h2>
+                        <p>Creating and editing a credit package use the same three-section form.</p>
+
+                        <h3 id="credit-identity">Section 1 &mdash; Identity</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong> <em>(required)</em></td><td>The package's display name (Starter / Growth / Scale).</td></tr>
+                                <tr><td><strong>Slug</strong></td><td>A short, unique name used in the package's checkout link. Leave blank to generate it automatically from the name.</td></tr>
+                                <tr><td><strong>Description</strong></td><td>A short blurb shown on the wallet page.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="credit-pricing">Section 2 &mdash; Pricing</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Price</strong> <em>(required)</em></td><td>In whole currency units (e.g. <code>100</code> = 100 of the chosen unit). Decimal amounts like cents and paise are preserved.</td></tr>
+                                <tr><td><strong>Currency</strong></td><td>One of your active currencies (INR, USD, EUR, GBP, AED).</td></tr>
+                                <tr><td><strong>Credits</strong> <em>(required)</em></td><td>The whole number of message credits this package grants on purchase.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="credit-display">Section 3 &mdash; Display &amp; Visibility</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Badge</strong></td><td>An optional label above the price ("Most popular", "Best value").</td></tr>
+                                <tr><td><strong>Sort order</strong></td><td>Lower numbers appear first on the wallet page. Use it to order your bundle ladder.</td></tr>
+                                <tr><td><strong>Active</strong></td><td>When on, the package is visible on the user-side wallet. On by default.</td></tr>
+                                <tr><td><strong>Featured</strong></td><td>Highlights the card on the wallet page to draw the eye to your hero bundle.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Save with <strong>Create package</strong> (or <strong>Save changes</strong>).</p>
+                        <blockquote class="warning"><strong>Disabling vs deleting:</strong> Turning a package off (Disable) simply removes it from the customer-facing wallet list &mdash; credits customers already bought are untouched. Deleting also leaves existing purchases intact. Prefer <strong>Disable</strong> when retiring a bundle so its name and history stay on record.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./plans-packages.html">Plans &amp; Packages</a> &mdash; the subscription tiers coupons can be scoped to.</li>
+                            <li><a href="./billing-finance.html">Billing &amp; Finance</a> &mdash; where credit-bundle purchases appear as add-on orders and coupon discounts show on invoices.</li>
+                            <li><a href="./localization.html">Localization</a> &mdash; manage the active currencies offered in both forms.</li>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; the global credit conversion rate that credit packages override.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#coupons-list" class="toc-link">The Coupons List</a></li>
+                    <li class="toc-h2"><a href="#coupon-form" class="toc-link">Creating &amp; Editing a Coupon</a></li>
+                    <li class="toc-h2"><a href="#credit-packages" class="toc-link">Credit Packages</a></li>
+                    <li class="toc-h2"><a href="#credit-form" class="toc-link">Creating a Credit Package</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

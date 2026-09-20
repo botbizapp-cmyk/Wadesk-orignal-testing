@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Pipeline (Deals) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Sales Pipeline (Deals CRM) — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Sales Pipeline (Deals)</h1>
+                    <p>The <strong>Deals</strong> screen is a built-in sales CRM: a drag-and-drop Kanban board where you track every opportunity through your own pipeline stages and close it without leaving WhatsApp. It connects your conversations, orders, automation flows, and reports into one lead-to-sale loop.</p>
+                    <blockquote class="info"><strong>Plan feature.</strong> The Sales Pipeline is a paid feature (<code>access_sales_pipeline</code>), enforced on the server. If you do not see <strong>Deals</strong> in your menu, your plan does not include it &mdash; see <a href="../security/plan-enforcement.html">Plan Enforcement</a>.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>Each workspace gets a <strong>pipeline</strong> made of ordered <strong>stages</strong> (a default ladder is created for you automatically). A <strong>deal</strong> is one opportunity: it has a title, a value, an owner, a linked contact, and lives in exactly one stage at a time. Every change is written to the deal's <strong>activity timeline</strong>.</p>
+                        <ul>
+                            <li><strong>Stages</strong> &mdash; the columns on the board (e.g. New Lead &rarr; Qualified &rarr; Proposal &rarr; Won / Lost). You can rename and reorder them; a stage can be flagged as a <em>won</em> or <em>lost</em> stage.</li>
+                            <li><strong>Status follows the stage</strong> &mdash; when you drag a deal into a won or lost stage, its status and the won/lost date are set for you automatically, and the move is logged to the timeline.</li>
+                            <li><strong>Timeline &amp; tasks</strong> &mdash; notes, calls, messages, stage changes, and follow-up <em>tasks</em> (with a due date) all appear on the deal's timeline.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">How to enable &amp; set up</h2>
+                        <ol>
+                            <li><strong>Make sure your plan includes it.</strong> The platform admin enables the <em>Sales Pipeline</em> feature on the plan under <strong>Admin &rarr; Packages</strong>. Workspaces on that plan then see <strong>Deals</strong> in the menu.</li>
+                            <li><strong>Open <code>/deals</code>.</strong> The default pipeline and its stages are created the first time you visit &mdash; no setup required to start.</li>
+                            <li><strong>Adjust your stages.</strong> Use the board's settings to rename, reorder, add, or remove stages so they match your sales process, and mark which stages mean Won and Lost.</li>
+                            <li><strong>(Optional) Auto-create deals from orders.</strong> In the board's settings, turn on <em>create a deal automatically from new orders</em> and set a minimum order value. This is off by default.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="creating">Five ways a deal is created</h2>
+                        <p>Every deal records where it came from, so you can see how your pipeline fills up.</p>
+                        <table>
+                            <thead><tr><th>Source</th><th>How</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Manual</strong></td><td>The <em>New deal</em> button on the board.</td></tr>
+                                <tr><td><strong>Team Inbox</strong></td><td>The <em>Create deal</em> button on any conversation &mdash; it links the deal to that contact and chat.</td></tr>
+                                <tr><td><strong>Order</strong></td><td>Automatically from a store order when you enable it (opt-in, with a minimum value).</td></tr>
+                                <tr><td><strong>Flow</strong></td><td>A <em>Create / move deal</em> step inside a <a href="../automation/flows.html">Flow</a>.</td></tr>
+                                <tr><td><strong>REST API</strong></td><td><code>POST /api/v1/deals</code> &mdash; see the <a href="../developer-guide/rest-api.html">REST API</a>.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connects">How it connects to the rest of WaDesk</h2>
+                        <ul>
+                            <li><strong>Contacts &amp; Team Inbox</strong> &mdash; every deal links to a contact; the inbox shows a deals panel for the open conversation, and <em>Message on WhatsApp</em> from a deal opens that contact's chat.</li>
+                            <li><strong>Flows (both directions)</strong> &mdash; moving a deal to a stage can fire the <em>deal stage changed</em> trigger to launch a WhatsApp <a href="../automation/flows.html">Flow</a>; and a flow can itself create or advance a deal. So chats drive the pipeline and the pipeline drives chats.</li>
+                            <li><strong>Orders</strong> &mdash; a new store order can open a deal automatically (opt-in).</li>
+                            <li><strong>Notifications &amp; reminders</strong> &mdash; the deal owner is alerted when a deal is assigned or won/lost, and overdue follow-up tasks nudge the owner automatically.</li>
+                            <li><strong>Reports</strong> &mdash; <code>/deals/reports</code> shows value by stage, win-rate, a weighted forecast, and an agent leaderboard.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="api">Managing deals over the API</h2>
+                        <p>The full pipeline is available through the REST API at <code>/api/v1/deals</code> (list, create, read, update/advance stage, delete), authenticated with a workspace API key. See the <a href="../developer-guide/rest-api.html">REST API</a> guide.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">How to enable &amp; set up</a></li>
+                    <li class="toc-h2"><a href="#creating" class="toc-link">Five ways a deal is created</a></li>
+                    <li class="toc-h2"><a href="#connects" class="toc-link">How it connects</a></li>
+                    <li class="toc-h2"><a href="#api" class="toc-link">Managing deals over the API</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

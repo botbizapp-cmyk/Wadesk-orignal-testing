@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the LINE channel — creating a LINE Official Account and Messaging API channel, where to copy the Channel access token and Channel secret, webhook setup, reply vs push messages, rich menus, broadcasts and troubleshooting.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>LINE Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>LINE</strong> channel connects a <strong>LINE Official Account</strong> so the people who add it as a friend appear in the <a href="../messaging/team-inbox.html">Team Inbox</a> alongside your other channels. LINE is the dominant messenger in Japan, Taiwan and Thailand, and it runs the same auto-reply, flows, AI agent and broadcasts as the rest of WaDesk &mdash; plus LINE-specific extras like <strong>rich menus</strong> and <strong>Flex messages</strong>.</p>
+                        <blockquote class="info"><strong>No app review required.</strong> Unlike WhatsApp or Instagram, a LINE Messaging API channel is self-serve. You create it, copy two values, and connect &mdash; usually under ten minutes.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>LINE Official Accounts talk over the official <strong>Messaging API</strong>, authenticated with a <strong>Channel access token</strong>.</li>
+                            <li>WaDesk gives you a <strong>webhook URL</strong> to paste into the LINE console. Every inbound event (message, follow, postback, sticker) is pushed to WaDesk instantly.</li>
+                            <li>Each webhook delivery is signed by LINE and verified against your <strong>Channel secret</strong>, so forged requests are rejected.</li>
+                            <li>People reach you by adding your Official Account as a friend &mdash; via its LINE ID, QR code, or an <code>Add friend</code> link.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credentials">Creating the Channel &amp; Getting Your Credentials</h2>
+                        <p>Everything comes from LINE&rsquo;s own developer console. Step by step:</p>
+                        <ol>
+                            <li><strong>Create a LINE Business ID.</strong> Go to <a href="https://developers.line.biz/console/" target="_blank" rel="noopener">developers.line.biz/console</a> and sign in (or register) with your LINE account or email.</li>
+                            <li><strong>Create a Provider.</strong> A provider is your company/organisation. Click <strong>Create a new provider</strong> and give it a name.</li>
+                            <li><strong>Create a Messaging API channel.</strong> Inside the provider, click <strong>Create a Messaging API channel</strong>. Fill in the channel name (this is the name customers see), description, category, and country/region.</li>
+                            <li><strong>Open the Messaging API tab.</strong> Once created, open the channel and switch to the <strong>Messaging API</strong> tab.</li>
+                            <li><strong>Issue the Channel access token.</strong> Scroll to <strong>Channel access token (long-lived)</strong> and click <strong>Issue</strong>. Copy the long string that appears.</li>
+                            <li><strong>Copy the Channel secret.</strong> Switch to the <strong>Basic settings</strong> tab and copy <strong>Channel secret</strong>.</li>
+                            <li><strong>Turn off the LINE auto-reply.</strong> Still on the Messaging API tab, open <strong>LINE Official Account features</strong> &rarr; <strong>Auto-reply messages</strong> and <strong>set it to Disabled</strong>, and set <strong>Greeting messages</strong> to Disabled if you want WaDesk to send the welcome instead. Leaving LINE&rsquo;s built-in auto-reply on means customers get two replies.</li>
+                            <li><strong>Allow webhooks.</strong> On the same screen set <strong>Use webhook</strong> to <strong>Enabled</strong>.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Keep both values secret.</strong> The Channel access token can send messages as your brand, and the Channel secret is what proves an inbound request really came from LINE. If either leaks, reissue it in the console and re-connect in WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting in WaDesk</h2>
+                        <ol>
+                            <li><strong>Open the LINE page</strong> &mdash; <strong>Channels &rarr; LINE</strong> in the menu.</li>
+                            <li><strong>Paste the Channel access token and Channel secret</strong>, then save. WaDesk verifies them against LINE immediately and shows the Official Account&rsquo;s name and picture on success.</li>
+                            <li><strong>Copy the webhook URL</strong> WaDesk shows you. It looks like <code>https://your-domain.com/api/line/inbound/&lt;token&gt;</code> &mdash; the token in the path is unique to this channel.</li>
+                            <li><strong>Paste it into LINE.</strong> Back in the LINE console, on the <strong>Messaging API</strong> tab, put that URL in <strong>Webhook URL</strong> and click <strong>Update</strong>, then <strong>Verify</strong>. LINE should report success.</li>
+                            <li><strong>Test it.</strong> Add your Official Account as a friend (scan the QR on the Messaging API tab) and send it a message &mdash; it appears in the Team Inbox within seconds.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Your site must be reachable over HTTPS.</strong> LINE refuses to call a plain <code>http://</code> URL or an IP address. If Verify fails, this is almost always why.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="rotation">Token Rotation</h2>
+                        <p>LINE supports <strong>rotating channel access tokens</strong> &mdash; short-lived tokens issued from a key pair instead of one long-lived string. WaDesk supports both. If you enable rotation on the LINE side, WaDesk stores the key id and refreshes the token automatically before it expires, so the channel never goes dark. If you use the simple long-lived token, nothing extra is needed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Rules</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Reply vs push</strong></td><td>A <em>reply</em> (answering an inbound event with LINE&rsquo;s reply token) is <strong>free</strong> but must be sent quickly and only once per event. A <em>push</em> (messaging someone out of the blue) counts against your monthly quota. WaDesk uses the reply path whenever it can.</td></tr>
+                                <tr><td><strong>Free message quota</strong></td><td>LINE plans include a monthly number of free push messages; beyond that you pay per message, and on the free plan pushes stop. Check your quota in the LINE Official Account Manager.</td></tr>
+                                <tr><td><strong>Friend required</strong></td><td>You cannot message someone who has not added your Official Account as a friend. There is no cold outreach on LINE.</td></tr>
+                                <tr><td><strong>Unfriend / block</strong></td><td>A user can block or unfriend at any time; sends to them fail. WaDesk skips them on the next broadcast.</td></tr>
+                                <tr><td><strong>Multicast size</strong></td><td>Broadcasts go out in batches. WaDesk paces sends so you stay inside LINE&rsquo;s rate limits rather than being throttled.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>One thread per friend.</strong> Each LINE user who messages your Official Account gets a thread, labelled with their LINE display name and picture.</li>
+                            <li><strong>Media.</strong> Images, video, audio, files, stickers and location messages render inline and can be replied to.</li>
+                            <li><strong>Buttons and Flex.</strong> Quick replies and LINE <strong>Flex message</strong> cards built in your flows render natively in the LINE app.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="richmenu">Rich Menus</h2>
+                        <p>A <strong>rich menu</strong> is the tappable panel pinned to the bottom of a LINE chat &mdash; the fastest way to give customers a permanent set of shortcuts. In <strong>Channels &rarr; LINE &rarr; Rich menus</strong> you upload the menu image, define the tap areas, and point each area at a message, a URL or a flow. Publish it and it appears for every friend of the account.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to your LINE channel in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node&rsquo;s channel to LINE</strong> in the <a href="../automation/flows.html">Flow Builder</a>. Buttons, quick replies, media and question steps all run on LINE.</li>
+                            <li><strong>AI agent.</strong> Assign an agent to the channel for automatic replies with hand-off to a human.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">LINE Broadcasts</h2>
+                        <p>The LINE broadcast composer reaches <strong>everyone who has added your Official Account</strong>. Pick the channel, choose your audience, write the message with a live preview, and send. WaDesk uses LINE&rsquo;s <strong>narrowcast</strong> API where an audience filter is set, and paces the send to respect your rate and quota limits. Remember that broadcasts are <em>push</em> messages and consume your monthly allowance.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Verify fails in the LINE console</strong></td><td>Your webhook URL is not reachable over public HTTPS, or you pasted it with a typo. Copy it again from the WaDesk LINE page and re-verify.</td></tr>
+                                <tr><td><strong>No messages arriving</strong></td><td><strong>Use webhook</strong> is still Disabled in the LINE console, or the Channel secret in WaDesk does not match &mdash; signature checks then reject every delivery.</td></tr>
+                                <tr><td><strong>Customers get two replies</strong></td><td>LINE&rsquo;s own <strong>Auto-reply messages</strong> feature is still enabled. Disable it in the LINE console so only WaDesk answers.</td></tr>
+                                <tr><td><strong>Sends fail with a quota error</strong></td><td>You have used your plan&rsquo;s free push messages for the month. Upgrade the LINE plan or wait for the reset; replies to inbound messages remain free.</td></tr>
+                                <tr><td><strong>&ldquo;Invalid reply token&rdquo;</strong></td><td>The reply window for that event has passed. WaDesk falls back to a push automatically; nothing to do.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#credentials" class="toc-link">Creating the Channel &amp; Credentials</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting in WaDesk</a></li>
+                    <li class="toc-h2"><a href="#rotation" class="toc-link">Token Rotation</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#richmenu" class="toc-link">Rich Menus</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">LINE Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

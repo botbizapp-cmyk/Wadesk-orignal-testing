@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Log – WaDesk SaaS Docs</title>
+    <meta name="description" content="Change Log — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Change Log</h1>
+
+                    <section class="mb-12">
+                        <p>This page documents every release of <strong>WaDesk</strong> &mdash; new features, improvements, security patches, and bug fixes. Always review this page before updating so you know what has changed and whether a release introduces anything that needs attention. New entries are added to the top, so the most recent version is always first.</p>
+                        <blockquote class="info"><strong>Before you update:</strong> Read the <a href="update-process.html">Update Process</a> guide and take a full backup of your database and files. Updates ship with pre-built assets, so a standard update is upload &rarr; migrate &rarr; clear cache &rarr; restart the Node bridge.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-7-0">Version 1.7.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(September 2, 2026)</span> &mdash; Email Inbox, LINE, WeChat &amp; Viber</h2>
+                        <p>A channel release. WaDesk 1.7 adds <strong>four new channels</strong> to the unified inbox: <strong>Email</strong> (through a connected MailTrixy install), plus <strong>LINE</strong>, <strong>WeChat</strong> and <strong>Viber</strong>. Each one threads into the same Team Inbox, replies on its own transport, and reuses the auto-reply, flows, AI agent and campaign tooling you already use for WhatsApp. Run the new migrations &mdash; the build is bundled &mdash; then restart the Node bridge. Every channel is opt-in and plan-gated, so nothing changes for existing workspaces until you enable it.</p>
+
+                        <h3 id="v170-email">Email in the Team Inbox</h3>
+                        <p>Your mailboxes now sit next to your chats, so a customer who emails and a customer who messages land in the same queue, worked by the same team. Email is delivered by a connected <strong>MailTrixy</strong> installation: WaDesk is the operator interface, MailTrixy remains the email engine, and WaDesk never stores a mailbox password or speaks IMAP/SMTP itself.</p>
+                        <ul>
+                            <li><strong>Mail in the unified inbox</strong> &mdash; email threads appear beside WhatsApp, Instagram and the rest, with assignment, notes and tags working exactly as they do everywhere else.</li>
+                            <li><strong>Reply from the inbox</strong> &mdash; MailTrixy performs the real send and keeps threading headers correct, so the customer sees a normal reply in their mail client.</li>
+                            <li><strong>History imports on link</strong> &mdash; linking a mailbox pulls its existing mail in, so you start with a populated inbox instead of an empty one.</li>
+                            <li><strong>Sync on demand</strong> &mdash; a per-mailbox <strong>Sync</strong> action fetches anything new and repairs anything a live delivery missed. Safe to run repeatedly; already-imported mail is skipped, never duplicated.</li>
+                            <li><strong>Mailboxes in the device table</strong> &mdash; each linked mailbox shows as its own row with address, provider and status, alongside your WhatsApp numbers.</li>
+                            <li><strong>Email flows</strong> &mdash; build automations on email with message, media, buttons, ask, delay, condition, webhook and AI steps. Quoted reply text is stripped before matching, so automation reacts to what the person wrote, not the thread quoted beneath it.</li>
+                            <li><strong>Email campaigns</strong> &mdash; pick Email in the campaign builder, write a subject line and body, and inherit send-now, scheduling, recurring sends, pause and resume.</li>
+                            <li><strong>Tenant-safe linking</strong> &mdash; a user only sees the mailboxes belonging to them, matched on their login email, so one customer can never enumerate another&rsquo;s mailboxes.</li>
+                        </ul>
+                        <p>Full setup, including the matching-email rule that decides which mailboxes a user can link: <a href="../channels/email.html">Email (MailTrixy)</a>.</p>
+
+                        <h3 id="v170-line">LINE</h3>
+                        <ul>
+                            <li><strong>Official Account messaging</strong> &mdash; connect with a Channel access token and Channel secret; no app review, usually under ten minutes.</li>
+                            <li><strong>Rich menus</strong> &mdash; design the tappable panel pinned to the bottom of the chat and point each area at a message, URL or flow.</li>
+                            <li><strong>Flex messages</strong>, quick replies, stickers and media render natively.</li>
+                            <li><strong>Narrowcast broadcasts</strong> &mdash; reach every friend of the account, with audience filtering and pacing that respects LINE&rsquo;s rate and quota limits.</li>
+                            <li><strong>Token rotation</strong> &mdash; rotating channel access tokens are refreshed automatically before expiry, so the channel never goes dark.</li>
+                        </ul>
+                        <p>See <a href="../channels/line.html">LINE</a>.</p>
+
+                        <h3 id="v170-wechat">WeChat</h3>
+                        <ul>
+                            <li><strong>Official Account messaging</strong> &mdash; connect a Verified Service Account with AppID, AppSecret, Token and EncodingAESKey, including <strong>safe-mode</strong> encrypted delivery.</li>
+                            <li><strong>48-hour service window</strong> &mdash; the remaining window is shown on the thread so agents know when a free-form reply will still land.</li>
+                            <li><strong>Template messages</strong> for contacting followers outside that window.</li>
+                            <li><strong>Custom menu</strong> &mdash; build the bar at the bottom of the chat and publish it to followers.</li>
+                            <li><strong>Mass sends</strong> to all followers or a tag-filtered subset, plus per-channel insights.</li>
+                        </ul>
+                        <p>See <a href="../channels/wechat.html">WeChat</a> &mdash; note that two-way chat requires a <strong>Verified Service Account</strong>.</p>
+
+                        <h3 id="v170-viber">Viber</h3>
+                        <ul>
+                            <li><strong>One-value connect</strong> &mdash; paste the bot&rsquo;s authentication token and WaDesk registers the webhook with Viber for you. Nothing to copy back.</li>
+                            <li><strong>Keyboards and carousels</strong> render natively from your flows and templates.</li>
+                            <li><strong>Read receipts</strong> &mdash; delivery and seen status show in the inbox.</li>
+                            <li><strong>Subscriber-aware sending</strong> &mdash; users who never subscribed are blocked with a clear reason rather than failing silently.</li>
+                            <li><strong>Broadcasts</strong> to every subscriber, batched at Viber&rsquo;s 300-recipient limit and paced automatically.</li>
+                        </ul>
+                        <p>See <a href="../channels/viber.html">Viber</a>.</p>
+
+                        <h3 id="v170-more">Improvements &amp; Fixes</h3>
+                        <ul>
+                            <li><strong>Contacts are matched on the right number</strong> &mdash; a stored country code is no longer added a second time when finding or messaging a contact, which previously produced a wrong number and could open a duplicate, numberless chat.</li>
+                            <li><strong>Inbound numbers read correctly</strong> &mdash; unusually short or long numbers are no longer mistaken for internal identifiers, so their threads keep the real phone number and merge with the customer&rsquo;s existing chat.</li>
+                            <li><strong>Channel rows stay visible</strong> &mdash; connected accounts no longer disappear from the device table moments after the page loads.</li>
+                            <li><strong>Sidebar &amp; navigation</strong> &mdash; missing pages restored, duplicate integration entries removed, Sales &amp; CRM collapsed into one group, and plan-locked features now show with an upgrade prompt instead of being hidden.</li>
+                            <li>Assorted smaller fixes across the app and the Node bridge.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading to 1.7.0?</strong> Updates are sequential &mdash; you must be on <strong>1.6</strong> first. Use the in-app updater (<strong>Admin &rarr; Update</strong>): raise your <a href="update-process.html">upload limit to the maximum</a> &rarr; back up your database and files &rarr; upload the 1.7 ZIP &rarr; apply &rarr; run migrations &rarr; finalize, then <strong>clear the view cache</strong> and <strong>restart the Node bridge</strong>. The new channels need their platform credentials before a workspace can connect them, and <strong>Email is off on every plan by default</strong> &mdash; tick it in <strong>Admin &rarr; Packages</strong> for the plans that should have it, or the channel stays invisible. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-6-0">Version 1.6.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(August 19, 2026)</span> &mdash; Multi-Channel Inbox, AI CRM, SMS, Native Checkout &amp; Auto-Invoicing</h2>
+                        <p>The biggest release yet. WaDesk 1.6 turns the product from a WhatsApp tool into a <strong>multi-channel engagement platform</strong>: Instagram, Facebook Messenger, Telegram, TikTok and SMS now live alongside WhatsApp in <strong>one unified inbox</strong>, each with its own auto-reply, flows and broadcasts. On top of that it adds an <strong>AI CRM Copilot</strong> you command in plain English, a full <strong>CRM suite</strong> (companies, deals, proposals, estimates, invoices, payments, tasks, projects, calendar), <strong>automatic invoicing</strong>, <strong>native in-chat checkout with 30+ payment gateways</strong>, and a rebuilt <strong>per-message BSP billing</strong> model. Run the new migrations &mdash; the build is bundled &mdash; then restart the Node bridge; every new feature is opt-in and plan-gated, so nothing changes for existing workspaces until you turn it on.</p>
+
+                        <h3 id="v160-channels">Multi-Channel &mdash; Five New Channels</h3>
+                        <p>Connect more than WhatsApp. Every channel threads into the <strong>same team inbox</strong>, is scoped per workspace, and reuses the automation you already know.</p>
+                        <ul>
+                            <li><strong>Instagram DMs</strong> &mdash; connect your IG business account, receive and reply to DMs, comments and story replies, with per-account sender identity and AI-agent support. See <a href="../channels/instagram.html">Instagram</a>.</li>
+                            <li><strong>Facebook Messenger</strong> &mdash; connect a Page, handle Messenger chats in the inbox, and run flows and broadcasts to people already inside your 24-hour window. See <a href="../channels/facebook.html">Facebook Messenger</a>.</li>
+                            <li><strong>Telegram</strong> &mdash; connect a bot, message the chats that reached it, with its own broadcast composer and live preview. See <a href="../channels/telegram.html">Telegram</a>.</li>
+                            <li><strong>TikTok</strong> &mdash; connect a TikTok business account for insights, publishing, TikTok Shop and ad-lead capture into Contacts, plus a <strong>DM inbox</strong> that's wired end-to-end and activates once you have TikTok Messaging-Partner approval (region-gated). See <a href="../channels/tiktok.html">TikTok</a>.</li>
+                            <li><strong>SMS &mdash; Twilio &amp; MSG91</strong> &mdash; connect an SMS number, receive inbound texts, reply from the inbox, and run SMS broadcasts and campaigns. Both providers are supported end-to-end. See <a href="../channels/sms.html">SMS</a>.</li>
+                        </ul>
+
+                        <h3 id="v160-inbox">Unified Inbox &amp; History Backfill</h3>
+                        <ul>
+                            <li><strong>One inbox for every channel</strong> &mdash; WhatsApp, Instagram, Facebook, Telegram, TikTok and SMS threads all appear in the same Team Inbox and the mobile app inbox, each replying back on its own channel with the correct payload.</li>
+                            <li><strong>Existing chats load in on connect</strong> &mdash; Instagram and Facebook pull your <em>past</em> conversations into the inbox the moment you connect (so contacts are usable everywhere), and never auto-reply to those old messages.</li>
+                            <li><strong>Correct per-channel routing</strong> &mdash; a reply typed in the inbox or the app is delivered on the channel the conversation runs on &mdash; SMS over SMS, Telegram over Telegram &mdash; never the wrong transport.</li>
+                        </ul>
+
+                        <h3 id="v160-automation">Auto-Reply, Flows &amp; Broadcasts &mdash; Everywhere</h3>
+                        <ul>
+                            <li><strong>Auto-reply on all channels</strong> &mdash; Welcome, Away, Out-of-hours and Keyword rules now fire on Instagram, Facebook, Telegram, TikTok and SMS, replying back on the same channel.</li>
+                            <li><strong>Flows on all channels</strong> &mdash; the visual flow builder runs on WhatsApp, Instagram, Facebook, Telegram and TikTok (the channel is chosen in the Trigger node).</li>
+                            <li><strong>Multi-channel &amp; SMS broadcasts</strong> &mdash; Instagram joins the unified broadcast (message existing DM chats with a text-or-template choice + live preview); Telegram and Facebook keep their own composers; SMS broadcasts your whole contact list via Twilio/MSG91.</li>
+                            <li><strong>SMS campaigns</strong> &mdash; a new SMS channel in the campaign builder: pick an SMS number, write text, choose your audience and schedule, with real sent / delivered / failed analytics.</li>
+                        </ul>
+
+                        <h3 id="v160-aicrm">AI CRM Copilot</h3>
+                        <p>Run your CRM by chat &mdash; on the dashboard, or by texting your workspace&rsquo;s WhatsApp number from a registered staff mobile.</p>
+                        <ul>
+                            <li><strong>Command in plain English</strong> &mdash; &ldquo;show my open deals&rdquo;, &ldquo;create an estimate for Acme&rdquo;, &ldquo;record a payment&rdquo;, &ldquo;send Priya the estimate&rdquo;, &ldquo;revenue this month&rdquo; &mdash; across contacts, companies, deals, invoices, payments, tasks, projects and quotes.</li>
+                            <li><strong>Confirm-before-act</strong> &mdash; anything that changes data shows a confirmation first, and every action is audit-logged.</li>
+                            <li><strong>Bring your own AI key</strong> &mdash; OpenAI, Anthropic or Gemini, so you control the cost. See <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a>.</li>
+                        </ul>
+
+                        <h3 id="v160-crm">New CRM Suite</h3>
+                        <ul>
+                            <li><strong>Companies</strong> &mdash; a B2B layer over contacts and deals, with a company profile and revenue roll-up.</li>
+                            <li><strong>Proposals &amp; Estimates</strong> &mdash; priced quotes with line items and tax, a shareable public link the customer can <strong>accept or decline themselves</strong>, and one-click <strong>convert-to-invoice</strong>. See <a href="../commerce/proposals-estimates.html">Proposals &amp; Estimates</a>.</li>
+                            <li><strong>Projects</strong> &mdash; track post-sale delivery on an In-progress / Overdue / Completed board with a live progress slider. See <a href="../commerce/projects.html">Projects</a>.</li>
+                            <li><strong>Tasks &amp; Calendar</strong> &mdash; assignable tasks with reminders, and one month grid that aggregates every deadline (tasks, projects, deal closes, quote expiries).</li>
+                            <li><strong>Payments ledger</strong> &mdash; record full or partial payments, auto-flip invoices to Paid, and see what&rsquo;s outstanding plus aging (0-30 / 31-60 / 61-90 / 90+).</li>
+                        </ul>
+
+                        <h3 id="v160-invoicing">Automatic Invoicing &amp; Payment Links</h3>
+                        <ul>
+                            <li><strong>Auto-invoicing</strong> &mdash; a WhatsApp order (or a manual sale) becomes a numbered, immutable PDF invoice, sent to the buyer automatically. See <a href="../commerce/auto-invoicing.html">Auto-Invoicing</a>.</li>
+                            <li><strong>Native in-chat checkout</strong> &mdash; send a secure payment link right in the chat; the customer pays through any of <strong>30+ gateways</strong> and lands on a thank-you page that confirms the order. See <a href="../commerce/payment-links.html">Payment Links &amp; Checkout</a>.</li>
+                            <li><strong>Invoice branding</strong> &mdash; your own logo (set in Checkout Settings) and the buyer&rsquo;s support email on every generated invoice.</li>
+                        </ul>
+
+                        <h3 id="v160-store">Store, Catalog &amp; E-commerce CRM</h3>
+                        <ul>
+                            <li><strong>Shopify CRM</strong> &mdash; sync orders, customers and abandoned carts into your chats and pipeline. See <a href="../commerce/shopify.html">Shopify</a>.</li>
+                            <li><strong>WooCommerce CRM</strong> &mdash; pull WooCommerce orders into threads &mdash; confirm, ship, refund and share invoices without leaving WaDesk.</li>
+                            <li><strong>WhatsApp Store &amp; Catalog</strong> &mdash; a full storefront and Meta Commerce catalog inside WhatsApp, with a custom-domain homepage and one-click WABA catalog link.</li>
+                        </ul>
+
+                        <h3 id="v160-bsp">BSP &amp; Per-Message Billing</h3>
+                        <ul>
+                            <li><strong>Per-message billing (Meta&rsquo;s 2025 model)</strong> &mdash; messages are priced per delivered message, by category (marketing / utility / authentication, service free) and recipient country, and charged on delivery.</li>
+                            <li><strong>Money wallet</strong> &mdash; a real prepaid wallet with a per-message ledger, idempotent charging, and automatic refunds on failure.</li>
+                            <li><strong>Per-template cost shown up front</strong> &mdash; the Templates page now shows how much each template costs to send, by category, so there are no surprises.</li>
+                            <li><strong>Meta credit line</strong> &mdash; share your Meta extended credit line onto customer WABAs (BSP / reseller). See <a href="../bsp-billing/overview.html">BSP &amp; Billing</a>.</li>
+                        </ul>
+
+                        <h3 id="v160-more">Also in 1.6</h3>
+                        <ul>
+                            <li><strong>Meta Ads</strong> &mdash; create Click-to-WhatsApp campaigns with advanced targeting, auto-detect the ad account from signup, and view analytics.</li>
+                            <li><strong>Lead Finder</strong> &mdash; discover business leads on a map (OpenStreetMap) and pull them into contacts.</li>
+                            <li><strong>Appointment booking</strong> &mdash; a booking runtime with a service picker, owner notifications and Google Calendar sync.</li>
+                            <li><strong>Selectable dashboard layout</strong> &mdash; admins can switch the user dashboard between the classic <strong>top-bar</strong> navigation (the default) and a new <strong>sidebar</strong> layout, to match how your team likes to work.</li>
+                            <li><strong>WhatsApp Warmer</strong>, <strong>real-time translation</strong> in the inbox, <strong>social posts &amp; calendar</strong> (IG/FB/TikTok), and dozens of smaller fixes across the app and Node bridge.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading to 1.6.0?</strong> Updates are sequential &mdash; you must be on <strong>1.5</strong> first. Use the in-app updater (<strong>Admin &rarr; Update</strong>): raise your <a href="update-process.html">upload limit to the maximum</a> &rarr; back up your database and files &rarr; upload the 1.6 ZIP &rarr; apply &rarr; run migrations &rarr; finalize, then <strong>clear the view cache</strong> and <strong>restart the Node bridge</strong>. New channels need their platform credentials set in <strong>Admin &rarr; Settings</strong> before a workspace can connect them. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-5-0">Version 1.5.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(August 7, 2026)</span> &mdash; New Inbox, Auto Reply Methods, Faster Campaigns &amp; UI Refresh</h2>
+                        <p>A workflow release. WaDesk 1.5 ships a <strong>redesigned Team Inbox</strong>, a much richer <strong>Auto Reply</strong> engine with several new trigger methods, <strong>higher-throughput WhatsApp campaigns</strong> so you can reach more contacts in less time, a broad <strong>UI refresh</strong>, and a sweep of smaller bug fixes. Run the new migrations, rebuild is already bundled, and restart the Node bridge; nothing changes for existing workspaces until you turn a feature on.</p>
+
+                        <h3 id="v150-inbox">New Team Inbox</h3>
+                        <ul>
+                            <li><strong>Redesigned inbox</strong> &mdash; a cleaner thread list and conversation view that stays fast on busy, multi-engine workspaces (Unofficial API, WhatsApp Cloud and Twilio side by side).</li>
+                            <li><strong>Installable inbox (PWA)</strong> &mdash; agents can install the Team Inbox to their desktop or phone and receive <strong>web-push</strong> alerts for new messages, so a reply is never missed.</li>
+                            <li><strong>Composer &amp; filter improvements</strong> &mdash; quicker replies, clearer per-device and per-team filtering, and steadier thread ordering so an open chat no longer jumps around as messages arrive.</li>
+                        </ul>
+
+                        <h3 id="v150-autoreply">Auto Reply &mdash; New Trigger Methods</h3>
+                        <p>Auto Reply is no longer just keyword rules. 1.5 turns it into a full <strong>Auto Responder</strong> with several ways to fire, so you can greet, deflect and cover off-hours without a flow.</p>
+                        <ul>
+                            <li><strong>Welcome message</strong> &mdash; automatically reply to the <em>first</em> message of a brand-new conversation, with no keyword required.</li>
+                            <li><strong>Away mode</strong> &mdash; a one-switch &ldquo;we&rsquo;re away&rdquo; auto-reply you can flip on when the team steps out.</li>
+                            <li><strong>Out-of-hours replies</strong> &mdash; define <strong>working hours</strong> (days, time range, timezone) and send a different message outside them.</li>
+                            <li><strong>&ldquo;Any message&rdquo; catch-all</strong> &mdash; a default reply that fires whenever no keyword rule matches, so every inbound gets an answer.</li>
+                            <li><strong>Match methods</strong> per rule &mdash; <strong>Fuzzy</strong> (typo-tolerant), <strong>Exact</strong>, <strong>Contains</strong>, and <strong>Regex</strong>, plus a similarity threshold for fuzzy matching.</li>
+                            <li><strong>Multi-sender rules</strong> &mdash; apply one rule across several connected numbers at once, each on its own engine.</li>
+                            <li><strong>Priority, resend cooldown, agent hand-off pause, and excluded numbers / groups</strong> &mdash; fine control over when a rule fires and when it stays quiet.</li>
+                        </ul>
+
+                        <h3 id="v150-campaigns">WhatsApp Campaigns &mdash; Reach More, Faster</h3>
+                        <ul>
+                            <li><strong>Higher throughput</strong> &mdash; an engine-aware, parallel send path lets a campaign push to <strong>many more recipients per minute</strong> while still respecting per-number pacing, so large blasts finish sooner without tripping rate limits.</li>
+                            <li><strong>More reliable delivery</strong> &mdash; durable retries, paused-campaign auto-restart, and stuck-midway resume mean a big send completes even after a hiccup or restart.</li>
+                            <li><strong>Named-parameter templates now personalize correctly</strong> &mdash; templates that use named placeholders (for example <code>{{name}}</code>) now fill each recipient&rsquo;s real value in a campaign instead of shipping the raw <code>{{name}}</code> text.</li>
+                        </ul>
+
+                        <h3 id="v150-ui">UI Refresh</h3>
+                        <ul>
+                            <li><strong>Cleaner screens across the app</strong> &mdash; refreshed layouts and spacing on the dashboard, campaigns, auto-reply and admin pages.</li>
+                            <li><strong>In-line help</strong> &mdash; small info icons next to tricky settings (for example plan limits) open a short explanation on click.</li>
+                            <li><strong>Wider content areas</strong> &mdash; grid-style pages now use the full width of the screen.</li>
+                        </ul>
+
+                        <h3 id="v150-fixes">Bug Fixes &mdash; Stability</h3>
+                        <ul>
+                            <li><strong>Auto Reply &ldquo;Any message&rdquo; editing</strong> &mdash; a catch-all rule now re-opens as &ldquo;Any message&rdquo; (instead of reverting to Exact and demanding keywords) and keeps its name when edited.</li>
+                            <li><strong>Admin invoices</strong> &mdash; an &ldquo;All time&rdquo; view so older invoices show, and working <strong>Mark as paid / Void / Delete</strong> actions on outstanding invoices.</li>
+                            <li><strong>Device connect / disconnect alerts</strong> &mdash; the in-app and email notifications for a number going online or offline now actually send when the event happens.</li>
+                            <li>Plus many smaller fixes across the dashboard, admin panel and Node bridge.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading to 1.5.0?</strong> Updates are sequential &mdash; you must be on <strong>1.4</strong> first. Use the in-app updater (<strong>Admin &rarr; Update</strong>): raise your <a href="update-process.html">upload limit to the maximum</a> &rarr; back up &rarr; upload the 1.5 ZIP &rarr; apply &rarr; run migrations &rarr; finalize, then <strong>clear the view cache</strong> and <strong>restart the Node bridge</strong>. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-4-0">Version 1.4.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(July 20, 2026)</span> &mdash; Template Variable Overrides, Campaign Analytics &amp; Meta Ads</h2>
+                        <p>Personalization that scales, sharper analytics, better Meta Ads &mdash; and the bugs you asked us to fix. WaDesk 1.4 lets a single send fill a template&rsquo;s variables its own way through the new <strong>per-send template variable overrides</strong> &mdash; without editing the template and changing every other campaign that uses it &mdash; rebuilds <strong>Campaign Analytics</strong> for clearer funnels and more accurate delivery reporting, tightens the <strong>Click-to-WhatsApp</strong> ad-to-chat handoff, and clears several long-standing bugs. Run the new migrations and restart the Node bridge; nothing changes for existing workspaces until you turn a feature on.</p>
+
+                        <h3 id="v140-template-overrides">Template Variable Overrides &mdash; Per-Send Personalization</h3>
+                        <p>A WhatsApp template decides which contact attribute fills each <code>{{1}}</code>, <code>{{2}}</code> slot through its <strong>variable map</strong> &mdash; but that map belongs to the <em>template</em>. Changing what one campaign put in <code>{{1}}</code> meant editing the template, which silently changed <strong>every other send using it</strong>. 1.4 adds a <strong>per-send override</strong> so a single broadcast, campaign or chat send can fill the slots its own way, leaving the template untouched.</p>
+                        <ul>
+                            <li><strong>Override any slot, per send</strong> &mdash; set <code>{{1}}</code> for this broadcast only. Available in <strong>broadcasts, campaigns, the chat composer</strong> and the browser extension.</li>
+                            <li><strong>Blank slots fall through</strong> &mdash; leave a slot empty and it uses the template&rsquo;s own variable map exactly as before. A send with no overrides behaves byte-for-byte as it did in 1.3, so nothing you already scheduled changes.</li>
+                            <li><strong>Literal text, tokens, or both</strong> &mdash; a slot can hold a fixed value (<code>SAVE20</code>), an attribute token (<code>{{first_name}}</code>), or a mix (<code>Hi {{first_name}}, your code is SAVE20</code>).</li>
+                            <li><strong>Tokens resolve in order</strong> &mdash; the contact row (name, phone, email, company), then the contact&rsquo;s custom attributes, then your workspace attributes, then system tokens such as <code>{{today}}</code> and <code>{{company_name}}</code>.</li>
+                            <li><strong>Missing data never leaks braces</strong> &mdash; an unresolvable token renders empty rather than shipping a literal <code>{{first_name}}</code> to the customer, and the template&rsquo;s own example value back-fills the blank so Meta never rejects the send for an empty parameter (error 131008).</li>
+                            <li><strong>Per-variant overrides in A/B tests</strong> &mdash; variant A and variant B each keep their own mapping. Previously a single mapping form appeared even when the two variants used different templates, so variant B was sent with variant A&rsquo;s values.</li>
+                        </ul>
+
+                        <h3 id="v140-analytics">Campaign Analytics &mdash; Sharper Insight</h3>
+                        <ul>
+                            <li>A <strong>rebuilt analytics view</strong> with clearer funnels and per-variant breakdowns, so an A/B test shows which variant actually performed.</li>
+                            <li><strong>Cleaner funnel &amp; delta charts</strong> &mdash; easier to read at a glance and no longer cramped on wider date ranges.</li>
+                            <li><strong>More accurate click / read stats</strong> across all three engines &mdash; delivery and click reporting now reconcile with what the provider actually reported.</li>
+                        </ul>
+
+                        <h3 id="v140-meta-ads">Meta Ads &mdash; Better Click-to-WhatsApp</h3>
+                        <ul>
+                            <li><strong>Improved lead attribution</strong> &mdash; ad-click leads are matched to the right campaign more reliably.</li>
+                            <li><strong>Smoother ad-to-chat sync</strong> &mdash; a tighter handoff from the ad click into the conversation, with fewer stalled or unattributed chats.</li>
+                        </ul>
+
+                        <h3 id="v140-fixes">Bug Fixes &mdash; Stability</h3>
+                        <ul>
+                            <li><strong>Fixed duplicate-chat issue</strong> &mdash; a number no longer appears as two separate threads.</li>
+                            <li><strong>Fixed image reload / render errors</strong> &mdash; images now render reliably instead of failing on reload.</li>
+                            <li><strong>Yearly billing</strong> &mdash; a plan configured with a yearly billing period is now charged its full yearly price in a single payment, and is recognised as yearly even when the pricing-page toggle is not carried in the URL. Previously such a plan could be billed the monthly amount, or (with the yearly toggle applied to an already-yearly price) multiplied a second time. The pricing page, checkout and mobile app now all show and charge the same figure.</li>
+                            <li>Plus many smaller fixes across the dashboard, admin panel and Node bridge.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading to 1.4.0?</strong> Updates are sequential &mdash; you must be on <strong>1.3</strong> first. Use the in-app updater (<strong>Admin &rarr; Update</strong>): raise your <a href="update-process.html">upload limit to the maximum</a> &rarr; back up &rarr; upload the 1.4 ZIP &rarr; apply &rarr; run migrations &rarr; finalize, then <strong>clear the view cache</strong> and <strong>restart the Node bridge</strong>. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-3-0">Version 1.3.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(July 9, 2026)</span> &mdash; WhatsApp Username, AI Calling, Meta Ads &amp; Inbox</h2>
+                        <p>A feature-and-reliability release. WaDesk 1.3 adds WhatsApp <strong>username</strong> support, a big step up in <strong>AI voice calling</strong>, a fuller <strong>Meta Ads</strong> (Click-to-WhatsApp, across Facebook &amp; Instagram) workflow, and a redesigned <strong>Team Inbox</strong> with much better handling &mdash; plus a broad sweep of bug fixes across sending, scheduling, and the Laravel&harr;Node connection. Running the new migrations and restarting the Node bridge is all that&rsquo;s required; nothing changes for existing workspaces until you turn a feature on.</p>
+
+                        <h3 id="v130-username">WhatsApp Username</h3>
+                        <ul>
+                            <li>Support for WhatsApp&rsquo;s new <strong>@username</strong>: where a contact is reached by username (LID) rather than an exposed phone number, the Team Inbox shows a <strong>@username chip</strong> and matches the conversation to the right saved contact &mdash; so threads no longer fork or show a bare number.</li>
+                        </ul>
+
+                        <h3 id="v130-calling">AI Voice Calling &mdash; Improvements</h3>
+                        <ul>
+                            <li><strong>WhatsApp Cloud (WABA) calling</strong> answer/place calls with a live ringing panel, media relay, and call recording.</li>
+                            <li><strong>AI voice agent</strong> upgrades: an <strong>OpenAI speech-to-text / text-to-speech</strong> option, opt-in <strong>barge-in</strong> (the caller can interrupt), automatic <strong>language detection</strong>, and a caller-rate recording fix for cleaner audio.</li>
+                            <li>Calls now appear in the <strong>Team Inbox</strong> as WhatsApp-style call bubbles with date separators, so a number&rsquo;s call history lives beside its chats.</li>
+                        </ul>
+
+                        <h3 id="v130-meta-ads">Meta Ads &mdash; Click-to-WhatsApp (Facebook &amp; Instagram)</h3>
+                        <ul>
+                            <li>Create and manage <strong>Click-to-WhatsApp</strong> ad campaigns from inside WaDesk &mdash; image upload, campaign &rarr; ad-set &rarr; creative &rarr; ad built on Meta (Marketing API v23), with per-campaign status sync, a detail page showing all Meta IDs, retry, and graceful handling when a permission is missing.</li>
+                            <li>Campaigns run across <strong>Facebook and Instagram</strong> placements, so a single ad can drive WhatsApp chats from both. Ad-click leads can be routed straight into a flow.</li>
+                        </ul>
+
+                        <h3 id="v130-inbox">Team Inbox &mdash; Better Handling</h3>
+                        <ul>
+                            <li><strong>List controls</strong> &mdash; pin, mute, archive, delete, multi-select, an Archived view, and label filtering.</li>
+                            <li><strong>Channel / device filter</strong> and per-team unread counts so a shared inbox stays readable across engines.</li>
+                            <li><strong>Multi-recipient composer</strong> (the &ldquo;+&rdquo; button) &mdash; start a new message to contacts, groups, or manually-typed numbers and pick the sending channel.</li>
+                            <li>Better inbound handling on WhatsApp Cloud &mdash; de-duplicated messages, more message types (orders, system, interactive replies), and phone-number masking across the inbox.</li>
+                        </ul>
+
+                        <h3 id="v130-woocommerce">WooCommerce &mdash; Order Webhooks &amp; Invoice on WhatsApp</h3>
+                        <ul>
+                            <li>Connect a WooCommerce store with its REST keys and WaDesk auto-registers <strong>order webhooks</strong> &mdash; every new order and status change is pushed to WaDesk in real time.</li>
+                            <li>Fire a WhatsApp message on each stage with its own template: <strong>order placed, processing, completed, on-hold, cancelled, refunded, failed</strong>, plus COD confirmation, back-in-stock, abandoned-cart, and win-back.</li>
+                            <li>Every order automation exposes <code>{{invoice_url}}</code> &mdash; the real <strong>PDF invoice</strong> from your store's invoice plugin when present (forwarded by the WaDesk companion plugin), otherwise the customer's order page &mdash; so you can <strong>send the invoice automatically</strong> on order completion. Full guide: <a href="../integrations/woocommerce.html">WooCommerce Order Webhooks</a>.</li>
+                        </ul>
+
+                        <h3 id="v130-fixes">Fixes &amp; Improvements (all over)</h3>
+                        <ul>
+                            <li><strong>Connection hardening</strong> &mdash; device pairing/QR, sending, and scheduled messages no longer return &ldquo;unauthorized&rdquo; on client servers (the Laravel&harr;Node token is now attached everywhere it&rsquo;s needed).</li>
+                            <li><strong>Scheduled messages</strong> &mdash; reliable firing across all three engines, a true <strong>&ldquo;Send now&rdquo;</strong> that goes out immediately (not on the next tick), and working pause/resume/cancel. Large lists still send with your configured per-message gaps &mdash; a 1000-recipient run trickles out with pacing, never a bulk blast.</li>
+                            <li><strong>Quick Chat</strong> no longer creates a duplicate/blank Team-Inbox thread for a number you already have.</li>
+                            <li><strong>Updater</strong> &mdash; clearer upload errors that name the real reason (e.g. the file exceeds the server upload limit) instead of a generic &ldquo;Upload failed&rdquo;.</li>
+                            <li>Connect-device popover no longer overlaps other panels; flow start-trigger fixes; and general stability across the dashboard, admin panel, and Node bridge.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading to 1.3.0?</strong> Updates are sequential &mdash; you must be on <strong>1.2</strong> first. Use the in-app updater (<strong>Admin &rarr; Update</strong>): raise your <a href="update-process.html">upload limit to the maximum</a> &rarr; back up &rarr; upload the 1.3 ZIP &rarr; apply &rarr; run migrations &rarr; finalize, then <strong>restart the Node bridge</strong> (required &mdash; the scheduling &amp; connection fixes live in Node). Full steps: <a href="update-process.html#update-1-3">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-2-0">Version 1.2.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(June 30, 2026)</span> &mdash; Branding, Deliverability &amp; Operations</h2>
+                        <p>A polish-and-operations release. WaDesk 1.2 makes the platform yours to brand without touching code, adds number deliverability and IP-isolation tools to keep your WhatsApp numbers healthy, moves media to the cloud, adds a marketing blog with SEO and native in-chat payments, and gives the platform owner two brand-new observability dashboards (AI usage and system health). No data migration is required beyond running the new migrations; everything is off-by-default and existing workspaces keep working exactly as before.</p>
+
+                        <h3 id="v120-branding">Branding &mdash; Theme Colours &amp; Auth Page Editor</h3>
+                        <ul>
+                            <li><strong>Appearance / Theme Colours.</strong> Recolour the <em>entire</em> dashboard (both the user panel and the admin panel) to your brand palette from <strong>Admin &rarr; Appearance</strong>. Values are injected live as theme tokens across every skin, with a one-click reset. Guide: <a href="../admin-panel/appearance.html">Appearance &amp; Theme Colours</a>.</li>
+                            <li><strong>Auth Page Editor.</strong> Edit the public <strong>Login / Register / Forgot-password</strong> pages live, on the page, from <strong>Admin &rarr; Settings &rarr; Auth Pages</strong>: pick one of 5 design templates, click any text to edit it inline (heading, accent word, sub-text, the feature cards, stat pills and chips), set the accent colour, and drop in a side image/video/GIF. Saves instantly; empty reverts to the shipped default. Guide: <a href="../admin-panel/auth-pages.html">Auth Page Editor</a>.</li>
+                        </ul>
+
+                        <h3 id="v120-deliverability">Deliverability &mdash; WhatsApp Warmer &amp; Per-Number Proxy</h3>
+                        <ul>
+                            <li><strong>WhatsApp Warmer.</strong> A per-number warm-up profile &mdash; ramping daily budget, minimum gap between sends, active-hours window, spintax wording variation, and a health score &mdash; <em>enforced</em> on campaigns, broadcasts and scheduled sends to lower ban risk and protect the quality rating. Works across all three engines. Guide: <a href="../messaging/warmer.html">WhatsApp Warmer</a>.</li>
+                            <li><strong>Per-Number Proxy (IP isolation).</strong> Route each Unofficial-API number through its own proxy IP, with a fail-closed preflight that verifies the outbound IP before connecting (so a number never leaks onto the wrong IP). Reduces the IP-correlation behind bulk bans. Set per number on the <strong>Devices</strong> screen. Guide: <a href="../getting-started/proxy-isolation.html">Per-Number Proxy</a>.</li>
+                        </ul>
+
+                        <h3 id="v120-storage">Cloud Storage</h3>
+                        <ul>
+                            <li>Store all uploaded media on a cloud provider &mdash; <strong>Amazon S3, Wasabi, Backblaze/Bunny, DigitalOcean Spaces, Cloudflare R2, or MinIO</strong> &mdash; configured at <strong>Admin &rarr; Storage</strong>. Once enabled, every customer upload (chat &amp; inbox media, templates, campaign/broadcast media, store products, contacts, avatars, blog images) routes to the cloud automatically. Off by default (local disk); switching is non-destructive. Guide: <a href="../admin-panel/cloud-storage.html">Cloud Storage</a>.</li>
+                        </ul>
+
+                        <h3 id="v120-blog">Marketing Blog &amp; SEO</h3>
+                        <ul>
+                            <li>A built-in blog: author posts at <strong>Admin &rarr; Blog</strong>, published to a public <code>/blog</code> with full SEO &mdash; meta/Open Graph/Twitter tags, canonical URLs, JSON-LD, and a dynamic <code>/sitemap.xml</code> + <code>/robots.txt</code>. Guide: <a href="../admin-panel/blog.html">Blog &amp; SEO</a>.</li>
+                        </ul>
+
+                        <h3 id="v120-payments">Payments &mdash; WhatsApp Pay &amp; Lemon Squeezy</h3>
+                        <ul>
+                            <li><strong>WhatsApp Pay.</strong> Native in-chat payments via the WhatsApp <code>order_details</code> message &mdash; customers pay without leaving the conversation. Region-locked by Meta; the payment configuration is set on Meta's side. Guide: <a href="../commerce/whatsapp-pay.html">WhatsApp Pay</a>.</li>
+                            <li><strong>Lemon Squeezy</strong> added as a checkout payment gateway (Merchant-of-Record), alongside the existing 30 gateways. Enable it at <strong>Admin &rarr; Payment Gateways</strong>.</li>
+                        </ul>
+
+                        <h3 id="v120-observability">Admin Observability &mdash; AI Dashboard &amp; System Health</h3>
+                        <ul>
+                            <li><strong>AI Usage Dashboard</strong> (<strong>Admin &rarr; AI Dashboard</strong>): token burn, estimated cost, daily trend, tokens by provider, platform-key vs BYOK split, top token-burning workspaces, top models, and live AI-key health. Guide: <a href="../admin-panel/ai-dashboard.html">AI Usage Dashboard</a>.</li>
+                            <li><strong>System Health</strong> (<strong>Admin &rarr; System Health</strong>): live probes for the database, cache, queue, the Node WhatsApp bridge, and media storage, plus 24-hour activity, response-time bars, a 14-day throughput chart, per-engine connected-number cards, and host vitals &mdash; auto-refreshing every 20 seconds. Guide: <a href="../admin-panel/system-health.html">System Health</a>.</li>
+                        </ul>
+
+                        <h3 id="v120-quick-access">Dashboard Quick Access</h3>
+                        <ul>
+                            <li>A customisable shortcut grid on the user dashboard: pin the app pages and custom links you use most for one-click access. Edit it with the pencil on the dashboard.</li>
+                        </ul>
+
+                        <h3 id="v120-fixes">Fixes &amp; Improvements</h3>
+                        <ul>
+                            <li>Auth pages now scroll correctly inside the editor frame so every field is reachable.</li>
+                            <li>Hardened multi-engine sending, follow-up sends on WhatsApp Cloud / Twilio conversations, and unified per-number conversations so Quick Send and inbox replies share one thread.</li>
+                            <li>Various stability and quality-of-life fixes across the dashboard and admin panel.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading from 1.1.0?</strong> Use the in-app updater (<strong>Admin &rarr; Update</strong>): back up &rarr; upload the 1.2.0 ZIP &rarr; apply &rarr; run migrations &rarr; finalize. Everything new is off by default, so nothing changes for existing workspaces until you turn it on. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-1-0">Version 1.1.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(June 19, 2026)</span> &mdash; CRM, Developer Platform &amp; In-App Updates</h2>
+                        <p>A major feature release that turns WaDesk from a messaging tool into a full WhatsApp business platform: a built-in sales CRM, simultaneous multi-engine sending, WhatsApp Coexistence onboarding, a public REST API with webhooks, Slack &amp; Trello integrations, add-on packages, and &mdash; from this release onwards &mdash; a one-click <strong>in-app updater</strong>. No data migration is required beyond running the new migrations; existing workspaces keep working exactly as before.</p>
+
+                        <h3 id="v110-pipeline">Sales Pipeline (Deals CRM)</h3>
+                        <ul>
+                            <li><strong>New <code>/deals</code> Kanban board</strong> &mdash; drag deals across your own pipeline stages, with a slide-over detail panel, activity timeline, notes, tasks, and Won/Lost outcomes.</li>
+                            <li><strong>Connected everywhere:</strong> a deal can be created manually, from the <strong>Team Inbox</strong> ("Create deal" on any chat), automatically from a store <strong>order</strong> (opt-in), from a <strong>flow</strong> node, or over the REST API. Each deal links to its contact and conversation.</li>
+                            <li><strong>Flow bridge (both directions):</strong> moving a deal to a stage fires the <code>deal_stage_changed</code> trigger to launch a WhatsApp flow; and a flow can itself create or advance a deal.</li>
+                            <li><strong>Reports</strong> at <code>/deals/reports</code> (value by stage, win-rate, forecast, agent leaderboard) and overdue-task reminders that nudge the deal owner. Gated by the <code>access_sales_pipeline</code> plan feature.</li>
+                        </ul>
+
+                        <h3 id="v110-coexistence">WhatsApp Coexistence</h3>
+                        <ul>
+                            <li>Onboard a number that is <strong>already running on the WhatsApp Business app</strong> via Meta's Embedded Signup &mdash; without losing chat history or mobile access.</li>
+                            <li>Launches Embedded Signup with Meta's <code>whatsapp_business_app_onboarding</code> feature and correctly <strong>skips phone registration</strong> (registering would remove the number from the Business app).</li>
+                            <li>Mirrors the app side into your Team Inbox via Meta's coexistence webhooks: <code>smb_message_echoes</code> (messages sent from the app), <code>smb_app_state_sync</code> (the business's contacts), and <code>history</code> (past messages). Enabled by the admin under <strong>Settings</strong>.</li>
+                        </ul>
+
+                        <h3 id="v110-multi-engine">Run Multiple Engines at Once</h3>
+                        <ul>
+                            <li>A workspace can now connect <strong>any combination of the Unofficial API, WhatsApp Cloud API, and Twilio at the same time</strong>, not just one engine.</li>
+                            <li>Device pickers, campaigns, broadcasts, scheduled sends, flows, and the inbox all show grouped, per-engine senders; the right engine is resolved per message, and replies go back out on the channel a customer used.</li>
+                        </ul>
+
+                        <h3 id="v110-developer">Developer Platform &mdash; REST API &amp; Webhooks</h3>
+                        <ul>
+                            <li><strong>Customer REST API</strong> at <code>/api/v1</code> &mdash; 50+ endpoints for messages, broadcasts, campaigns, scheduled sends, contacts &amp; groups, deals, flows, templates, devices, and account info. Authenticated with per-workspace API keys (Bearer or <code>X-Api-Key</code>), minted under <strong>More &rarr; Developers</strong>. Every send routes through the same battle-tested controllers the dashboard uses.</li>
+                            <li><strong>Live API reference</strong> (OpenAPI) at <code>/developers/docs</code>, generated from the code so it always matches the real endpoints.</li>
+                            <li><strong>Outgoing webhooks</strong> &mdash; subscribe a URL to 17 events (message received/sent/delivered/read/failed, broadcast &amp; campaign status, contact &amp; device events) delivered as a signed JSON POST (<code>X-WaDesk-Signature</code>, HMAC-SHA256). Managed under <strong>Webhooks</strong>.</li>
+                            <li><strong>Incoming webhooks</strong> &mdash; generate an inbound capture URL that records every request (and can relay it onward), under <strong>Webhooks &rarr; Incoming</strong>.</li>
+                        </ul>
+
+                        <h3 id="v110-integrations">New Integrations &mdash; Slack &amp; Trello</h3>
+                        <ul>
+                            <li><strong>Slack:</strong> send a WhatsApp message straight from Slack with a signature-verified slash command (<code>/wa send name: message</code>).</li>
+                            <li><strong>Trello:</strong> board webhook support &mdash; e.g. assigning a member to a card can trigger a WhatsApp action.</li>
+                        </ul>
+
+                        <h3 id="v110-addons">Add-on Packages</h3>
+                        <ul>
+                            <li>Sell <strong>à-la-carte feature packs on top of a plan</strong> (like credit packages, but for features/limits). Add-ons are bought after a plan and shown on a dedicated <strong>Add-ons</strong> tab in the customer's account.</li>
+                            <li>Managed in a separate admin CRUD under <strong>Admin &rarr; Add-ons</strong>; an add-on's flags and limits stack on top of the base plan.</li>
+                            <li>New optional <strong>data-retention</strong> control: a plan/add-on can auto-wipe a workspace's data a set number of days after the plan expires.</li>
+                        </ul>
+
+                        <h3 id="v110-reliability">Reliability &amp; Messaging Improvements</h3>
+                        <ul>
+                            <li><strong>Durable send auto-retry</strong> across campaigns, scheduled messages, and broadcasts &mdash; if a device is offline when a send fires, the unsent recipients are automatically retried on reconnect with backoff, paced (never a bulk blast) and never re-sending anyone who already received it.</li>
+                            <li><strong>Connection stability</strong> &mdash; Unofficial API numbers reconnect on their own and stay connected until you log out, with a QR-refresh watchdog.</li>
+                            <li><strong>Campaign A/B testing</strong>, faster auto-replies (no forced cool-down), and reliable media in flows and auto-replies.</li>
+                        </ul>
+
+                        <h3 id="v110-updater">In-App Updater (new)</h3>
+                        <ul>
+                            <li>From this release, the Admin panel includes a <strong>one-click updater</strong> under <strong>Admin &rarr; Update</strong>: verify your CodeCanyon purchase &rarr; automatic backup &rarr; upload the update ZIP &rarr; apply files &rarr; run migrations &rarr; finalize (clear caches + health check), with <strong>one-click rollback</strong> to any backup.</li>
+                            <li>It preserves your <code>.env</code>, <code>storage/</code>, and uploads automatically &mdash; so future updates no longer require manual file replacement over FTP/SSH. See the <a href="update-process.html">Update Process</a> guide.</li>
+                        </ul>
+
+                        <blockquote class="info"><strong>Upgrading from 1.0.0?</strong> 1.0.0 has no in-app updater, so the move to 1.1.0 is a <strong>manual file replacement</strong> (back up &rarr; replace app code, keep <code>.env</code> + <code>storage/</code> + uploads &rarr; <code>php artisan migrate --force</code> &rarr; clear caches &rarr; restart the Node bridge). From 1.1.0 onward you can update from inside the admin panel. Full steps: <a href="update-process.html">Update Process</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="v1-0-0">Version 1.0.0 <span style="font-weight: 400; font-size: 0.9em; color: var(--text-muted);">(May 29, 2026)</span> &mdash; Initial Release</h2>
+                        <p>The first public release of <strong>WaDesk</strong>, a self-hosted, multi-tenant WhatsApp business platform built with Laravel 12, Tailwind CSS, Alpine.js, and a bundled Node.js bridge. WaDesk ships as a complete SaaS product &mdash; team inbox, bulk campaigns, automation, an AI suite, and a full admin panel with plans and billing.</p>
+
+                        <h3 id="v100-engines">WhatsApp Engines</h3>
+                        <ul>
+                            <li><strong>Unofficial API:</strong> Connect any WhatsApp number by scanning a QR code, powered by the bundled Node.js bridge. No Meta approval required.</li>
+                            <li><strong>WhatsApp Cloud API (Meta):</strong> Official Graph API v23 integration with template management and WhatsApp Forms (Meta Flows).</li>
+                            <li><strong>Twilio WhatsApp:</strong> Send through a Twilio WhatsApp sender using Content Templates (ContentSid).</li>
+                            <li>Engine-agnostic core &mdash; the inbox, campaigns, flows, and templates all adapt to whichever engine a workspace is connected to.</li>
+                        </ul>
+
+                        <h3 id="v100-inbox">Team Inbox &amp; Messaging</h3>
+                        <ul>
+                            <li>Shared <strong>Team Inbox</strong> with conversation assignment, internal notes, labels, and SLA tracking.</li>
+                            <li><strong>Team Chat</strong> for internal agent-to-agent messaging.</li>
+                            <li><strong>Bulk campaigns</strong> and <strong>broadcasts</strong> with audience targeting, pacing/throttle controls, and per-recipient delivery status.</li>
+                            <li><strong>Scheduled</strong> sends and a full <strong>message history</strong> with delivery and read receipts.</li>
+                            <li><strong>Auto-reply</strong> rules for instant responses to inbound messages.</li>
+                        </ul>
+
+                        <h3 id="v100-automation">Templates &amp; Automation</h3>
+                        <ul>
+                            <li><strong>WhatsApp template management</strong> with linting to reduce rejection and ban risk.</li>
+                            <li><strong>Visual flow builder</strong> for drip and trigger automations.</li>
+                            <li><strong>WhatsApp Forms</strong> (native Meta Flows on the Cloud API engine).</li>
+                            <li><strong>Chatbot widget</strong> for embedding a Click-to-WhatsApp entry point on any website.</li>
+                            <li><strong>WhatsApp Links</strong> (wa.me-style short links) with click tracking and redirects.</li>
+                        </ul>
+
+                        <h3 id="v100-ai">AI Suite</h3>
+                        <ul>
+                            <li><strong>AI chatbots</strong> trained on your own content, with pluggable provider keys (OpenAI, Anthropic Claude, Google Gemini).</li>
+                            <li><strong>AI Call Assistant</strong> &mdash; an AI voice assistant that answers phone calls, with full <strong>call logs</strong>.</li>
+                            <li>Per-workspace AI training sources and configuration.</li>
+                        </ul>
+
+                        <h3 id="v100-growth">Marketing, Contacts &amp; Growth</h3>
+                        <ul>
+                            <li><strong>Contacts</strong> management with custom <strong>attributes</strong> and segmentation.</li>
+                            <li><strong>Click-to-WhatsApp ads</strong> via Meta (Meta Ads integration).</li>
+                            <li><strong>Analytics</strong> dashboards powered by ApexCharts.</li>
+                            <li>Appointment booking with Google Calendar / Meet links.</li>
+                        </ul>
+
+                        <h3 id="v100-integrations">Integrations</h3>
+                        <ul>
+                            <li><strong>Shopify</strong> and <strong>WooCommerce</strong> store connections for order updates and cart recovery.</li>
+                            <li><strong>HubSpot</strong> CRM sync.</li>
+                            <li><strong>Google Sheets</strong> add-on and outbound <strong>webhooks</strong>.</li>
+                            <li>WhatsApp product catalog and storefront support.</li>
+                        </ul>
+
+                        <h3 id="v100-admin">Admin Panel &amp; SaaS</h3>
+                        <ul>
+                            <li>Full multi-tenant admin panel with isolated <strong>workspaces</strong> and role-based team access.</li>
+                            <li><strong>Subscription plans</strong> with granular per-plan feature gating, free trials, coupons, and wallet credits.</li>
+                            <li><strong>30 payment gateways</strong> with multi-currency support and live exchange rates.</li>
+                            <li>White-label branding (logo, colors, app name, message footers) per platform and per workspace.</li>
+                            <li>Admin support inbox with SLA policies, announcements, guidebook, order and billing history, and financial reporting.</li>
+                            <li>Impersonation, user management, language management, and translation providers.</li>
+                        </ul>
+
+                        <h3 id="v100-security">Security</h3>
+                        <ul>
+                            <li>Two-factor authentication (2FA) and role-based permissions.</li>
+                            <li>Audit log of every sensitive admin action.</li>
+                            <li>IP / location controls and rate limiting.</li>
+                        </ul>
+
+                        <h3 id="v100-installation">Installation &amp; Infrastructure</h3>
+                        <ul>
+                            <li><strong>Web installer wizard</strong> &mdash; upload files, create a database, visit your domain; migrations, default data, and the admin account are handled automatically.</li>
+                            <li>Bundled <strong>Node.js bridge</strong> for QR pairing, sending, and inbound webhooks.</li>
+                            <li>Database queue driver by default (configurable to Redis).</li>
+                            <li>Multi-language support and a clean, responsive UI built with Tailwind CSS and Alpine.js (compiled with Vite).</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#v1-7-0" class="toc-link">Version 1.7.0</a></li>
+                    <li class="toc-h3"><a href="#v170-email" class="toc-link">Email in the Team Inbox</a></li>
+                    <li class="toc-h3"><a href="#v170-line" class="toc-link">LINE</a></li>
+                    <li class="toc-h3"><a href="#v170-wechat" class="toc-link">WeChat</a></li>
+                    <li class="toc-h3"><a href="#v170-viber" class="toc-link">Viber</a></li>
+                    <li class="toc-h3"><a href="#v170-more" class="toc-link">Improvements &amp; Fixes</a></li>
+                    <li class="toc-h2"><a href="#v1-6-0" class="toc-link">Version 1.6.0</a></li>
+                    <li class="toc-h2"><a href="#v1-5-0" class="toc-link">Version 1.5.0</a></li>
+                    <li class="toc-h2"><a href="#v1-4-0" class="toc-link">Version 1.4.0</a></li>
+                    <li class="toc-h3"><a href="#v140-template-overrides" class="toc-link">Template Variable Overrides</a></li>
+                    <li class="toc-h3"><a href="#v140-analytics" class="toc-link">Campaign Analytics</a></li>
+                    <li class="toc-h3"><a href="#v140-meta-ads" class="toc-link">Meta Ads (CTWA)</a></li>
+                    <li class="toc-h3"><a href="#v140-fixes" class="toc-link">Bug Fixes</a></li>
+                    <li class="toc-h2"><a href="#v1-3-0" class="toc-link">Version 1.3.0</a></li>
+                    <li class="toc-h3"><a href="#v130-username" class="toc-link">WhatsApp Username</a></li>
+                    <li class="toc-h3"><a href="#v130-calling" class="toc-link">AI Voice Calling</a></li>
+                    <li class="toc-h3"><a href="#v130-meta-ads" class="toc-link">Meta Ads (FB &amp; Instagram)</a></li>
+                    <li class="toc-h3"><a href="#v130-inbox" class="toc-link">Team Inbox</a></li>
+                    <li class="toc-h3"><a href="#v130-woocommerce" class="toc-link">WooCommerce Webhooks</a></li>
+                    <li class="toc-h3"><a href="#v130-fixes" class="toc-link">Fixes &amp; Improvements</a></li>
+                    <li class="toc-h2"><a href="#v1-2-0" class="toc-link">Version 1.2.0</a></li>
+                    <li class="toc-h3"><a href="#v120-branding" class="toc-link">Theme Colours &amp; Auth Editor</a></li>
+                    <li class="toc-h3"><a href="#v120-deliverability" class="toc-link">Warmer &amp; Per-Number Proxy</a></li>
+                    <li class="toc-h3"><a href="#v120-storage" class="toc-link">Cloud Storage</a></li>
+                    <li class="toc-h3"><a href="#v120-blog" class="toc-link">Blog &amp; SEO</a></li>
+                    <li class="toc-h3"><a href="#v120-payments" class="toc-link">WhatsApp Pay &amp; Lemon Squeezy</a></li>
+                    <li class="toc-h3"><a href="#v120-observability" class="toc-link">AI Dashboard &amp; System Health</a></li>
+                    <li class="toc-h3"><a href="#v120-quick-access" class="toc-link">Dashboard Quick Access</a></li>
+                    <li class="toc-h2"><a href="#v1-1-0" class="toc-link">Version 1.1.0</a></li>
+                    <li class="toc-h3"><a href="#v110-pipeline" class="toc-link">Sales Pipeline (Deals)</a></li>
+                    <li class="toc-h3"><a href="#v110-coexistence" class="toc-link">WhatsApp Coexistence</a></li>
+                    <li class="toc-h3"><a href="#v110-multi-engine" class="toc-link">Multiple Engines at Once</a></li>
+                    <li class="toc-h3"><a href="#v110-developer" class="toc-link">REST API &amp; Webhooks</a></li>
+                    <li class="toc-h3"><a href="#v110-integrations" class="toc-link">Slack &amp; Trello</a></li>
+                    <li class="toc-h3"><a href="#v110-addons" class="toc-link">Add-on Packages</a></li>
+                    <li class="toc-h3"><a href="#v110-reliability" class="toc-link">Reliability</a></li>
+                    <li class="toc-h3"><a href="#v110-updater" class="toc-link">In-App Updater</a></li>
+                    <li class="toc-h2"><a href="#v1-0-0" class="toc-link">Version 1.0.0 &mdash; Initial Release</a></li>
+                    <li class="toc-h3"><a href="#v100-engines" class="toc-link">WhatsApp Engines</a></li>
+                    <li class="toc-h3"><a href="#v100-inbox" class="toc-link">Team Inbox &amp; Messaging</a></li>
+                    <li class="toc-h3"><a href="#v100-automation" class="toc-link">Templates &amp; Automation</a></li>
+                    <li class="toc-h3"><a href="#v100-ai" class="toc-link">AI Suite</a></li>
+                    <li class="toc-h3"><a href="#v100-growth" class="toc-link">Marketing &amp; Contacts</a></li>
+                    <li class="toc-h3"><a href="#v100-integrations" class="toc-link">Integrations</a></li>
+                    <li class="toc-h3"><a href="#v100-admin" class="toc-link">Admin Panel &amp; SaaS</a></li>
+                    <li class="toc-h3"><a href="#v100-security" class="toc-link">Security</a></li>
+                    <li class="toc-h3"><a href="#v100-installation" class="toc-link">Installation &amp; Infrastructure</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

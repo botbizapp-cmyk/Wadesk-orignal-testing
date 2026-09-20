@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeChat Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the WeChat channel — registering an Official Account, where to copy AppID, AppSecret, Token and EncodingAESKey, server (webhook) configuration, IP allowlist, the 48-hour window, template messages, menus, mass sends and troubleshooting.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WeChat Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>WeChat</strong> channel connects a WeChat <strong>Official Account</strong> so followers who message it land in the <a href="../messaging/team-inbox.html">Team Inbox</a> next to your other channels. WeChat is essential for reaching customers in mainland China, and it runs the same auto-reply, flows, AI agent and broadcasts as the rest of WaDesk, plus WeChat&rsquo;s own <strong>custom menu</strong> and <strong>template messages</strong>.</p>
+                        <blockquote class="warning"><strong>WeChat is the strictest channel to set up.</strong> Registration requires a verified business entity, and several capabilities (customer-service messages, template messages, mass sends) are only available to <strong>Verified Service Accounts</strong>. Read <a href="#accounttypes">Account Types</a> before you start &mdash; picking the wrong type is the most common reason a WeChat rollout stalls.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="accounttypes">Account Types &mdash; Choose Correctly</h2>
+                        <table>
+                            <thead><tr><th>Type</th><th>What you get</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Subscription Account</strong></td><td>Appears in a folder, good for publishing. <strong>No customer-service messaging API</strong> &mdash; two-way chat will not work.</td></tr>
+                                <tr><td><strong>Service Account</strong> (unverified)</td><td>Appears in the main chat list, but the messaging APIs stay locked until verification.</td></tr>
+                                <tr><td><strong>Service Account (Verified)</strong></td><td><strong>What you want.</strong> Full Messaging API: customer-service replies inside the 48-hour window, template messages, custom menus and mass sends.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Verification is an annual paid review by Tencent and needs a business licence. An overseas entity can register a China-facing account through WeChat&rsquo;s international flow, though the requirements differ by region.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>WeChat pushes inbound events to your server as <strong>XML over HTTP</strong> &mdash; not JSON like most platforms.</li>
+                            <li>Your server is authenticated to WeChat with an <strong>access token</strong> that WaDesk derives from your <strong>AppID</strong> and <strong>AppSecret</strong> and refreshes automatically before it expires.</li>
+                            <li>Inbound deliveries are verified with the <strong>Token</strong> you choose, and &mdash; in safe mode &mdash; decrypted with the <strong>EncodingAESKey</strong>.</li>
+                            <li>People reach you by following your Official Account, usually by scanning its QR code.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credentials">Registering &amp; Getting Your Credentials</h2>
+                        <p>All four values come from the WeChat Official Accounts Platform. Step by step:</p>
+                        <ol>
+                            <li><strong>Register the account.</strong> Go to <a href="https://mp.weixin.qq.com/" target="_blank" rel="noopener">mp.weixin.qq.com</a> and register a <strong>Service Account</strong>, then complete <strong>verification</strong>. (International applicants start at <a href="https://admin.wechat.com/" target="_blank" rel="noopener">admin.wechat.com</a>.)</li>
+                            <li><strong>Open Basic Configuration.</strong> Sign in to the console and go to <strong>Settings and Development &rarr; Basic Configuration</strong> (设置与开发 &rarr; 基本配置).</li>
+                            <li><strong>Copy the AppID.</strong> It is shown as <strong>Developer ID (AppID)</strong>.</li>
+                            <li><strong>Generate the AppSecret.</strong> Next to <strong>Developer Password (AppSecret)</strong> click <strong>Generate</strong> / <strong>Reset</strong>. <em>It is shown once</em> &mdash; copy it immediately.</li>
+                            <li><strong>Choose your own Token.</strong> In the <strong>Server Configuration</strong> block, invent a Token &mdash; any 3&ndash;32 character alphanumeric string. This is a shared password between WeChat and WaDesk; you will paste the same value into both.</li>
+                            <li><strong>Generate the EncodingAESKey.</strong> Click <strong>Randomly generate</strong> to produce the 43-character key, and set <strong>Message encryption method</strong> to <strong>Safe mode</strong> (安全模式) &mdash; recommended, and supported by WaDesk.</li>
+                            <li><strong>Allowlist your server IP.</strong> Under <strong>Security Center &rarr; IP allowlist</strong>, add your WaDesk server&rsquo;s public IP address. WeChat refuses API calls from any other address.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>The AppSecret is shown only once.</strong> If you lose it you must reset it, which immediately invalidates the old one and briefly breaks any live integration until you paste the new value into WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting in WaDesk</h2>
+                        <ol>
+                            <li><strong>Open the WeChat page</strong> &mdash; <strong>Channels &rarr; WeChat</strong> in the menu.</li>
+                            <li><strong>Paste all four values</strong> &mdash; AppID, AppSecret, Token and EncodingAESKey &mdash; then save.</li>
+                            <li><strong>Copy the server URL</strong> WaDesk shows you. It looks like <code>https://your-domain.com/api/wechat/inbound/&lt;token&gt;</code>.</li>
+                            <li><strong>Paste it into WeChat.</strong> Back in <strong>Basic Configuration &rarr; Server Configuration</strong>, set <strong>Server address (URL)</strong> to that value, enter the <strong>same Token</strong>, paste the <strong>EncodingAESKey</strong>, choose <strong>Safe mode</strong>, and click <strong>Submit</strong>. WeChat immediately calls the URL to verify it &mdash; WaDesk answers the echo automatically.</li>
+                            <li><strong>Enable the server.</strong> After a successful submit, click <strong>Enable</strong> (启用) on the Server Configuration block.</li>
+                            <li><strong>Test it.</strong> Follow your Official Account with the WeChat app, send it a message, and watch it arrive in the Team Inbox.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Order matters.</strong> Save in WaDesk <em>first</em>, then submit in WeChat. WeChat verifies the URL the moment you press Submit, and it can only succeed if WaDesk already knows the Token.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Rules</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>48-hour service window</strong></td><td>You may send free-form customer-service replies for <strong>48 hours</strong> after the user&rsquo;s last message. After that only template messages are allowed. WaDesk shows the remaining window on the thread.</td></tr>
+                                <tr><td><strong>Template messages</strong></td><td>The only way to message a follower outside the window. Templates are chosen from WeChat&rsquo;s library or applied for, and approved by Tencent before use.</td></tr>
+                                <tr><td><strong>Mass send limits</strong></td><td>A Verified Service Account may mass-send roughly <strong>4 times per month</strong> to all followers. This is a WeChat platform rule, not a WaDesk one &mdash; plan your sends.</td></tr>
+                                <tr><td><strong>Follower required</strong></td><td>You cannot message someone who has not followed the account. There is no cold outreach.</td></tr>
+                                <tr><td><strong>IP allowlist</strong></td><td>API calls only work from allowlisted IPs. If your server moves or you add a node, update the allowlist or every send fails.</td></tr>
+                                <tr><td><strong>Access token sharing</strong></td><td>WeChat issues <em>one</em> access token per account. Running another tool that fetches its own token will invalidate WaDesk&rsquo;s and cause intermittent failures.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>One thread per follower.</strong> Each WeChat user who messages the account gets a thread with their nickname and avatar.</li>
+                            <li><strong>Media.</strong> Images, voice, video, files and location messages render inline.</li>
+                            <li><strong>Window countdown.</strong> The thread shows how much of the 48-hour service window is left, so agents know when a free-form reply will still land.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="menu">Custom Menu</h2>
+                        <p>The <strong>custom menu</strong> is the bar at the bottom of your Official Account chat, with up to three top-level items and five sub-items each. Build it in <strong>Channels &rarr; WeChat &rarr; Menu</strong> and point each entry at a reply, a URL or a flow, then publish. WeChat can take a few minutes to show a menu change, and users may need to unfollow/refollow to see it immediately.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to your WeChat account in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node&rsquo;s channel to WeChat</strong> in the <a href="../automation/flows.html">Flow Builder</a>. Message, media, question and condition steps run on WeChat within the 48-hour window.</li>
+                            <li><strong>AI agent.</strong> Assign an agent for automatic replies with hand-off to a human.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">WeChat Broadcasts</h2>
+                        <p>The broadcast composer uses WeChat&rsquo;s <strong>mass send</strong> API to reach all followers, or a tag-filtered subset. Because WeChat caps mass sends at roughly four per month, WaDesk shows the composer with that limit in mind &mdash; treat each one as a newsletter, not a routine push. Sends outside the 48-hour window to individuals must use an approved template message instead.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>&ldquo;Token verification failed&rdquo; on Submit</strong></td><td>The Token in WeChat and in WaDesk differ, the URL has a typo, or you submitted before saving in WaDesk. Save in WaDesk first, then re-submit.</td></tr>
+                                <tr><td><strong>URL unreachable</strong></td><td>WeChat requires a publicly reachable server on port 80/443. An IP address, a non-standard port or an unreachable host all fail.</td></tr>
+                                <tr><td><strong>Sends fail with an IP error (40164)</strong></td><td>Your server IP is not in the WeChat <strong>IP allowlist</strong>. Add it under Security Center.</td></tr>
+                                <tr><td><strong>Intermittent &ldquo;invalid credential&rdquo; (40001)</strong></td><td>Another system is fetching an access token for the same AppID and invalidating WaDesk&rsquo;s. Use one integration per Official Account.</td></tr>
+                                <tr><td><strong>Two-way chat does nothing</strong></td><td>You have a Subscription Account, or an unverified Service Account. The messaging APIs need a <strong>Verified Service Account</strong>.</td></tr>
+                                <tr><td><strong>Reply rejected after a day</strong></td><td>The 48-hour service window closed. Use an approved template message.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#accounttypes" class="toc-link">Account Types</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#credentials" class="toc-link">Registering &amp; Credentials</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting in WaDesk</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#menu" class="toc-link">Custom Menu</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">WeChat Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

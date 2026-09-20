@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Live Editor – WaDesk SaaS Docs</title>
+    <meta name="description" content="Frontend Live Editor — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Frontend Live Editor</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Frontend Live Editor</strong> (Admin &rarr; System &rarr; Frontend) lets you re-word, re-colour, and re-arrange your public marketing website &mdash; the Home, Features, and Pricing pages &mdash; <strong>without touching any code</strong>. You edit a live preview of the real site, and your visitors see nothing until you press <strong>Publish</strong>.</p>
+                        <p>It is built as a draft &rarr; publish system. Every change you make is saved as a <strong>draft</strong> that only you (a signed-in admin previewing the page) can see. The public always sees the last <strong>published</strong> version, and any value you have never edited falls back to the copy the theme shipped with &mdash; so a brand-new install looks exactly as designed.</p>
+                        <blockquote class="info"><strong>Who can use it:</strong> the editor and all of its save actions are restricted to platform admin accounts. The preview's editing mode also re-checks that you are an admin, so the draft content can never leak to a visitor who guesses the URL.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="layout">The editor at a glance</h2>
+                        <p>The screen is split into a live <strong>preview</strong> on the left and a <strong>control panel</strong> on the right, with a toolbar across the top.</p>
+                        <table>
+                            <thead><tr><th>Area</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Page tabs</strong> (top-left)</td><td>Switch the preview between <em>Home</em>, <em>Features</em>, and <em>Pricing</em>.</td></tr>
+                                <tr><td><strong>Device switcher</strong></td><td>Preview the page at Desktop, Tablet, or Mobile width.</td></tr>
+                                <tr><td><strong>Saved status</strong></td><td>A live "Saving… / All changes saved" indicator next to your edits.</td></tr>
+                                <tr><td><strong>Drafts badge</strong></td><td>Shows how many unpublished changes are waiting. Hidden when there are none.</td></tr>
+                                <tr><td><strong>Full screen</strong></td><td>Expand-arrows icon &mdash; hides the admin chrome so the editor fills the screen.</td></tr>
+                                <tr><td><strong>View live</strong></td><td>Opens the real public page in a new tab (what visitors currently see).</td></tr>
+                                <tr><td><strong>Discard drafts</strong></td><td>Throws away every unpublished change and returns to what is currently live.</td></tr>
+                                <tr><td><strong>Publish</strong></td><td>Makes all your drafts public in one click.</td></tr>
+                                <tr><td><strong>Preview</strong> (left)</td><td>The actual website, where you click to edit text.</td></tr>
+                                <tr><td><strong>Control panel</strong> (right)</td><td>Inspector, Sections, Theme colours, and Reset tools.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="text">Editing text</h2>
+                        <p>Any editable piece of text shows a dashed outline when you hover over it in the preview, with a small tag naming the field.</p>
+                        <ul>
+                            <li><strong>Click</strong> the text to start editing it in place.</li>
+                            <li>Type your change. Press <strong>Enter</strong> to save, or <strong>Esc</strong> to cancel and restore the original.</li>
+                            <li>Clicking away also saves. A brief green flash confirms the save.</li>
+                        </ul>
+                        <p>Headlines, paragraphs, button labels, FAQ questions and answers, testimonials, and footer text are all editable this way. Rich-text areas (those that allow bold/italic formatting) keep their formatting; for those, use <strong>Shift+Enter</strong> for a line break.</p>
+                        <blockquote class="info"><strong>Tip:</strong> If you clear a field completely and save, WaDesk keeps the original shipped wording rather than showing a blank &mdash; use <em>Reset this field</em> in the Inspector if you truly want to revert it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="formatting">Bold &amp; italic</h2>
+                        <p>On rich-text areas (headlines and body copy that support styling), <strong>select</strong> the words you want to emphasise and a small floating toolbar appears above the selection with <strong>B</strong> (bold), <strong>I</strong> (italic), and <strong>clear</strong> (remove formatting). It works just like a word processor &mdash; no HTML knowledge needed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="devices">Device preview &amp; full screen</h2>
+                        <p>The top bar has a <strong>Desktop / Tablet / Mobile</strong> switcher. Click a device to instantly resize the preview to that screen width so you can check how your headlines wrap and how sections stack on phones before publishing. Your edits apply to every size &mdash; the switcher only changes what you are previewing.</p>
+                        <p>The <strong>full-screen</strong> button (the expand-arrows icon, next to <em>View live</em>) hides the admin sidebar and header so the editor fills the whole screen &mdash; the most room for editing. Click it again, or press <kbd>Esc</kbd>, to return to the normal admin view.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="links">Editing link targets</h2>
+                        <p>Navigation and footer links can point anywhere you like. When you click a link in the preview, the <strong>Inspector</strong> (top of the right panel) shows a <strong>Link target</strong> box pre-filled with the link's current address.</p>
+                        <ul>
+                            <li>Edit the link's <em>text</em> inline, just like any other text.</li>
+                            <li>Change where it <em>points</em> by typing a new URL in the Link target box and pressing <strong>Set</strong>.</li>
+                        </ul>
+                        <p>This lets you, for example, point the nav "Product" link at a custom landing page, or send a footer link to your own help desk.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="presets">Brand presets (one click)</h2>
+                        <p>At the top of the Theme panel is a row of <strong>brand presets</strong> &mdash; ready-made palettes (Emerald, Ocean, Forest, Royal, Sunset, Slate). Click one and the whole site re-skins instantly to that colour family. It is the fastest way to match the site to your brand; you can still fine-tune individual colours afterwards.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="colors">Theme colours</h2>
+                        <p>The <strong>Theme colours</strong> panel exposes the whole palette the public site is built from, grouped into <em>WhatsApp</em>, <em>Ink</em> (text), <em>Paper</em> (backgrounds), and <em>Accent</em> shades. Click any colour swatch, pick a new colour, and the preview re-themes instantly.</p>
+                        <p>Because the entire site shares these tokens, changing one colour updates every place it is used &mdash; buttons, highlights, badges, gradients &mdash; consistently. Use <strong>Reset all colours</strong> at the bottom of the panel to return the palette to the shipped theme.</p>
+                        <blockquote class="info"><strong>Note:</strong> colour values are validated as hex codes before they are saved, so a typo can never break the site's styling.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sections">Reordering, showing &amp; hiding sections</h2>
+                        <p>The <strong>Sections</strong> panel lists every block on the current page. You can rearrange and toggle them:</p>
+                        <ul>
+                            <li><strong>Reorder</strong> &mdash; grab a section by its drag handle (the dotted grip on the left) and drop it above or below another section. The preview updates and the new order is saved as a draft. Drag is the fastest way to, say, move the FAQ above the pricing cards.</li>
+                            <li><strong>Show / hide</strong> &mdash; each removable block has a <strong>Shown / Hidden</strong> toggle. Hiding a section removes it from the public page without deleting anything, so you can bring it back any time.</li>
+                            <li><strong>Jump to</strong> &mdash; click a section's name to scroll the preview to it and flash it.</li>
+                        </ul>
+                        <p>The page's <strong>hero</strong> (the top banner) is marked <em>fixed</em> &mdash; it always stays at the top and can't be hidden, since every page needs a top. Everything below it can be reordered or turned off freely.</p>
+                        <blockquote class="info"><strong>Each page is independent.</strong> Order, visibility, and text are stored per page, so rearranging or rewriting a shared block (like the FAQ) on the Home page does <strong>not</strong> change it on Features or Pricing. The one intentional exception is the pricing cards, which stay in sync between Home and Pricing because they describe the same plans.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="publish">Publishing, discarding &amp; resetting</h2>
+                        <p>Nothing you do in the editor is visible to the public until you publish. Three controls manage that lifecycle:</p>
+                        <table>
+                            <thead><tr><th>Control</th><th>Where</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Publish</strong></td><td>Toolbar</td><td>Promotes every draft (text, colours, links, section visibility) to live in one step.</td></tr>
+                                <tr><td><strong>Discard drafts</strong></td><td>Toolbar</td><td>Throws away unpublished edits and snaps back to whatever is currently published. Anything already live is untouched.</td></tr>
+                                <tr><td><strong>Reset this field</strong></td><td>Inspector</td><td>Returns the selected text/link to the theme's original shipped value.</td></tr>
+                                <tr><td><strong>Reset all colours</strong></td><td>Theme panel</td><td>Restores the full colour palette to the shipped theme.</td></tr>
+                                <tr><td><strong>Reset this page</strong></td><td>Reset panel</td><td>Clears every customisation on the current page back to defaults.</td></tr>
+                                <tr><td><strong>Reset entire site</strong></td><td>Reset panel</td><td>Clears every customisation across all pages and colours.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Difference between Discard and Reset:</strong> <em>Discard drafts</em> keeps your published site and only drops unsaved edits. <em>Reset</em> goes further &mdash; it removes the customisation entirely and brings back the <strong>shipped theme default</strong>, even if you had previously published a change. Reset asks for confirmation first.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="workflow">A typical workflow</h2>
+                        <ol>
+                            <li>Open the editor (Admin &rarr; System &rarr; Frontend) and pick the page you want to change with the top tabs.</li>
+                            <li>Click headlines, paragraphs, and buttons in the preview to rewrite them; press Enter to save each.</li>
+                            <li>Adjust brand colours in the Theme panel and watch the preview update.</li>
+                            <li>Hide any sections you do not need from the Sections panel.</li>
+                            <li>Use <strong>View live</strong> in a separate tab to compare against what is currently public.</li>
+                            <li>When you are happy, press <strong>Publish</strong>. If you changed your mind, press <strong>Discard drafts</strong> instead.</li>
+                        </ol>
+                        <p>Every change is recorded in the platform <a href="./security.html">Audit Log</a> (saving a draft, hiding a section, publishing, and resetting all leave an entry), so you always have a trail of who changed the marketing site and when.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; the site name, logo, and favicon used across the app and marketing pages.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; where editor actions are recorded.</li>
+                            <li><a href="../developer-guide/customization.html">Customization Guide</a> &mdash; deeper, code-level theming for developers.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#layout" class="toc-link">The editor at a glance</a></li>
+                    <li class="toc-h2"><a href="#text" class="toc-link">Editing text</a></li>
+                    <li class="toc-h2"><a href="#formatting" class="toc-link">Bold &amp; italic</a></li>
+                    <li class="toc-h2"><a href="#devices" class="toc-link">Device preview &amp; full screen</a></li>
+                    <li class="toc-h2"><a href="#links" class="toc-link">Editing link targets</a></li>
+                    <li class="toc-h2"><a href="#presets" class="toc-link">Brand presets</a></li>
+                    <li class="toc-h2"><a href="#colors" class="toc-link">Theme colours</a></li>
+                    <li class="toc-h2"><a href="#sections" class="toc-link">Reorder, show &amp; hide sections</a></li>
+                    <li class="toc-h2"><a href="#publish" class="toc-link">Publishing, discarding &amp; resetting</a></li>
+                    <li class="toc-h2"><a href="#workflow" class="toc-link">A typical workflow</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

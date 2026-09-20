@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Endpoints – WaDesk SaaS Docs</title>
+    <meta name="description" content="API Endpoints reference — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>API Endpoints</h1>
+                    <p>A reference map of the public, versioned <strong>REST API</strong> at <code>/api/v1</code>. For authentication details, request/response envelopes, and a full worked example, see the <a href="rest-api.html">REST API</a> page. For the exact, always-current contract, use the generated OpenAPI reference served inside your install at <code>/developers/docs</code>.</p>
+                    <blockquote class="info"><strong>Auth in one line.</strong> Every request carries a workspace key (<code>wsk_&hellip;</code>) as <code>Authorization: Bearer</code> or <code>X-Api-Key</code>, and is scoped to that one workspace.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="messaging">Messaging</h2>
+                        <table>
+                            <thead><tr><th>Endpoint</th><th>Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>POST /messages</code></td><td>Send a message (text / location) to a number.</td></tr>
+                                <tr><td><code>GET /messages</code></td><td>List messages.</td></tr>
+                                <tr><td><code>GET /messages/{id}</code></td><td>Read one message and its delivery status.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="bulk">Broadcasts, Campaigns &amp; Scheduled</h2>
+                        <table>
+                            <thead><tr><th>Endpoint</th><th>Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>GET/POST /broadcasts</code></td><td>List / create one-off bulk sends.</td></tr>
+                                <tr><td><code>GET /broadcasts/{id}</code>, <code>/recipients</code>, <code>/stop</code></td><td>Read a broadcast, its per-recipient status, or stop it.</td></tr>
+                                <tr><td><code>GET/POST /campaigns</code></td><td>List / create managed campaigns.</td></tr>
+                                <tr><td><code>GET /campaigns/{id}</code>, <code>/statistics</code>, <code>/stop</code>, <code>DELETE</code></td><td>Read a campaign, its stats, stop it, or delete it.</td></tr>
+                                <tr><td><code>POST /scheduled</code></td><td>Queue a send for a future time.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="crm">CRM &amp; Pipeline</h2>
+                        <table>
+                            <thead><tr><th>Endpoint</th><th>Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>GET/POST /contacts</code>, <code>GET/PUT/DELETE /contacts/{id}</code></td><td>Manage contact records.</td></tr>
+                                <tr><td><code>GET/POST /contact-groups</code></td><td>Manage segments.</td></tr>
+                                <tr><td><code>GET/POST /deals</code>, <code>GET/PUT/DELETE /deals/{id}</code></td><td>Sales pipeline; advance a stage by updating <code>stage_id</code>.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Flows, Templates &amp; Auto-replies</h2>
+                        <table>
+                            <thead><tr><th>Endpoint</th><th>Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>GET /flows</code>, <code>GET /flows/{id}</code></td><td>Read chatbot flows.</td></tr>
+                                <tr><td><code>POST /flows/{id}/enroll</code>, <code>/subscribers</code></td><td>Enroll a contact into a flow; list subscribers.</td></tr>
+                                <tr><td><code>GET/POST /templates</code> (+ per-id)</td><td>Manage message templates.</td></tr>
+                                <tr><td><code>GET/POST /auto-replies</code> (+ per-id)</td><td>Manage keyword / auto-responder rules.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="account">Devices, Account &amp; Webhooks</h2>
+                        <table>
+                            <thead><tr><th>Endpoint</th><th>Does</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>GET /devices</code>, <code>GET /devices/{id}</code></td><td>List connected senders and their status.</td></tr>
+                                <tr><td><code>GET /me</code></td><td>Read the current workspace / key context.</td></tr>
+                                <tr><td>Event webhooks</td><td>Receive inbound &amp; delivery events on your server &mdash; see <a href="third-party-integrations.html">Third-Party Integrations</a> and <a href="../integrations/webhooks.html">Webhooks</a>.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="errors">Status codes</h2>
+                        <table>
+                            <thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>200 / 201</code></td><td>Success.</td></tr>
+                                <tr><td><code>401</code></td><td>Missing or expired API key.</td></tr>
+                                <tr><td><code>403</code></td><td>The plan feature for this endpoint is off.</td></tr>
+                                <tr><td><code>422</code></td><td>Validation error &mdash; the body names the offending field.</td></tr>
+                                <tr><td><code>429</code></td><td>Rate limit hit (limits are tiered by plan).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#messaging" class="toc-link">Messaging</a></li>
+                    <li class="toc-h2"><a href="#bulk" class="toc-link">Broadcasts &amp; Campaigns</a></li>
+                    <li class="toc-h2"><a href="#crm" class="toc-link">CRM &amp; Pipeline</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Flows &amp; Templates</a></li>
+                    <li class="toc-h2"><a href="#account" class="toc-link">Devices &amp; Webhooks</a></li>
+                    <li class="toc-h2"><a href="#errors" class="toc-link">Status codes</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

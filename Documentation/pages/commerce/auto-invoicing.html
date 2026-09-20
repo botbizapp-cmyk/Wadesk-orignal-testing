@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Invoicing – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to Auto-Invoicing — the triggers that generate an invoice, sequential numbering and immutability, logo and support-email branding, PDF generation, automatic sending to the buyer, recording payments, and the aging and revenue reporting it feeds.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Auto-Invoicing</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Auto-Invoicing</strong> creates a proper invoice the moment a sale happens &mdash; whether that's an order placed in a WhatsApp chat, a converted <a href="proposals-estimates.html">estimate</a>, or a manual entry &mdash; and sends the buyer a branded PDF without you lifting a finger. Each invoice has a sequential number, is immutable once issued, and rolls into your <strong>payments</strong> and revenue reporting.</p>
+                        <blockquote class="info"><strong>Pairs with:</strong> a <a href="payment-links.html">payment link</a> so the same message that delivers the invoice also lets the customer pay it, and the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a> for &ldquo;record a payment&rdquo; and &ldquo;what's outstanding?&rdquo;.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="triggers">How an Invoice Gets Created</h2>
+                        <p>Invoices are generated from any of these triggers:</p>
+                        <table>
+                            <thead><tr><th>Trigger</th><th>What happens</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>WhatsApp order</strong></td><td>When a customer completes an order in chat (via the <a href="catalog.html">catalog</a>, <a href="storefront.html">storefront</a> or an ordering flow), an invoice is generated for the order total and its line items.</td></tr>
+                                <tr><td><strong>Accepted estimate</strong></td><td>Converting an accepted <a href="proposals-estimates.html">quote</a> to an invoice carries over the line items, tax and total.</td></tr>
+                                <tr><td><strong>Manual</strong></td><td>Create an invoice by hand for a contact or company with your own line items &mdash; useful for offline or one-off sales.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="numbering">Numbering &amp; Immutability</h2>
+                        <ul>
+                            <li><strong>Sequential numbers.</strong> Each invoice gets the next number in your workspace's series (e.g. <code>INV-0007</code>), so records stay ordered and audit-friendly &mdash; no gaps, no duplicates.</li>
+                            <li><strong>Immutable once issued.</strong> An issued invoice's totals don't silently change. Corrections are made as new documents (or credit adjustments), keeping the trail clean for accounting.</li>
+                            <li><strong>Line items &amp; tax preserved.</strong> The invoice records exactly what was sold, at what price, with the tax applied at issue time.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="branding">Branding the Invoice</h2>
+                        <ul>
+                            <li><strong>Your logo.</strong> The PDF carries the logo you set in <strong>Checkout Settings</strong>, so it looks like your business, not WaDesk.</li>
+                            <li><strong>Support email in the footer.</strong> The buyer's support contact appears on every invoice so customers know where to ask questions.</li>
+                            <li><strong>Currency &amp; formatting.</strong> Amounts use your workspace's currency and formatting, computed from exact minor units so the printed total is always correct.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Set it once:</strong> configure the logo and support email in <strong>Checkout Settings</strong>; every generated invoice picks them up automatically.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sending">Automatic Sending</h2>
+                        <p>As soon as the invoice is generated, WaDesk delivers the PDF to the buyer &mdash; typically right in the WhatsApp thread where the order happened, so it lands where the customer already is. The send is mirrored into the <a href="../messaging/team-inbox.html">inbox</a> so your team sees it went out. You can also re-send an invoice from its detail page at any time.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="payments">Recording Payments &amp; Status</h2>
+                        <ul>
+                            <li><strong>Full or partial payments.</strong> Record a payment against an invoice; when the paid amount reaches the total, the status flips to <strong>Paid</strong> automatically. Partial payments show the remaining balance.</li>
+                            <li><strong>Via payment link.</strong> A successful <a href="payment-links.html">payment-link</a> charge is recorded automatically against the invoice &mdash; no manual entry.</li>
+                            <li><strong>Via the copilot.</strong> &ldquo;Record a payment of 5000 for invoice INV-0007&rdquo; does it by chat, with confirmation.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reporting">Aging &amp; Revenue Reporting</h2>
+                        <ul>
+                            <li>The <strong>payments ledger</strong> shows what's outstanding and an <strong>aging</strong> breakdown &mdash; <strong>0-30 / 31-60 / 61-90 / 90+</strong> days &mdash; so you chase the right accounts first.</li>
+                            <li>Paid invoices feed your <strong>revenue reports</strong> and the AI CRM Copilot's money answers (&ldquo;revenue this month&rdquo;, &ldquo;what's outstanding?&rdquo;).</li>
+                            <li>Every invoice ties back to its customer (and any originating deal/quote), so you can see lifetime value per account.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tips">Tips &amp; Edge Cases</h2>
+                        <ul>
+                            <li><strong>Set branding before your first sale</strong> so early invoices aren't unbranded.</li>
+                            <li><strong>Don't edit an issued invoice</strong> to &ldquo;fix&rdquo; a price &mdash; issue a corrected document so the audit trail is intact.</li>
+                            <li><strong>Reconcile partials</strong> promptly; the aging report is only as accurate as the payments you record.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#triggers" class="toc-link">How It Gets Created</a></li>
+                    <li class="toc-h2"><a href="#numbering" class="toc-link">Numbering &amp; Immutability</a></li>
+                    <li class="toc-h2"><a href="#branding" class="toc-link">Branding</a></li>
+                    <li class="toc-h2"><a href="#sending" class="toc-link">Automatic Sending</a></li>
+                    <li class="toc-h2"><a href="#payments" class="toc-link">Recording Payments</a></li>
+                    <li class="toc-h2"><a href="#reporting" class="toc-link">Aging &amp; Revenue</a></li>
+                    <li class="toc-h2"><a href="#tips" class="toc-link">Tips &amp; Edge Cases</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

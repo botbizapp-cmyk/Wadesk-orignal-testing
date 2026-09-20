@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Links &amp; Checkout – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to Payment Links — the 30+ supported gateways and where their keys come from, enabling a gateway, generating and sharing a link, the hosted checkout, success and callback handling, reconciliation, currency handling, refunds, and security.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Payment Links &amp; Checkout</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Payment Links</strong> let you collect money inside the conversation. Generate a secure link for an amount (or an <a href="auto-invoicing.html">invoice</a>), drop it into the chat, and the customer taps to pay through your chosen gateway. On success they land on a branded thank-you page and the order/invoice is marked paid. WaDesk supports <strong>30+ payment gateways</strong>, global and regional, so you can collect the way your customers already pay.</p>
+                        <blockquote class="info"><strong>Related:</strong> the full gateway list and per-gateway enablement lives in <a href="checkout-gateways.html">Checkout Gateways</a>. This page covers how to <em>use</em> a payment link end to end, and how the money comes back and reconciles.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="gateways">Supported Gateways &amp; Their Keys</h2>
+                        <p>WaDesk ships drivers for 30+ processors, including Stripe, PayPal, Razorpay, Paystack, Flutterwave, Paddle, PhonePe, Duitku, CinetPay, LigdiCash, Lemon Squeezy and more. Each gateway authenticates with its own credentials, which you get from that gateway's own dashboard:</p>
+                        <table>
+                            <thead><tr><th>Gateway (example)</th><th>Where its keys come from</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Stripe</strong></td><td>Stripe Dashboard &rarr; Developers &rarr; API keys (publishable + secret); set a webhook signing secret.</td></tr>
+                                <tr><td><strong>PayPal</strong></td><td>PayPal Developer &rarr; Apps &amp; Credentials &rarr; Client ID + Secret (live).</td></tr>
+                                <tr><td><strong>Razorpay</strong></td><td>Razorpay Dashboard &rarr; Settings &rarr; API Keys (Key ID + Secret); add a webhook.</td></tr>
+                                <tr><td><strong>Paystack / Flutterwave</strong></td><td>Their dashboard &rarr; Settings &rarr; API Keys (public + secret).</td></tr>
+                                <tr><td><strong>PhonePe / Duitku / CinetPay / LigdiCash</strong></td><td>The processor's merchant portal &mdash; merchant ID + API/secret key (regional processors).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The pattern is the same everywhere: create/copy the gateway's <strong>API key(s)</strong> in its dashboard, then paste them into WaDesk's gateway settings. Each gateway stores its own keys independently, so you can enable several at once.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">Enabling a Gateway (Admin)</h2>
+                        <ol>
+                            <li><strong>Open Checkout Settings / Payment Gateways</strong> in the admin area.</li>
+                            <li><strong>Pick the gateway</strong> for your region and open its settings.</li>
+                            <li><strong>Paste its keys</strong> (from the gateway's dashboard, above) and set any webhook/callback secret it provides.</li>
+                            <li><strong>Toggle it on</strong> and, if the gateway has one, run its <strong>sandbox/test mode</strong> first with a test card.</li>
+                            <li><strong>Set your branding</strong> &mdash; the logo and support email that appear on the checkout and thank-you page &mdash; in Checkout Settings.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="send">Sending a Payment Link</h2>
+                        <ol>
+                            <li><strong>Start from an order or invoice</strong>, or enter an amount and description directly.</li>
+                            <li><strong>Generate the link.</strong> WaDesk creates a secure, unique checkout URL for that amount and currency.</li>
+                            <li><strong>Share it in the chat.</strong> Send the link in the WhatsApp (or other channel) thread; it's mirrored into the inbox.</li>
+                            <li><strong>Customer pays.</strong> They open the hosted checkout, choose their method, and pay through the gateway.</li>
+                            <li><strong>Confirmation.</strong> On success they see a branded thank-you page, and the invoice/order flips to <strong>Paid</strong> in WaDesk.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reconcile">Confirmation &amp; Reconciliation</h2>
+                        <ul>
+                            <li><strong>Gateway callbacks.</strong> Each gateway notifies WaDesk (server-to-server webhook) when a payment succeeds, so status updates without you checking manually. The callback is verified before it's trusted.</li>
+                            <li><strong>Recorded as a payment.</strong> A successful charge is written to the <strong>payments ledger</strong> against the invoice, updating outstanding balances, aging and revenue.</li>
+                            <li><strong>Idempotent.</strong> A repeated or retried callback for the same charge doesn't double-count the payment.</li>
+                            <li><strong>Branded thank-you.</strong> The success page uses your logo and support email, so the whole flow looks like your business.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="currency">Currency Handling</h2>
+                        <p>Amounts are passed to each gateway in the units it expects. WaDesk handles <strong>zero-decimal currencies</strong> (e.g. IDR, JPY, XOF) correctly &mdash; so an amount is never accidentally multiplied or divided by 100 &mdash; and formats the display amount to match. What the customer is charged always equals what you entered.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security">Security</h2>
+                        <blockquote class="warning"><strong>Keys &amp; callbacks.</strong> Gateway API keys are stored <strong>encrypted at rest</strong> and used server-side only &mdash; never exposed to the browser. Payment callbacks must reach WaDesk over public <strong>HTTPS</strong>, and each is verified (signature/secret) before it's accepted. Always test a gateway in its <strong>sandbox</strong> before going live, and use live keys only once tested.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="refunds">Refunds &amp; Failures</h2>
+                        <table>
+                            <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Payment fails</strong></td><td>The invoice stays unpaid; the customer can retry the same link. Failure reasons come from the gateway.</td></tr>
+                                <tr><td><strong>Refund needed</strong></td><td>Issue the refund in the gateway's dashboard, then adjust the invoice/payment record so your ledger matches.</td></tr>
+                                <tr><td><strong>Link expired/stale</strong></td><td>Generate a fresh link for the amount and re-share it.</td></tr>
+                                <tr><td><strong>&ldquo;Invalid merchant&rdquo; / auth errors</strong></td><td>Keys are wrong, in test mode, or the account isn't fully activated with the processor. Re-check the credentials and account status.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#gateways" class="toc-link">Gateways &amp; Their Keys</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">Enabling a Gateway</a></li>
+                    <li class="toc-h2"><a href="#send" class="toc-link">Sending a Link</a></li>
+                    <li class="toc-h2"><a href="#reconcile" class="toc-link">Reconciliation</a></li>
+                    <li class="toc-h2"><a href="#currency" class="toc-link">Currency Handling</a></li>
+                    <li class="toc-h2"><a href="#security" class="toc-link">Security</a></li>
+                    <li class="toc-h2"><a href="#refunds" class="toc-link">Refunds &amp; Failures</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

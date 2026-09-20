@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Messages – WaDesk SaaS Docs</title>
+    <meta name="description" content="Scheduled Messages — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Scheduled Messages</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Scheduled Messages</strong> let you queue a WhatsApp send for a future time &mdash; once, or on a repeating schedule. Find the feature under <strong>More &rarr; Scheduled</strong>. It's the right tool for time-sensitive sends you want to set and forget: a launch announcement at 9:00&nbsp;AM, a weekly digest every Monday, or a monthly statement reminder.</p>
+                        <p>Each schedule tracks its own recipients and reports back delivery results, so the detail page shows who was sent, delivered, read, or failed. WaDesk shows you the next run time, and the actual sending runs automatically in the background &mdash; even when you're not logged in.</p>
+                        <blockquote class="info"><strong>Access:</strong> Scheduled Messages require the <strong>Manager</strong> workspace role or higher and a plan that includes the Scheduled messages feature. Your plan also sets a limit on how many schedules the workspace can create.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating a Schedule</h2>
+                        <p>Click <strong>New schedule</strong> on the list page and fill in the composer:</p>
+                        <ol>
+                            <li><strong>Name it.</strong> Enter a schedule name for your own reference in reports and the list view.</li>
+                            <li><strong>Choose the schedule type.</strong> Pick <strong>Once</strong> or <strong>Recurring</strong> (see <a href="#one-off-recurring">Once vs Recurring</a>).</li>
+                            <li><strong>Pick the sender number(s).</strong> Choose one number, or several for a multi-device send (see <a href="#multi-device">Multi-Device &amp; Audience</a>). The picker matches the active engine, so a Cloud API / Twilio workspace doesn't see old Unofficial API phones.</li>
+                            <li><strong>Compose the message.</strong> Choose the message type &mdash; <strong>Plain</strong> text, an approved <strong>Template</strong>, a <strong>Media</strong> attachment, or a <strong>Location</strong> pin. Only approved templates appear in the picker.</li>
+                            <li><strong>Choose the audience.</strong> Set the recipient type to a <strong>Group</strong>, a <strong>Queue</strong> (the audience of a past completed broadcast), or typed <strong>Numbers</strong> (see <a href="#recipients">Recipients</a>).</li>
+                            <li><strong>Set the date, time, and time zone.</strong> See <a href="#time-zones">Time Zones &amp; Lead Time</a>. For recurring schedules, also set the repeat pattern and optional end date.</li>
+                        </ol>
+                        <p>When you submit, WaDesk checks the schedule, adds each recipient to the list as <strong>pending</strong> so the detail page can show who will receive it, records which engine it's using, and registers the job to fire at the chosen time. The schedule then shows as <em>scheduled</em> (once) or <em>running</em> (recurring).</p>
+                        <blockquote class="info"><strong>Lead time:</strong> A schedule must be set at least <strong>2 minutes</strong> in the future, or the form shows "Schedule must be at least 2 minutes from now." This gives the system time to set it up and avoids time-zone edge cases. The send date itself must be today or later.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="message-types">Message Types</h2>
+                        <p>Pick what the schedule sends:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>What it sends</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Plain</strong></td><td>A free-text message.</td></tr>
+                                <tr><td><strong>Template</strong></td><td>An approved template &mdash; its body, header, footer, buttons, and carousel, with contact details filled in per recipient when it fires.</td></tr>
+                                <tr><td><strong>Media</strong></td><td>An uploaded image, video, or document (up to 50&nbsp;MB) with an optional caption.</td></tr>
+                                <tr><td><strong>Location</strong></td><td>A pinned map location (needs a latitude and longitude).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>On the Business API engine, an approved Meta template gets its full message built for each recipient before each run, so buttons, carousels, and media headers send correctly &mdash; and the same ban-prevention checks (approval, not paused, above the quality floor, reachable media) run before any sending allowance is spent.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="recipients">Recipients</h2>
+                        <p>Set the recipient type to populate exactly one target source:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>Source</th><th>Refreshed at send time?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Group</strong></td><td>One or more contact groups.</td><td>Yes (single number) &mdash; the group's members are re-checked when the job fires, so contacts added later are still included.</td></tr>
+                                <tr><td><strong>Queue</strong></td><td>One or more past <strong>completed</strong> broadcasts; their original recipients are re-targeted. The picker lists up to 50 recent completed sends.</td><td>Taken from each broadcast's recipient list.</td></tr>
+                                <tr><td><strong>Number</strong></td><td>Phone numbers typed directly (each 8&ndash;20 characters).</td><td>Fixed at the typed list.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>If the selected recipients add up to no valid numbers, the form shows "Selected recipients are empty." Each number is matched to a workspace contact where possible, so the detail page can show a name.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="one-off-recurring">Once vs Recurring</h2>
+                        <p>Schedules come in two types:</p>
+                        <ul>
+                            <li><strong>Once</strong> &mdash; fires a single time at the date and time you set, then completes.</li>
+                            <li><strong>Recurring</strong> &mdash; repeats on a pattern and stays active between runs. Configure:
+                                <ul>
+                                    <li><strong>Repeat interval</strong>: daily, weekly, or monthly.</li>
+                                    <li><strong>Repeat every</strong>: how often within that interval, e.g. every 2 weeks (1&ndash;365).</li>
+                                    <li><strong>Days of week</strong>: <em>required</em> for weekly schedules &mdash; pick which weekdays fire.</li>
+                                    <li><strong>End date</strong>: optional; after this date the schedule stops and is marked completed.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>After each recurring run, WaDesk works out the next run time in the schedule's own time zone (daily adds the chosen number of days, weekly moves to the next allowed weekday, monthly adds the chosen number of months). The schedule keeps running until the end date is reached or there are no more runs, at which point it completes.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="time-zones">Time Zones &amp; Lead Time</h2>
+                        <p>Every schedule is tied to a specific <strong>time zone</strong> (for example Asia/Kolkata or America/New&nbsp;York), pre-selected to your workspace's time zone. The date and time you enter are read in that zone, so:</p>
+                        <ul>
+                            <li>A send set for "9:00&nbsp;AM Asia/Kolkata" always fires at 9:00&nbsp;AM local time, no matter where the server is.</li>
+                            <li>Recurring runs use the schedule's own time zone, so daily and weekly runs land at the same clock time every time.</li>
+                            <li>Daylight-saving changes are handled, so the time stays the same on the clock.</li>
+                        </ul>
+                        <p>As above, the time must be at least <strong>2 minutes</strong> in the future.</p>
+                        <blockquote class="warning"><strong>Pick the time zone deliberately.</strong> Choosing the wrong one (or your own instead of your audience's) is the most common reason a schedule fires at an unexpected hour. Double-check it before saving.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="statuses">Schedule &amp; Recipient Statuses</h2>
+                        <p>The list page summarizes schedules by status; the detail page shows per-recipient outcomes that roll up into the totals.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>scheduled</strong></td><td>A one-off (or the next run of a recurring schedule) is waiting to fire.</td></tr>
+                                <tr><td><strong>running</strong></td><td>A recurring schedule that is active and armed for its next slot.</td></tr>
+                                <tr><td><strong>paused</strong></td><td>Temporarily stopped; it will not fire until resumed.</td></tr>
+                                <tr><td><strong>completed</strong></td><td>A one-off has fired, or a recurring schedule has reached its end and will not run again.</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The run couldn't be carried out; the reason is shown.</td></tr>
+                                <tr><td><strong>cancelled</strong></td><td>Stopped by you before it could fire.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each recipient is tracked independently as <strong>pending</strong>, <strong>sent</strong>, <strong>delivered</strong>, <strong>read</strong>, or <strong>failed</strong>, just like a broadcast. Delivery updates are de-duplicated and reconciled, so the counts stay accurate. Wallet credits are charged only for new sends, so repeated or out-of-order updates never double-charge.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Pause, Resume, Cancel, Run-Now &amp; Edit</h2>
+                        <p>From the list or the detail page you can control a schedule throughout its life. The status updates instantly in the dashboard even if the background service is briefly busy.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>Effect</th><th>Allowed from</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Pause</strong></td><td>Stops the schedule from firing; moves it to <em>paused</em>.</td><td>scheduled / running</td></tr>
+                                <tr><td><strong>Resume</strong></td><td>Re-activates a paused schedule back to scheduled (once) or running (recurring).</td><td>paused</td></tr>
+                                <tr><td><strong>Run now</strong></td><td>Fires the schedule on the next check (within about 60&nbsp;seconds), ignoring the set time.</td><td>any state except completed / cancelled</td></tr>
+                                <tr><td><strong>Cancel</strong></td><td>Stops a future schedule entirely; moves it to <em>cancelled</em>.</td><td>any state except completed / cancelled / failed</td></tr>
+                                <tr><td><strong>Edit</strong></td><td>Update the name, message, date, time, or time zone. The next run time is recalculated when any timing field changes.</td><td>any unfinished state</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Editing is locked once finished.</strong> A <strong>completed</strong>, <strong>cancelled</strong>, or <strong>failed</strong> schedule can't be edited &mdash; create a new schedule, or use <strong>Retry</strong> on a failed one (below).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="retry">Retrying a Failed Schedule</h2>
+                        <p>If a schedule ends in <strong>failed</strong>, open the retry action and pick a fresh <strong>date</strong>, <strong>time</strong>, and <strong>time zone</strong> (again, at least 2 minutes out). WaDesk then:</p>
+                        <ol>
+                            <li><strong>Cancels</strong> any leftover job from the failed run so the same recipients aren't sent to twice.</li>
+                            <li><strong>Resets the schedule</strong> back to <em>scheduled</em>, clears the old failure details, and zeroes the run counters (including the billing counter).</li>
+                            <li><strong>Resets every recipient</strong> back to <strong>pending</strong> for a clean run.</li>
+                            <li><strong>Re-registers</strong> the job to fire at the new time.</li>
+                        </ol>
+                        <p>Retry only applies to <strong>failed</strong> schedules &mdash; for any other state, use <strong>Run now</strong> instead.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="multi-device">Multi-Device &amp; Audience</h2>
+                        <p>Selecting two or more numbers splits the schedule into <strong>one schedule per number</strong> and <strong>divides the audience evenly</strong> across them. To get the split right, group and queue audiences are <strong>turned into a fixed phone list when you create the schedule</strong> for multi-device sends &mdash; otherwise each number would re-expand the same group and every contact would get one copy per number. Single-number schedules keep the group or queue <em>reference</em>, so membership can refresh at send time.</p>
+                        <p>Each number's schedule holds only its share of the recipients. After saving, you'll see how many schedules were created across how many numbers.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cron">How Sends Fire &amp; Restart Recovery</h2>
+                        <p>The sending runs in a background service, so schedules fire on time even when no one is logged in. Two things are worth knowing:</p>
+                        <ul>
+                            <li><strong>Run-now timing:</strong> "Run now" fires the schedule on the next check, within about <strong>60 seconds</strong>.</li>
+                            <li><strong>Restart recovery:</strong> if the background service restarts, it re-loads every active (scheduled or running) schedule and re-arms it. Recipients are re-checked at that point (so a group that has grown is honoured), and a schedule is skipped if its owner can't afford at least one message &mdash; so a wallet with no credits never starts sending.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="delete">Deleting a Schedule</h2>
+                        <p>You can <strong>delete</strong> a schedule from the list. Deleting first cancels the registered job &mdash; so a deleted schedule never fires a stray message &mdash; then removes the schedule and any uploaded media file. In practice, deletion is most useful for tidying up schedules that are already <strong>completed</strong>, <strong>cancelled</strong>, or <strong>failed</strong>; for an active schedule you usually want <strong>Pause</strong> or <strong>Cancel</strong> first, so the action is reversible.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ban-safety">Ban-Safety &amp; Pacing</h2>
+                        <p>Scheduled sends use the same safety controls as the rest of WaDesk, set by your admin under <strong>Admin &rarr; Settings &rarr; System Message &rarr; Sender pacing</strong>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Control</th><th>Default</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Message gap</td><td>3 seconds</td><td>Delay between one message and the next, varied randomly by &plusmn;20%.</td></tr>
+                                <tr><td>Batch size</td><td>50 recipients</td><td>How many messages go out before a pause (when batching is on).</td></tr>
+                                <tr><td>Batch gap</td><td>5 minutes</td><td>Cooldown between batches, varied randomly by &plusmn;20%.</td></tr>
+                                <tr><td>Daily cap (Unofficial API)</td><td>4000 / day / number</td><td>Maximum messages a single number can send per day (resets daily).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Be mindful with recurring sends.</strong> A recurring schedule re-sends every time it fires &mdash; only target audiences who opted in, keep the content fresh and relevant, and set an <strong>end date</strong> so a forgotten schedule doesn't keep messaging people forever. Repeated unsolicited messages are a fast path to a WhatsApp number ban. And because schedules fire at a fixed local time, the wrong time zone can deliver messages in the middle of the night for your audience &mdash; which drives complaints, hurts template quality on the Business API, and raises ban risk. Check the time zone matches the people you're sending to.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating a Schedule</a></li>
+                    <li class="toc-h2"><a href="#message-types" class="toc-link">Message Types</a></li>
+                    <li class="toc-h2"><a href="#recipients" class="toc-link">Recipients</a></li>
+                    <li class="toc-h2"><a href="#one-off-recurring" class="toc-link">Once vs Recurring</a></li>
+                    <li class="toc-h2"><a href="#time-zones" class="toc-link">Time Zones &amp; Lead Time</a></li>
+                    <li class="toc-h2"><a href="#statuses" class="toc-link">Schedule &amp; Recipient Statuses</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Pause, Resume, Cancel, Run-Now</a></li>
+                    <li class="toc-h2"><a href="#retry" class="toc-link">Retrying a Failed Schedule</a></li>
+                    <li class="toc-h2"><a href="#multi-device" class="toc-link">Multi-Device &amp; Audience</a></li>
+                    <li class="toc-h2"><a href="#cron" class="toc-link">How Sends Fire &amp; Recovery</a></li>
+                    <li class="toc-h2"><a href="#delete" class="toc-link">Deleting a Schedule</a></li>
+                    <li class="toc-h2"><a href="#ban-safety" class="toc-link">Ban-Safety &amp; Pacing</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

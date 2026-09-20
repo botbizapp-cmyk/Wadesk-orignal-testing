@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viber Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the Viber channel — creating a Viber Bot or Business account, where to copy the authentication token, automatic webhook setup, the subscribe rule, keyboards and carousels, broadcasts and troubleshooting.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Viber Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Viber</strong> channel connects a Viber <strong>Bot</strong> (or Business account) so subscribers appear in the <a href="../messaging/team-inbox.html">Team Inbox</a> alongside your other channels. Viber is widely used across Eastern Europe, Greece and South-East Asia, and it runs the same auto-reply, flows, AI agent and broadcasts as the rest of WaDesk &mdash; with Viber&rsquo;s own <strong>keyboards</strong> and <strong>carousels</strong> for rich replies.</p>
+                        <blockquote class="info"><strong>The simplest channel to connect.</strong> Viber needs one value &mdash; the authentication token &mdash; and WaDesk registers the webhook with Viber for you. There is no URL to copy anywhere.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>Viber bots use the official <strong>Viber Bot REST API</strong>, authenticated with a single <strong>authentication token</strong>.</li>
+                            <li>WaDesk calls Viber&rsquo;s <code>set_webhook</code> for you at connect time, so inbound events arrive immediately &mdash; nothing to paste into Viber&rsquo;s console.</li>
+                            <li>Every delivery is signed by Viber and verified against your token before WaDesk accepts it.</li>
+                            <li>People reach you by finding your bot in Viber search, scanning its QR code, or opening its deep link.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credentials">Creating the Bot &amp; Getting the Token</h2>
+                        <p>The token comes from Viber&rsquo;s own admin panel. Step by step:</p>
+                        <ol>
+                            <li><strong>Open the Viber admin panel.</strong> Go to <a href="https://partners.viber.com/" target="_blank" rel="noopener">partners.viber.com</a> and sign in. You will be asked to confirm with the <strong>Viber app on your phone</strong>, so keep it handy &mdash; the account is tied to your phone number.</li>
+                            <li><strong>Create a bot.</strong> Choose <strong>Create Bot Account</strong>.</li>
+                            <li><strong>Fill in the details.</strong> Upload an avatar, and give the bot a <strong>name</strong>, a <strong>URI</strong> (its unique handle), a category, a short description and your country. The name and avatar are what customers see.</li>
+                            <li><strong>Create the account.</strong> Confirm and submit the form.</li>
+                            <li><strong>Copy the token.</strong> Viber shows your <strong>authentication token</strong> once the bot exists &mdash; a long string like <code>4c04ba1b3fa1f3d0-1a2b3c4d5e6f7a8b-9c0d1e2f3a4b5c6d</code>. Copy it. You can return to it later from the bot&rsquo;s page in the panel.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>The token is the bot&rsquo;s password.</strong> Anyone holding it can send messages as your brand. If it leaks, regenerate it in the Viber panel and re-connect in WaDesk.</blockquote>
+                        <blockquote class="info"><strong>Bot vs Business account.</strong> A free <strong>Bot</strong> covers two-way chat and is what most teams need. Viber <strong>Business Messages</strong> (transactional/promotional messaging at scale, with per-message pricing) is a separate commercial product arranged with Viber or a partner.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting in WaDesk</h2>
+                        <ol>
+                            <li><strong>Open the Viber page</strong> &mdash; <strong>Channels &rarr; Viber</strong> in the menu.</li>
+                            <li><strong>Paste the authentication token</strong> and save.</li>
+                            <li><strong>WaDesk registers the webhook automatically</strong> and fetches the bot&rsquo;s name, avatar and URI, so nothing needs pasting back into Viber.</li>
+                            <li><strong>Test it.</strong> Open your bot in the Viber app (search its name or use its deep link), press <strong>Subscribe</strong>, and send a message &mdash; it appears in the Team Inbox within seconds.</li>
+                        </ol>
+                        <blockquote class="info"><strong>One webhook per bot.</strong> A Viber bot can point at only one webhook at a time. Connecting the same token in another tool will silently steal the events from WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Rules</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Subscriber required</strong></td><td>You can only message users who have <strong>subscribed</strong> to your bot. A user who merely opened the chat but never subscribed cannot be messaged &mdash; WaDesk shows the thread but blocks the send with a clear reason.</td></tr>
+                                <tr><td><strong>No 24-hour window</strong></td><td>Once someone subscribes you can message them any time; there is no session expiry like WhatsApp.</td></tr>
+                                <tr><td><strong>Broadcast batch size</strong></td><td>Viber&rsquo;s broadcast endpoint accepts up to <strong>300 recipients per call</strong>. WaDesk splits larger audiences into batches and paces them automatically.</td></tr>
+                                <tr><td><strong>Unsubscribe</strong></td><td>A user can unsubscribe at any time; sends to them fail and WaDesk skips them on the next broadcast.</td></tr>
+                                <tr><td><strong>Rate limits</strong></td><td>Viber throttles high-volume senders. WaDesk paces broadcasts to stay inside the limits rather than being blocked.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>One thread per subscriber.</strong> Each Viber user who messages your bot gets a thread with their display name and avatar.</li>
+                            <li><strong>Media.</strong> Images, video, files, stickers, contacts and location messages render inline and can be replied to.</li>
+                            <li><strong>Read receipts.</strong> Viber reports delivery and seen status, so the inbox shows whether your message was actually read.</li>
+                            <li><strong>Keyboards and carousels.</strong> Buttons and multi-card carousels built in your flows or templates render natively in the Viber app.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to your Viber bot in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node&rsquo;s channel to Viber</strong> in the <a href="../automation/flows.html">Flow Builder</a>. Buttons, quick replies, media and question steps run on Viber.</li>
+                            <li><strong>AI agent.</strong> Assign an agent to the bot for automatic replies with hand-off to a human.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">Viber Broadcasts</h2>
+                        <p>The Viber broadcast composer reaches <strong>every subscriber of your bot</strong>. Pick the bot, choose your audience, write the message with a live preview, and send. Because there is no 24-hour window you can reach your whole subscriber base &mdash; WaDesk batches the send at Viber&rsquo;s 300-per-call limit, paces it to respect rate limits, and skips anyone who has unsubscribed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>No messages arriving</strong></td><td>The token is wrong or regenerated, or another tool has claimed the webhook. Re-paste a fresh token; WaDesk re-registers the webhook.</td></tr>
+                                <tr><td><strong>Webhook registration fails on save</strong></td><td>Viber requires a publicly reachable <strong>HTTPS</strong> URL with a valid certificate. A self-signed certificate, plain HTTP or an IP address will be rejected.</td></tr>
+                                <tr><td><strong>&ldquo;Not subscribed&rdquo; when replying</strong></td><td>That user opened the chat but never pressed Subscribe. You cannot message them until they do.</td></tr>
+                                <tr><td><strong>&ldquo;Receiver is not registered&rdquo;</strong></td><td>The user unsubscribed or removed the bot. They are skipped on future sends.</td></tr>
+                                <tr><td><strong>Broadcast slow</strong></td><td>Expected &mdash; WaDesk batches at 300 recipients and paces the calls so the bot is not throttled.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#credentials" class="toc-link">Creating the Bot &amp; Token</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting in WaDesk</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">Viber Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

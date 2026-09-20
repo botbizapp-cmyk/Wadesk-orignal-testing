@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storefront &amp; Orders – WaDesk SaaS Docs</title>
+    <meta name="description" content="Storefront &amp; Orders — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Storefront &amp; Orders</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Store</strong> turns your product catalog into a public, customisable mini-shop and gives you a single inbox for every order. Find it under <strong>More &rarr; Store</strong> (admin-only). It has three relevant areas:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Area</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Storefront</strong></td><td>Design and configure your public shop: theme, branding, web address, custom domain, currency, shipping, and a payment link.</td></tr>
+                                <tr><td><strong>Orders</strong></td><td>A list and detail view of every order from every channel, with status updates and payment-link reminders.</td></tr>
+                                <tr><td><strong>Public storefront</strong></td><td>The buyer-facing site, shown in one of eight themes, with an "Order on WhatsApp" flow.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Buyers browse the public shop, build a cart, and check out with a name, phone, and address. The storefront <strong>builds the order on your server</strong> &mdash; re-checking every price, applying coupons and shipping, scoring COD risk, and reducing stock &mdash; then hands the buyer off to WhatsApp to finish in chat. You confirm and collect payment, either by an automatic payment link or in conversation. Every order &mdash; whether it came from the storefront, the official Cloud API, Twilio, or was entered by hand &mdash; lands in one Orders inbox.</p>
+                        <p>Beyond the basics, the Store includes a full closing funnel: <a href="#checkout">server-side checkout</a> with lead capture, <a href="#coupons">coupons</a>, <a href="#reviews">product reviews</a>, <a href="#cart-recovery">abandoned-cart recovery</a>, <a href="#cod-rto">cash-on-delivery with return-risk scoring</a>, <a href="#payment-links">automatic Razorpay payment links that confirm payment for you</a>, a <a href="#order-tracking">private order-tracking page</a>, and <a href="#seo-analytics">search-engine optimisation and analytics</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites</h2>
+                        <p>The storefront is created during the <strong>WhatsApp Store</strong> setup wizard, which creates the shop and connects a sending WhatsApp device. If you open Storefront settings before finishing the wizard, WaDesk sends you there rather than quietly creating an empty shop.</p>
+                        <table>
+                            <thead>
+                                <tr><th>To do this</th><th>You need</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Reach the Store at all</td><td>Workspace role <strong>Admin</strong> (the whole Store area is admin-only).</td></tr>
+                                <tr><td>Run a public storefront</td><td>The WhatsApp Store wizard completed &mdash; a shop plus a connected device. The connected number powers the "Order on WhatsApp" button.</td></tr>
+                                <tr><td>List products in the shop</td><td>Products with status Active and "Available for sale" on (see the <a href="./catalog.html">Catalog</a> page).</td></tr>
+                                <tr><td>Sync the same products to a Meta catalog</td><td>A <strong>Meta Business Catalog</strong> &mdash; optional, only for the WhatsApp catalog button / cart / order notifications.</td></tr>
+                                <tr><td>Use a custom domain</td><td>Access to your domain's DNS to add a CNAME record.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="storefront-settings">Storefront settings</h2>
+                        <p>Open <strong>Store &rarr; Storefront</strong>. The <strong>View live</strong> button opens your public shop in a new tab. The form is grouped into sections.</p>
+
+                        <h3 id="theme">Theme</h3>
+                        <p>Pick one of eight built-in themes from the visual picker. Switching is instant.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Theme</th><th>Style</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Aurora</td><td>Minimal (the default theme)</td></tr>
+                                <tr><td>Meridian</td><td>Magazine</td></tr>
+                                <tr><td>Verdure</td><td>Organic</td></tr>
+                                <tr><td>Bazaar</td><td>Colorful grid</td></tr>
+                                <tr><td>Noir</td><td>Dark luxe</td></tr>
+                                <tr><td>Kraft</td><td>Handmade</td></tr>
+                                <tr><td>Mercato</td><td>Deli / cafe</td></tr>
+                                <tr><td>Studio</td><td>Portfolio</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="identity-branding">Identity &amp; branding</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Rule</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Storefront web address (slug)</td><td>Lowercase letters, numbers, hyphens; unique; max 64</td><td>Forms your shop's web address.</td></tr>
+                                <tr><td>Logo URL</td><td>Link, max 1024</td><td>A direct image link for the shop logo.</td></tr>
+                                <tr><td>Brand color</td><td>Hex colour (e.g. #1FA855)</td><td>Colour picker plus a text field; used as the theme's accent colour (defaults to a WhatsApp green if unset).</td></tr>
+                                <tr><td>Hero text</td><td>Max 280</td><td>Headline shown at the top of the shop.</td></tr>
+                                <tr><td>Footer text</td><td>Max 280</td><td>Footer line (e.g. a copyright notice). Defaults to a year plus shop-name line when blank.</td></tr>
+                                <tr><td>Currency</td><td>One of 21 codes</td><td>Default for new products and the symbol in the cart (INR, USD, EUR, GBP, AED, KES, NGN, ZAR, BRL, MXN, CRC, PHP, IDR, SGD, MYR, THB, VND, EGP, PKR, BDT, LKR).</td></tr>
+                                <tr><td>Storefront live</td><td>On / off</td><td>Takes the public shop online or offline. When off, the shop's web address shows a "not found" page.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="shipping">Shipping</h3>
+                        <p>Configure a simple shipping rule. Values are entered in major units and stored in minor units:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Flat shipping fee</td><td>Added to every order (blank or 0 = free shipping).</td></tr>
+                                <tr><td>Free shipping above</td><td>Carts at or over this subtotal ship free.</td></tr>
+                                <tr><td>Shipping note</td><td>Up to 160 chars, shown in the cart and on the product page.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="payment-link">Payment</h3>
+                        <p>Pick a payment provider and enter the matching detail. The simple providers just add a payment handle or link to the WhatsApp order message; the buyer pays and you confirm in chat. The <strong>Razorpay (auto)</strong> provider is different &mdash; it creates a real, per-order payment link and marks the order paid automatically once payment is confirmed (see <a href="#payment-links">Auto payment links</a>).</p>
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Payment detail to enter</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>None / cash on delivery</td><td>&mdash;</td></tr>
+                                <tr><td>UPI (India)</td><td>UPI ID + name</td></tr>
+                                <tr><td>Razorpay Payment Link</td><td>The payment link URL</td></tr>
+                                <tr><td><strong>Razorpay (auto)</strong></td><td>Key ID + Key secret + Webhook secret (the secrets are stored securely and never shown back; leave blank to keep the saved value)</td></tr>
+                                <tr><td>Stripe Payment Link</td><td>The payment link URL</td></tr>
+                                <tr><td>PayPal.me</td><td>Your PayPal.me handle</td></tr>
+                                <tr><td>Bank transfer</td><td>Bank account instructions</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Razorpay (auto) keys are your own.</strong> The link is created on <em>your</em> Razorpay account and the money settles to you &mdash; WaDesk only creates the link and listens for the "paid" notification. The secrets are stored securely per shop.</blockquote>
+
+                        <h3 id="cart-recovery-settings">Abandoned-cart recovery</h3>
+                        <p>Switch on a WhatsApp nudge for buyers who enter their phone at checkout but don't complete. See <a href="#cart-recovery">Abandoned-cart recovery</a> for how it works.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cart recovery enabled</td><td>Off by default. When on (and a device is connected), an abandoned cart schedules one nudge.</td></tr>
+                                <tr><td>Delay (minutes)</td><td>How long after the cart is abandoned the nudge fires (5&ndash;1440, default 30).</td></tr>
+                                <tr><td>Message</td><td>Optional custom text. Tokens <code>{name}</code> <code>{shop}</code> <code>{url}</code> <code>{total}</code> are substituted. Blank uses a sensible default.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="custom-domain">Custom domain verification</h2>
+                        <p>By default your shop is reachable at its built-in web address. To use your own domain, enter it in the <strong>Custom domain</strong> field (e.g. <code>shop.yourbiz.com</code>) and save. WaDesk then shows the CNAME target to point at.</p>
+                        <ol>
+                            <li>At your DNS provider, create a <strong>CNAME</strong> record for your domain pointing to the CNAME target shown on the page.</li>
+                            <li>Back in WaDesk, click <strong>Verify now</strong>. WaDesk checks your domain's DNS and confirms it points to the expected target.</li>
+                            <li>On success the domain is marked verified, your shop serves from it, and the page reloads. On failure you see the records found and the expected target so you can compare.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Changing the custom domain marks it unverified again</strong> &mdash; you must re-verify after any change. Only a <em>verified</em> custom domain serves the public shop; until then the built-in web address keeps working. DNS changes can take a while to spread, so a fresh CNAME may need a few minutes (occasionally longer) before Verify succeeds.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="public-storefront">The public storefront</h2>
+                        <p>The buyer-facing shop is served at its built-in web address, your subdomain, or your verified custom domain. WaDesk figures out which shop to show from the web address and applies that shop's chosen theme. Only shops that are <strong>set live</strong> are shown; anything else shows a "not found" page.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Page</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Catalog grid</td><td>Shows available, active products (<strong>48 per page</strong>) with a category filter and a price range, plus a "Show more" button that loads further pages.</td></tr>
+                                <tr><td>Product detail</td><td>The gallery, full description, and a related-products row (same category first, then anything else from the shop, up to 8).</td></tr>
+                                <tr><td>Order on WhatsApp</td><td>Finds your WhatsApp number (from your provider settings or the connected device), so buyers can hand off their cart to a WhatsApp chat with you.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>How the public web address is chosen</h3>
+                        <p>The buyer-facing address is chosen in three ways, in order: a verified custom domain (<code>https://shop.brand.com</code>); your shop's subdomain (<code>https://yourshop.shops.brand.com</code>); otherwise the built-in path-based address &mdash; so setups without subdomain DNS still work.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="checkout">Server-side checkout</h2>
+                        <p>When a buyer builds a cart and checks out, the shop asks for their <strong>name, phone, and address</strong>, then sends it to your server. WaDesk does <strong>not</strong> trust the cart from the browser &mdash; it rebuilds the order on the server:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Step</th><th>What the server does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Re-price</td><td>Every price is re-read from your own records; the browser's price is ignored. This blocks price tampering.</td></tr>
+                                <tr><td>Cap quantity</td><td>Each item's quantity is capped at the product's available stock.</td></tr>
+                                <tr><td>Coupon</td><td>Any applied coupon is re-checked and the discount recalculated (see <a href="#coupons">Coupons</a>).</td></tr>
+                                <tr><td>Shipping</td><td>Worked out from the shop's shipping rule (flat fee / free above a threshold).</td></tr>
+                                <tr><td>COD risk</td><td>For cash-on-delivery, a return-risk score is attached (see <a href="#cod-rto">COD &amp; RTO</a>).</td></tr>
+                                <tr><td>Stock</td><td>Stock-tracked products are reduced at the same time.</td></tr>
+                                <tr><td>Save</td><td>A new storefront order is created with the customer's details, items, totals, and a unique tracking code.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The shop then clears the cart, opens WhatsApp pre-filled with the order summary (including the tracking link), and cancels any pending cart-recovery nudge for that phone. Checkout never sends a WhatsApp message itself &mdash; it just hands the buyer a ready-to-send WhatsApp link to tap.</p>
+                        <blockquote class="info"><strong>Lead capture.</strong> Because the phone and address are saved at checkout (and even when the buyer leaves the phone field, for recovery), you keep the customer even if they never tap through to WhatsApp.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="coupons">Coupons</h2>
+                        <p>Create discount codes under <strong>Store &rarr; Coupons</strong>. Buyers enter a code at checkout; <strong>Apply</strong> shows a live quote, and the discount is re-checked and recorded when the order is placed.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Type</td><td>Percentage (e.g. 10% off) or a fixed amount off.</td></tr>
+                                <tr><td>Minimum order</td><td>Cart subtotal must reach this before the code applies.</td></tr>
+                                <tr><td>Maximum discount</td><td>Caps how much a percentage coupon can take off.</td></tr>
+                                <tr><td>Free shipping</td><td>Optionally waive the shipping fee.</td></tr>
+                                <tr><td>Expiry</td><td>Date after which the code stops working.</td></tr>
+                                <tr><td>Usage limit</td><td>Total uses allowed; the count goes up on each successful order.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The order stores both the code used and the discount amount, so the discount stays part of the permanent record even if the coupon is later edited or deleted.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reviews">Product reviews</h2>
+                        <p>Buyers can leave a star rating and review on any product page; each review is saved as <strong>pending</strong>. The product page shows a rating summary (average plus count) and the list of <em>approved</em> reviews &mdash; shown consistently across all eight themes.</p>
+                        <p>Moderate under <strong>Store &rarr; Reviews</strong>: tabs for pending / approved / rejected, with approve / reject / delete actions and a pending-count badge in the sidebar. Only approved reviews are public, so nothing shows on the shop until you clear it.</p>
+                        <blockquote class="info">Review submissions are rate-limited to prevent spam. New reviews always start <strong>pending</strong> &mdash; nothing is published automatically.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="order-tracking">Customer order tracking</h2>
+                        <p>Every storefront order gets a unique, unguessable tracking link. The buyer can open a standalone, branded status page from that link &mdash; no login needed. The link is included in both the checkout hand-off and the WhatsApp message.</p>
+                        <p>The page shows the order's progress (new &rarr; confirmed &rarr; paid &rarr; shipped), the items, totals including shipping and any discount, the delivery address, a <strong>Pay now</strong> button when a payment link is present, and a "message us" WhatsApp link. It's read-only &mdash; viewing it never changes the order or sends anything.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="seo-analytics">SEO &amp; analytics</h2>
+                        <p>Public shop and product pages include the social-preview tags (Open Graph and Twitter cards) so links show a nice preview when shared. Product pages also include structured product data (name, price, currency, availability, and average rating when reviews exist) so they can qualify for rich results in search.</p>
+                        <p>Page views are counted per shop per day (each time someone fully loads the catalog grid or a product page). The Store dashboard's <strong>30-day views</strong> tile shows this real figure.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="orders-list">Orders list</h2>
+                        <p>Open <strong>Store &rarr; Orders</strong> for every order from every channel. The toolbar offers search by phone or name, a status filter, and a source filter; the list shows <strong>25 per page</strong>. Each row shows when the order came in, the customer, where it came from, the item count, total, status, and an <strong>Open</strong> link. Count tiles summarise All / new / confirmed / paid / shipped / cancelled.</p>
+                        <p>Each order records <strong>where it came from</strong>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Source</th><th>Created from</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>WABA</td><td>An order placed through the WhatsApp Cloud API.</td></tr>
+                                <tr><td>Storefront</td><td>A cart from your public shop, read from the WhatsApp message.</td></tr>
+                                <tr><td>Twilio</td><td>An inbound Twilio WhatsApp message.</td></tr>
+                                <tr><td>Manual</td><td>Entered by an operator.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="order-detail">Order detail &amp; status updates</h2>
+                        <p>The order detail page shows the line items (with image, quantity, and per-item price), the order total, and the customer's contact details. <strong>Reply on WhatsApp</strong> jumps to the chat. From the <strong>Update status</strong> card you can change the status, set or edit a payment link (validated as a URL), and add internal notes (up to 1000 chars).</p>
+                        <p>Orders move through these statuses:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>New</td><td>Just received, not yet actioned (the default).</td></tr>
+                                <tr><td>Confirmed</td><td>You have accepted the order.</td></tr>
+                                <tr><td>Paid</td><td>Payment received.</td></tr>
+                                <tr><td>Shipped</td><td>Dispatched to the customer.</td></tr>
+                                <tr><td>Cancelled</td><td>The order was cancelled.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>An order can also be removed from the detail or list actions. Removing an order deletes only the order &mdash; not the customer or the conversation. Each order keeps its own copy of the items, so past orders stay intact even if a product is later deleted.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="payment-reminders">Payment-link reminders</h2>
+                        <p>When an order has a payment link set, the detail page shows <strong>Send payment link via WhatsApp</strong>.</p>
+                        <ol>
+                            <li>Set (or confirm) the payment link and save it &mdash; the reminder uses the <em>saved</em> link.</li>
+                            <li>Click <strong>Send payment link via WhatsApp</strong>.</li>
+                            <li>WaDesk composes a message addressed to the customer with the order total and the link, then dispatches it through the workspace's connected WhatsApp engine.</li>
+                            <li>The result (sent or failed) is reported back, and the outbound message is recorded.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>This sends a real WhatsApp message</strong> to the customer's number. Save the payment link first (the reminder requires a valid URL), and only use it against genuine orders.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="payment-links">Auto payment links &amp; webhook auto-confirm</h2>
+                        <p>With the <strong>Razorpay (auto)</strong> provider set up (your own Key ID / Key secret / Webhook secret), WaDesk creates a real, per-order Razorpay payment link and can confirm payment automatically.</p>
+                        <ol>
+                            <li>On the order detail page, click <strong>Generate Razorpay link + send</strong>. WaDesk creates a link on your Razorpay account (for the order total, tagged with the order number) and sends it to the customer over WhatsApp in one step.</li>
+                            <li>The buyer pays via the link.</li>
+                            <li>Razorpay notifies WaDesk. WaDesk identifies the order, <strong>confirms the notification is genuine using your webhook secret</strong>, and marks the order paid.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Property</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Money flow</td><td>Settles to <strong>your</strong> Razorpay account &mdash; WaDesk only creates the link and listens for the result.</td></tr>
+                                <tr><td>Genuineness check</td><td><strong>Strict</strong>: a missing or incorrect signature is rejected and the order is left unchanged.</td></tr>
+                                <tr><td>No double-counting</td><td>A repeated "paid" notification for an already-paid order does nothing &mdash; the order is marked paid only once.</td></tr>
+                                <tr><td>Secrets</td><td>The key secret and webhook secret are stored securely and never sent back to the browser.</td></tr>
+                                <tr><td>Webhook URL</td><td>Point your Razorpay webhook at <code>https://yourdomain/webhooks/storefront-pay</code> and subscribe to the "payment link paid" event.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info">Other providers (UPI, static Razorpay/Stripe links, PayPal.me, bank transfer, COD) still work as paste-in handles &mdash; only <strong>Razorpay (auto)</strong> creates links and confirms payment automatically.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cart-recovery">Abandoned-cart recovery</h2>
+                        <p>When a buyer enters their phone at checkout but doesn't complete the order, WaDesk can send a single WhatsApp nudge with a link back to the shop. It's <strong>off by default</strong> &mdash; enable it under <a href="#cart-recovery-settings">Storefront settings &rarr; Abandoned-cart recovery</a>.</p>
+                        <ol>
+                            <li>As soon as the buyer types their phone and moves on, the shop quietly notes the cart (once per visit).</li>
+                            <li>If recovery is enabled and a WhatsApp device is connected, WaDesk schedules a single nudge for <em>delay</em> minutes later (default 30). Only one pending nudge exists per phone per shop.</li>
+                            <li>If the buyer completes the order, the pending nudge is <strong>cancelled</strong> and the cart is marked recovered.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Detail</th><th>Behaviour</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Message type</td><td>Plain text (no approved template needed), so it works on the Unofficial API engine too.</td></tr>
+                                <tr><td>Requires</td><td>A connected device in the workspace &mdash; without one, recovery is skipped quietly.</td></tr>
+                                <tr><td>Personalisation</td><td>The message can include <code>{name}</code> <code>{shop}</code> <code>{url}</code> <code>{total}</code>.</td></tr>
+                                <tr><td>No double-send</td><td>A pending nudge for the same phone and shop won't schedule a second one.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cod-rto">COD &amp; RTO risk scoring</h2>
+                        <p>At checkout the buyer chooses <strong>prepaid</strong> or <strong>cash on delivery</strong>. For COD orders, WaDesk computes a <strong>Return-to-Origin (RTO) risk score</strong> (0&ndash;100) and a band, so you can decide whether to confirm, ask for prepayment, or call first.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Signal</th><th>Effect on risk</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>First-time buyer</td><td>Raises risk (no track record).</td></tr>
+                                <tr><td>Prior cancellations</td><td>Raises risk per past cancelled order.</td></tr>
+                                <tr><td>Order well above the customer's usual value</td><td>Raises risk.</td></tr>
+                                <tr><td>Suspiciously short phone number</td><td>Raises risk.</td></tr>
+                                <tr><td>Repeat customer</td><td>Lowers risk.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The score and band (low / medium / high) are saved on the order and shown as a colour-coded badge on the order detail page, alongside the COD label. Prepaid orders are not scored.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Opening Storefront settings redirects to a wizard</td><td>No shop exists yet. Complete the WhatsApp Store setup wizard first.</td></tr>
+                                <tr><td>The shop's web address shows "not found"</td><td>The storefront is off (Storefront live = off) or the web address is wrong. Turn it live and confirm the address.</td></tr>
+                                <tr><td>No products show on the shop</td><td>Products must be status Active and "Available for sale". Drafts and out-of-stock items are hidden.</td></tr>
+                                <tr><td>Custom domain won't verify</td><td>The CNAME isn't pointing to the shown target yet, or the DNS change hasn't spread. Compare the records in the Verify result against the expected target and wait.</td></tr>
+                                <tr><td>Custom domain stopped serving after an edit</td><td>Editing the domain marks it unverified. Re-run Verify now.</td></tr>
+                                <tr><td>"Order on WhatsApp" button missing a number</td><td>No provider phone and no connected device. Connect a device in the wizard or connect a provider number.</td></tr>
+                                <tr><td>Payment reminder failed to send</td><td>Check the connected engine is healthy and the payment link is saved as a valid URL. The send result is reported on screen.</td></tr>
+                                <tr><td>"Generate Razorpay link" does nothing / errors</td><td>The provider must be <strong>Razorpay (auto)</strong> with a valid Key ID + Key secret saved. Without keys, no link is created.</td></tr>
+                                <tr><td>Order didn't auto-mark as paid</td><td>The Razorpay webhook must point at <code>/webhooks/storefront-pay</code> and the saved <strong>Webhook secret</strong> must match Razorpay's &mdash; the genuineness check is strict.</td></tr>
+                                <tr><td>Cart-recovery nudge never arrives</td><td>Recovery must be enabled, a device must be connected, and the buyer must enter a phone at checkout. If they complete the order, the nudge is cancelled by design.</td></tr>
+                                <tr><td>Coupon won't apply</td><td>Check it isn't expired, the cart meets the minimum order, and the usage limit isn't reached.</td></tr>
+                                <tr><td>A review isn't showing on the shop</td><td>New reviews are pending &mdash; approve it under Store &rarr; Reviews. Only approved reviews are public.</td></tr>
+                                <tr><td>Web address rejected</td><td>It can only use lowercase letters, numbers, and hyphens, must be unique, and max 64 characters.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#storefront-settings" class="toc-link">Storefront settings</a></li>
+                    <li class="toc-h2"><a href="#custom-domain" class="toc-link">Custom domain verification</a></li>
+                    <li class="toc-h2"><a href="#public-storefront" class="toc-link">The public storefront</a></li>
+                    <li class="toc-h2"><a href="#checkout" class="toc-link">Server-side checkout</a></li>
+                    <li class="toc-h2"><a href="#coupons" class="toc-link">Coupons</a></li>
+                    <li class="toc-h2"><a href="#reviews" class="toc-link">Product reviews</a></li>
+                    <li class="toc-h2"><a href="#order-tracking" class="toc-link">Customer order tracking</a></li>
+                    <li class="toc-h2"><a href="#seo-analytics" class="toc-link">SEO &amp; analytics</a></li>
+                    <li class="toc-h2"><a href="#orders-list" class="toc-link">Orders list</a></li>
+                    <li class="toc-h2"><a href="#order-detail" class="toc-link">Order detail &amp; status updates</a></li>
+                    <li class="toc-h2"><a href="#payment-reminders" class="toc-link">Payment-link reminders</a></li>
+                    <li class="toc-h2"><a href="#payment-links" class="toc-link">Auto payment links</a></li>
+                    <li class="toc-h2"><a href="#cart-recovery" class="toc-link">Abandoned-cart recovery</a></li>
+                    <li class="toc-h2"><a href="#cod-rto" class="toc-link">COD &amp; RTO risk scoring</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

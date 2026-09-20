@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Log – WaDesk SaaS Docs</title>
+    <meta name="description" content="Activity Log — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Activity Log</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Activity Log</strong> is the audit trail for your workspace. It records who did what, when, from which IP address, and on which device &mdash; every sign-in, workspace switch, inbox action, team change, broadcast, and webhook. Open it from <strong>More &rarr; Activity Log</strong>.</p>
+                        <p>It draws from the same records the inbox and admin areas write to, so it is a single, trustworthy source of truth rather than a separate log that could drift out of sync. Sign-ins, sign-outs, and workspace switches are recorded automatically.</p>
+                        <blockquote class="warning"><strong>Who can open this page:</strong> The Activity Log is for <strong>Admins and above</strong>. Agents and viewers do not have access; this is an oversight tool for the people running the workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="recorded">What Gets Recorded</h2>
+                        <p>Each entry captures a consistent set of fields:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Timestamp</strong></td><td>When it happened. Entries can never be changed once written.</td></tr>
+                                <tr><td><strong>Actor</strong></td><td>The user who did it; shows as "System" when there is no signed-in user (for example a background task).</td></tr>
+                                <tr><td><strong>Action</strong></td><td>What was done &mdash; for example "Signed in" or "Assigned conversation".</td></tr>
+                                <tr><td><strong>Subject</strong></td><td>What it affected &mdash; the item type and, where relevant, its number (e.g. user #42).</td></tr>
+                                <tr><td><strong>Result</strong></td><td>Success, warning, or failure &mdash; each shown in its own color.</td></tr>
+                                <tr><td><strong>IP address</strong> / <strong>Device</strong></td><td>Where the action came from.</td></tr>
+                                <tr><td><strong>Layer</strong></td><td>Whether the entry was written at the <strong>workspace</strong> or <strong>platform</strong> level.</td></tr>
+                                <tr><td><strong>Details</strong></td><td>Extra information specific to the event, shown neatly formatted in the detail panel.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Actions are grouped into readable categories:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Category</th><th>What it covers</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Auth</strong></td><td>Sign-in, sign-out, failed login attempts, and password resets.</td></tr>
+                                <tr><td><strong>Inbox</strong> (conversation)</td><td>Conversations assigned, resolved, reopened, snoozed, and replied to.</td></tr>
+                                <tr><td><strong>Notes</strong></td><td>Internal notes added or deleted.</td></tr>
+                                <tr><td><strong>Teams</strong></td><td>Teams created, updated, or deleted, plus members invited, role-changed, or removed.</td></tr>
+                                <tr><td><strong>Broadcasts</strong></td><td>Bulk-send events.</td></tr>
+                                <tr><td><strong>Webhooks</strong></td><td>Webhooks that fired or were tested.</td></tr>
+                                <tr><td><strong>Workspace</strong></td><td>Workspace switches and other workspace-level changes.</td></tr>
+                                <tr><td><strong>Impersonation</strong></td><td>When a platform admin acts on behalf of a user.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Scope:</strong> Entries are <strong>workspace-scoped</strong>. The default <strong>My activity</strong> view shows only what you did; switch to the <strong>Workspace</strong> view to see everyone's actions in the current workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reading">Reading the Log</h2>
+                        <p>The top of the page gives you five KPI cards for the selected time window:</p>
+                        <table>
+                            <thead>
+                                <tr><th>KPI</th><th>What it counts</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Total events</strong></td><td>All entries in the period, with a percentage change versus the previous period of equal length.</td></tr>
+                                <tr><td><strong>Sign-ins</strong></td><td>The number of sign-in events.</td></tr>
+                                <tr><td><strong>Writes</strong></td><td>Actions that changed something &mdash; things created, updated, deleted, assigned, replied to, or resolved.</td></tr>
+                                <tr><td><strong>Reads / other</strong></td><td>Everything that is neither a sign-in nor a change (passive views).</td></tr>
+                                <tr><td><strong>Unique IPs</strong></td><td>The number of distinct IP addresses seen in the period.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Below the KPIs:</p>
+                        <ul>
+                            <li>A <strong>volume chart</strong> plots events over time, switchable between <strong>daily</strong>, <strong>hourly</strong>, and <strong>weekly</strong> buckets, split into auth / writes / other series.</li>
+                            <li>An <strong>event-split donut</strong> shows the auth / writes / reads mix at a glance.</li>
+                            <li>A <strong>Top actors</strong> panel ranks the four most active users in the window (with initials, event count, and last-seen time).</li>
+                            <li>A <strong>By category</strong> bar chart shows which kinds of events dominated (zero-count categories are dropped).</li>
+                        </ul>
+                        <p>The main table lists individual events. Click any row to open the <strong>Event detail</strong> panel on the right, which shows the action in plain language, its category, level, the user who did it, the exact time, what was affected, the IP address, the full device details, and any extra information about the event. Actions read in plain English &mdash; for example "Signed in", "Switched workspace", and "Assigned conversation".</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="filtering">Filtering &amp; Search</h2>
+                        <p>Narrow the log with the controls in the table header and the page header:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Control</th><th>Options</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Time range</strong></td><td>Last 24 hours, 7 days (default), 30 days, or 90 days.</td></tr>
+                                <tr><td><strong>Scope</strong></td><td>My activity (default) or the whole Workspace.</td></tr>
+                                <tr><td><strong>Category</strong></td><td>One event family (Auth, Inbox, Notes, Teams, Broadcasts, Webhooks, Workspace, Impersonation, Other), with live counts in the dropdown.</td></tr>
+                                <tr><td><strong>Grouping</strong></td><td>Daily, hourly, or weekly &mdash; controls how the volume chart is grouped.</td></tr>
+                                <tr><td><strong>Search</strong></td><td>Free-text match across the action name, the item type affected, and the IP address.</td></tr>
+                                <tr><td><strong>Reset filters</strong></td><td>Clears everything back to defaults.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Use the <strong>Refresh</strong> button to reload with the latest events (the page can refresh its rows and stats without a full reload), and pagination at the bottom (<strong>20 per page</strong>) to move through history.</p>
+                        <blockquote class="info"><strong>Note on search:</strong> Search only matches the action name, the item type affected, and the IP address &mdash; it does not search inside an event's extra details. To see those, open the row's Event detail panel.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="export">Exporting</h2>
+                        <p>Click <strong>Export CSV</strong> to download the current time range and scope as a spreadsheet. The export includes the full details of each event &mdash; the time, the level, who did it, the workspace, the action, what was affected, the IP address, and the device &mdash; and handles even large ranges cleanly. This is handy for compliance archives, incident reviews, or feeding into your own reporting.</p>
+                        <blockquote class="info"><strong>Tip:</strong> The Activity Log pairs naturally with <a href="./team-members.html">Team Members &amp; Roles</a>. If you spot an unexpected role change or removal, the log records exactly who made it and when. For platform-wide auditing across all workspaces, the <strong>Admin Panel</strong> has its own audit view.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>The page redirects me away</td><td>You are below Admin in this workspace. Only Admin and Owner can open the Activity Log.</td></tr>
+                                <tr><td>"My activity" looks empty</td><td>The default scope shows only your own actions. Switch the scope to <strong>Workspace</strong> to see everyone, or widen the time range.</td></tr>
+                                <tr><td>Switching to the same workspace twice has no entry</td><td>By design &mdash; re-entering the workspace you are already in is skipped so it does not clutter the log.</td></tr>
+                                <tr><td>Search did not find a detail value</td><td>Search covers the action name, the item type affected, and the IP address only. Open the row to read an event's full details.</td></tr>
+                                <tr><td>Counts differ from the dashboard activity widget</td><td>The dashboard widget hides sign-in, session, and user-account events; the Activity Log shows them all.</td></tr>
+                                <tr><td>An entry shows actor "System"</td><td>The event had no signed-in user (for example a background task or an unauthenticated event).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#recorded" class="toc-link">What Gets Recorded</a></li>
+                    <li class="toc-h2"><a href="#reading" class="toc-link">Reading the Log</a></li>
+                    <li class="toc-h2"><a href="#filtering" class="toc-link">Filtering &amp; Search</a></li>
+                    <li class="toc-h2"><a href="#export" class="toc-link">Exporting</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

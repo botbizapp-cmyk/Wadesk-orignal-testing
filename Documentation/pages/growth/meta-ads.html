@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Ads (Click-to-WhatsApp) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Meta Ads (Click-to-WhatsApp) — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Meta Ads (Click-to-WhatsApp)</h1>
+
+                    <blockquote class="warning" style="border-left-color: #0a7d68;">
+                        <strong>Prerequisite:</strong> Click-to-WhatsApp ads talk directly to Meta's Marketing Graph API, so this feature needs a <strong>connected Meta account</strong> &mdash; an access token plus an Ad Account ID and a Facebook Page ID. To <em>publish</em> ads live (rather than save drafts) you also need the WhatsApp destination: WhatsApp Business Account (WABA) ID, Phone Number ID, and the E.164 number. If the platform owner has configured global Meta keys, you can run ads on those instead &mdash; but billing goes to the platform's ad account, not yours.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Meta Ads</strong> lets you build and launch <strong>Click-to-WhatsApp (CTWA)</strong> campaigns &mdash; Facebook and Instagram ads where tapping the ad opens a WhatsApp chat with your number, pre-filled with a message. You design the whole campaign inside WaDesk (objective, budget, audience, creative), and the app pushes it to Meta as a real, billable ad over the Marketing Graph API (v23 by default).</p>
+                        <p>Open it from the top navigation under <strong>Meta Ads</strong>. The list shows every campaign in the current workspace with its status, objective, spend, and clicks. From there you create a new campaign, open a campaign's detail page, refresh its numbers, or jump to analytics.</p>
+                        <blockquote class="info"><strong>Who can use it:</strong> Meta Ads is an <strong>admin-level</strong> area in the workspace. Everything is limited to the current workspace, so each workspace only sees and bills its own campaigns. Your ad credentials are kept separate from your messaging setup &mdash; the part of WaDesk that sends WhatsApp messages never touches your ads token.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="get-credentials">Step 1 &mdash; Gather your Meta credentials</h2>
+                        <p>Everything you paste into WaDesk comes from <strong>Meta Business Manager</strong> (<a href="https://business.facebook.com" target="_blank" rel="noopener">business.facebook.com</a>) and the <strong>Graph API Explorer</strong> / <strong>Business Settings &rarr; System Users</strong>. Collect these six values before you open the connect screen.</p>
+
+                        <h3>1.1 &mdash; Ad Account ID</h3>
+                        <ol>
+                            <li>Open <strong>Business Manager &rarr; Business Settings</strong> (the gear icon).</li>
+                            <li>In the left rail under <strong>Accounts</strong>, click <strong>Ad accounts</strong>.</li>
+                            <li>Select your ad account. The ID is shown as <code>act_1234567890</code> &mdash; copy <em>only the digits</em> (<code>1234567890</code>). WaDesk adds the <code>act_</code> prefix for you.</li>
+                        </ol>
+                        <blockquote class="info">You can also read it from Ads Manager: the account number sits in the top-left account switcher and in the URL as <code>act=…</code>.</blockquote>
+
+                        <h3>1.2 &mdash; Facebook Page ID</h3>
+                        <ol>
+                            <li>In <strong>Business Settings &rarr; Accounts &rarr; Pages</strong>, click the Page that will run the ads.</li>
+                            <li>Copy the numeric <strong>Page ID</strong> shown in the panel (e.g. <code>1029384756</code>).</li>
+                            <li>Alternatively, open the Page itself &rarr; <strong>About &rarr; Page transparency</strong>, where the Page ID is listed.</li>
+                        </ol>
+                        <p>CTWA creatives must be attached to a Page, so this is required even for drafts you intend to publish.</p>
+
+                        <h3>1.3 &mdash; WhatsApp Business Account (WABA) ID + Phone Number ID</h3>
+                        <ol>
+                            <li>In <strong>Business Settings &rarr; Accounts &rarr; WhatsApp accounts</strong>, select your WhatsApp Business Account. Copy the <strong>WABA ID</strong> (e.g. <code>1122334455</code>).</li>
+                            <li>Open the WABA, go to its phone numbers list, and click the number. Meta shows a <strong>Phone number ID</strong> (a long internal id like <code>109876543210987</code>) &mdash; copy it. This is <em>not</em> the dialable number.</li>
+                            <li>Note the actual dialable number in E.164 form, digits only, no plus sign (e.g. <code>919876543210</code>). WaDesk uses the raw digits for the Marketing API and the <code>wa.me</code> deep link, and the Phone Number ID for the WhatsApp Business routing.</li>
+                        </ol>
+
+                        <h3>1.4 &mdash; Graph API access token (with <code>ads_management</code>)</h3>
+                        <p>WaDesk needs a long-lived token that carries the <code>ads_management</code> scope (and <code>pages_manage_ads</code> so the creative can attach to your Page). The robust choice is a <strong>System User token</strong>, which does not expire on a user-session basis:</p>
+                        <ol>
+                            <li>Open <strong>Business Settings &rarr; Users &rarr; System Users</strong> and click <strong>Add</strong> to create a system user (give it an <em>Admin</em> role if you want it to manage ads).</li>
+                            <li>With the system user selected, click <strong>Assign assets</strong> and grant it <em>full control</em> of your <strong>Ad account</strong> and your <strong>Page</strong>.</li>
+                            <li>Click <strong>Generate new token</strong>. Choose your Meta app, then tick the scopes <code>ads_management</code> and <code>pages_manage_ads</code> (add <code>business_management</code> and <code>whatsapp_business_management</code> if you also manage the WABA from this app).</li>
+                            <li>Copy the generated token. System-User tokens typically start with <code>EAAG…</code>. Store it somewhere safe &mdash; Meta shows it only once.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Quick alternative for testing:</strong> the <a href="https://developers.facebook.com/tools/explorer/" target="_blank" rel="noopener">Graph API Explorer</a> can mint a user token with <code>ads_management</code> selected under <em>Add a Permission</em>. It is shorter-lived &mdash; fine to verify the connection, but prefer a System User token for production so ads don't stop publishing when the token expires.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-meta">Step 2 &mdash; Paste them into WaDesk</h2>
+                        <p>The first time you click <strong>Create campaign</strong> without credentials, WaDesk takes you to the connect screen automatically. You can also open it directly under <strong>Meta Ads &rarr; Connect</strong>. The form has two sections; here are all six fields and exactly which value each one takes.</p>
+                        <table>
+                            <thead>
+                                <tr><th>#</th><th>Field (label on screen)</th><th>Required</th><th>Paste this</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td><strong>Access token (System User)</strong></td><td>Yes</td><td>The <code>EAAG…</code> token from step 1.4. Stored securely. Once saved it is never shown back &mdash; the field shows a <em>saved</em> placeholder, with a <em>Clear the saved token</em> checkbox to remove it.</td></tr>
+                                <tr><td>2</td><td><strong>Ad account ID</strong></td><td>Yes</td><td>The digits from step 1.1. The screen shows a fixed <code>act_</code> prefix box &mdash; type only the number after it.</td></tr>
+                                <tr><td>3</td><td><strong>Facebook Page ID</strong></td><td>Yes</td><td>The numeric Page ID from step 1.2.</td></tr>
+                                <tr><td>4</td><td><strong>WhatsApp number</strong></td><td>No*</td><td>E.164 digits, no plus sign (step 1.3). Where ad chats land.</td></tr>
+                                <tr><td>5</td><td><strong>WABA ID</strong></td><td>No*</td><td>Your WhatsApp Business Account ID (step 1.3).</td></tr>
+                                <tr><td>6</td><td><strong>Phone number ID</strong></td><td>No*</td><td>Meta's internal Phone Number ID (step 1.3).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>* Fields 4&ndash;6 are optional to <em>save</em> the connection, but all three (plus the Page ID) are <strong>required to publish a CTWA ad live</strong>. WaDesk treats a campaign as "CTWA ready" only when Page ID, WABA ID, Phone Number ID, and the E.164 digits are all present.</p>
+                        <p>Click <strong>Connect &amp; continue</strong> to save. These credentials are kept separate for this workspace and are used <em>only</em> for ads.</p>
+                        <blockquote class="info"><strong>Platform fallback:</strong> If the platform owner has set up shared Meta Ads keys, the connect screen shows <em>Using platform keys</em> and you can create campaigns without entering anything. The fallback applies field by field &mdash; if you fill in only the ad account, WaDesk borrows the platform's token for the rest. Add your own keys to bill ads to <em>your</em> account instead of the platform's.</blockquote>
+                        <blockquote class="warning"><strong>To remove your keys:</strong> open the connect screen and click <strong>Remove keys</strong>. The workspace reverts to the platform fallback (if one exists). Removing keys does not touch campaigns already live on Meta.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create-campaign">Step 3 &mdash; Create a campaign (5-step form)</h2>
+                        <p>Open <strong>Meta Ads &rarr; Create campaign</strong>. The form is one page with a live ad preview and a WhatsApp-click preview on the right. Work top to bottom:</p>
+                        <ol>
+                            <li><strong>Campaign details.</strong> Enter a <em>Campaign name</em> and pick an <em>Objective</em>: Messages, Link Clicks, Conversions, Lead Generation, Reach, Brand Awareness, or Video Views. WaDesk maps each to Meta's outcome objective automatically (see <a href="#objective-map">the objective table</a>).</li>
+                            <li><strong>Budget &amp; ad set.</strong> Set an <em>Ad set name</em> and a <em>Daily budget</em> (minimum $1/day; Meta enforces a floor, so a lower amount is raised to Meta's minimum). The budget runs an ad set optimised for starting conversations.</li>
+                            <li><strong>Click to WhatsApp.</strong> Toggle <strong>Click to WhatsApp</strong> on to route taps into WhatsApp. This reveals the <em>WhatsApp number</em> override, a <em>prefilled message</em> (the customer's first message when they tap), and the <em>CTA button</em> (WhatsApp Message or Learn More).</li>
+                            <li><strong>Audience targeting.</strong> Choose one or more <em>Target countries</em> (ISO codes from the chip picker, e.g. <code>IN</code>, <code>AE</code>), a <em>Min</em>/<em>Max age</em> (13&ndash;80), a <em>Gender</em>, and <em>Interests</em> from the curated dropdown &mdash; see <a href="#targeting">Interest targeting</a>.</li>
+                            <li><strong>Ad creative.</strong> Write an <em>Ad headline</em> (max 100 chars), a <em>Destination URL</em>, the <em>Ad text</em> (body), and upload an <em>Ad image</em>. Meta needs the image at <strong>1080&times;1080 or larger</strong> for CTWA; the dimensions are checked in the browser before submit so you catch under-sized images early.</li>
+                        </ol>
+                        <p>Pick a <em>Status</em> and click <strong>Publish campaign</strong>. What happens next depends on the status:</p>
+                        <ul>
+                            <li><strong>Save as draft</strong> &mdash; saved locally only. Nothing is sent to Meta. Edit it later and switch the status to Paused or Active to publish.</li>
+                            <li><strong>Publish paused</strong> &mdash; the full ad is created on Meta but stays dormant. Flip the toggle on the detail page to go live.</li>
+                            <li><strong>Active after publish</strong> &mdash; the ad is created on Meta and then activated immediately (the whole tree is set to ACTIVE).</li>
+                        </ul>
+                        <blockquote class="info"><strong>Build with AI:</strong> Click <strong>Build with AI</strong> in the top bar to draft the campaign and ad-set names, headline, ad text, suggested interests, age range, countries, and a Click-to-WhatsApp message from a short brief (business name, product, objective, tone, markets). It fills in the form for you to review and edit &mdash; nothing is published until you click Publish. You can only use the AI providers your platform admin has enabled.</blockquote>
+                        <blockquote class="warning"><strong>Publishing requires the admin switch.</strong> Campaigns only go to Meta when the platform owner has turned Meta Ads on for the whole platform. If it's off, your campaign saves in WaDesk only and the detail page shows the reason.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="graph-flow">Step 4 &mdash; What happens when you publish</h2>
+                        <p>When you publish a campaign (and the admin switch is on), WaDesk builds the whole ad on Meta for you, using <em>your</em> workspace's connected ad account, Page, and WhatsApp Business Account. It does this in five steps:</p>
+                        <table>
+                            <thead>
+                                <tr><th>#</th><th>Step</th><th>Produces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>Upload the ad image to Meta</td><td>An image reference</td></tr>
+                                <tr><td>2</td><td>Create the campaign (starts paused)</td><td><strong>Campaign ID</strong></td></tr>
+                                <tr><td>3</td><td>Create the ad set (budget, targeting, WhatsApp destination)</td><td><strong>Ad set ID</strong></td></tr>
+                                <tr><td>4</td><td>Create the ad creative (image, headline, body, WhatsApp button)</td><td><strong>Creative ID</strong></td></tr>
+                                <tr><td>5</td><td>Create the ad (links the creative to the ad set)</td><td><strong>Ad ID</strong></td></tr>
+                            </tbody>
+                        </table>
+                        <p>All four IDs are saved on the campaign, so later pausing or deleting applies to the whole ad. A few things WaDesk gets right for you:</p>
+                        <ul>
+                            <li>The ad is set to send taps to WhatsApp, using your Page and the plain dialable number (Meta needs the actual number here, not the internal Phone Number ID).</li>
+                            <li>The ad shows your headline, body, and image, and its button opens a WhatsApp chat with your pre-filled welcome message.</li>
+                            <li>The interest <em>names</em> you picked are matched to Meta's real interest list at this point (and remembered for 7 days). A name that can't be matched is simply dropped (widening the audience) rather than failing the whole ad.</li>
+                            <li>Your chosen objective is translated into the form Meta currently expects.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Automatic cleanup:</strong> if any step fails, WaDesk does its best to delete whatever it already created on Meta, so you're never left with a half-built ad quietly billing your account. The campaign is marked <strong>Failed</strong>, any progress is kept so you can see how far it got, and the exact Meta error is saved for you to read and retry.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="detail-page">The campaign detail page</h2>
+                        <p>After creating a campaign (or by clicking <strong>View</strong> on the list), you land on its detail page. It shows:</p>
+                        <ul>
+                            <li><strong>Status and actions</strong> &mdash; Activate/Pause (once the ad exists on Meta), <strong>Retry sync</strong> (if it failed), and Edit.</li>
+                            <li><strong>Performance tiles</strong> &mdash; Spend, Impressions, Clicks, Reach, Conversations, CTR, CPC, and Frequency for the last 7 days. While the campaign is Active, these refresh automatically about once a minute.</li>
+                            <li><strong>Ad preview</strong> &mdash; your image, headline, body, and the Send-WhatsApp-message button with the pre-filled message.</li>
+                            <li><strong>The Meta IDs</strong> &mdash; the Campaign, Ad set, Creative, and Ad IDs returned by Meta. A dash means that step hasn't run yet.</li>
+                            <li><strong>Targeting</strong> &mdash; the countries, age range, gender, and interests this campaign uses.</li>
+                        </ul>
+                        <h3 id="retry">Failed syncs and retry</h3>
+                        <p>If publishing failed, a red banner shows the exact Meta error message. Fix the underlying issue, then click <strong>Retry sync</strong>. Retry first removes anything half-built on Meta (so you don't end up with duplicates), then rebuilds the ad from scratch. Common causes shown in the banner:</p>
+                        <ul>
+                            <li>Missing Facebook Page ID on the workspace.</li>
+                            <li>Ad image smaller than 1080&nbsp;px (Meta error code <code>1487616</code>).</li>
+                            <li>Token missing the <code>ads_management</code> permission (Meta error codes <code>200</code> / <code>1359047</code>).</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Click-to-WhatsApp needs all the WhatsApp details.</strong> To go live, a campaign needs the Page ID, WhatsApp Business Account ID, Phone Number ID, <em>and</em> the dialable number on the workspace before Meta will route taps to WhatsApp. If any are missing, publishing stops early and the saved error tells you exactly which field to add on the connect screen.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="status-sync">Status sync and toggling</h2>
+                        <p>Use the <strong>Activate</strong> / <strong>Pause</strong> button on the detail page (or the toggle on the list) to make a campaign live or dormant. WaDesk pauses or activates the <em>whole</em> ad together, so Meta never bills a live ad under a paused campaign.</p>
+                        <p>To refresh performance numbers, use <strong>Sync</strong> from the list. It pulls the latest figures from Meta for every published campaign &mdash; impressions, clicks, spend, reach, CPC, CPM, CTR, frequency, and conversations (messaging conversations started) &mdash; over the last 7 days. Campaigns that aren't on Meta yet show placeholder figures so the dashboard is never blank before your first real sync.</p>
+                        <blockquote class="info"><strong>Editing re-syncs:</strong> when you edit a campaign that's already on Meta, WaDesk rebuilds the ad on Meta so your new image, budget, and targeting actually take effect &mdash; not just inside WaDesk. Replacing the ad image also removes the old one.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="objective-map">Objective &rarr; Meta outcome mapping</h2>
+                        <p>The form exposes friendly objective names; WaDesk converts each to Meta's modern outcome objective before creating the campaign.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Form objective</th><th>Meta objective sent</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Link Clicks</td><td><code>OUTCOME_TRAFFIC</code></td></tr>
+                                <tr><td>Messages</td><td><code>OUTCOME_ENGAGEMENT</code></td></tr>
+                                <tr><td>Conversions</td><td><code>OUTCOME_SALES</code></td></tr>
+                                <tr><td>Lead Generation</td><td><code>OUTCOME_LEADS</code></td></tr>
+                                <tr><td>Brand Awareness</td><td><code>OUTCOME_AWARENESS</code></td></tr>
+                                <tr><td>Reach</td><td><code>OUTCOME_AWARENESS</code></td></tr>
+                                <tr><td>Video Views</td><td><code>OUTCOME_ENGAGEMENT</code></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="targeting">Interest targeting</h2>
+                        <p>The <strong>Interests</strong> picker on the create form comes pre-filled with a curated list of interests, grouped into categories. You pick interest <em>names</em> from the dropdown; when you publish, WaDesk matches each name to Meta's real interest behind the scenes (and remembers the match for 7 days), so you never have to look up Meta's internal interest codes yourself.</p>
+                        <ul>
+                            <li>Leave Interests empty for broad targeting.</li>
+                            <li>Countries are submitted as ISO codes from the chip picker (for example <code>IN</code>, <code>AE</code>). With none chosen, the ad set defaults to <code>IN</code> + <code>US</code>.</li>
+                            <li>Age range is 13&ndash;80; gender is Male, Female, or All. The ad set also enables Meta's Advantage audience expansion.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> start with a few high-intent interests and a tight age range. You can review the resolved targeting on the campaign detail page and in <a href="./analytics.html">Analytics</a> under the Audience tab.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="analytics">Campaign analytics</h2>
+                        <p>Click <strong>Analytics</strong> from the Meta Ads header to open a workspace-wide summary: total spend, revenue, ROAS, impressions, reach, clicks, CTR, CPC, CPL, conversions, a breakdown by objective, and your top campaigns by ROAS. Pick a campaign from the dropdown (or click a card's mini-chart) to drill into a single campaign with Overview, Ads &amp; sets, Audience, Attribution, and Events tabs.</p>
+                        <p>This is separate from the workspace-wide messaging dashboard &mdash; see the <a href="./analytics.html">Analytics</a> page for delivery, read, and conversion charts across all your WhatsApp sends.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom / Meta code</th><th>Cause</th><th>Fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Meta access token expired or revoked" (code <code>190</code>)</td><td>The token was rotated, revoked, or was a short-lived user token that lapsed.</td><td>Generate a fresh <strong>System User</strong> token with <code>ads_management</code> and paste it on the connect screen (tick <em>Clear the saved token</em> first if needed).</td></tr>
+                                <tr><td>"missing the ads_management permission" (codes <code>200</code> / <code>1359047</code>)</td><td>The token's app/scopes don't include <code>ads_management</code> (and <code>pages_manage_ads</code>).</td><td>Re-generate the token with both scopes ticked; ensure the system user has full control of the ad account and Page.</td></tr>
+                                <tr><td>"Permission denied" (code <code>200</code>)</td><td>The token is valid but not authorized for this ad account or Page.</td><td>In Business Settings, assign the ad account and Page assets to the system user, then re-generate the token.</td></tr>
+                                <tr><td><strong>Ad account not found</strong> / "Bad parameter" (code <code>100</code>)</td><td>Wrong Ad Account ID, or the <code>act_</code> prefix typed into the digits box.</td><td>Re-copy the digits only from Business Settings &rarr; Ad accounts. Confirm the account is active and not disabled. If it still fails after a Meta update, ask your admin to update the Meta version setting.</td></tr>
+                                <tr><td>"This WhatsApp phone number is not linked to your account"</td><td>The internal Phone Number ID was used where Meta expects dialable digits.</td><td>Make sure the <strong>WhatsApp number</strong> field holds the E.164 digits (no plus). WaDesk uses those for the ad set and creative; the Phone Number ID is only for routing.</td></tr>
+                                <tr><td>"Ad image is too small" (code <code>1487616</code>)</td><td>Creative image below 1080&times;1080.</td><td>Upload a larger square image. The browser pre-check catches most of these before submit.</td></tr>
+                                <tr><td>Campaign saved in WaDesk only, no Meta IDs</td><td>Either Meta Ads is turned off platform-wide, you chose <em>Save as draft</em>, or the workspace is missing a WhatsApp detail.</td><td>Switch the status to Paused/Active, ask your admin to enable Meta Ads, and confirm Page ID, WhatsApp Business Account ID, Phone Number ID, and the dialable number are all set.</td></tr>
+                                <tr><td>"rate limit reached" (codes <code>17</code>, <code>4</code>, <code>32</code>)</td><td>Too many Marketing API calls, app-level cap, or Page-level cap.</td><td>Wait a few minutes (or an hour for app-level) and click <strong>Retry sync</strong>.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#get-credentials" class="toc-link">Step 1 &mdash; Gather credentials</a></li>
+                    <li class="toc-h2"><a href="#connect-meta" class="toc-link">Step 2 &mdash; Paste into WaDesk</a></li>
+                    <li class="toc-h2"><a href="#create-campaign" class="toc-link">Step 3 &mdash; Create a campaign</a></li>
+                    <li class="toc-h2"><a href="#graph-flow" class="toc-link">Step 4 &mdash; What happens on publish</a></li>
+                    <li class="toc-h2"><a href="#detail-page" class="toc-link">The campaign detail page</a></li>
+                    <li class="toc-h2"><a href="#status-sync" class="toc-link">Status sync and toggling</a></li>
+                    <li class="toc-h2"><a href="#objective-map" class="toc-link">Objective mapping</a></li>
+                    <li class="toc-h2"><a href="#targeting" class="toc-link">Interest targeting</a></li>
+                    <li class="toc-h2"><a href="#analytics" class="toc-link">Campaign analytics</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Facebook App (for Meta Ads) – WaDesk SaaS Docs</title>
+    <meta name="description" content="How to create a Facebook / Meta app and generate the token and IDs needed to run Meta Ads (Click-to-WhatsApp) inside WaDesk.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Create a Facebook App (for Meta Ads)</h1>
+
+                    <p>To run <strong>Meta Ads (Click-to-WhatsApp)</strong> from inside WaDesk, you first create a <strong>Meta app</strong> on the Facebook Developers portal and generate one permanent <strong>access token</strong> plus a few <strong>IDs</strong>. You do this once. This guide walks through every screen in order.</p>
+
+                    <blockquote class="info"><strong>Where the live screens are.</strong> Meta changes its dashboard layout often, so instead of embedding screenshots that go stale, this page uses the exact button and field names you will see. When a screen looks different, follow the <strong>bold label</strong> named in each step. The official reference screens are linked at the bottom under <a href="#reference">Reference</a>.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">What You Need First</h2>
+                        <p>Before creating the app, make sure you have these Meta assets. All of them live in <a href="https://business.facebook.com" target="_blank" rel="noopener">Meta Business Manager</a>:</p>
+                        <ul>
+                            <li>A <strong>Meta / Facebook account</strong> you own.</li>
+                            <li>A <strong>Business Portfolio</strong> (Business Manager) &mdash; create one at <a href="https://business.facebook.com" target="_blank" rel="noopener">business.facebook.com</a> &rarr; <strong>Settings</strong> if you don't have one.</li>
+                            <li>A <strong>Facebook Page</strong> for your brand (ads run from a Page).</li>
+                            <li>An <strong>Ad Account</strong> with a payment method added (Meta bills your ad spend here, not WaDesk).</li>
+                            <li>A <strong>WhatsApp Business (WABA) number</strong> connected to your business &mdash; the destination customers chat with when they click the ad.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Business verification.</strong> To move the app out of test mode and run real ads with a permanent token, Meta requires your <strong>Business to be verified</strong> (Business Settings &rarr; <strong>Security Center</strong> &rarr; <strong>Start Verification</strong>). Start this early &mdash; it can take a day or two.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-1-create-app">Step 1 &mdash; Create the App</h2>
+                        <ol>
+                            <li>Go to <a href="https://developers.facebook.com" target="_blank" rel="noopener">developers.facebook.com</a> and click <strong>My Apps</strong> (top right). If it's your first time, accept the developer terms.</li>
+                            <li>Click <strong>Create App</strong>.</li>
+                            <li>Under <strong>&ldquo;What do you want your app to do?&rdquo;</strong> choose <strong>Other</strong>, then click <strong>Next</strong>.</li>
+                            <li>For app type, select <strong>Business</strong>, then <strong>Next</strong>.</li>
+                            <li>Enter an <strong>App name</strong> (e.g. &ldquo;MyBrand WaDesk&rdquo;), your <strong>contact email</strong>, and pick your <strong>Business Portfolio</strong> from the dropdown. Click <strong>Create App</strong> and re-enter your password if prompted.</li>
+                        </ol>
+                        <p>You now land on the app's <strong>Dashboard</strong>. Your <strong>App ID</strong> is shown at the top &mdash; keep this page handy.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-2-add-products">Step 2 &mdash; Add Products (Marketing API + WhatsApp)</h2>
+                        <p>On the app Dashboard, scroll to <strong>&ldquo;Add products to your app&rdquo;</strong> and set up the two products WaDesk uses:</p>
+                        <ul>
+                            <li><strong>Marketing API</strong> &mdash; click <strong>Set up</strong>. This lets WaDesk create ad campaigns.</li>
+                            <li><strong>WhatsApp</strong> &mdash; click <strong>Set up</strong>. This links your WhatsApp Business number so the ad can open a chat.</li>
+                        </ul>
+                        <p>When adding <strong>WhatsApp</strong>, select your <strong>Business Portfolio</strong> so the app is tied to your WABA.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-3-system-user">Step 3 &mdash; Create a System User &amp; Generate a Permanent Token</h2>
+                        <p>A personal token expires. For a token that keeps working, create a <strong>System User</strong> in Business Settings:</p>
+                        <ol>
+                            <li>Open <a href="https://business.facebook.com/settings" target="_blank" rel="noopener">Business Settings</a> &rarr; <strong>Users</strong> &rarr; <strong>System Users</strong>.</li>
+                            <li>Click <strong>Add</strong>, give it a name (e.g. &ldquo;wadesk-api&rdquo;), set the role to <strong>Admin</strong>, and create it.</li>
+                            <li>With the system user selected, click <strong>Generate New Token</strong>.</li>
+                            <li>Choose your <strong>app</strong> (the one you created in Step 1).</li>
+                            <li>Set token expiration to <strong>Never</strong>.</li>
+                            <li>Tick these <strong>permissions</strong>, then click <strong>Generate Token</strong>:
+                                <ul>
+                                    <li><code>ads_management</code></li>
+                                    <li><code>business_management</code></li>
+                                    <li><code>whatsapp_business_management</code></li>
+                                    <li><code>whatsapp_business_messaging</code></li>
+                                    <li><code>pages_read_engagement</code> and <code>pages_manage_ads</code> (so the ad can run from your Page)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Copy the token now</strong> &mdash; Meta shows it only once. Store it somewhere safe; you'll paste it into WaDesk in Step 6.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Treat the token like a password.</strong> Anyone with it can spend from your ad account. WaDesk stores it <strong>encrypted at rest</strong>. If it ever leaks, return to this screen and click <strong>Revoke</strong>, then generate a new one.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-4-assign-assets">Step 4 &mdash; Give the System User Access to Your Assets</h2>
+                        <p>The token can only touch assets the system user is assigned to. Still in <strong>Business Settings &rarr; System Users</strong>, with your system user selected, click <strong>Add Assets</strong> and assign, with <strong>Manage / Full control</strong>:</p>
+                        <ul>
+                            <li>Your <strong>Facebook Page</strong> &mdash; under <em>Pages</em>.</li>
+                            <li>Your <strong>Ad Account</strong> &mdash; under <em>Ad Accounts</em>.</li>
+                            <li>Your <strong>WhatsApp Account (WABA)</strong> &mdash; under <em>WhatsApp Accounts</em>.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-5-collect-ids">Step 5 &mdash; Collect Your IDs</h2>
+                        <p>WaDesk needs three IDs alongside the token. Find them in Business Settings:</p>
+                        <ul>
+                            <li><strong>Page ID</strong> &mdash; <strong>Accounts &rarr; Pages</strong>, click your Page; the ID is shown on the details panel.</li>
+                            <li><strong>Ad Account ID</strong> &mdash; <strong>Accounts &rarr; Ad Accounts</strong>, click your ad account; the ID is a long number (WaDesk accepts it with or without the <code>act_</code> prefix).</li>
+                            <li><strong>WhatsApp Business Account ID (WABA ID)</strong> &mdash; <strong>Accounts &rarr; WhatsApp Accounts</strong>, click your WABA; the ID is on the details panel. (You can also find it under the app's <em>WhatsApp &rarr; API Setup</em> screen.)</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-6-connect-wadesk">Step 6 &mdash; Connect It in WaDesk</h2>
+                        <ol>
+                            <li>In WaDesk, open <strong>Meta Ads</strong> and click <strong>Connect</strong> (or <strong>Settings</strong>).</li>
+                            <li>Paste the four values from the steps above:
+                                <ul>
+                                    <li><strong>Access token</strong> (from Step 3)</li>
+                                    <li><strong>Page ID</strong></li>
+                                    <li><strong>Ad Account ID</strong></li>
+                                    <li><strong>WABA ID</strong></li>
+                                </ul>
+                            </li>
+                            <li>Save. WaDesk validates the connection with Meta and, where possible, auto-detects assets for you.</li>
+                            <li>Create your first campaign: upload the ad image, choose objective, audience and budget, and the destination WhatsApp number. WaDesk builds the <strong>campaign &rarr; ad set &rarr; creative &rarr; ad</strong> on Meta and reports status back on the campaign card. Full feature guide: <a href="meta-ads.html">Meta Ads (Click-to-WhatsApp)</a>.</li>
+                        </ol>
+                        <blockquote class="info">Click-to-WhatsApp campaigns can run across <strong>both Facebook and Instagram</strong> placements &mdash; one ad, chats from either app.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-7-go-live">Step 7 &mdash; Go Live (App Review &amp; Permissions)</h2>
+                        <p>A brand-new app starts in <strong>Development</strong> mode, which can only act on assets owned by people with a role on the app. To run real ads at scale:</p>
+                        <ul>
+                            <li>Complete <strong>Business Verification</strong> (Business Settings &rarr; Security Center) if you haven't.</li>
+                            <li>On the app, switch <strong>App Mode</strong> to <strong>Live</strong> (top bar toggle) once verification is done.</li>
+                            <li>The permissions above (<code>ads_management</code>, <code>whatsapp_business_management</code>, etc.) are granted to your <em>own</em> business assets without app review. App review is only needed if you plan to manage <em>other</em> businesses' assets.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <ul>
+                            <li><strong>&ldquo;Missing permission&rdquo; / <code>ads_management</code> not granted</strong> &mdash; the token was generated without that scope. Regenerate it (Step 3) with all permissions ticked and paste the new token into WaDesk.</li>
+                            <li><strong>&ldquo;(#200) User does not have permission&rdquo;</strong> &mdash; the system user isn't assigned to the Page / Ad Account / WABA. Fix in Step 4.</li>
+                            <li><strong>Ad rejected or in review</strong> &mdash; that's Meta's ad policy review, not WaDesk. Check the campaign card's error and Meta Ads Manager.</li>
+                            <li><strong>Token stopped working</strong> &mdash; a personal (non-system-user) token expired, or the token was revoked. Generate a permanent System User token (Step 3).</li>
+                            <li><strong>No spend / ad not delivering</strong> &mdash; confirm a valid payment method is on the Ad Account and the campaign budget/schedule are active.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reference">Reference (Official Meta Docs)</h2>
+                        <ul>
+                            <li><a href="https://developers.facebook.com/docs/development/create-an-app/" target="_blank" rel="noopener">Create an app</a> &mdash; the create-app flow with current screenshots.</li>
+                            <li><a href="https://developers.facebook.com/docs/marketing-api/overview/authorization/" target="_blank" rel="noopener">Marketing API &mdash; authorization</a> &mdash; system users &amp; tokens.</li>
+                            <li><a href="https://developers.facebook.com/docs/whatsapp/business-management-api/get-started" target="_blank" rel="noopener">WhatsApp Business Management API &mdash; get started</a> &mdash; where to find your WABA ID.</li>
+                            <li><a href="https://www.facebook.com/business/help/2058515294227817" target="_blank" rel="noopener">Business verification</a> &mdash; how to verify your business.</li>
+                        </ul>
+                        <blockquote class="info">Prefer to do this hands-off? Our support team can walk you through the app setup on a screen-share &mdash; reach out and we'll help you get the token and IDs.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">What You Need First</a></li>
+                    <li class="toc-h2"><a href="#step-1-create-app" class="toc-link">Step 1: Create the App</a></li>
+                    <li class="toc-h2"><a href="#step-2-add-products" class="toc-link">Step 2: Add Products</a></li>
+                    <li class="toc-h2"><a href="#step-3-system-user" class="toc-link">Step 3: System User &amp; Token</a></li>
+                    <li class="toc-h2"><a href="#step-4-assign-assets" class="toc-link">Step 4: Assign Assets</a></li>
+                    <li class="toc-h2"><a href="#step-5-collect-ids" class="toc-link">Step 5: Collect IDs</a></li>
+                    <li class="toc-h2"><a href="#step-6-connect-wadesk" class="toc-link">Step 6: Connect in WaDesk</a></li>
+                    <li class="toc-h2"><a href="#step-7-go-live" class="toc-link">Step 7: Go Live</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#reference" class="toc-link">Reference</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

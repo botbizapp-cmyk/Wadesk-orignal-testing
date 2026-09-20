@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Setup — Solution Partner, Token &amp; Credit Line – WaDesk SaaS Docs</title>
+    <meta name="description" content="Meta Setup — Solution Partner, Token &amp; Credit Line — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Meta Setup — Solution Partner, Token &amp; Credit Line</h1>
+                    <p>This is the platform owner's step-by-step guide to becoming a <strong>reseller</strong> of WhatsApp messaging &mdash; the arrangement where <em>Meta bills you</em> for your customers' messages and you charge your customers through the WaDesk wallet. Everything here happens once, on Meta's side, before WaDesk can attach your credit line to a customer's WhatsApp Business Account (WABA).</p>
+
+                    <blockquote class="info"><strong>Do you even need this?</strong> Only set this up for <strong>true reselling</strong>, where Meta bills <em>you</em> for message volume and you resell it. Without it, WaDesk still works perfectly &mdash; each customer connects their own Meta account, pays Meta directly, and you charge them for platform usage through the WaDesk wallet. Skip this whole page unless you specifically want Meta to invoice you on your customers' behalf.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="step1">Step 1 — Become a Meta Solution Partner (Tech Provider)</h2>
+                        <p>A <strong>Solution Partner</strong> (also called a <em>Tech Provider</em>) is a business that has filed and had approved a partner application with Meta. This status is <strong>required before you can share a credit line</strong> with any customer &mdash; without it, the attach endpoints in Step 5 will not work.</p>
+                        <ul>
+                            <li>Read the program overview and file the application: <a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/solution-providers/overview" target="_blank" rel="noopener">Solution Providers — Overview</a>.</li>
+                            <li>Review the credit-line prerequisites: <a href="https://www.facebook.com/business/help/1684730811624773" target="_blank" rel="noopener">Apply for a WhatsApp credit line (Meta Business Help)</a>.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Approval-gated.</strong> Solution Partner status is granted by Meta after review and <strong>can take time</strong>. Start this early &mdash; nothing else on this page can be completed until Meta approves you.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step2">Step 2 — Find your Meta Business (Portfolio) ID</h2>
+                        <p>You will need your business portfolio's numeric ID in several places below.</p>
+                        <ol>
+                            <li>Open <a href="https://business.facebook.com" target="_blank" rel="noopener">business.facebook.com</a>.</li>
+                            <li>Go to <strong>Business settings</strong> &rarr; <strong>Business info</strong>.</li>
+                            <li>Copy the <strong>Business portfolio ID</strong> &mdash; a long number. This is your <code>BUSINESS_ID</code> in every endpoint that follows.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step3">Step 3 — Create a System User + permanent token</h2>
+                        <p>A <strong>System User</strong> gives you a long-lived (permanent) access token that WaDesk uses to call the Graph API on your behalf. Unlike a personal login token, it does not expire when you log out.</p>
+                        <ol>
+                            <li>Open <a href="https://business.facebook.com" target="_blank" rel="noopener">business.facebook.com</a> &rarr; <strong>Business settings</strong> &rarr; <strong>Users</strong> &rarr; <strong>System users</strong>.</li>
+                            <li>Click <strong>Add</strong>, name the system user, and set its role to <strong>Admin</strong>.</li>
+                            <li>Click <strong>Generate token</strong> and, when asked, select exactly these permissions:
+                                <ul>
+                                    <li><code>business_management</code></li>
+                                    <li><code>whatsapp_business_management</code></li>
+                                    <li><code>whatsapp_business_messaging</code></li>
+                                </ul>
+                            </li>
+                            <li>The token is <strong>shown only once</strong> &mdash; copy it immediately and keep it safe.</li>
+                        </ol>
+                        <p>Official reference: <a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens/" target="_blank" rel="noopener">WhatsApp access tokens</a>.</p>
+                        <blockquote class="info"><strong>Store it securely.</strong> This token can spend money on your credit line, so treat it like a password. WaDesk stores it <strong>encrypted at rest</strong> once you paste it in Step 6.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step4">Step 4 — Get / confirm your Extended Credit Line ID</h2>
+                        <p>Your extended credit line is what Meta charges. To read its ID, call:</p>
+                        <pre><code>GET /{BUSINESS_ID}/extendedcredits</code></pre>
+                        <p>This requires the <code>business_management</code> permission and an <strong>Admin</strong> or <strong>Financial Editor</strong> role on the business. The response returns the credit line's <code>id</code>.</p>
+                        <blockquote class="info"><strong>Optional.</strong> WaDesk <strong>auto-detects</strong> this ID from your business when you save Step 6, so entering it by hand is optional &mdash; leave it blank to let WaDesk find it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step5">Step 5 — What "attach" actually does</h2>
+                        <p><strong>Attaching</strong> means sharing your credit line with a customer's WABA so that <em>Meta bills you</em> for the messages that WABA sends. This is the core of reselling. WaDesk performs it for you, but here is the underlying call:</p>
+                        <pre><code>POST /{EXTENDED_CREDIT_LINE_ID}/whatsapp_credit_sharing_and_attach
+  params:
+    waba_id        = the customer's WhatsApp Business Account ID
+    waba_currency  = the billing currency for that WABA</code></pre>
+                        <p>The response returns an <code>allocation_config_id</code> and the <code>waba_id</code>.</p>
+                        <blockquote class="warning"><strong>Currency is locked.</strong> <code>waba_currency</code> is <strong>permanently locked once attached</strong> and cannot be changed afterward. Meta only allows these currencies: <strong>AUD, EUR, GBP, IDR, INR, USD</strong>. Pick carefully.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step6">Step 6 — Enter everything in WaDesk</h2>
+                        <p>Now hand the values to WaDesk so it can attach credit lines automatically.</p>
+                        <ol>
+                            <li>Go to <strong>Admin &rarr; Billing &rarr; "Reseller billing (Meta)"</strong> at <code>/admin/bsp/credit</code>.</li>
+                            <li>Paste your <strong>Business ID</strong> (from Step 2) and your <strong>System-user token</strong> (from Step 3).</li>
+                            <li>Leave <strong>Extended credit ID</strong> blank to auto-detect (Step 4), or paste it if you already have it.</li>
+                            <li>Set the <strong>Graph API version</strong> &mdash; default <code>v25.0</code>.</li>
+                            <li>Turn <strong>ON</strong> "<strong>Auto-attach on connect</strong>" so that any customer who selects reseller billing gets your credit line shared to their WABA automatically the moment they connect.</li>
+                        </ol>
+                        <p>Once saved, WaDesk encrypts the token, confirms the credit line, and is ready to bill Meta on your customers' behalf.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#step1" class="toc-link">Step 1 — Solution Partner</a></li>
+                    <li class="toc-h2"><a href="#step2" class="toc-link">Step 2 — Business ID</a></li>
+                    <li class="toc-h2"><a href="#step3" class="toc-link">Step 3 — System User token</a></li>
+                    <li class="toc-h2"><a href="#step4" class="toc-link">Step 4 — Credit Line ID</a></li>
+                    <li class="toc-h2"><a href="#step5" class="toc-link">Step 5 — What attach does</a></li>
+                    <li class="toc-h2"><a href="#step6" class="toc-link">Step 6 — Enter in WaDesk</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

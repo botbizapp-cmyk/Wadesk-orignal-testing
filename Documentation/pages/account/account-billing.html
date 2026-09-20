@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account &amp; Billing – WaDesk SaaS Docs</title>
+    <meta name="description" content="Account &amp; Billing — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Account &amp; Billing</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>Your <strong>Account</strong> page is your personal control center. Open it from <strong>More &rarr; Account</strong>. A left-hand menu opens one pane per task. Everything here is about <em>you</em> &mdash; your profile, your purchases, your wallet, your support tickets &mdash; except for two fields (timezone and message footer) that apply to the workspace you are currently in.</p>
+                        <p>The menu is split into two groups:</p>
+                        <ul>
+                            <li><strong>Account</strong> &mdash; Profile, Order history, Wallet, Affiliate, Support history, and Branding.</li>
+                            <li><strong>Security</strong> &mdash; Change password and Delete account.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Where plans live:</strong> Choosing or upgrading a subscription plan happens on a separate page &mdash; see <a href="../getting-started/plans-trial.html">Plans &amp; Trial</a>. The Account page is where you see the <em>result</em> of a purchase &mdash; your order history and downloadable invoices.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="profile">Profile &amp; Photo</h2>
+                        <p>The <strong>Profile</strong> pane (the default view) is where you keep your identity up to date.</p>
+                        <h3>Editing your details</h3>
+                        <ol>
+                            <li>Open <strong>Account &rarr; Profile</strong>.</li>
+                            <li>Edit any field (see the table below).</li>
+                            <li>Click <strong>Save changes</strong>. A "Profile updated" confirmation also appears in your notifications.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Validation</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Full name</strong></td><td>required, up to 120 chars</td><td>How you appear to teammates.</td></tr>
+                                <tr><td><strong>Display name</strong></td><td>up to 120 chars</td><td>Optional friendly name.</td></tr>
+                                <tr><td><strong>Email</strong></td><td>required, valid email, unique</td><td>Your login address. Must be unique across the platform.</td></tr>
+                                <tr><td><strong>Phone</strong></td><td>up to 32 chars</td><td>With an international country-code picker.</td></tr>
+                                <tr><td><strong>Timezone</strong></td><td>up to 64 chars</td><td>Special: this setting belongs to the <em>workspace</em>, not to you, and <strong>only the workspace owner can change it</strong>. If you are not the owner, the field shows but your change is not saved.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>Profile photo</h3>
+                        <ol>
+                            <li>Click the small pencil button on your avatar.</li>
+                            <li>Pick an image &mdash; accepted formats are <strong>JPG, JPEG, PNG, WEBP, GIF</strong>, up to <strong>2&nbsp;MB</strong>.</li>
+                            <li>The preview updates instantly, without a page reload. Your previous photo is removed automatically so it does not waste storage.</li>
+                        </ol>
+                        <p>To remove a photo entirely, use the remove action &mdash; the photo is deleted and your avatar falls back to your initials.</p>
+                        <blockquote class="info"><strong>Note:</strong> Profile photos are stored on your own server. On a standard install everything is set up for you, so you do not need to do anything.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="order-history">Order History &amp; Invoices</h2>
+                        <p>The <strong>Order history</strong> pane lists every purchase you have made &mdash; both plan subscriptions and credit top-ups (your most recent 100 orders). Each row shows the order number, the plan name, the date, the amount (with any discount or tax broken out), and a status badge.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Order status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>paid</strong></td><td>The payment cleared and the plan was applied to your workspace (trial cleared).</td></tr>
+                                <tr><td><strong>pending</strong></td><td>The gateway is still processing, or you were redirected off-site and have not returned.</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The payment did not complete; the failure reason is recorded on the order.</td></tr>
+                                <tr><td><strong>refunded</strong></td><td>The order was reversed.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The header shows your <strong>lifetime spend</strong>. Because orders can span multiple currencies (for example you paid in USD early on, then switched your workspace currency to INR), the lifetime total sums only <strong>paid</strong> orders and converts each row into your current workspace currency, so the headline number stays meaningful.</p>
+                        <h3>Downloading an invoice</h3>
+                        <ol>
+                            <li>Click <strong>Download invoice</strong> on any row to open a printable invoice.</li>
+                            <li>It carries the company and billing details the platform owner set up &mdash; company name, address, tax ID, registration number, email, phone, and tax label.</li>
+                            <li>Use your browser's <strong>Print &rarr; Save as PDF</strong> to keep a copy.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Note:</strong> You can only open invoices for your own orders. Platform admins access all orders separately from the admin panel.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="checkout-coupons">Checkout, Coupons &amp; Tax</h2>
+                        <p>When you pick a plan or a credit bundle, you land on the <strong>checkout</strong> screen. It is driven by the platform owner's settings, so what you see adapts to how the deployment is configured.</p>
+                        <h3>How checkout works</h3>
+                        <ol>
+                            <li>The plan price is converted from the plan's own currency into your <strong>workspace currency</strong>.</li>
+                            <li>You choose from the <strong>active payment gateways</strong> that accept that currency (WaDesk supports 30+ gateways; any that do not support your currency are hidden).</li>
+                            <li>You fill in your billing details &mdash; name, email, company, address, city, postal code, country, and tax ID &mdash; which are saved on the order for the invoice.</li>
+                            <li>On success the order is marked <strong>paid</strong>, your plan is applied to the workspace, and any free-trial window ends immediately (see <a href="../getting-started/plans-trial.html">Plans &amp; Trial</a> for what happens next).</li>
+                        </ol>
+                        <h3>Coupons</h3>
+                        <p>If you have a coupon code, type it in and click <strong>Apply</strong> for an instant preview of the discount. Coupons come in two types: <strong>percent</strong> (e.g. 20% off) and <strong>fixed</strong> (a flat amount off). The preview is only a guide &mdash; the code is checked again at the moment of payment, where these rules apply:</p>
+                        <ul>
+                            <li>The coupon must be active and within its start and expiry dates.</li>
+                            <li>It must not have reached its <strong>maximum uses</strong> limit.</li>
+                            <li>Your order must meet the coupon's <strong>minimum order amount</strong>.</li>
+                            <li>The coupon must apply to the plan you are buying.</li>
+                        </ul>
+                        <h3>Tax</h3>
+                        <p>If the platform owner has enabled tax, a tax line at the set rate and label (for example "GST 18%") is added on top of the discounted subtotal. The amount you are charged is: <strong>subtotal &minus; discount, plus tax</strong>. WaDesk saves the full breakdown (discount, tax rate, tax amount) on the order so your receipt shows exactly how the total was reached.</p>
+                        <blockquote class="warning"><strong>Tip:</strong> If a gateway is greyed out or missing at checkout, it usually means that gateway does not accept your workspace currency, or the platform owner has not enabled it. Try a different gateway or contact your administrator.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="wallet">Wallet &amp; Credits</h2>
+                        <p>The <strong>Wallet</strong> pane tracks your message credits. Three cards at the top summarize your balance:</p>
+                        <ul>
+                            <li><strong>Available credits</strong> &mdash; your current balance, plus an estimate of how many messages that buys (the platform owner sets how many credits one message costs).</li>
+                            <li><strong>Spent (30d)</strong> &mdash; credits used in the last 30 days.</li>
+                            <li><strong>Earned via affiliate (30d)</strong> &mdash; credits earned from referrals and refunds in the last 30 days.</li>
+                        </ul>
+                        <p>Below the cards, the <strong>Wallet activity</strong> list shows every credit transaction &mdash; earned, spent, topped up, and refunded &mdash; with a running balance after each, <strong>10 per page</strong>. You can grow your balance two ways:</p>
+                        <ul>
+                            <li><strong>Top up credits</strong> &mdash; buy an admin-curated credit bundle (pay once, no expiry).</li>
+                            <li><strong>Earn via affiliate</strong> &mdash; share your referral link and collect credits per sign-up.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="affiliate">Affiliate &amp; Referrals</h2>
+                        <p>The <strong>Affiliate</strong> pane gives you a unique referral code and a shareable sign-up link. Every new sign-up through your link adds a fixed number of message credits straight into your wallet (the reward amount is set by the platform owner, and is 100 credits by default).</p>
+                        <p>You get three at-a-glance stats &mdash; sign-ups in the last 30 days, lifetime sign-ups, and total credits earned &mdash; plus a <strong>Recent referrals</strong> table showing who joined, which code they used, when, and how many credits you earned from each.</p>
+                        <blockquote class="info"><strong>Note:</strong> Use the <strong>Copy link</strong> button to grab your full referral URL. Anyone who registers with that link is automatically attributed to you.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="branding">Branding &amp; Message Footer</h2>
+                        <p>The <strong>Branding</strong> pane controls the <strong>message footer</strong> &mdash; the small line appended to the bottom of every plain-text message and interactive bubble (buttons, lists, CTAs) your workspace sends from flows, scheduled sends, and team-inbox replies. Approved WhatsApp templates skip this footer because they carry their own.</p>
+                        <p>What you can do depends on your plan, because changing the footer requires the "remove branding" plan feature:</p>
+                        <ul>
+                            <li><strong>On a plan that includes the feature:</strong> you get a <strong>60-character</strong> text box to set a custom footer. Leaving it <strong>blank means no footer at all</strong> &mdash; messages go out with nothing added. A live preview shows exactly how it looks.</li>
+                            <li><strong>On a plan without the feature:</strong> you see the platform's default footer (read-only) and an upgrade prompt. You cannot change the footer until you upgrade.</li>
+                        </ul>
+                        <h3>How saving works</h3>
+                        <p>When you save, the footer takes effect <strong>on your very next message</strong> across all your connected numbers.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> The custom footer is <strong>workspace-wide</strong>. It affects everyone sending from this workspace, not just you. The 60-character cap keeps messages clean and avoids bloating every outbound bubble.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="support">Support History</h2>
+                        <p>The <strong>Support history</strong> pane shows every support ticket you have ever opened, filtered by <strong>Open</strong>, <strong>Resolved</strong>, or <strong>All</strong> (each with a live count). Each card shows the ticket number, subject, reason, and a status pill (open, awaiting reply, your turn, or resolved).</p>
+                        <p>To open a new ticket, click <strong>New ticket</strong>, which takes you to the Support page. Tickets you create there appear here automatically, with no limit, so you can browse your full history.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="password">Change Password</h2>
+                        <p>Under the <strong>Security</strong> group, the <strong>Change password</strong> pane updates your login password.</p>
+                        <ol>
+                            <li>Enter your <strong>current password</strong> (verified server-side).</li>
+                            <li>Enter a <strong>new password</strong> of at least 8 characters, then confirm it.</li>
+                            <li>Save. On success you get a confirmation notification flagged as an <strong>urgent security event</strong> &mdash; "If this wasn't you, reset immediately."</li>
+                        </ol>
+                        <blockquote class="info"><strong>Tip:</strong> The page recommends a strong, unique password and a password manager. For full account hardening &mdash; including two-factor authentication and active session management &mdash; see the <strong>Settings</strong> page and the <a href="../security/authentication.html">Authentication &amp; Security</a> section.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="delete-account">Delete Account</h2>
+                        <p>The <strong>Delete account</strong> pane permanently removes your account. There are deliberate safety rails:</p>
+                        <ul>
+                            <li>You must type the confirmation phrase <strong>DELETE my account</strong> exactly (case-sensitive) to proceed &mdash; otherwise the request is rejected.</li>
+                            <li>You <strong>cannot</strong> delete while you own a workspace that has more than one member &mdash; you must transfer ownership or remove the other members first. The error names the blocking workspaces.</li>
+                        </ul>
+                        <p>On deletion, your personal data is scrubbed: your name becomes "Deleted user", your email is replaced with an anonymous placeholder, your phone and country are cleared, and your photo is removed. You are immediately logged out.</p>
+                        <blockquote class="warning"><strong>This cannot be undone.</strong> Before deleting, consider spending remaining credits, downgrading to a free plan instead, or contacting support &mdash; the page links to all three. Any unused wallet credits are lost on deletion.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Timezone change does not stick</td><td>The timezone belongs to the workspace and only the <strong>owner</strong> can change it. For others the change is not saved &mdash; ask the workspace owner.</td></tr>
+                                <tr><td>"Email already taken" on save</td><td>That email belongs to another account. Email must be unique platform-wide.</td></tr>
+                                <tr><td>Photo upload rejected</td><td>It must be an image (JPG, JPEG, PNG, WEBP, or GIF) under 2&nbsp;MB. Resize or convert and retry.</td></tr>
+                                <tr><td>Uploaded photo shows a broken image</td><td>This is a server setup issue with photo storage &mdash; normally handled by the installer. Ask your administrator.</td></tr>
+                                <tr><td>Lifetime spend looks off</td><td>It adds up only <strong>paid</strong> orders, each converted into your current workspace currency. Changing your workspace currency re-bases the headline figure.</td></tr>
+                                <tr><td>Cannot edit the message footer</td><td>Your plan does not include the "remove branding" feature. The default footer is read-only until you upgrade.</td></tr>
+                                <tr><td>Account deletion blocked</td><td>You own a workspace with other members. Transfer ownership or remove members first; the error lists which workspaces.</td></tr>
+                                <tr><td>Coupon rejected at payment though the preview accepted it</td><td>The preview is only a guide; the final check at payment enforces the active dates, maximum uses, minimum order, and which plans the coupon applies to.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#profile" class="toc-link">Profile &amp; Photo</a></li>
+                    <li class="toc-h2"><a href="#order-history" class="toc-link">Order History &amp; Invoices</a></li>
+                    <li class="toc-h2"><a href="#checkout-coupons" class="toc-link">Checkout, Coupons &amp; Tax</a></li>
+                    <li class="toc-h2"><a href="#wallet" class="toc-link">Wallet &amp; Credits</a></li>
+                    <li class="toc-h2"><a href="#affiliate" class="toc-link">Affiliate &amp; Referrals</a></li>
+                    <li class="toc-h2"><a href="#branding" class="toc-link">Branding &amp; Message Footer</a></li>
+                    <li class="toc-h2"><a href="#support" class="toc-link">Support History</a></li>
+                    <li class="toc-h2"><a href="#password" class="toc-link">Change Password</a></li>
+                    <li class="toc-h2"><a href="#delete-account" class="toc-link">Delete Account</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

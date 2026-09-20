@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slack Integration – WaDesk SaaS Docs</title>
+    <meta name="description" content="Slack integration — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Slack Integration</h1>
+                    <p>Connect Slack to WaDesk so your team can <strong>send a WhatsApp message straight from a Slack channel</strong> with a slash command &mdash; no need to switch tabs into WaDesk for a quick reply.</p>
+                    <blockquote class="info"><strong>How it's secured.</strong> Every command from Slack is verified with Slack's request signature before WaDesk acts on it, so only your real Slack workspace can trigger sends.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="what">What it does</h2>
+                        <ul>
+                            <li>Run <code>/wa send <em>name</em>: <em>message</em></code> in Slack to send a WhatsApp message to a contact by name.</li>
+                            <li>The send goes through your normal WaDesk sending pipeline (your connected number/engine, pacing, logging), exactly like sending from the app.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">How to set it up</h2>
+                        <ol>
+                            <li>In WaDesk, open <strong>Integrations</strong> and choose <strong>Slack</strong>.</li>
+                            <li>Create a Slack app in your Slack workspace (api.slack.com), add a <strong>Slash Command</strong>, and point its <strong>Request URL</strong> at the WaDesk Slack command endpoint shown on the integration page.</li>
+                            <li>Copy your Slack app's <strong>Signing Secret</strong> into the WaDesk Slack integration settings so requests can be verified.</li>
+                            <li>Install the app to your Slack workspace and try <code>/wa send John: Hi there</code> in any channel.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="notes">Good to know</h2>
+                        <ul>
+                            <li>The contact name in the command is matched against your WaDesk contacts; if there is no match, Slack shows an error reply.</li>
+                            <li>Availability of the integration can depend on your plan.</li>
+                            <li>Looking to receive events <em>out</em> of WaDesk into your own systems instead? Use <a href="webhooks.html">Webhooks</a>.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#what" class="toc-link">What it does</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">How to set it up</a></li>
+                    <li class="toc-h2"><a href="#notes" class="toc-link">Good to know</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message History – WaDesk SaaS Docs</title>
+    <meta name="description" content="Message History — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Message History</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Message History</strong> is a single, searchable archive of <em>every</em> message your workspace has sent or received &mdash; one place to see all your WhatsApp activity. Open it from the <strong>Message History</strong> page.</p>
+                        <p>Instead of hunting through the inbox, campaigns, and automations separately, this page merges them all into one timeline, then presents them with summary cards, charts, filters, a paginated table, and a side detail panel.</p>
+                        <blockquote class="info"><strong>Read-only overview.</strong> Message History is for looking things up and reporting. To act on a specific message (resend, manage, reply), open its source page &mdash; the Team Inbox, Campaigns, Broadcasts, or the conversation thread. This combined view doesn't resend individual rows, because the right action depends on where the message came from.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sources">Where the Messages Come From</h2>
+                        <p>The timeline merges six sources. The Type column tags each row with a small colored pill so you can tell them apart at a glance.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Source</th><th>What it contributes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Team inbox</strong></td><td>One-to-one inbound and outbound conversation messages (the bubbles from <a href="./team-inbox.html">Team Inbox</a> / <a href="./chat.html">Chat</a>).</td></tr>
+                                <tr><td><strong>Auto-reply</strong></td><td>Keyword auto-reply fires (see <a href="./auto-reply.html">Auto Reply</a>).</td></tr>
+                                <tr><td><strong>Campaign</strong></td><td>Bulk campaign sends.</td></tr>
+                                <tr><td><strong>Broadcast</strong></td><td>Broadcast list sends.</td></tr>
+                                <tr><td><strong>Scheduled</strong></td><td>Scheduled / recurring message jobs.</td></tr>
+                                <tr><td><strong>Direct send</strong></td><td>Legacy direct (one-off) sends.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Whichever source a row comes from, it shows up in the same table row, contributes to the same KPI numbers and charts, and exports to the same CSV &mdash; so you get a true workspace-wide picture without stitching reports together.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="access">Who Can Access It</h2>
+                        <p>Message History is a workspace-wide reporting view, so it's available to <strong>managers</strong>, <strong>admins</strong>, and <strong>owners</strong>. It always shows data for your currently active workspace.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="layout">What's on the Page</h2>
+                        <ul>
+                            <li><strong>KPI strip</strong> &mdash; headline numbers for the selected date range: total messages, sent, received, failed, and the average first-response time, each with a percentage change versus the previous equal-length period.</li>
+                            <li><strong>Volume chart</strong> &mdash; messages over time, split into sent / received / failed, with hourly, daily, or weekly buckets.</li>
+                            <li><strong>Direction donut</strong> &mdash; the sent vs. received vs. failed split at a glance.</li>
+                            <li><strong>Type mix chart</strong> &mdash; how your messages break down across plain text, auto-reply, campaign, broadcast, scheduled, and media.</li>
+                            <li><strong>Top conversations</strong> &mdash; the inbox contacts you've exchanged the most messages with.</li>
+                            <li><strong>Message table</strong> &mdash; the paginated list of individual messages (25 per page), with a side detail panel.</li>
+                        </ul>
+                        <p>The KPI numbers stay tied to the date range so they don't jump around when you change other filters; the charts and table reflect your active filters.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="filters">Filters</h2>
+                        <p>Use the filter bar to narrow the archive:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Filter</th><th>Options</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Date range</strong></td><td>Last 24 hours, 7 days, 30 days (the default), or 90 days.</td></tr>
+                                <tr><td><strong>Direction</strong></td><td>All, Outgoing, Incoming, or Failed (failed outbound only).</td></tr>
+                                <tr><td><strong>Type</strong></td><td>All, or a specific type &mdash; template, image, video, document, location, plain text, or a source pill (auto-reply, campaign, broadcast, scheduled).</td></tr>
+                                <tr><td><strong>Device</strong></td><td>Limit to messages for a specific connected number.</td></tr>
+                                <tr><td><strong>Search</strong></td><td>Free-text search across the message body, phone number, contact name, and message id.</td></tr>
+                                <tr><td><strong>Bucket</strong></td><td>For the volume chart: hourly, daily, or weekly grouping.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Why 30 days by default?</strong> Operators often look up sends from a few weeks back. The default range is 30 days so older campaign, broadcast, and scheduled sends don't silently disappear (the earlier 7-day default hid anything more than a week old) &mdash; switch to a shorter or longer window any time.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="table">The Message Table</h2>
+                        <p>Each row shows the contact (name or number, falling back to the source label), a snippet of the message, its direction, a status badge, the message type with a colored source pill, a media icon where relevant, and the time. Click a row to open the <strong>detail panel</strong>, which shows the full body, source, phone, status, language, timestamps, a small timeline, and the originating conversation id where available.</p>
+                        <h3 id="statuses">Status Meanings</h3>
+                        <p>Inbound messages are marked <strong>Inbound</strong>. Outbound rows carry the message's delivery state, color-coded:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th><th>Badge</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>read</strong></td><td>The recipient opened it (blue ticks).</td><td>Green</td></tr>
+                                <tr><td><strong>delivered</strong> / <strong>sent</strong></td><td>Handed to / accepted by WhatsApp.</td><td>Green</td></tr>
+                                <tr><td><strong>fired</strong> / <strong>paid</strong></td><td>Source-specific success (an auto-reply fired; a commerce send was paid).</td><td>Green</td></tr>
+                                <tr><td><strong>scheduled</strong> / <strong>pending</strong></td><td>Queued to send later, or not yet dispatched.</td><td>Grey</td></tr>
+                                <tr><td><strong>failed</strong> / <strong>error</strong></td><td>The provider rejected it; the reason shows in the detail panel.</td><td>Coral / red</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="export">Exporting to CSV</h2>
+                        <p>Click <strong>Export</strong> to download the current date range as a CSV file, with one row per message and these columns, in order:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Column</th><th>Contents</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td>The message id (prefixed by source).</td></tr>
+                                <tr><td><code>source</code></td><td>The human source label (Team inbox, Auto-reply, &hellip;).</td></tr>
+                                <tr><td><code>when</code></td><td>ISO-8601 timestamp.</td></tr>
+                                <tr><td><code>direction</code></td><td><code>in</code> or <code>out</code>.</td></tr>
+                                <tr><td><code>phone</code></td><td>The contact's number.</td></tr>
+                                <tr><td><code>contact</code></td><td>The contact name where known.</td></tr>
+                                <tr><td><code>status</code></td><td>The delivery status.</td></tr>
+                                <tr><td><code>type</code></td><td>The classified type (text / template / image / auto_reply / campaign / &hellip;).</td></tr>
+                                <tr><td><code>body</code></td><td>The message text.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The file is named with a timestamp (<code>message-history-YYYYMMDD-HHMMSS.csv</code>) so downloads stay organized. The export covers the full date range (not just the page you're viewing).</p>
+                        <blockquote class="caution"><strong>Spreadsheet safety.</strong> The export escapes any cell whose text begins with a character spreadsheets treat as a formula (<code>=</code>, <code>+</code>, <code>-</code>, <code>@</code>, tab, or carriage return) by prefixing it with a single quote &mdash; so opening the file in Excel or Sheets can't run a hidden command embedded in a message body.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="archive">A Note on Archiving &amp; Acting on Rows</h2>
+                        <p>Because Message History is a combined view across many sources, you can't archive, delete, or resend individual messages from here &mdash; the page will point you to the source page instead. To manage a specific message, open its source: the <a href="./team-inbox.html">Team Inbox</a> or <a href="./chat.html">Chat</a> thread for conversations, the Campaigns page for campaign sends, or Broadcasts / Scheduled for those &mdash; that's where the controls (retry, resend, archive) live.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#sources" class="toc-link">Where the Messages Come From</a></li>
+                    <li class="toc-h2"><a href="#access" class="toc-link">Who Can Access It</a></li>
+                    <li class="toc-h2"><a href="#layout" class="toc-link">What's on the Page</a></li>
+                    <li class="toc-h2"><a href="#filters" class="toc-link">Filters</a></li>
+                    <li class="toc-h2"><a href="#table" class="toc-link">The Message Table</a></li>
+                    <li class="toc-h2"><a href="#export" class="toc-link">Exporting to CSV</a></li>
+                    <li class="toc-h2"><a href="#archive" class="toc-link">A Note on Archiving &amp; Acting on Rows</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

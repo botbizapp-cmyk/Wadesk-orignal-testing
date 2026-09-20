@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Channel (MailTrixy) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Complete guide to the Email channel — connecting your MailTrixy install to WaDesk, generating the shared secret, the matching-email rule, linking mailboxes, syncing history, replying from the inbox, email flows and email campaigns.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Email Channel (MailTrixy)</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Email</strong> channel brings your mailboxes into the <a href="../messaging/team-inbox.html">Team Inbox</a> next to WhatsApp, Instagram and the rest &mdash; so a customer who emails and a customer who messages sit in the same queue, worked by the same team, with the same auto-reply, flows and campaigns.</p>
+                        <p>Email is delivered by <strong>MailTrixy</strong>, a separate application that owns the actual mailbox connections. The split is deliberate:</p>
+                        <blockquote class="info"><strong>WaDesk is the operator interface. MailTrixy is the email engine.</strong> WaDesk never stores your mailbox passwords and never talks IMAP or SMTP. It shows you the mail, and hands every reply back to MailTrixy to send. That means one system owns delivery, suppression and tracking &mdash; so you can never get duplicate sends or two sets of conflicting statistics.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">What You Need First</h2>
+                        <ul>
+                            <li>A running <strong>MailTrixy</strong> installation, reachable over the network from your WaDesk server.</li>
+                            <li>At least one mailbox already <strong>connected inside MailTrixy</strong> (Gmail, Outlook or plain IMAP/SMTP). Mailboxes are connected in MailTrixy, never in WaDesk.</li>
+                            <li>Platform-admin access to <strong>both</strong> applications, to exchange the shared secret.</li>
+                            <li>A plan with the <strong>Email</strong> feature enabled &mdash; see <a href="#plan">Enable Email on the plan</a>. This is off by default and is the most common reason the channel appears to be missing.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Bridge Works</h2>
+                        <p>The two applications authenticate to each other with <strong>one shared secret</strong>, sent as a header on every request, in both directions. Traffic flows three ways:</p>
+                        <ul>
+                            <li><strong>New mail arrives.</strong> MailTrixy discovers it and immediately pushes it to WaDesk, where it becomes an inbox thread.</li>
+                            <li><strong>You reply.</strong> WaDesk hands the reply to MailTrixy, which performs the real SMTP send and keeps the threading headers correct, so both inboxes agree.</li>
+                            <li><strong>You sync.</strong> WaDesk pulls mail from MailTrixy on demand &mdash; used to import history when you first link a mailbox, and to recover anything a live push missed.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Why sync matters.</strong> The live push only announces mail as it <em>arrives</em>. Mail already sitting in a mailbox when you link it is not announced, and a momentary network problem can drop a push. Sync covers both, and it is safe to run repeatedly &mdash; already-imported mail is recognised and skipped, never duplicated.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step1">Step 1 &mdash; Configure MailTrixy</h2>
+                        <ol>
+                            <li>Sign in to <strong>MailTrixy</strong> as an administrator.</li>
+                            <li>Go to <strong>Admin &rarr; Settings &rarr; Integrations</strong>.</li>
+                            <li>Find the <strong>WaDesk</strong> card and turn its <strong>enable</strong> toggle on.</li>
+                            <li>In <strong>WaDesk URL</strong>, enter the full address of your WaDesk installation, for example <code>https://app.yourdomain.com</code> &mdash; no trailing slash.</li>
+                            <li>In <strong>Shared secret</strong>, enter a long random string. Generate one rather than inventing it &mdash; 32 characters or more of random hex is ideal. <strong>Copy it now</strong>; you will paste the identical value into WaDesk in the next step.</li>
+                            <li>Save.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>The secret is the only thing protecting this bridge.</strong> Anyone who holds it can read your mail and send as you. Use a long random value, store it in your password manager, and never reuse it elsewhere. It is stored encrypted at rest on both sides.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step2">Step 2 &mdash; Connect from WaDesk</h2>
+                        <ol>
+                            <li>Sign in to <strong>WaDesk</strong> as a platform administrator.</li>
+                            <li>Go to <strong>Admin &rarr; Add-ons</strong> and open the <strong>Connect MailTrixy</strong> card.</li>
+                            <li>Enter the <strong>MailTrixy URL</strong> &mdash; the address of your MailTrixy install, e.g. <code>https://mail.yourdomain.com</code>.</li>
+                            <li>Enter the <strong>same shared secret</strong> you set in MailTrixy. It must match exactly &mdash; watch for a trailing space if you pasted it.</li>
+                            <li>Save, then use <strong>Test connection</strong>. A success means WaDesk reached MailTrixy and the secrets match. Anything else means one of the two values is wrong.</li>
+                            <li>Turn on the <strong>Email</strong> channel toggle in <strong>Admin &rarr; Channel Settings</strong>.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan">Step 3 &mdash; Enable Email on the Plan</h2>
+                        <p>Email is plan-gated and ships <strong>off on every plan</strong>. Until you turn it on, users will see no Email option anywhere &mdash; no mailbox picker, no email sender, nothing &mdash; even though the bridge is connected correctly.</p>
+                        <ol>
+                            <li>Go to <strong>Admin &rarr; Packages</strong>.</li>
+                            <li>Edit each plan that should include email and tick <strong>Email</strong>.</li>
+                            <li>Set the <strong>monthly email limit</strong> for that plan if you want to cap usage.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>If the channel seems missing, check this first.</strong> A connected bridge with the plan flag off looks identical to a broken bridge from the user&rsquo;s side.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="matching">Step 4 &mdash; The Matching-Email Rule</h2>
+                        <p>This is the part that surprises people, so it is worth reading carefully.</p>
+                        <p>When a WaDesk user opens the mailbox picker, WaDesk asks MailTrixy which mailboxes belong to <em>that person</em>, identified by their <strong>login email address</strong>. MailTrixy returns a mailbox only when that address matches either:</p>
+                        <ul>
+                            <li>the <strong>MailTrixy user who connected the mailbox</strong>, or</li>
+                            <li>the <strong>owner of the MailTrixy workspace</strong> that holds it.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>It is matched against the person&rsquo;s login email, not the mailbox address.</strong> If <code>sales@acme.com</code> is connected in MailTrixy by a user who signs in as <code>jane@acme.com</code>, then the WaDesk user must also sign in as <code>jane@acme.com</code>. Signing in to WaDesk as <code>sales@acme.com</code> will show an <strong>empty picker</strong>.</blockquote>
+                        <p>This is what keeps tenants apart on a shared install: one customer can never see or link another customer&rsquo;s mailboxes. To give a WaDesk user access to a mailbox, make sure they either sign in to MailTrixy with the same email address, or are added as an <strong>owner</strong> of the MailTrixy workspace that holds it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="link">Step 5 &mdash; Link a Mailbox</h2>
+                        <ol>
+                            <li>Sign in to WaDesk as the user whose email matches (see above).</li>
+                            <li>Go to <strong>Devices</strong> and click <strong>Add</strong>, then choose <strong>Email</strong>.</li>
+                            <li>The picker lists the mailboxes available to you. Choose one and link it.</li>
+                            <li>WaDesk immediately <strong>imports that mailbox&rsquo;s existing mail</strong>, so the inbox is populated rather than empty.</li>
+                            <li>The mailbox now appears as a row in the <strong>device table</strong>, with its address, provider and connection status, alongside your WhatsApp numbers and other channels.</li>
+                        </ol>
+                        <p>Link as many mailboxes as you need &mdash; each becomes its own row and its own sender.</p>
+                        <blockquote class="info"><strong>One workspace per mailbox.</strong> A mailbox can be linked by only one workspace at a time, because inbound mail has to resolve to exactly one destination. A mailbox already linked elsewhere will not appear in the picker.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sync">Syncing Mail</h2>
+                        <p>Each email row in the device table has a <strong>Sync</strong> action. Use it to:</p>
+                        <ul>
+                            <li><strong>Pull history</strong> you want in WaDesk that predates the link.</li>
+                            <li><strong>Recover</strong> anything a live push missed, for example during a network blip or a restart.</li>
+                        </ul>
+                        <p>Sync remembers where it got to, so a repeat run only fetches what is new. It is safe to press as often as you like &mdash; mail already imported is recognised and skipped, so you will never get duplicate threads.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>One thread per email conversation.</strong> Threads carry the subject line and the sender, and sit alongside your other channels in the same queue.</li>
+                            <li><strong>Reply from the inbox.</strong> Type a reply and send it &mdash; MailTrixy performs the real SMTP send and keeps the threading headers correct, so the customer sees a normal reply in their mail client.</li>
+                            <li><strong>Assignment, notes and tags</strong> work exactly as they do on every other channel.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Quoted text is handled for you.</strong> An email reply usually carries the whole quoted thread beneath it. WaDesk strips that quoted history before matching keywords or capturing an answer, so automation reacts to what the person actually wrote &mdash; not to the conversation quoted underneath.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to a mailbox in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node&rsquo;s channel to Email</strong> in the <a href="../automation/flows.html">Flow Builder</a>. The email runtime executes <strong>message, media, buttons, ask, delay, condition, webhook, AI and end</strong> steps. Node types that have no meaning in email are deliberately hidden rather than shown and silently ignored.</li>
+                            <li><strong>AI agent.</strong> Assign an agent to a mailbox for automatic replies with hand-off to a human.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Answering a button by email.</strong> Buttons in an email flow are rendered as a numbered list. A reply of <code>2</code>, <code>2.</code>, <code>Support</code> or the copied line <code>2. Support</code> all match the same option, because people reply to email in all of those ways.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="campaigns">Email Campaigns</h2>
+                        <p>Email campaigns are built in the same campaign builder as the rest of WaDesk. Choose <strong>Email</strong> in the channel picker, pick the sending mailbox, write your <strong>subject line</strong> and body, choose your audience and schedule, and launch.</p>
+                        <p>Because it reuses the same engine, email inherits <strong>send now, scheduling, recurring sends, pause and resume</strong> without anything extra to learn. MailTrixy still owns delivery, so suppression and unsubscribes are respected centrally.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>No Email option anywhere</strong></td><td>The <strong>Email</strong> feature is not ticked on the workspace&rsquo;s plan. Enable it in <strong>Admin &rarr; Packages</strong> &mdash; it is off by default on every plan.</td></tr>
+                                <tr><td><strong>Test connection fails</strong></td><td>The URL is wrong or unreachable from the other server, or the shared secret does not match. Re-paste the secret on both sides and check for a trailing space.</td></tr>
+                                <tr><td><strong>Mailbox picker is empty</strong></td><td>Your WaDesk login email does not match a MailTrixy user or workspace owner &mdash; see <a href="#matching">the matching-email rule</a>. Or the mailbox is already linked by another workspace.</td></tr>
+                                <tr><td><strong>Mailbox linked but the inbox is empty</strong></td><td>Press <strong>Sync</strong> on that row to import existing mail. Check the mailbox actually has mail in MailTrixy.</td></tr>
+                                <tr><td><strong>New mail is not arriving</strong></td><td>Check the WaDesk integration is still enabled in MailTrixy and the URL still points at WaDesk. Press <strong>Sync</strong> to pull anything that was missed in the meantime.</td></tr>
+                                <tr><td><strong>Replies are not delivered</strong></td><td>Delivery is MailTrixy&rsquo;s job &mdash; check the mailbox&rsquo;s SMTP/OAuth credentials there. WaDesk only hands the reply over.</td></tr>
+                                <tr><td><strong>New mail takes about a minute</strong></td><td>Expected. MailTrixy polls mailboxes on a schedule; once it discovers a message the push to WaDesk is immediate.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">What You Need First</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Bridge Works</a></li>
+                    <li class="toc-h2"><a href="#step1" class="toc-link">Step 1 &mdash; Configure MailTrixy</a></li>
+                    <li class="toc-h2"><a href="#step2" class="toc-link">Step 2 &mdash; Connect from WaDesk</a></li>
+                    <li class="toc-h2"><a href="#plan" class="toc-link">Step 3 &mdash; Enable on the Plan</a></li>
+                    <li class="toc-h2"><a href="#matching" class="toc-link">Step 4 &mdash; Matching-Email Rule</a></li>
+                    <li class="toc-h2"><a href="#link" class="toc-link">Step 5 &mdash; Link a Mailbox</a></li>
+                    <li class="toc-h2"><a href="#sync" class="toc-link">Syncing Mail</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#campaigns" class="toc-link">Email Campaigns</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

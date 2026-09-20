@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API – WaDesk SaaS Docs</title>
+    <meta name="description" content="Customer REST API — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>REST API</h1>
+                    <p>WaDesk ships a public, versioned <strong>REST API</strong> at <code>/api/v1</code> so your own apps, CRMs, and automations can drive a workspace programmatically &mdash; send messages, run broadcasts and campaigns, schedule sends, and manage contacts, deals, flows, templates, and devices.</p>
+                    <blockquote class="info"><strong>Plan feature.</strong> API access is a paid feature. The API key console appears under <strong>More &rarr; Developers</strong>, and a live, always-up-to-date reference is served at <code>/developers/docs</code>.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="auth">Authentication</h2>
+                        <p>Every request is authenticated with a <strong>workspace API key</strong>. Generate one under <strong>More &rarr; Developers</strong> (the full key is shown only once at creation &mdash; copy it then; only its hash is stored, and it can be revoked at any time).</p>
+                        <p>Send it as a Bearer token:</p>
+                        <pre>Authorization: Bearer wsk_your_api_key_here</pre>
+                        <p>&hellip; or in an <code>X-Api-Key</code> header. Keys are scoped to a single workspace, so a key only ever sees and acts on that workspace's data.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How it works under the hood</h2>
+                        <p>The API is a thin, safe layer over the same code the dashboard uses. Each endpoint validates your request and then routes it through the <em>identical</em> controllers and sending pipeline as the UI &mdash; so an API send behaves exactly like a send from the dashboard, including engine routing, pacing, retry, and per-recipient tracking. There is no separate, divergent send path to go out of sync.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="endpoints">What you can do</h2>
+                        <table>
+                            <thead><tr><th>Area</th><th>Endpoints</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Messages</strong></td><td><code>POST /messages</code> (send text/location), <code>GET /messages</code>, <code>GET /messages/{id}</code> (delivery status)</td></tr>
+                                <tr><td><strong>Broadcasts</strong></td><td><code>GET/POST /broadcasts</code>, <code>GET /broadcasts/{id}</code>, <code>/recipients</code>, <code>/stop</code></td></tr>
+                                <tr><td><strong>Campaigns</strong></td><td><code>GET/POST /campaigns</code>, <code>/statistics</code>, <code>GET /campaigns/{id}</code>, <code>/stop</code>, delete</td></tr>
+                                <tr><td><strong>Scheduled</strong></td><td><code>POST /scheduled</code></td></tr>
+                                <tr><td><strong>Contacts &amp; Groups</strong></td><td><code>GET/POST /contacts</code>, <code>GET/PUT/DELETE /contacts/{id}</code>, <code>GET/POST /contact-groups</code></td></tr>
+                                <tr><td><strong>Deals</strong></td><td><code>GET/POST /deals</code>, <code>GET/PUT/DELETE /deals/{id}</code> (advance stage by updating <code>stage_id</code>)</td></tr>
+                                <tr><td><strong>Flows</strong></td><td><code>GET /flows</code>, <code>GET /flows/{id}</code>, <code>POST /flows/{id}/enroll</code>, <code>/subscribers</code></td></tr>
+                                <tr><td><strong>Templates &amp; Auto-replies</strong></td><td><code>GET/POST /templates</code>, <code>GET/POST /auto-replies</code> (and per-id read/update/delete)</td></tr>
+                                <tr><td><strong>Devices &amp; Account</strong></td><td><code>GET /devices</code>, <code>GET /devices/{id}</code>, <code>GET /me</code></td></tr>
+                                <tr><td><strong>Webhooks</strong></td><td>Register event webhooks to receive inbound &amp; delivery events &mdash; see <a href="../integrations/webhooks.html">Webhooks</a></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="example">Example: send a message</h2>
+                        <pre>curl -X POST https://your-domain.com/api/v1/messages \
+  -H "Authorization: Bearer wsk_your_api_key_here" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{"to":"15551234567","type":"text","text":"Hello from the API"}'</pre>
+                        <p>Responses are JSON in a <code>{ data, meta }</code> envelope; validation errors return <code>422</code> with a clear message, and a missing/expired key returns <code>401</code>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reference">Live reference</h2>
+                        <p>The complete, interactive endpoint reference &mdash; with every request body and response &mdash; is generated from the code and served in your app at <strong><code>/developers/docs</code></strong> (OpenAPI). Because it is generated, it always matches the running version.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#auth" class="toc-link">Authentication</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#endpoints" class="toc-link">What you can do</a></li>
+                    <li class="toc-h2"><a href="#example" class="toc-link">Example: send a message</a></li>
+                    <li class="toc-h2"><a href="#reference" class="toc-link">Live reference</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

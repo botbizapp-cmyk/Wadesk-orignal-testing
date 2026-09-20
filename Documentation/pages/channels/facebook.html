@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Messenger Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the Facebook Messenger channel — how it works, the Meta app, Page permissions and message tags it needs, exactly where to get every credential, API limits, connecting a Page, history backfill, and using it in the inbox, automation and broadcasts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Facebook Messenger Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Facebook Messenger</strong> channel connects a Facebook <strong>Page</strong> so your Messenger conversations flow into the <a href="../messaging/team-inbox.html">Team Inbox</a> alongside WhatsApp and Instagram. Agents reply from one screen, and the same automation &mdash; auto-reply, flows and an AI agent &mdash; runs on Messenger. When you connect a Page, WaDesk also <strong>backfills recent conversations</strong> so your contacts are usable immediately.</p>
+                        <blockquote class="info"><strong>Two roles in this guide.</strong> There's a one-time <strong>platform-admin</strong> part (create/configure a Meta app, get credentials, pass App Review) and a per-workspace <strong>user</strong> part (click Connect, log in, pick a Page). On a hosted WaDesk the admin part is usually done already &mdash; skip to <a href="#connect">Connecting Your Page</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>Messenger runs on Meta's <strong>Graph API</strong> via the <strong>Messenger Platform</strong> product, attached to a Facebook <strong>Page</strong>.</li>
+                            <li>Inbound messages arrive as <strong>webhooks</strong>; WaDesk stores them, creates/updates the contact and conversation, and shows them in the inbox.</li>
+                            <li>Replies are sent with the Graph API <strong>Send API</strong> using the Page's access token.</li>
+                            <li>Each thread is tied to a specific Page, so multi-Page workspaces stay separated.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements</h2>
+                        <table>
+                            <thead><tr><th>You need</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>A Facebook Page</strong></td><td>The Page whose Messenger you want to handle, with Messenger enabled.</td></tr>
+                                <tr><td><strong>Admin access to the Page</strong></td><td>Sign in during connect as a person with the admin (or a messaging) role on the Page.</td></tr>
+                                <tr><td><strong>A Meta app (platform admin)</strong></td><td>One Meta app with the <strong>Messenger</strong> product added and App Review passed. Shared with the Instagram and Meta Ads setup.</td></tr>
+                                <tr><td><strong>A plan with the Facebook channel</strong></td><td>Enforced server-side.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="meta-app">Platform Admin: Enable Facebook</h2>
+                        <p>Facebook Messenger <strong>reuses your existing WhatsApp Cloud API Meta app</strong> &mdash; there is <strong>no separate App ID / App Secret</strong> to enter for Facebook in WaDesk. You add the Messenger product to that same app and flip one toggle on. One-time steps for the platform operator:</p>
+                        <ol>
+                            <li><strong>Open the Meta app you already use for WhatsApp Cloud API</strong> at <code>developers.facebook.com</code> (the App ID/Secret live under <strong>Admin &rarr; Settings &rarr; WaDesk Message</strong> as <code>waba_app_id</code> / <code>waba_app_secret</code>).</li>
+                            <li><strong>Add the Messenger product</strong> to that app (and <strong>Facebook Login for Business</strong>, already present for WhatsApp Embedded Signup).</li>
+                            <li><strong>Set the Valid OAuth Redirect URI</strong> to WaDesk's Facebook callback URL, and <strong>configure the Messenger webhook</strong> &mdash; callback URL + verify token &mdash; subscribing to <code>messages</code>, <code>messaging_postbacks</code>, <code>message_reactions</code>, <code>messaging_optins</code>, <code>messaging_referrals</code> and (for comment automation) <code>feed</code>.</li>
+                            <li><strong>Turn Facebook on in WaDesk.</strong> Go to <strong>Admin &rarr; Settings &rarr; WaDesk Message</strong>, find the <strong>Facebook Pages</strong> section, and enable it (the single setting <code>facebook_enabled</code>). That's the only Facebook-specific field &mdash; no keys, because it borrows the WhatsApp app's.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>App Review permissions.</strong> To connect Pages owned by your customers (not just test Pages), the shared Meta app must pass App Review for <code>pages_messaging</code>, <code>pages_manage_metadata</code>, <code>pages_show_list</code>, <code>pages_read_engagement</code> and <code>business_management</code>, with a screencast of connect-and-reply. In Development mode only Pages where the user is an app tester/admin can connect. See the shared walkthrough in <a href="../growth/facebook-app-setup.html">Create a Facebook App</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">User: Connecting Your Page</h2>
+                        <ol>
+                            <li><strong>Open the Channels page</strong> (the <strong>Devices</strong> screen in the menu) and click <strong>Add device &rarr; Facebook</strong>, then <strong>Connect Facebook</strong>.</li>
+                            <li><strong>Log in with Facebook</strong> as a Page admin.</li>
+                            <li><strong>Grant Page &amp; messaging permissions</strong> &mdash; approve access to the Page and its Messenger conversations.</li>
+                            <li><strong>Choose the Page.</strong> Select the one to connect. WaDesk stores the Page identity and access token and subscribes the Page to Messenger webhooks.</li>
+                            <li><strong>History backfill runs.</strong> Recent Messenger threads are pulled into the inbox so contacts are usable at once &mdash; old messages are never auto-replied to.</li>
+                            <li><strong>Done.</strong> The Page shows <strong>Connected</strong> and new messages start arriving.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Message Tags</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>24-hour standard window</strong></td><td>Reply freely for <strong>24 hours</strong> after the customer's last message. This covers normal support and sales.</td></tr>
+                                <tr><td><strong>Message tags (outside 24h)</strong></td><td>Outside the window you may only send using an approved <strong>message tag</strong> for a specific purpose (e.g. <code>CONFIRMED_EVENT_UPDATE</code>, <code>POST_PURCHASE_UPDATE</code>, <code>ACCOUNT_UPDATE</code>). Tags are not for marketing.</td></tr>
+                                <tr><td><strong>No cold messaging</strong></td><td>You can't start a chat with someone who hasn't messaged the Page.</td></tr>
+                                <tr><td><strong>Rate limits</strong></td><td>Per-app and per-Page call limits apply; WaDesk paces sends to stay under them.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>Page identity.</strong> Each thread shows which of your Pages it belongs to.</li>
+                            <li><strong>Media &amp; attachments.</strong> Images, video, stickers and files render inline and can be sent back.</li>
+                            <li><strong>24-hour indicator.</strong> The composer reflects whether you're inside the free window.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to your Page in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node's channel to Facebook</strong> in the <a href="../automation/flows.html">Flow Builder</a>; buttons, quick replies, media and question steps run on Messenger.</li>
+                            <li><strong>AI agent.</strong> Assign an agent to the Page for automatic, on-brand replies with human hand-off.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">Messenger Broadcasts</h2>
+                        <p>The Facebook broadcast composer messages people who <strong>already have a conversation</strong> with your Page and are inside the 24-hour window. Pick the Page, choose recipients from your existing Messenger contacts, write the message, preview it, and send. Sends mirror into the inbox thread.</p>
+                        <blockquote class="warning"><strong>Policy:</strong> Messenger strictly limits messaging outside 24 hours to approved tags. Keep broadcasts to eligible, in-window recipients so your Page stays in good standing.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Messages not arriving</strong></td><td>Webhook or Page subscription lapsed. Reconnect the Page from the Channels (Devices) page.</td></tr>
+                                <tr><td><strong>Only test Pages connect</strong></td><td>App still in Development mode &mdash; submit for App Review.</td></tr>
+                                <tr><td><strong>Reply refused outside window</strong></td><td>More than 24h since the last user message; use an appropriate message tag or wait for them to reply.</td></tr>
+                                <tr><td><strong>Backfill looks empty</strong></td><td>Meta only exposes recent conversations to the API; very old threads may not appear.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements</a></li>
+                    <li class="toc-h2"><a href="#meta-app" class="toc-link">Enable Facebook</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting Your Page</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Message Tags</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">Messenger Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

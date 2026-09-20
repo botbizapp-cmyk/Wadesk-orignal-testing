@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Usage Dashboard – WaDesk SaaS Docs</title>
+    <meta name="description" content="AI Usage Dashboard — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>AI Usage Dashboard</h1>
+
+                    <p>The AI Usage Dashboard is a platform-wide analytics screen for tracking how much AI your install is consuming &mdash; the "token burn" &mdash; and roughly what it costs. It rolls up every AI reply across every workspace so you, the platform owner, can see where tokens are going and catch runaway usage early. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>Every time WaDesk generates an AI reply &mdash; an AI agent answer, a flow AI node, a widget reply, and so on &mdash; that call is written to a usage ledger. The dashboard reads that ledger and turns it into a clear picture of consumption and estimated cost across the whole platform. It answers questions like: which workspaces are spending the most tokens? which models are we using? are we burning tokens on our own platform keys or on customers' own keys? and is today's usage normal or spiking?</p>
+                        <p>You will find it in the admin sidebar under <strong>Admin &rarr; AI Dashboard</strong> (URL <code>/admin/ai-dashboard</code>).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How It Works</h2>
+                        <p>Each AI reply the platform generates is recorded to a usage ledger. Every entry captures:</p>
+                        <ul>
+                            <li>the <strong>provider</strong> (for example OpenAI, Anthropic, or Gemini) and the specific <strong>model</strong> used;</li>
+                            <li>the <strong>prompt</strong>, <strong>completion</strong>, and <strong>total</strong> token counts for the call;</li>
+                            <li>the <strong>workspace</strong> the call belonged to;</li>
+                            <li>whether it was billed against a <strong>platform AI key</strong> or the workspace's <strong>own (BYOK)</strong> key.</li>
+                        </ul>
+                        <p>The dashboard aggregates these rows into the summaries and charts described below. The "BYOK" split &mdash; bring-your-own-key &mdash; matters because tokens spent on a workspace's own key cost you nothing, while tokens on a platform key are billed to you.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="metrics">Metrics &amp; Charts</h2>
+                        <p>The dashboard presents the ledger as a set of headline numbers, trends, and breakdowns:</p>
+                        <table>
+                            <thead><tr><th>Panel</th><th>What it shows</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Total tokens burned</strong></td><td>The sum of all tokens consumed across the platform in the selected window.</td></tr>
+                                <tr><td><strong>Estimated cost</strong></td><td>An estimated dollar cost, calculated with a blended per-provider rate.</td></tr>
+                                <tr><td><strong>AI calls</strong></td><td>The number of AI replies generated.</td></tr>
+                                <tr><td><strong>Daily burn trend</strong></td><td>A chart of tokens consumed per day, so you can see the shape of usage over time.</td></tr>
+                                <tr><td><strong>Tokens by provider</strong></td><td>A breakdown of token consumption across each AI provider.</td></tr>
+                                <tr><td><strong>Platform key vs BYOK</strong></td><td>The split between tokens spent on your platform keys and tokens spent on workspaces' own keys.</td></tr>
+                                <tr><td><strong>Top workspaces</strong></td><td>The workspaces burning the most tokens &mdash; your heaviest AI users.</td></tr>
+                                <tr><td><strong>Top models</strong></td><td>The models accounting for the most consumption.</td></tr>
+                                <tr><td><strong>Key health</strong></td><td>The live health of every configured AI key &mdash; platform keys plus active BYOK keys.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="time-window">Time Window</h2>
+                        <p>A window switch at the top of the dashboard lets you change the period every panel is calculated over. The available windows are:</p>
+                        <ul>
+                            <li><strong>7 days</strong></li>
+                            <li><strong>30 days</strong></li>
+                            <li><strong>90 days</strong></li>
+                            <li><strong>1 year</strong></li>
+                        </ul>
+                        <p>Switching the window recomputes the totals, the trend chart, and every breakdown so they all cover the same period.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="using-it">When to Use It</h2>
+                        <p>Use the dashboard to:</p>
+                        <ul>
+                            <li>see which <strong>workspaces and models</strong> are spending the most tokens;</li>
+                            <li><strong>estimate your AI spend</strong> over a week, month, quarter, or year;</li>
+                            <li>spot <strong>runaway usage</strong> &mdash; a sudden spike in the daily-burn trend, or one workspace dominating the top-workspaces list;</li>
+                            <li>confirm that <strong>BYOK</strong> workspaces are actually billing to their own keys rather than yours;</li>
+                            <li>check at a glance that every configured <strong>AI key is healthy</strong>.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Note on accuracy:</strong> Token counts are <em>estimated</em> where a provider does not return exact usage for a call, and the dollar figure is an <em>estimate</em> based on a blended per-provider rate. Treat the numbers as a strong directional guide for spotting trends and heavy users, not as an exact invoice.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan-permission">Plan &amp; Permission</h2>
+                        <p>The AI Usage Dashboard is <strong>platform admin only</strong>. It reports across every workspace on the install, so it is not exposed inside customer workspaces &mdash; only the platform owner can see it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./ai-keys.html">AI &amp; API Keys</a> &mdash; where platform AI provider credentials are configured (and stored encrypted).</li>
+                            <li><a href="./system-health.html">System Health</a> &mdash; live probes for the rest of the platform, including AI-call activity counters.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How It Works</a></li>
+                    <li class="toc-h2"><a href="#metrics" class="toc-link">Metrics &amp; Charts</a></li>
+                    <li class="toc-h2"><a href="#time-window" class="toc-link">Time Window</a></li>
+                    <li class="toc-h2"><a href="#using-it" class="toc-link">When to Use It</a></li>
+                    <li class="toc-h2"><a href="#plan-permission" class="toc-link">Plan &amp; Permission</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Overview – WaDesk SaaS Docs</title>
+    <meta name="description" content="Dashboard Overview — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Dashboard Overview</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Dashboard</strong> is your workspace's command center &mdash; the first screen managers, admins, and owners land on. It rolls up the last <strong>7 days</strong> of activity for the <em>current</em> workspace into KPI cards, charts, and lists so you can see, at a glance, how your WhatsApp operation is performing. Open it from <strong>Dashboard</strong> in the top navigation (<code>/dashboard</code>).</p>
+                        <p>The greeting headline adapts to the time of day &mdash; "Good morning" before noon, "Good afternoon" before 5&nbsp;PM, "Good evening" after &mdash; and is followed by the date and a short status line.</p>
+                        <blockquote class="info"><strong>Who sees it:</strong> Owners, Admins, and Managers can open the Dashboard. Agents and Viewers are sent straight to the Team Inbox instead. Every number on the page reflects your current workspace only &mdash; switching workspaces re-scopes the whole page.</blockquote>
+                        <blockquote class="info"><strong>Matched to your active channel.</strong> Almost all counts are filtered to the channel your workspace is currently sending on. A WhatsApp Cloud API workspace does not see Unofficial API message counts, and a workspace that switches channels does not show leftover stats from the old one. See <a href="#engine-aware">Stats Match Your Channel</a> below.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="windows">The 7-Day Window &amp; Trends</h2>
+                        <p>Understanding the time windows makes every number on the page readable:</p>
+                        <ul>
+                            <li><strong>Current window</strong> &mdash; the last <strong>7 days plus today</strong> (from the start of 7 days ago to the end of today).</li>
+                            <li><strong>Previous window</strong> &mdash; the 7 days immediately before that, used to compute the trend pills.</li>
+                            <li><strong>Hourly windows</strong> &mdash; the throughput card's peak/average use the rolling <strong>last 24 hours</strong>; the KPI sparkline uses the last 20 hourly buckets.</li>
+                        </ul>
+                        <p>Each KPI card carries a <strong>trend pill</strong> comparing this window to the previous one. Volume metrics (like Messages sent) show a <strong>percentage change</strong>; rate metrics (like Read rate) show a change in <strong>percentage points</strong> (<code>pp</code>). When the previous window is zero, a non-zero current value reads as +100%.</p>
+                        <blockquote class="info"><strong>Reading the pills:</strong> A green pill with an up arrow is good for most cards; a coral pill flags a drop. The comparison always pits the current 7-day window against the 7 days before it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="kpi-cards">The KPI Cards</h2>
+                        <p>The top row shows the headline metrics for the window.</p>
+                        <h3>Messages sent &middot; 7d</h3>
+                        <p>The total <strong>outbound</strong> messages in the window, with a breakdown of how many were <strong>delivered</strong> and how many <strong>failed</strong>, plus a small sparkline of recent send volume. The trend pill shows the percentage change versus the prior 7 days.</p>
+                        <h3>Read rate</h3>
+                        <p>The share of sent messages that were <strong>read</strong>. The card also restates Sent (100%), <strong>Deliverability</strong>, and Read as a quick three-up so you can see where messages drop off. The pill shows the change in percentage points versus the previous window.</p>
+                        <h3>Active contacts</h3>
+                        <p>The total contacts in the workspace, with bars for how many are <strong>Subscribed</strong> (opted-in) versus the rest. The trend pill compares total contacts to the count at the start of the window, so you can see growth.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Metric</th><th>How it is calculated</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Messages sent</strong></td><td>All outbound messages over the last 7 days &mdash; both campaign/broadcast sends and one-to-one Team Inbox replies, for your active channel.</td></tr>
+                                <tr><td><strong>Delivered</strong></td><td>Outbound messages that were sent, delivered, or read.</td></tr>
+                                <tr><td><strong>Failed</strong></td><td>Outbound messages that failed to send.</td></tr>
+                                <tr><td><strong>Deliverability %</strong></td><td>Delivered &divide; Sent &times; 100.</td></tr>
+                                <tr><td><strong>Read rate %</strong></td><td>Read &divide; Sent &times; 100.</td></tr>
+                                <tr><td><strong>Reply rate %</strong></td><td>Inbound replies &divide; Sent &times; 100.</td></tr>
+                                <tr><td><strong>Active contacts</strong></td><td>Total contacts in the workspace; "Subscribed" counts those who have not opted out.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>What counts as a send:</strong> WaDesk adds together both kinds of outbound message &mdash; bulk/campaign sends and one-to-one conversation replies &mdash; so the dashboard reflects everything that actually went out, not just one part of it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="throughput-funnel">Throughput &amp; Funnel</h2>
+                        <p>Below the KPI cards, two views explain <em>how</em> your sends performed:</p>
+                        <ul>
+                            <li><strong>Throughput chart</strong> &mdash; a daily series of 8 days (the 7-day window plus today) plotting <strong>sent</strong>, <strong>delivered</strong>, and <strong>failed</strong> messages. Alongside it, the <strong>peak hour</strong> (your busiest hour over the last 24 hours) and the <strong>average per hour</strong> over those 24 hours.</li>
+                            <li><strong>Engagement funnel</strong> &mdash; a four-stage drop-off. Each stage shows its count, its percentage of the sent total, and how many were lost moving to the next stage.</li>
+                        </ul>
+                        <table>
+                            <thead>
+                                <tr><th>Funnel stage</th><th>What it counts</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>01 &middot; Sent</strong></td><td>Outbound messages (the 100% baseline).</td></tr>
+                                <tr><td><strong>02 &middot; Delivered</strong></td><td>Outbound with status sent/delivered/read.</td></tr>
+                                <tr><td><strong>03 &middot; Replied</strong></td><td>Inbound replies in the window.</td></tr>
+                                <tr><td><strong>04 &middot; Engaged</strong></td><td>Unique conversations that replied (distinct repliers).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Tip:</strong> The funnel and reply rate count replies and sends from the <em>same</em> channel, so the numbers always make sense (you will never see a reply rate above 100%).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="operational-widgets">Operational Widgets</h2>
+                        <p>The rest of the Dashboard surfaces the working state of the workspace:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Widget</th><th>What it shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Broadcasts / Campaigns</strong></td><td>Counts of running, scheduled, and paused/failed broadcasts, plus the four most-recently-updated campaigns with a status pill and a progress bar (how many succeeded out of all recipients). Matched to your active channel.</td></tr>
+                                <tr><td><strong>Devices</strong></td><td>Connected vs. total channels for the workspace, shown as cards (up to four). Matched to your active channel (see below).</td></tr>
+                                <tr><td><strong>Templates</strong></td><td>Your most-used templates (top 5 by sends) with sends, delivered, read, a read rate, and a performance bar.</td></tr>
+                                <tr><td><strong>Live inbox</strong></td><td>The 3 most recent conversations with a message preview, the total unread count across the workspace, and how long the oldest unread has been waiting.</td></tr>
+                                <tr><td><strong>Geography</strong></td><td>A breakdown of contacts by country (top 6), with flags and counts. Phone dial codes are turned into readable country names.</td></tr>
+                                <tr><td><strong>Activity log</strong></td><td>Recent customer-facing actions (sends, broadcasts, template edits). Background sign-in and session events are hidden so only meaningful activity shows.</td></tr>
+                                <tr><td><strong>Integrations health</strong></td><td>Connection status for WooCommerce, Shopify, Google Sheets, and Meta Catalog, summarized as a simple "connected out of total" count.</td></tr>
+                                <tr><td><strong>Wallet credits</strong></td><td>Your credit balance and an estimate of how many messages it covers.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engine-aware">Stats Match Your Channel</h2>
+                        <p>The Dashboard always reflects the channel your workspace is currently sending on. This keeps the numbers honest when a workspace switches channels:</p>
+                        <ul>
+                            <li><strong>Unofficial API workspaces</strong> see their paired phones, with live connected/online state and per-phone 24-hour send and delivery numbers.</li>
+                            <li><strong>WhatsApp Cloud API / Twilio workspaces</strong> see their provider connections shown as devices &mdash; not leftover phones from a channel they used before.</li>
+                            <li><strong>Message, broadcast, template, and funnel counts</strong> only include the active channel, so a Cloud API workspace is never inflated with Unofficial API sends.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>If a card looks empty right after switching channels,</strong> that is expected &mdash; the new channel has no history yet. Numbers fill in as you send and receive on it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Dashboard redirects me to the Team Inbox</td><td>Your role in this workspace is Agent or Viewer. The Dashboard requires Manager or above. Ask an owner/admin to raise your role.</td></tr>
+                                <tr><td>Every KPI reads zero</td><td>No channel is connected yet, or the channel has no traffic in the last 7 days. Connect a channel (<a href="./connect-channel.html">Connecting a Channel</a>) and send a test.</td></tr>
+                                <tr><td>Numbers dropped to zero after switching channels</td><td>Expected &mdash; counts only include the active channel, and the new one has no history. They build up as you send on it.</td></tr>
+                                <tr><td>Devices card shows the "wrong" connections</td><td>The card mirrors the active channel. A Cloud API/Twilio workspace shows its provider connections, not Unofficial API phones (and vice versa).</td></tr>
+                                <tr><td>Reply rate seems low</td><td>Reply rate is inbound replies &divide; sent over the same channel and time window. Heavy outbound with few replies legitimately produces a low rate.</td></tr>
+                                <tr><td>Geography shows a number instead of a country</td><td>The contact's stored dial code is a rare prefix that has no country name mapped, so the raw value is shown instead.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-go-next">Where to Go Next</h2>
+                        <p>The Dashboard is a launchpad. From here:</p>
+                        <ul>
+                            <li><strong>No connected channel?</strong> Start at <a href="./connect-channel.html">Connecting a Channel</a> &mdash; the Devices card and the headline stay empty until a number is online.</li>
+                            <li><strong>Numbers look low or capped?</strong> Review <a href="./plans-trial.html">Plans &amp; Free Trial</a> for limits and upgrades.</li>
+                            <li><strong>Ready to message?</strong> Jump into the Team Inbox, build a Template, or launch a Broadcast from the top navigation.</li>
+                            <li><strong>Multiple businesses?</strong> Use the header switcher to re-scope the Dashboard to another tenant &mdash; see <a href="./workspaces.html">Workspaces &amp; Switching</a>.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#windows" class="toc-link">The 7-Day Window &amp; Trends</a></li>
+                    <li class="toc-h2"><a href="#kpi-cards" class="toc-link">The KPI Cards</a></li>
+                    <li class="toc-h2"><a href="#throughput-funnel" class="toc-link">Throughput &amp; Funnel</a></li>
+                    <li class="toc-h2"><a href="#operational-widgets" class="toc-link">Operational Widgets</a></li>
+                    <li class="toc-h2"><a href="#engine-aware" class="toc-link">Stats Match Your Channel</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#where-to-go-next" class="toc-link">Where to Go Next</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

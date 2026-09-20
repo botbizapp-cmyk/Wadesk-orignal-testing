@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Storage – WaDesk SaaS Docs</title>
+    <meta name="description" content="Cloud Storage — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Cloud Storage</h1>
+
+                    <p><strong>Cloud Storage</strong> lets you keep uploaded media on a cloud object-storage provider instead of the server's local disk. It was introduced in WaDesk <strong>v1.2</strong> and lives at <strong>Admin &rarr; Storage</strong> (<code>/admin/storage</code>). It is <strong>off by default</strong> &mdash; WaDesk uses the local disk until you choose and enable a provider.</p>
+
+                    <section class="mb-12">
+                        <h2 id="what-it-is">What it is</h2>
+                        <p>By default, every file a customer or user uploads is written to the disk of the server WaDesk runs on. Cloud Storage changes the destination: once configured, those uploads go to an external object-storage bucket, and public links are built to point at that bucket. The application's media helpers handle the routing, so the switch is transparent to the rest of the platform.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use-it">Why and when to use it</h2>
+                        <p>Local disk is fine for small deployments, but it does not scale well. Use Cloud Storage to:</p>
+                        <ul>
+                            <li><strong>Offload large media volumes</strong> off the application server so the disk does not fill up.</li>
+                            <li><strong>Scale beyond one server</strong> &mdash; object storage is effectively unlimited and is shared rather than tied to a single machine's disk.</li>
+                            <li><strong>Serve via a CDN</strong> for faster downloads to customers, since the provider's public URLs can sit behind a content-delivery network.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>On the Storage page you pick a provider and enter its credentials &mdash; typically the bucket name, region, access key and secret, and an endpoint where the provider needs one. Once a provider is configured and enabled, <strong>every</strong> customer and user upload automatically routes to the cloud through the app's media helpers, and the public URLs WaDesk shows are built for that provider.</p>
+                        <h3>Supported providers</h3>
+                        <ul>
+                            <li>Amazon S3</li>
+                            <li>Wasabi</li>
+                            <li>Backblaze / Bunny</li>
+                            <li>DigitalOcean Spaces</li>
+                            <li>Cloudflare R2</li>
+                            <li>MinIO (S3-compatible)</li>
+                        </ul>
+                        <h3>What gets stored in the cloud</h3>
+                        <p>When enabled, Cloud Storage covers uploads from across the platform:</p>
+                        <table>
+                            <thead><tr><th>Area</th><th>Media</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Chat &amp; Team Inbox</strong></td><td>Media sent and received in conversations.</td></tr>
+                                <tr><td><strong>Templates</strong></td><td>Template header and body media.</td></tr>
+                                <tr><td><strong>Campaigns &amp; Broadcasts</strong></td><td>Media attached to bulk sends.</td></tr>
+                                <tr><td><strong>Store</strong></td><td>Product images.</td></tr>
+                                <tr><td><strong>Contacts</strong></td><td>Contact photos.</td></tr>
+                                <tr><td><strong>Account</strong></td><td>User avatars.</td></tr>
+                                <tr><td><strong>Blog</strong></td><td>Blog post images.</td></tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Admin branding and logo assets intentionally stay on the local disk</strong>, so the platform's own identity does not depend on an external provider being reachable.</p>
+                        <blockquote class="info"><strong>Note:</strong> Cloud Storage is <strong>off by default</strong> &mdash; WaDesk uses the local disk until you enable a provider. Turning it on or off is <strong>non-destructive</strong>: it does not move, rewrite, or break files that are already stored locally. New uploads simply follow whichever destination is active when they are uploaded.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-to-use">Step by step</h2>
+                        <ol>
+                            <li>Create a bucket with your chosen provider (Amazon S3, Wasabi, Backblaze / Bunny, DigitalOcean Spaces, Cloudflare R2, or MinIO) and get its access credentials.</li>
+                            <li>Open <strong>Admin &rarr; Storage</strong> (<code>/admin/storage</code>).</li>
+                            <li>Select the <strong>provider</strong>.</li>
+                            <li>Enter the credentials it asks for &mdash; bucket, region, key and secret, and an endpoint where required.</li>
+                            <li><strong>Save and enable</strong> the provider. From that point, new uploads across the platform route to the cloud and public URLs are built for that provider.</li>
+                            <li>To go back to local disk, disable the cloud provider &mdash; existing local files are untouched and continue to work.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Caution:</strong> Double-check the bucket name, region, and keys before enabling. Wrong credentials mean new uploads cannot be saved or served. Because switching is non-destructive, files uploaded under one configuration keep being served from wherever they were originally stored.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>The control is in the admin sidebar under <strong>Storage</strong>, reachable directly at <code>/admin/storage</code>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permissions">Plan &amp; permissions</h2>
+                        <p>Cloud Storage is a <strong>platform-admin-only</strong> tool. The provider you configure is a platform-wide setting that applies to all workspaces; it is not a per-workspace option.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; where platform-wide settings and secrets are stored (encrypted at rest).</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; platform security policy and the record of sensitive admin actions.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#what-it-is" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use-it" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#how-to-use" class="toc-link">Step by step</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#permissions" class="toc-link">Plan &amp; permissions</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

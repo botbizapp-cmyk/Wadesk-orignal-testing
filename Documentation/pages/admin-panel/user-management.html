@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management – WaDesk SaaS Docs</title>
+    <meta name="description" content="User Management — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>User Management</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>User Management</strong> (Admin &rarr; Users) is where you manage every person with a login on the platform &mdash; workspace owners, team members, agents, and fellow admins. From here you can create accounts, edit profiles and roles, verify emails, suspend troublemakers, force users to log out, send password resets, and move accounts to a recoverable trash.</p>
+                        <p>This is a platform-wide list. It is separate from a workspace's own team management &mdash; here you see <em>all</em> users across <em>all</em> workspaces.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="user-list">The User List</h2>
+                        <p>The index shows a paginated table (12 per page) of every user. A KPI strip at the top counts the total, active, admins, owners, suspended, trashed, and how many joined this month.</p>
+                        <p>You can narrow the list with:</p>
+                        <ul>
+                            <li><strong>Search</strong> &mdash; matches name, email, or mobile number.</li>
+                            <li><strong>Role filter</strong> &mdash; show only Admins, Owners, Users, Agents, or Suspended accounts.</li>
+                            <li><strong>Workspace filter</strong> &mdash; show only users whose current workspace is a given one.</li>
+                        </ul>
+                        <p>A filtered view can be bookmarked or shared &mdash; the filters are kept in the page address.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="roles">Roles Explained</h2>
+                        <p>Every user has exactly one platform-level role. This controls what they can do on the platform, distinct from their per-workspace permission set.</p>
+                        <table>
+                            <thead><tr><th>Role</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Admin</strong></td><td>Platform operator. Can access this admin panel.</td></tr>
+                                <tr><td><strong>Owner</strong></td><td>Owns one or more workspaces. The typical paying customer.</td></tr>
+                                <tr><td><strong>User</strong></td><td>A standard member of a workspace.</td></tr>
+                                <tr><td><strong>Agent</strong></td><td>A support/inbox agent seat.</td></tr>
+                                <tr><td><strong>Suspended</strong></td><td>Login blocked. Set by the suspend action (see below).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Important &mdash; Super Admin gate:</strong> Creating, promoting, or demoting an <strong>Admin</strong> or <strong>Owner</strong> account requires Super Admin. A regular admin who tries to mint or promote a privileged account will have the action silently downgraded to a normal <em>User</em> (on create) or reverted (on edit), and the attempt is written to the audit log. The same gate applies to suspending an admin or owner.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="creating-users">Creating a User</h2>
+                        <p>Click <strong>Create</strong> and fill in the form. Required fields are name, email, role, and a password (minimum 8 characters, confirmed). Everything else &mdash; mobile, address, and admin notes &mdash; is optional.</p>
+                        <table>
+                            <thead><tr><th>Field / toggle</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Name, Email</strong></td><td>Required. Email must be unique across the platform.</td></tr>
+                                <tr><td><strong>Password</strong></td><td>Required on create, min 8 chars, must match the confirmation field.</td></tr>
+                                <tr><td><strong>Role</strong></td><td>One of the roles above. Admin/Owner needs Super Admin.</td></tr>
+                                <tr><td><strong>Workspace</strong></td><td>Optionally set the user's current workspace.</td></tr>
+                                <tr><td><strong>Address block</strong></td><td>Address, city, state, country, ZIP &mdash; all optional, used on invoices.</td></tr>
+                                <tr><td><strong>Force password change</strong></td><td>When on, the user must set a new password on first login.</td></tr>
+                                <tr><td><strong>Active immediately</strong></td><td>When on, the email is marked verified now (skips the verification step).</td></tr>
+                                <tr><td><strong>Send welcome email</strong></td><td>When on, emails login details and a password-reset link.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> If the welcome email can't be sent (for example, if email isn't set up yet), the user is still created successfully &mdash; you'll just see a notice explaining why the email was skipped. Creating an account never depends on your mail server working.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="editing-users">Editing a User</h2>
+                        <p>The edit screen lets you change any profile field, reassign the role and workspace, and optionally set a new password (leave the password field blank to keep the existing one).</p>
+                        <p>The <strong>Email verified</strong> toggle behaves intelligently:</p>
+                        <ul>
+                            <li>Turning it <strong>on</strong> stamps the account as verified immediately.</li>
+                            <li>Turning it <strong>off</strong> tries to send a fresh verification email. If email isn't available, the account is left verified so the user isn't locked out &mdash; you'll see a notice saying so.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="user-actions">Per-User Actions</h2>
+                        <p>From the edit screen (and the list) you can run several account actions. Each one is recorded in the audit log.</p>
+                        <table>
+                            <thead><tr><th>Action</th><th>Effect</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Suspend / Reactivate</strong></td><td>Flips the role between the user's normal role and <em>Suspended</em>, blocking or restoring login. Suspending an admin/owner needs Super Admin.</td></tr>
+                                <tr><td><strong>Reset password</strong></td><td>Emails a password-reset link to the user. Rate-limited to 5 sends per admin per hour to prevent abuse.</td></tr>
+                                <tr><td><strong>Force logout</strong></td><td>Revokes every active session for the user &mdash; they must log in again. Useful after a suspected account compromise.</td></tr>
+                                <tr><td><strong>Move to trash</strong></td><td>Soft-deletes the account. Recoverable for 30 days. You cannot trash your own account.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Tip:</strong> If you suspect a stolen session, do both: <strong>Reset password</strong> (so the old credentials stop working) and <strong>Force logout</strong> (so any open sessions are killed immediately).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="trash">Trash &amp; Recovery</h2>
+                        <p>Deleting a user doesn't wipe them &mdash; it moves them to a 30-day trash (Admin &rarr; Users &rarr; Trash). Each trashed row shows a countdown to permanent deletion. The trash view has its own counters and filters:</p>
+                        <ul>
+                            <li><strong>Recent</strong> &mdash; trashed within the last 7 days.</li>
+                            <li><strong>Expiring</strong> &mdash; trashed more than 23 days ago (less than a week until auto-delete).</li>
+                        </ul>
+                        <p>From the trash you can:</p>
+                        <ul>
+                            <li><strong>Restore</strong> &mdash; un-delete a single user and return them to the active list.</li>
+                            <li><strong>Force delete</strong> &mdash; permanently wipe one user immediately.</li>
+                            <li><strong>Empty trash</strong> &mdash; permanently delete every user already past the 30-day grace window.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Caution:</strong> <em>Force delete</em> and <em>Empty trash</em> are irreversible. There is no second trash &mdash; once a record is force-deleted it's gone. Prefer plain "Move to trash" unless you're certain.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="import">Bulk Import</h2>
+                        <p>The <strong>Import</strong> screen lets you add many users at once instead of creating them one by one. Use it when moving an existing customer base onto the platform.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="audit">Auditing</h2>
+                        <p>Sensitive actions on this page &mdash; role changes, suspensions, force-logout, password resets, restores, and permanent deletes &mdash; are all written to the platform <strong>Audit Log</strong>. Denied privileged attempts (e.g. a non-Super-Admin trying to promote someone) are logged as failures too, so you have a record of who tried what.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#user-list" class="toc-link">The User List</a></li>
+                    <li class="toc-h2"><a href="#roles" class="toc-link">Roles Explained</a></li>
+                    <li class="toc-h2"><a href="#creating-users" class="toc-link">Creating a User</a></li>
+                    <li class="toc-h2"><a href="#editing-users" class="toc-link">Editing a User</a></li>
+                    <li class="toc-h2"><a href="#user-actions" class="toc-link">Per-User Actions</a></li>
+                    <li class="toc-h2"><a href="#trash" class="toc-link">Trash &amp; Recovery</a></li>
+                    <li class="toc-h2"><a href="#import" class="toc-link">Bulk Import</a></li>
+                    <li class="toc-h2"><a href="#audit" class="toc-link">Auditing</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

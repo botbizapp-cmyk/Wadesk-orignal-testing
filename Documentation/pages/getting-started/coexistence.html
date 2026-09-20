@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Coexistence – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Coexistence — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Coexistence</h1>
+                    <p><strong>Coexistence</strong> lets you connect a number to the official WhatsApp Cloud API <em>while it keeps running on the WhatsApp Business app on the phone</em>. The owner keeps chatting from their phone as usual, and WaDesk gets API powers (team inbox, automation, bulk sending, analytics) on the same number &mdash; without losing chat history or the mobile app.</p>
+                    <blockquote class="info"><strong>When to use it.</strong> Choose Coexistence for a small business that already lives in the WhatsApp Business <em>app</em> and does not want to give that up. For a number that is brand-new to the API, use the normal Cloud API onboarding on <a href="connect-channel.html">Connecting a Channel</a> instead.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements</h2>
+                        <ul>
+                            <li>The number must <strong>currently be active on the WhatsApp Business app</strong> (not already registered on the Cloud API). A number already on the API cannot be onboarded with Coexistence.</li>
+                            <li>Your platform admin must have configured the <strong>Meta / WhatsApp Cloud API</strong> connection (App ID, Embedded Signup configuration) under <strong>Admin &rarr; Settings</strong>, and your Meta app must be approved for the WhatsApp Business app onboarding feature.</li>
+                            <li>The workspace must be on a plan that allows the Cloud API engine.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enable">How to enable it (admin)</h2>
+                        <ol>
+                            <li>Go to <strong>Admin &rarr; Settings</strong> and turn on <strong>WhatsApp Coexistence</strong>. This makes the Embedded Signup button on the Devices screen launch in coexistence mode.</li>
+                            <li>Confirm your Cloud API App ID and Embedded Signup configuration are filled in on the same settings screen.</li>
+                        </ol>
+                        <p>Once enabled, every workspace owner connecting a Cloud API number will be offered the coexistence onboarding flow.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">How a user connects a number</h2>
+                        <ol>
+                            <li>On the <strong>Devices</strong> screen, start the WhatsApp Cloud API sign-up. The Meta pop-up opens in <em>WhatsApp Business app onboarding</em> mode.</li>
+                            <li>Sign in with the Facebook/Meta account that owns the business, select the number that is running on the Business app, and approve the permissions.</li>
+                            <li>WaDesk receives the result from Meta and finishes the connection automatically: it subscribes the webhook and links the number &mdash; but it <strong>deliberately does not "register" the number on the Cloud API</strong>, because registering would remove it from the WhatsApp Business app and break coexistence.</li>
+                            <li>The device appears as connected, flagged as a coexistence number.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sync">What gets synced from the phone</h2>
+                        <p>Because the number is live on both the app and the API, Meta mirrors the app side into WaDesk through three coexistence feeds, so your team inbox stays complete:</p>
+                        <table>
+                            <thead><tr><th>Feed</th><th>What it brings in</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Message echoes</strong></td><td>Messages the business owner sends <em>from the phone app</em> after onboarding appear in the Team Inbox, so agents see the full thread.</td></tr>
+                                <tr><td><strong>Contact sync</strong></td><td>The business's existing and new contacts from the app are synced into WaDesk.</td></tr>
+                                <tr><td><strong>History</strong></td><td>Past chat history from before onboarding is imported once, after the number is connected.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Heads-up on history.</strong> History import is delivered by Meta shortly after onboarding and can take some time to fully arrive &mdash; older messages may appear gradually.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">Good to know</h2>
+                        <ul>
+                            <li>The owner can keep using the phone app normally &mdash; WaDesk and the app work the same number side by side.</li>
+                            <li>Standard WhatsApp Cloud API rules still apply (messaging limits, template requirements for business-initiated messages). See <a href="../faqs/whatsapp-bans.html">WhatsApp &amp; Ban Safety</a>.</li>
+                            <li>Coexistence eligibility and availability are controlled by Meta and can vary by region and account.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements</a></li>
+                    <li class="toc-h2"><a href="#enable" class="toc-link">How to enable it (admin)</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">How a user connects</a></li>
+                    <li class="toc-h2"><a href="#sync" class="toc-link">What gets synced</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">Good to know</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

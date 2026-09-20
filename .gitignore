@@ -1,0 +1,31 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment & secrets
+**/.env
+**/.env.backup
+**/.env.production
+!**/.env.example
+**/tools/.wd-sync.json
+**/storage/*.key
+
+# Dependencies & build outputs
+node_modules/
+**/node_modules/
+WaDesk/vendor/
+/vendor/
+**/public/build
+**/public/hot
+**/public/storage
+**/storage/pail
+**/storage/logs/*.log
+*.log
+
+# Keep published views
+!**/resources/views/vendor/**

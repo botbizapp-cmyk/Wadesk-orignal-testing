@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify CRM – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the Shopify integration — how it syncs, exactly where to get your Admin API credentials and which scopes to grant, the API rate limits and protected-data rules, webhooks, connecting your store, the embedded-app session note, and using orders, customers and abandoned carts on WhatsApp.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Shopify CRM</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Shopify</strong> integration brings your store's <strong>orders, customers and abandoned carts</strong> into WaDesk, so you can recover carts, confirm orders, and support buyers over WhatsApp &mdash; with the order context right there in the chat and your <a href="../growth/deals.html">pipeline</a>. Pair it with the WhatsApp <a href="catalog.html">Catalog</a>, <a href="auto-invoicing.html">Auto-Invoicing</a> and <a href="payment-links.html">Payment Links</a> to sell, invoice and collect inside the conversation.</p>
+                        <blockquote class="info"><strong>Where:</strong> <strong>Integrations &rarr; Shopify</strong>. It sits alongside <a href="../integrations/woocommerce.html">WooCommerce</a> and the general <a href="../integrations/ecommerce.html">E-commerce &amp; CRM</a> integrations.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Integration Works</h2>
+                        <ul>
+                            <li>WaDesk talks to your store through Shopify's <strong>Admin API</strong>, authenticated with an access token tied to a set of <strong>scopes</strong> (read permissions) you grant.</li>
+                            <li>On connect, WaDesk runs an <strong>initial sync</strong> of recent customers and orders so they're immediately usable as contacts and deals.</li>
+                            <li>Going forward, Shopify <strong>webhooks</strong> notify WaDesk of new orders, order updates, new customers and abandoned checkouts, keeping data fresh without polling.</li>
+                            <li>Everything is scoped to your workspace; each synced customer becomes a WaDesk <a href="../growth/contacts.html">contact</a> you can message and segment.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="credentials">Credentials: Admin Sets the App, Merchants Just Connect</h2>
+                        <p>Shopify in WaDesk uses <strong>OAuth</strong>, not a pasted token. The <strong>platform admin</strong> registers one Shopify app and stores its credentials once; each <strong>merchant</strong> then connects by entering only their store domain and approving Shopify's consent screen. There is <strong>no Admin API token to copy or paste</strong> anywhere in WaDesk.</p>
+                        <h3 id="cred-admin">Platform admin &mdash; one time</h3>
+                        <ol>
+                            <li><strong>Create a Shopify app.</strong> In the <strong>Shopify Partner Dashboard</strong> (<code>partners.shopify.com</code>), create an app to get a <strong>Client ID (API key)</strong> and <strong>Client Secret (API secret key)</strong>.</li>
+                            <li><strong>Set the redirect (callback) URL</strong> to WaDesk's Shopify OAuth callback (shown in WaDesk admin).</li>
+                            <li><strong>Request the scopes</strong> your integration needs &mdash; at least <code>read_orders</code>, <code>read_customers</code>, <code>read_checkouts</code> (abandoned carts) and <code>read_products</code>.</li>
+                            <li><strong>Add the mandatory GDPR compliance webhooks &mdash; via the Shopify CLI.</strong> See <a href="#gdpr-cli">the step-by-step below</a>. Shopify <strong>requires</strong> these before App Store approval, and the <strong>new Dev Dashboard has no UI field for them</strong> &mdash; they must be declared in the app's <code>shopify.app.toml</code> and pushed once with the CLI.</li>
+                            <li><strong>Enter the credentials in WaDesk admin.</strong> Fill <code>shopify_client_id</code>, <code>shopify_client_secret</code>, <code>shopify_scopes</code> and <code>shopify_redirect_uri</code>, then enable Shopify (<code>shopify_enabled</code>). <strong>Every workspace reuses these</strong> &mdash; merchants never see them.</li>
+                        </ol>
+                        <h3 id="gdpr-cli">Mandatory GDPR webhooks &mdash; Shopify CLI (one time)</h3>
+                        <p>Shopify <strong>requires</strong> three GDPR compliance webhooks, or the install silently fails and the app-review checks stay red. The <strong>new Dev Dashboard has no UI field for them</strong> &mdash; they are declared in the app's <code>shopify.app.toml</code> and pushed once with the Shopify CLI. This is a <strong>one-time setup, with no ongoing CLI use</strong>.</p>
+                        <ol>
+                            <li>Install the CLI:
+                                <pre><code>npm i -g @shopify/cli@latest</code></pre>
+                            </li>
+                            <li>Link your app &mdash; pick this app when prompted; it writes <code>shopify.app.toml</code>:
+                                <pre><code>shopify app config link</code></pre>
+                            </li>
+                            <li>Add this block to that file, replacing the URL with your own (copy it from <strong>WaDesk Admin &rarr; Settings &rarr; Shopify</strong>, step 5):
+                                <pre><code>[webhooks]
+api_version = "2026-07"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+  uri = "https://YOUR-DOMAIN/shopify/compliance"</code></pre>
+                            </li>
+                            <li>Push it:
+                                <pre><code>shopify app deploy</code></pre>
+                            </li>
+                        </ol>
+                        <p>All three topics point at that <strong>one fixed URL</strong>. Unlike the per-store order webhook, it carries <strong>no secret in the path</strong> &mdash; deliberately, so Shopify's automated review can reach it before any store has installed the app.</p>
+                        <blockquote class="info"><strong>Every delivery is verified.</strong> Shopify signs each request with HMAC-SHA256 using your <strong>Client Secret</strong>. WaDesk checks the <code>X-Shopify-Hmac-Sha256</code> header and returns <code>401</code> on a mismatch, <code>200</code> on success &mdash; then honours the request (erasing the customer's or shop's stored data). This is what satisfies Shopify's &ldquo;Verifies webhooks with HMAC signatures&rdquo; check.</blockquote>
+                        <blockquote class="warning"><strong>Skip this and the app cannot be approved.</strong> The automated checks fail on <em>&ldquo;Provides mandatory compliance webhooks&rdquo;</em> and <em>&ldquo;Verifies webhooks with HMAC signatures&rdquo;</em>, and installs fail silently with no visible error.</blockquote>
+
+                        <h3 id="cred-user">Merchant &mdash; per store</h3>
+                        <ol>
+                            <li><strong>Open Integrations &rarr; Shopify</strong> in WaDesk.</li>
+                            <li><strong>Enter your store domain</strong> (<code>your-store.myshopify.com</code>) &mdash; that's the only field.</li>
+                            <li><strong>Click Connect</strong> &mdash; you're sent to Shopify's <strong>consent screen</strong>; approve the requested scopes.</li>
+                            <li><strong>Done.</strong> Shopify redirects back, WaDesk verifies the HMAC + state and exchanges the code for a permanent <strong>access token</strong> automatically, storing it against your integration. No token handling on your part.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Protected customer data.</strong> Orders, customers and abandoned checkouts include personal data. Shopify requires the app that accesses it to have <strong>protected customer data</strong> access approved &mdash; abandoned-checkout data in particular is gated behind this. This is configured on the Shopify app once, by the admin, not per merchant.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Rules</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>REST rate limit</strong></td><td>Shopify's REST Admin API uses a <strong>leaky bucket</strong> &mdash; about <strong>2 requests/second</strong> sustained (bucket of 40) on standard plans, higher on Shopify Plus. WaDesk paces sync calls to stay under it and backs off on <code>429</code>.</td></tr>
+                                <tr><td><strong>GraphQL cost</strong></td><td>If GraphQL is used, limits are <strong>cost-based</strong> (calculated query points/second) rather than a flat call count.</td></tr>
+                                <tr><td><strong>Webhook reliability</strong></td><td>Shopify retries failed webhook deliveries for a period; WaDesk also reconciles on the initial sync so a missed webhook doesn't lose data permanently.</td></tr>
+                                <tr><td><strong>Scope changes</strong></td><td>Adding a new capability (e.g. abandoned carts) may require adding a scope and re-installing/re-consenting the app.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting Your Store</h2>
+                        <ol>
+                            <li><strong>Open Integrations &rarr; Shopify</strong> and enter your store domain to start the connection.</li>
+                            <li><strong>Approve the OAuth consent</strong> on Shopify &mdash; no token to paste; WaDesk receives the access token automatically on redirect back.</li>
+                            <li><strong>WaDesk subscribes to store webhooks</strong> &mdash; orders create/update, customers create, and checkouts (abandoned).</li>
+                            <li><strong>Initial sync</strong> pulls recent customers and orders so they're usable at once.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Embedded-app session note.</strong> If you open WaDesk <em>embedded inside</em> Shopify admin (in an iframe), browsers require the session cookie to be <code>SameSite=None; Secure</code> so it isn't dropped in the cross-site frame &mdash; otherwise you'd hit a <strong>419 / login loop</strong>. WaDesk sets this for the embedded context so actions work without re-logging-in.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="whatsyncs">What Syncs</h2>
+                        <table>
+                            <thead><tr><th>From Shopify</th><th>In WaDesk</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Customers</strong></td><td>Become contacts (name, phone, email), ready to message, tag and segment.</td></tr>
+                                <tr><td><strong>Orders</strong></td><td>Appear against the customer with line items, total and status; can create a deal in your pipeline.</td></tr>
+                                <tr><td><strong>Abandoned checkouts</strong></td><td>Surface as recovery opportunities you can follow up on WhatsApp (requires checkout scope + protected-data access).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="use">Using It</h2>
+                        <ul>
+                            <li><strong>Order confirmations &amp; updates.</strong> Send order/shipping updates over WhatsApp using approved templates.</li>
+                            <li><strong>Cart recovery.</strong> Reach customers who left items behind &mdash; manually, with a <a href="../automation/flows.html">flow</a>, or as a broadcast to an eligible segment.</li>
+                            <li><strong>Support in context.</strong> When a customer messages, their recent orders show in the thread so agents answer without switching tabs.</li>
+                            <li><strong>Pipeline &amp; revenue.</strong> Turn high-value orders or repeat buyers into <a href="../growth/deals.html">deals</a>, and let the <a href="../ai/ai-crm-copilot.html">AI CRM Copilot</a> report on them.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>&ldquo;Access denied&rdquo; on connect</strong></td><td>The app is missing a scope, or Shopify isn't enabled/approved. The admin adds the scope to the Shopify app and re-saves; the merchant clicks Connect again to re-consent.</td></tr>
+                                <tr><td><strong>&ldquo;An administrator needs to add credentials&rdquo;</strong></td><td>The platform admin hasn't set <code>shopify_client_id</code>/<code>shopify_client_secret</code> yet. Complete the admin one-time step first.</td></tr>
+                                <tr><td><strong>Abandoned carts empty</strong></td><td>Missing <code>read_checkouts</code> and/or protected customer data access. Grant the scope and complete the data-access consent.</td></tr>
+                                <tr><td><strong>Data stops updating</strong></td><td>Webhooks were removed or the token was rotated. Reconnect to re-subscribe.</td></tr>
+                                <tr><td><strong>419 inside Shopify admin</strong></td><td>Embedded cross-site cookie was blocked. Open WaDesk directly, or ensure the embedded session cookie is <code>SameSite=None; Secure</code>.</td></tr>
+                                <tr><td><strong>Syncing is slow</strong></td><td>Expected on large stores &mdash; WaDesk paces to Shopify's rate limit to avoid <code>429</code>s.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How It Works</a></li>
+                    <li class="toc-h2"><a href="#credentials" class="toc-link">Credentials (OAuth)</a></li>
+                    <li class="toc-h3"><a href="#gdpr-cli" class="toc-link">GDPR webhooks (Shopify CLI)</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting Your Store</a></li>
+                    <li class="toc-h2"><a href="#whatsyncs" class="toc-link">What Syncs</a></li>
+                    <li class="toc-h2"><a href="#use" class="toc-link">Using It</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

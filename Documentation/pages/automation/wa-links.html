@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Generator – WaDesk SaaS Docs</title>
+    <meta name="description" content="Link Generator — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Link Generator</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Link Generator</strong> creates trackable WhatsApp links — short links that open a chat with your number and pre-fill a message. You pick a number and a welcome message; WaDesk gives you a short link that opens WhatsApp, counts every click, and comes with a QR code. Manage links under <strong>More &rarr; Link Generator</strong>.</p>
+                        <p>Use these anywhere you want a one-tap "message us on WhatsApp" entry point: Instagram bios, Google Ads, email signatures, business cards, packaging, and storefronts. Because each link counts clicks and can carry tracking tags, you can see which channel actually drives conversations.</p>
+                        <blockquote class="info"><strong>Works with any setup:</strong> links produce a standard WhatsApp link, so they work no matter how your number is connected (Unofficial API, official Cloud API, or Twilio).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Create a Link</h2>
+                        <ol>
+                            <li>Go to <strong>Link Generator</strong> and click <strong>Create Link</strong>.</li>
+                            <li>Give the link an internal <strong>name</strong> (for your own reference — not shown to customers).</li>
+                            <li>Enter the destination <strong>country code</strong> and <strong>phone number</strong>.</li>
+                            <li>Optionally write a <strong>welcome message</strong> — the text pre-typed into the customer's chat box.</li>
+                            <li>Optionally set a custom <strong>short-link ending</strong> (lowercase letters, digits, hyphens) — leave it blank and WaDesk picks an 8-character one for you.</li>
+                            <li>Optionally add <strong>tracking tags</strong> (source, medium, campaign) and an <strong>expiry</strong> date.</li>
+                            <li>Click <strong>Save</strong>. You get the short link, the full WhatsApp link it opens, and a QR code to download.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Phone number check:</strong> the country code plus number must be a valid international number — at least 7 and at most 15 digits. A too-short number (which would produce a broken chat link) is rejected on save, so you can't accidentally publish a dead link on a business card or ad. Digits are tidied automatically and the country code gets a leading <code>+</code>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="fields">Link Fields</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong></td><td>Your own label — not shown to customers.</td></tr>
+                                <tr><td><strong>Country code + Phone</strong></td><td>The destination WhatsApp number. Non-digits are removed, the code gets a leading <code>+</code>, and the result is checked as a valid international number (7&ndash;15 digits).</td></tr>
+                                <tr><td><strong>Welcome message</strong></td><td>Pre-typed into the customer's chat box when they open the link.</td></tr>
+                                <tr><td><strong>Short-link ending</strong></td><td>The custom part at the end of the short link. Lowercase letters, digits, and hyphens only. If you leave it blank or pick one that's taken, WaDesk generates a unique one (adding a number if needed). Endings are unique across all of WaDesk because the short link is public.</td></tr>
+                                <tr><td><strong>Tracking source / medium / campaign</strong></td><td>Tags you record so you can tell channels apart in your reports.</td></tr>
+                                <tr><td><strong>Expiry</strong></td><td>After this date the short link stops working and shows a "paused or expired" page.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Active or paused. A paused link stops working immediately.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How the Short Link Works</h2>
+                        <p>The short link is public — no login needed — because it's meant to be shared widely. When someone opens it:</p>
+                        <ol>
+                            <li>WaDesk looks up the link. An unknown link shows a <strong>"not found"</strong> page.</li>
+                            <li>If the link is <strong>paused</strong> or <strong>past its expiry</strong>, the visitor sees a "paused or expired" page.</li>
+                            <li>Otherwise the click count goes up by one, the last-clicked time is updated, and the visitor is sent straight to WhatsApp.</li>
+                        </ol>
+                        <p>The link opens a standard WhatsApp chat — your number plus the welcome message (<code>https://wa.me/&lt;number&gt;?text=&lt;message&gt;</code>) — so it works in every browser and on mobile. Your tracking tags are saved for your reports; they aren't added to the WhatsApp link itself (WhatsApp would ignore them).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="qr">QR Code</h2>
+                        <ul>
+                            <li>Each saved link comes with a <strong>QR code</strong> you can download and print on packaging, posters, business cards, or table tents.</li>
+                            <li>Scanning the QR opens the same short link, so the scan flows through the click counter just like a tap — print placements and digital placements are both tracked.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="analytics">Click Analytics</h2>
+                        <ul>
+                            <li><strong>Per-link clicks:</strong> every open (tap or QR scan) adds to the link's click count and updates its last-clicked time.</li>
+                            <li><strong>Workspace totals:</strong> the list page shows total links, active links, and total clicks across the workspace.</li>
+                            <li><strong>Attribution:</strong> combine the per-link counts with the tracking tags you set to compare channels — e.g. which campaign or placement drives the most WhatsApp conversations.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Manage Links</h2>
+                        <ul>
+                            <li><strong>Edit:</strong> change the number, message, short-link ending, tracking tags, expiry, or status anytime. Changing the ending re-checks that it's still unique.</li>
+                            <li><strong>Pause / resume:</strong> flip the status to stop or restart the link without deleting it. A paused link shows the "paused or expired" page to visitors.</li>
+                            <li><strong>Duplicate:</strong> makes a copy with a fresh short-link ending and a <strong>reset click count</strong>, so the copy tracks independently.</li>
+                            <li><strong>Delete:</strong> removes the link. Links belong to your workspace; the list shows 20 per page.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Ban safety:</strong> a link only opens a chat — the customer still has to tap Send, which keeps you within WhatsApp's opt-in expectations. That's why links are a safer top-of-funnel tool than cold bulk sends. Avoid pairing a link with automation that immediately blasts a number you obtained without consent.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Save rejected — "Phone number must be 7&ndash;15 digits"</td><td>The country code + number isn't a valid international number. Include the country code and enough digits.</td></tr>
+                                <tr><td>Short-link ending got a <code>-2</code> (or higher) added</td><td>The ending you chose was already taken. WaDesk added a number to keep it unique. Pick a different ending if you want a clean one.</td></tr>
+                                <tr><td>Visitors see "This link is paused or expired"</td><td>The link is paused or its expiry date has passed. Resume it or clear/extend the expiry.</td></tr>
+                                <tr><td>Short link shows "not found"</td><td>The link doesn't exist (deleted or a typo). Check it in the Link Generator list.</td></tr>
+                                <tr><td>Short-link ending won't save</td><td>Endings allow only lowercase letters, digits, and hyphens (max 64 characters). Remove spaces, capitals, and symbols.</td></tr>
+                                <tr><td>Clicks aren't matching my ad reports</td><td>The click count includes every open — taps and QR scans, including your own while testing. Use tracking tags plus the per-link count together to attribute by channel.</td></tr>
+                                <tr><td>WhatsApp opens but the message isn't pre-filled</td><td>The welcome message was blank. Add one and it will appear in the chat box.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Create a Link</a></li>
+                    <li class="toc-h2"><a href="#fields" class="toc-link">Link Fields</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How the Short Link Works</a></li>
+                    <li class="toc-h2"><a href="#qr" class="toc-link">QR Code</a></li>
+                    <li class="toc-h2"><a href="#analytics" class="toc-link">Click Analytics</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Manage Links</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

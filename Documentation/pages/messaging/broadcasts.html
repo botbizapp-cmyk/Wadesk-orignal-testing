@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcasts – WaDesk SaaS Docs</title>
+    <meta name="description" content="Broadcasts — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Broadcasts</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Broadcasts</strong> are bulk sends built around a single <strong>template</strong>, with detailed delivery tracking for each recipient. Find them under <strong>More &rarr; Broadcasts</strong>. Because every broadcast goes out from one approved template, it's the right tool for clean, trackable outreach at scale &mdash; promotions, notifications, and re-engagement.</p>
+                        <p>For each broadcast, every recipient is tracked through the full WhatsApp delivery journey &mdash; queued, sent, delivered, read, or failed &mdash; plus per-recipient <strong>link-click analytics</strong> when the template includes tracked links. You can <strong>retry just the recipients who failed</strong> without re-sending to everyone, and <strong>split a broadcast across multiple connected numbers</strong> to spread the sending load.</p>
+                        <blockquote class="info"><strong>Access:</strong> Broadcasts require the <strong>Admin</strong> workspace role and a plan that includes the Broadcast feature. Your plan also sets a limit on how many broadcasts the workspace can create.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engines">Engines &amp; Template Pre-Flight</h2>
+                        <p>A broadcast sends through the workspace's active engine, and the template picker only lists <strong>approved</strong> templates:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Engine</th><th>How the template is sent</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Unofficial API</strong></td><td>The template's header, body, footer, and buttons are sent like a normal message.</td></tr>
+                                <tr><td><strong>Business API</strong> (Meta Cloud)</td><td>For a Meta-approved template, WaDesk builds the full rich message for each recipient &mdash; buttons, carousel cards, media headers, and per-recipient tracked links &mdash; and sends it to Meta exactly as approved.</td></tr>
+                                <tr><td><strong>Twilio</strong></td><td>A template registered with Twilio sends as a proper Twilio template; one that isn't sends as plain text.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Before a broadcast goes out, WaDesk checks the template first so you never waste your sending allowance on a send that's bound to fail:</p>
+                        <ul>
+                            <li><strong>Authentication (OTP) templates are blocked</strong> &mdash; each recipient needs a unique verifiable code, which a broadcast can't provide. Send those one at a time from your own system.</li>
+                            <li><strong>Media headers must be reachable</strong> over a public HTTPS link. This check runs on all engines whenever the template has a media header: plain <code>http://</code> links, private or internal addresses, and <code>localhost</code> / <code>.local</code> / <code>.test</code> / <code>.internal</code> hosts are rejected, because the recipient's phone (and Meta) can't download from them.</li>
+                            <li><strong>On the Business API,</strong> a template that isn't approved by Meta, is paused for quality, or has fallen below your minimum quality setting is refused with a clear reason.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating a Broadcast</h2>
+                        <p>Click <strong>Add Broadcast</strong> on the broadcasts list to open the composer, then work top to bottom:</p>
+                        <ol>
+                            <li><strong>Name it.</strong> Enter a broadcast name for your own reference in reports.</li>
+                            <li><strong>Pick the template.</strong> Choose an approved template from the dropdown. A live preview shows the header, body, footer, buttons, and any media so you can check exactly what will go out.</li>
+                            <li><strong>Choose the audience.</strong> Select one or more <strong>contacts</strong> and/or <strong>contact groups</strong>. Group members are pulled in and merged into one list with duplicates removed. You must select at least one contact or group, or the form asks you to.</li>
+                            <li><strong>Pick the connected number(s).</strong> Choose one number, or tick several for a multi-device send (see <a href="#multi-device">Multi-Device Sending</a>).</li>
+                            <li><strong>Choose when to send.</strong> Pick <strong>Send now</strong> to send immediately, or <strong>Schedule for later</strong> and set a date, time, and time zone (your workspace time zone is pre-selected).</li>
+                        </ol>
+                        <p>When you submit, WaDesk creates the broadcast (status <em>processing</em> for an immediate send, or <em>scheduled</em> for later), records which engine it's using, adds every recipient to the list as <strong>pending</strong>, and starts the send. Scheduled sends carry the exact time and time zone so they always fire at the right local moment.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="per-recipient">Per-Recipient Funnel</h2>
+                        <p>The broadcast detail page centers on the recipient grid. As WhatsApp reports back, each recipient moves through the delivery journey and the summary tiles (Sent, Delivered, Read, Failed, Queued, Clicked) update live. The stages build on each other: <em>read</em> means the message was also delivered and sent, so the tiles always stay consistent.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>pending</strong> (Queued)</td><td>The recipient is in the list, waiting their turn to be sent to.</td></tr>
+                                <tr><td><strong>sent</strong></td><td>The message was handed to WhatsApp and accepted.</td></tr>
+                                <tr><td><strong>delivered</strong></td><td>WhatsApp confirmed the message reached the recipient's device.</td></tr>
+                                <tr><td><strong>read</strong></td><td>The recipient opened the message (when read receipts are available).</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The send didn't succeed; the reason is shown (e.g. "Not on WhatsApp", out of sending allowance, or a media download problem).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Status updates are de-duplicated, so repeated reports from WhatsApp never double-count. The detail page also charts deliveries over time, a status donut, and a <strong>breakdown of failure reasons</strong> (top 8, with the rest grouped under "Other") so you can spot recurring problems &mdash; such as a batch of invalid numbers &mdash; at a glance.</p>
+                        <blockquote class="info"><strong>Always consistent:</strong> The per-recipient grid and the summary tiles are recalculated together on every update, so the headline numbers always match the individual rows.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="link-tracking">Link-Click Tracking</h2>
+                        <p>When a template contains link buttons (or links in the body), WaDesk replaces each one with a unique tracked link for every recipient. Tracked links expire after a set period (90 days by default, minimum 7 days). When a recipient taps the link, the click is recorded against that exact contact and they're sent on to the real destination immediately.</p>
+                        <ul>
+                            <li>The recipient grid shows a <strong>click count</strong> and last-click time for each contact.</li>
+                            <li>The <strong>Clicked</strong> tile counts how many unique contacts tapped any tracked link, with a click-through rate compared to messages delivered.</li>
+                            <li>Re-sending the same link to the same contact reuses the <strong>same tracked link</strong>, so retries never inflate your numbers.</li>
+                            <li>Link-preview crawlers and bots are sent through but <strong>not counted</strong>, so your numbers reflect real people. An admin can turn link tracking off platform-wide, in which case the original links are used as-is.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Related:</strong> WaDesk's separate <strong>WhatsApp link generator</strong> creates shareable chat links that open WhatsApp with a pre-typed message and count their own clicks. That's for public, shareable links &mdash; different from the per-recipient tracking described here.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="retry">Retrying Failed Recipients</h2>
+                        <p>Failures are common after a temporary glitch &mdash; an out-of-date media link, a connection drop mid-run, or a batch of invalid numbers. Rather than re-send to your whole audience, use <strong>Retry failed</strong> on the detail page:</p>
+                        <ol>
+                            <li>Fix the cause first (reconnect the number, correct the media link, etc.).</li>
+                            <li>Click <strong>Retry failed</strong>. WaDesk resets every failed recipient back to <strong>pending</strong>, clears their old error, sets the broadcast back to <em>processing</em>, and sends again <strong>only to those recipients</strong>.</li>
+                            <li>Watch the grid &mdash; the retried recipients move back through the stages, while everyone who already succeeded is left untouched.</li>
+                        </ol>
+                        <p>If there are no failed recipients, you'll see "No failed recipients to retry."</p>
+                        <blockquote class="info"><strong>Note:</strong> Retry sends only to recipients who failed before, so a contact who already received the message is never messaged &mdash; or charged &mdash; twice.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="multi-device">Multi-Device Sending</h2>
+                        <p>Selecting two or more connected numbers splits the broadcast into <strong>one broadcast per number</strong> and <strong>divides the audience</strong> between them. By default the split is even; you can set <strong>share weights</strong> per number (for example 7/3) to send more through one number than another.</p>
+                        <p>The split always adds up exactly to your audience size and lands as close as possible to the weights you set. Each contact goes to exactly one number, so <strong>no one ever receives a duplicate</strong>, and any empty share (e.g. 1 contact across 2 numbers) is skipped. Spreading volume across numbers lowers how fast each number sends &mdash; a useful safety measure against bans on the Unofficial API.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="statuses">Broadcast Statuses</h2>
+                        <p>The list page groups broadcasts by their overall lifecycle status:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>scheduled</strong></td><td>Saved for a future date/time and waiting to fire.</td></tr>
+                                <tr><td><strong>processing</strong></td><td>Actively sending to recipients right now.</td></tr>
+                                <tr><td><strong>completed</strong></td><td>The run finished and every recipient succeeded.</td></tr>
+                                <tr><td><strong>completed_with_errors</strong></td><td>The run finished but some recipients failed &mdash; a good moment to use Retry failed.</td></tr>
+                                <tr><td><strong>failed</strong></td><td>The broadcast couldn't run at all &mdash; e.g. no usable sender number, every contact had an empty phone number, or the sending service was unreachable.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The final status is confirmed once at the end of the run, as a safety net in case any individual delivery updates were missed.</p>
+                        <blockquote class="info"><strong>Delete rules:</strong> Only <strong>scheduled</strong> or <strong>failed</strong> broadcasts can be deleted &mdash; any other state shows "Only scheduled or failed broadcasts can be deleted." Deleting first cancels any in-progress send so it's never left half-finished, then removes the broadcast. Completed broadcasts are kept for their reporting history (and can be re-used later as a "queue" from <a href="scheduled.html">Scheduled Messages</a>).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ban-safety">Ban-Safety &amp; Pacing</h2>
+                        <p>Broadcasts are paced by the same safety controls the rest of WaDesk uses, set by your admin under <strong>Admin &rarr; Settings &rarr; System Message &rarr; Sender pacing</strong>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Control</th><th>Default</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Message gap</td><td>3 seconds</td><td>Delay between one message and the next, varied randomly by &plusmn;20%.</td></tr>
+                                <tr><td>Batch size</td><td>50 recipients</td><td>How many messages go out before a pause (when batching is on).</td></tr>
+                                <tr><td>Batch gap</td><td>5 minutes</td><td>Cooldown between batches, varied randomly by &plusmn;20%.</td></tr>
+                                <tr><td>Daily cap (Unofficial API)</td><td>4000 / day / number</td><td>Maximum messages a single number can send per day (resets daily).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>If a connection drops mid-run on the Unofficial API, the broadcast is paused instead of sending into a dead connection and wrongly marking the remaining recipients as failed.</p>
+                        <blockquote class="warning"><strong>Send responsibly.</strong> Broadcast only to contacts who opted in, keep templates relevant and personalized, warm up new numbers gradually, and split very large audiences across multiple numbers. Blasting unsolicited templates to cold lists is the quickest route to a quality downgrade or a banned number. On the Business API, watch template quality: a broadcast on a paused or low-quality template is refused before it sends, because pushing volume through a struggling template makes it worse and can trigger a Meta block &mdash; let the quality score recover, or switch to a healthier template, before broadcasting again.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#engines" class="toc-link">Engines &amp; Pre-Flight</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating a Broadcast</a></li>
+                    <li class="toc-h2"><a href="#per-recipient" class="toc-link">Per-Recipient Funnel</a></li>
+                    <li class="toc-h2"><a href="#link-tracking" class="toc-link">Link-Click Tracking</a></li>
+                    <li class="toc-h2"><a href="#retry" class="toc-link">Retrying Failed Recipients</a></li>
+                    <li class="toc-h2"><a href="#multi-device" class="toc-link">Multi-Device Sending</a></li>
+                    <li class="toc-h2"><a href="#statuses" class="toc-link">Broadcast Statuses</a></li>
+                    <li class="toc-h2"><a href="#ban-safety" class="toc-link">Ban-Safety &amp; Pacing</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Members &amp; Roles – WaDesk SaaS Docs</title>
+    <meta name="description" content="Team Members &amp; Roles — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Team Members &amp; Roles</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>Each <strong>workspace</strong> is kept separate from the others. You invite teammates into a workspace and give each one a <strong>role</strong> that decides what they can see and do. Manage your team from <strong>Team Inbox &rarr; Members</strong>.</p>
+                        <p>The Members page lists everyone with access to the current workspace, their role, their live status (online, away, or offline), and when they were invited and joined. From here you can invite teammates, change roles, and remove people. When you assign a role, the dropdown only offers the roles you are allowed to give.</p>
+                        <blockquote class="warning"><strong>Who can open this page:</strong> The Members page is for <strong>Admins and above</strong> (Admin and Owner). Agents and viewers who land here are sent back to the team inbox.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="roles">The Five Roles</h2>
+                        <p>Roles apply <strong>per workspace</strong>, not everywhere &mdash; being "Manager in Acme" does not make you a Manager in any other workspace. They form a strict order from most to least access (the rank number simply shows where each role sits in that order):</p>
+                        <table>
+                            <thead>
+                                <tr><th>Role</th><th>Rank</th><th>Summary</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Owner</strong></td><td>100</td><td>Full access, <em>including billing</em>. The founder of the workspace.</td></tr>
+                                <tr><td><strong>Admin</strong></td><td>80</td><td>Full workspace access and can invite members, but <em>not</em> billing.</td></tr>
+                                <tr><td><strong>Manager</strong></td><td>60</td><td>Sees all team queues, can assign and resolve, manages tags and saved replies, views analytics.</td></tr>
+                                <tr><td><strong>Agent</strong></td><td>40</td><td>Handles conversations on their team and the ones assigned to them; reply, note, resolve, snooze, tag.</td></tr>
+                                <tr><td><strong>Viewer</strong></td><td>20</td><td>Read-only access to their team's queue and assigned conversations.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Legacy "member" role:</strong> Early installs had a role called "member". It is automatically treated as <strong>Agent</strong>, so existing accounts keep working with nothing to change.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permissions">Role Capability Matrix</h2>
+                        <p>This table shows which abilities each role has. "Yes" means the role can do that.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Capability</th>
+                                    <th>Owner</th>
+                                    <th>Admin</th>
+                                    <th>Manager</th>
+                                    <th>Agent</th>
+                                    <th>Viewer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>View all team queues</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>View own team / assigned</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td>
+                                </tr>
+                                <tr>
+                                    <td>Reply to conversations</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Post internal notes</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Assign / reassign / unassign</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Resolve / snooze</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Bulk actions</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Change priority</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Tag conversations</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Manage teams</td>
+                                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Manage routing &amp; SLA</td>
+                                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Manage tags</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Manage saved replies</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Invite members &amp; assign roles</td>
+                                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Workspace settings</td>
+                                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Manage integrations</td>
+                                    <td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>View analytics</td>
+                                    <td>Yes</td><td>Yes</td><td>Yes</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Billing &amp; subscription</td>
+                                    <td>Yes</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> The single difference between Owner and Admin is <strong>billing</strong>. Owners can buy plans and manage the subscription; Admins control everything else in the workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permission-keys">What Each Permission Group Covers</h2>
+                        <p>WaDesk decides what each member can do across these areas. Wherever a member lacks a permission, the matching button or menu is simply hidden for them.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Group</th><th>What it controls</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Inbox &mdash; viewing</strong></td><td>Who can see all teams' conversations, just their own team's, or only the ones assigned to them.</td></tr>
+                                <tr><td><strong>Inbox &mdash; acting</strong></td><td>Replying, adding notes, assigning, resolving, snoozing, tagging, changing priority, and bulk actions.</td></tr>
+                                <tr><td><strong>Workspace management</strong></td><td>Managing teams, tags, routing, SLAs, saved replies, integrations, and workspace settings.</td></tr>
+                                <tr><td><strong>People &amp; money</strong></td><td>Inviting members, assigning roles, viewing analytics, and managing billing.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inviting">Inviting a Teammate</h2>
+                        <p>Click <strong>Invite teammate</strong> (only shown if you are allowed to invite people) to open the invite form.</p>
+                        <ol>
+                            <li>Enter the teammate's <strong>name</strong> and <strong>email</strong>.</li>
+                            <li>Choose a <strong>role</strong> &mdash; the dropdown only offers roles you are allowed to give (see below).</li>
+                            <li>Submit. WaDesk handles the email automatically (two cases below) and shows a result message.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Case</th><th>What happens</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>The email already has an account</strong></td><td>That person is added to your workspace immediately and counts as "joined" right away.</td></tr>
+                                <tr><td><strong>The email is new</strong></td><td>A new account is created with a random temporary password, shown to you <em>once</em> so you can pass it along. The person "joins" when they first log in.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>WaDesk also tries to email the invite. If your install has no working email set up, the invite still succeeds and the temporary password is shown so you can onboard the teammate manually. New users are automatically taken to your workspace on their first login.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> Inviting a member counts against your plan's <strong>seat limit</strong>, which is checked before the invite goes through. If you have reached the limit, the invite is blocked and you will need to upgrade or remove someone first. Inviting the same email into a workspace twice does not create a duplicate &mdash; you will be told they are already a member.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="granting-roles">Who Can Grant Which Role</h2>
+                        <p>Assigning roles is controlled so no one can give away more access than they have. The dropdown you see when inviting or editing only offers the roles you are actually allowed to give, and the same rules are enforced again behind the scenes:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Target role</th><th>Who can grant it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Owner</strong></td><td>Only an <strong>Owner</strong>. Stops anyone from bypassing the founder.</td></tr>
+                                <tr><td><strong>Admin</strong></td><td>Only an <strong>Owner</strong>. Admins cannot create other Admins.</td></tr>
+                                <tr><td><strong>Manager / Agent / Viewer</strong></td><td>Anyone allowed to invite or assign roles, as long as they are <em>at least as senior</em> as the role they are handing out.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>Changing a role</h3>
+                        <ol>
+                            <li>Find the member in the table and edit their role.</li>
+                            <li>Pick the new role from the dropdown (it only shows roles you can give).</li>
+                            <li>Save &mdash; the change takes effect and is recorded in the Activity Log.</li>
+                        </ol>
+                        <p>Two safeguards apply: you <strong>cannot change your own role</strong> (to prevent locking yourself out), and the grant rules above are always re-checked &mdash; so no one can sneak in a role they are not entitled to give.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="removing">Removing a Member</h2>
+                        <p>Removing a member (which also requires permission to invite) removes them from the workspace and from any teams inside it. Two firm safeguards apply:</p>
+                        <ul>
+                            <li>You <strong>cannot remove yourself</strong> from the workspace.</li>
+                            <li>You <strong>cannot remove the workspace owner</strong>.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Audited:</strong> Every invite, role change, and removal is recorded in the workspace audit trail with who did it, who was affected, and the new role. Review these on the <a href="./activity-log.html">Activity Log</a> page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>The Members page redirects me away</td><td>You are below Admin in this workspace. Only Admin and Owner can open it.</td></tr>
+                                <tr><td>"Invite teammate" button is missing</td><td>You are not allowed to invite people (Manager and below). Ask an Owner or Admin to invite.</td></tr>
+                                <tr><td>Invite blocked with a limit error</td><td>You have reached your plan's seat limit. Upgrade the plan or remove a member first.</td></tr>
+                                <tr><td>"Already a member"</td><td>That email is already in this workspace. Edit their role instead of re-inviting.</td></tr>
+                                <tr><td>Owner / Admin missing from the role dropdown</td><td>Only an Owner can grant Owner or Admin. If you are an Admin, you cannot create more Admins/Owners.</td></tr>
+                                <tr><td>Invite email never arrives</td><td>The install may have no working mailer. The invite still succeeds &mdash; copy the temporary password shown once and share it manually.</td></tr>
+                                <tr><td>Cannot change my own role / remove myself</td><td>By design, to prevent lockout. Have another Owner make the change.</td></tr>
+                                <tr><td>Cannot remove a member</td><td>You cannot remove the workspace owner. Transfer ownership first if you must.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#roles" class="toc-link">The Five Roles</a></li>
+                    <li class="toc-h2"><a href="#permissions" class="toc-link">Role Capability Matrix</a></li>
+                    <li class="toc-h2"><a href="#permission-keys" class="toc-link">What Each Permission Group Covers</a></li>
+                    <li class="toc-h2"><a href="#inviting" class="toc-link">Inviting a Teammate</a></li>
+                    <li class="toc-h2"><a href="#granting-roles" class="toc-link">Who Can Grant Which Role</a></li>
+                    <li class="toc-h2"><a href="#removing" class="toc-link">Removing a Member</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WooCommerce Order Webhooks – WaDesk SaaS Docs</title>
+    <meta name="description" content="Connect a WooCommerce store to WaDesk, receive order webhooks, and send WhatsApp order notifications and invoices automatically.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WooCommerce Order Webhooks &amp; Invoices</h1>
+
+                    <p>Connect your <strong>WooCommerce</strong> store to WaDesk and every order &mdash; and every status change &mdash; is pushed to WaDesk in real time over a <strong>webhook</strong>. WaDesk then sends the customer (or you, or both) a WhatsApp message for that event, including the <strong>invoice</strong>. No polling, no manual export.</p>
+
+                    <blockquote class="info"><strong>How it works in one line:</strong> WooCommerce fires a webhook &rarr; WaDesk matches it to the automation you armed for that order status &rarr; it sends your chosen template on WhatsApp, with live order variables like <code>{{invoice_url}}</code> filled in.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Step 1 &mdash; Connect Your Store</h2>
+                        <p>You connect with WooCommerce's built-in <strong>REST API</strong> keys &mdash; no coding.</p>
+                        <ol>
+                            <li>In WordPress admin, go to <strong>WooCommerce &rarr; Settings &rarr; Advanced &rarr; REST API</strong> and click <strong>Add key</strong>.</li>
+                            <li>Give it a description, set permissions to <strong>Read/Write</strong>, and click <strong>Generate API key</strong>. Copy the <strong>Consumer key</strong> and <strong>Consumer secret</strong>.</li>
+                            <li>In WaDesk, open <strong>WooCommerce</strong> and click <strong>Connect</strong>. Enter your <strong>Store URL</strong>, the <strong>Consumer key</strong>, and the <strong>Consumer secret</strong>, then <strong>Test</strong> and <strong>Save</strong>.</li>
+                        </ol>
+                        <p>On save, WaDesk <strong>auto-registers the order webhooks</strong> on your store (<code>order.created</code>, <code>order.updated</code>, and more) and generates a unique <strong>webhook secret</strong> for your store, so only your store can post to your WaDesk endpoint.</p>
+                        <blockquote class="info"><strong>Your webhook endpoint</strong> is <code>https://your-wadesk-domain/woocommerce/webhook/&lt;secret&gt;</code>. WaDesk sets this up for you; you don't paste it anywhere manually when using the auto-connect.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plugin">Step 2 (recommended) &mdash; Install the Companion Plugin</h2>
+                        <p>WooCommerce's REST webhooks can't send everything &mdash; notably the <strong>PDF invoice link</strong> and a few extra order fields. The optional <strong>WaDesk companion plugin</strong> fills that gap.</p>
+                        <ol>
+                            <li>On the WaDesk WooCommerce screen, click <strong>Download plugin</strong>. The ZIP is pre-configured with <em>your</em> store's webhook URL and secret &mdash; nothing to edit.</li>
+                            <li>In WordPress, go to <strong>Plugins &rarr; Add New &rarr; Upload Plugin</strong>, upload the ZIP, and <strong>Activate</strong>.</li>
+                        </ol>
+                        <p>With the plugin active, WaDesk receives the real invoice PDF URL and richer order data, so <code>{{invoice_url}}</code> resolves to the actual downloadable invoice.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="events">Step 3 &mdash; Arm Your Order Automations</h2>
+                        <p>On the WaDesk WooCommerce screen, each event has its own row. Turn on the ones you want, pick the WhatsApp <strong>template</strong>, map the variables, and choose who it goes to. Available events:</p>
+                        <ul>
+                            <li><strong>Order lifecycle</strong> &mdash; <code>order placed</code>, <code>processing</code>, <code>completed</code>, <code>on-hold</code>, <code>cancelled</code>, <code>refunded</code>, <code>failed</code>. A single order moving through statuses fires each armed step with its own message.</li>
+                            <li><strong>Cash on Delivery (COD)</strong> &mdash; <code>COD confirm</code> (ask the customer to confirm), <code>COD &rarr; prepaid</code> (nudge to pay online), and risk scoring for suspicious COD orders.</li>
+                            <li><strong>Back in stock</strong> &mdash; notify customers who joined a product's waitlist.</li>
+                            <li><strong>Abandoned cart</strong> &mdash; multi-step recovery nudges.</li>
+                            <li><strong>Win-back</strong> and <strong>review reward</strong> broadcasts.</li>
+                        </ul>
+                        <p>Per event you can set:</p>
+                        <ul>
+                            <li><strong>Template</strong> &mdash; which approved message to send.</li>
+                            <li><strong>Send to</strong> &mdash; <code>customer</code>, <code>admin</code>, or <code>both</code> (with an admin number).</li>
+                            <li><strong>Delay</strong> &mdash; wait N seconds before sending (e.g. a 1-hour completed-order follow-up).</li>
+                            <li><strong>Variable map</strong> &mdash; bind template placeholders to order fields.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="invoice">Sending the Invoice (<code>{{invoice_url}}</code>)</h2>
+                        <p>The headline of this integration: <strong>send the invoice on WhatsApp automatically</strong> when an order is placed or completed.</p>
+                        <ul>
+                            <li>Every order automation exposes the merge tag <code>{{invoice_url}}</code>. Put it in your template (as a link, or on a media/document button) and WaDesk fills it per order.</li>
+                            <li><strong>What it points to:</strong> a real <strong>PDF invoice</strong> from your store's invoice plugin when one exists &mdash; e.g. <em>WooCommerce PDF Invoices &amp; Packing Slips</em>, <em>Print Invoices</em>, or <em>YITH</em> &mdash; forwarded by the WaDesk companion plugin. If no invoice plugin is installed, it gracefully falls back to the customer's <strong>order page</strong> (where the invoice/download lives), so the tag always resolves.</li>
+                            <li>A companion field <code>{{invoice_is_pdf}}</code> is <code>1</code> when the link is a direct PDF and <code>0</code> when it's the order page &mdash; handy if you want to word the message differently.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Typical setup:</strong> arm <em>order completed</em> &rarr; template &ldquo;Thanks for your order! Here's your invoice: {{invoice_url}}&rdquo; &rarr; send to <em>customer</em>. Done &mdash; every completed order gets its invoice on WhatsApp.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="variables">Order Variables You Can Use</h2>
+                        <p>Alongside <code>{{invoice_url}}</code>, order automations expose the usual order fields for your templates &mdash; for example the customer name, order number and total, currency, status, and the order URL. Map them to your template placeholders in the event's <strong>Variable map</strong>. The same variables are available on the <strong>flow builder</strong>'s WooCommerce trigger, so you can branch and follow up in an automation instead of a single message.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="verify">Verify It's Working</h2>
+                        <ul>
+                            <li>Place a test order in WooCommerce (or move an existing order to a status you armed).</li>
+                            <li>Within a moment the customer number should receive the WhatsApp message with the invoice link.</li>
+                            <li>Check the WaDesk WooCommerce <strong>activity log</strong> &mdash; each received webhook and the message it triggered is recorded, so you can see exactly what fired.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Use a real number you control for testing</strong> &mdash; these are live WhatsApp sends.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <ul>
+                            <li><strong>No message on an order</strong> &mdash; confirm the event row is <em>on</em> and has a template selected, the store's webhook is still active (WooCommerce &rarr; Settings &rarr; Advanced &rarr; Webhooks), and the customer's phone number is present on the order.</li>
+                            <li><strong><code>{{invoice_url}}</code> shows the order page, not a PDF</strong> &mdash; install a PDF-invoice plugin and the WaDesk companion plugin; without them WooCommerce has no invoice file to link to.</li>
+                            <li><strong>Connection test fails</strong> &mdash; re-check the Store URL (must be reachable over HTTPS) and that the REST key permission is <em>Read/Write</em>.</li>
+                            <li><strong>Duplicate messages</strong> &mdash; a status-change automation fires once per status; make sure you didn't arm both a generic and a per-status template for the same transition.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Step 1: Connect Store</a></li>
+                    <li class="toc-h2"><a href="#plugin" class="toc-link">Step 2: Companion Plugin</a></li>
+                    <li class="toc-h2"><a href="#events" class="toc-link">Step 3: Arm Automations</a></li>
+                    <li class="toc-h2"><a href="#invoice" class="toc-link">Sending the Invoice</a></li>
+                    <li class="toc-h2"><a href="#variables" class="toc-link">Order Variables</a></li>
+                    <li class="toc-h2"><a href="#verify" class="toc-link">Verify It's Working</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

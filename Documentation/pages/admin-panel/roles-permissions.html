@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles &amp; Permissions – WaDesk SaaS Docs</title>
+    <meta name="description" content="Roles &amp; Permissions — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Roles &amp; Permissions</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>This page controls <strong>platform-staff access</strong> &mdash; who on your team can log into the admin panel and what they are allowed to do there. Every capability is a named <strong>permission</strong> (for example <code>workspaces.suspend</code>), and a <strong>role</strong> is simply a bundle of permissions. A staff user is given one or more roles and inherits every permission those roles contain.</p>
+                        <p>You'll find these two screens under <strong>Admin &rarr; Roles</strong> and <strong>Admin &rarr; Permissions</strong>. Assigning a role to an actual staff account happens on the <a href="./user-management.html">User Management</a> page.</p>
+                        <blockquote class="warning"><strong>Platform vs. workspace.</strong> The roles here govern your <em>own back-office staff</em>. They are completely separate from the per-workspace roles (owner, admin, manager, agent, viewer) that your customers use to organize their own teams. See <a href="#platform-vs-workspace">Platform roles vs. workspace roles</a> below.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="seeded-roles">The Pre-Seeded Platform Roles</h2>
+                        <p>A fresh install seeds six roles. Two are full-access administration roles, three are platform-operator roles for the SaaS team, and one is the baseline customer role. You can edit or delete any of them except <strong>Super Admin</strong>, which is system-locked.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Role</th><th>Scope</th><th>What it can do</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Super Admin</strong></td><td>Platform</td><td>Every permission, always. System-locked &mdash; cannot be deleted, and is the only role allowed to pull the emergency brakes on the <a href="./security.html">Security</a> page. The installer promotes the first admin account to this role.</td></tr>
+                                <tr><td><strong>Admin</strong></td><td>Platform</td><td>Also granted every permission, but <em>not</em> system-locked. Use this for trusted operators who run the platform day to day.</td></tr>
+                                <tr><td><strong>Manager</strong></td><td>Platform</td><td>All <code>view</code> and <code>edit</code> permissions (plus <code>inbox.reply</code>, <code>inbox.assign</code>, <code>billing.invoices</code>, <code>audit.export</code>) &mdash; but no <code>create</code> or <code>delete</code>. A useful, non-destructive operator role.</td></tr>
+                                <tr><td><strong>Platform Support</strong></td><td>Platform</td><td>Operate the SaaS without touching authorization or billing settings: view all workspaces, impersonate, flag/note, view the audit log, view all users. No role/permission management.</td></tr>
+                                <tr><td><strong>Auditor</strong></td><td>Platform</td><td>Read-only across the platform for compliance reviews: view all workspaces, all conversations, the audit log, and all users. <strong>Cannot impersonate.</strong></td></tr>
+                                <tr><td><strong>User</strong></td><td>Baseline</td><td>Only the <code>*.view</code> permissions. The default low-privilege role.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> Super Admin and Admin are tagged <em>System</em> roles in the list; everything you create is tagged <em>Custom</em>. The list page also surfaces a "Roles without users" counter so you can spot roles worth archiving.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permission-naming">How Permissions Are Named</h2>
+                        <p>Every permission follows a simple <code>module.action</code> pattern, lowercase with no spaces. The part before the dot is the <strong>module</strong> (the area it covers); the part after is the <strong>action</strong> (what it allows). This is what lets the role editor group permissions neatly into per-module cards.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Pattern</th><th>Examples</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Standard CRUD</td><td><code>users.view</code>, <code>campaigns.create</code>, <code>templates.edit</code>, <code>flows.delete</code></td></tr>
+                                <tr><td>Module-specific actions</td><td><code>campaigns.send</code>, <code>devices.pair</code>, <code>workspaces.suspend</code>, <code>billing.refund</code>, <code>metaads.approve</code>, <code>audit.export</code>, <code>users.login_as</code></td></tr>
+                                <tr><td>Platform-tier actions</td><td><code>platform.workspace.view_all</code>, <code>platform.workspace.impersonate</code>, <code>platform.conversation.flag_spam</code>, <code>platform.note.write</code>, <code>platform.audit.view</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p>WaDesk ships permissions across these modules: <code>users</code>, <code>roles</code>, <code>permissions</code>, <code>workspaces</code>, <code>devices</code>, <code>packages</code>, <code>campaigns</code>, <code>metaads</code>, <code>templates</code>, <code>flows</code>, <code>webhooks</code>, <code>integrations</code>, <code>contacts</code>, <code>analytics</code>, <code>inbox</code>, <code>billing</code>, <code>audit</code>, <code>security</code>, <code>settings</code>, <code>support</code>, and the <code>platform.*</code> set used for cross-workspace operator tools.</p>
+                        <blockquote class="info"><strong>Note:</strong> The <code>platform.*</code> permissions are the ones that control the <a href="./platform-inbox.html">Platform Inbox</a> and impersonation &mdash; they decide which staff can see and act across every customer workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="creating-roles">Creating a Role</h2>
+                        <p>From <strong>Admin &rarr; Roles</strong>, click <strong>Add role</strong> and work through two steps:</p>
+                        <ol>
+                            <li><strong>Role details.</strong> Give the role a unique name (e.g. <em>Sales Lead</em>). Names must be unique across the platform. The Scope and "Start from template" selectors are convenience helpers for picking a starting set of boxes &mdash; what actually gets saved is the checkboxes in step 2.</li>
+                            <li><strong>Assign permissions.</strong> A matrix lists every permission grouped by module. Tick individual flags, use a row's <strong>Select all</strong> to grant a whole module at once, or the header <strong>Select all permissions</strong> to grant everything. A live counter shows how many of the total you have selected.</li>
+                        </ol>
+                        <p>Click <strong>Create role</strong> in the top bar. The new role appears immediately in the list with its permission count and a progress bar showing how much of the full permission set it covers.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="assigning-permissions">Editing a Role &amp; Assigning Permissions</h2>
+                        <p>Open any role from the list (row menu &rarr; <strong>Edit role</strong>) to rename it or change its permissions. The permission matrix arrives pre-checked to match the role's current grants; tick or untick boxes and click <strong>Save changes</strong>.</p>
+                        <p>Saving performs a full <em>sync</em>: the role ends up with exactly the boxes that are ticked. Unticking a box revokes that capability from every staff user holding the role, and the change takes effect immediately because the permission cache is flushed on save.</p>
+                        <p>The edit screen also has a <strong>Danger zone</strong> with shortcuts to duplicate the role, reassign its users to another role, and delete it.</p>
+                        <blockquote class="warning"><strong>Revoking is instant and broad.</strong> Because a role is shared, removing a permission affects <em>all</em> users assigned to that role at once. Before unticking a sensitive flag (such as <code>billing.refund</code> or any <code>platform.*</code> permission), confirm who currently holds the role on the <a href="./user-management.html">User Management</a> page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="managing-permissions">Managing the Permission Catalog</h2>
+                        <p><strong>Admin &rarr; Permissions</strong> is the master list of every permission the platform recognizes, grouped into per-module cards. The header stats show the total count, how many are attached to at least one role, and an <strong>orphan</strong> counter for permissions currently used by no roles.</p>
+                        <h3 id="create-permission">Add a permission</h3>
+                        <p>Click <strong>Add permission</strong>. Pick a module and type an action; the form assembles the <code>module.action</code> name for you and shows a live preview. You can also type a full custom name directly. Once created, the permission becomes available as a checkbox in the role editor &mdash; creating a permission does <em>not</em> grant it to anyone until you attach it to a role.</p>
+                        <h3 id="delete-permission">Delete a permission</h3>
+                        <p>Each permission row has a <strong>Delete</strong> action that shows how many roles currently use it. There is intentionally <em>no</em> edit screen for permissions: renaming one that roles already use would silently detach every one of them, so the only operations are create and delete.</p>
+                        <blockquote class="warning"><strong>Deleting a permission is immediate.</strong> Any role that referenced the flag loses that capability the moment you confirm. Prefer deleting only <em>orphan</em> permissions (shown in amber, attached to zero roles).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="platform-vs-workspace">Platform Roles vs. Workspace Roles</h2>
+                        <p>WaDesk has two completely independent permission systems. It is important not to confuse them.</p>
+                        <table>
+                            <thead>
+                                <tr><th></th><th>Platform roles (this page)</th><th>Workspace roles</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Who</strong></td><td>Your back-office / SaaS staff</td><td>Your customers' own teammates</td></tr>
+                                <tr><td><strong>Roles</strong></td><td>Super Admin, Admin, Manager, Platform Support, Auditor, User (and any custom role you add)</td><td>Owner, Admin, Manager, Agent, Viewer (a fixed five-rung hierarchy)</td></tr>
+                                <tr><td><strong>How it's scoped</strong></td><td>Global &mdash; granted directly to the staff user, across the whole platform</td><td>Per workspace &mdash; the same person can be "Manager in Acme" and "Viewer in Globex"</td></tr>
+                                <tr><td><strong>Managed at</strong></td><td>Admin &rarr; Roles and Admin &rarr; Permissions</td><td>The team members page inside each workspace</td></tr>
+                                <tr><td><strong>Editable</strong></td><td>Yes &mdash; you define your own roles and fine-grained permissions</td><td>No &mdash; the five roles and their capabilities are fixed</td></tr>
+                            </tbody>
+                        </table>
+                        <p>For the full breakdown of the five per-workspace roles, who can grant which role, and how members are invited and removed, see <a href="../account/team-members.html">Team Members &amp; Roles</a> in the Account &amp; Team section.</p>
+                        <blockquote class="info"><strong>The bridge between the two:</strong> impersonation. A platform staffer with the <code>platform.workspace.impersonate</code> permission can temporarily view a customer workspace as its owner &mdash; see <a href="./platform-inbox.html">Platform Inbox &amp; Impersonation</a>. Everything else is firewalled: holding a platform role gives a staffer no standing inside any customer workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="best-practices">Best Practices</h2>
+                        <ul>
+                            <li><strong>Reserve Super Admin.</strong> Keep the count of Super Admin users as small as possible &mdash; it is the only role that can revoke all sessions, force password resets, rotate webhook secrets, and halt all sends.</li>
+                            <li><strong>Hand out Platform Support, not Admin.</strong> For support staff who only need to triage and impersonate, the seeded <em>Platform Support</em> role is the right fit. It deliberately excludes role/permission management and billing.</li>
+                            <li><strong>Use Auditor for external reviews.</strong> It is read-only and cannot impersonate, which makes it safe to hand to a compliance reviewer.</li>
+                            <li><strong>Keep the catalog tidy.</strong> Watch the orphan-permission counter and prune flags no role uses.</li>
+                            <li><strong>Everything is audited.</strong> Granting sensitive roles and impersonating workspaces are recorded in the <a href="./security.html">audit log</a>. Review it periodically.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#seeded-roles" class="toc-link">The Pre-Seeded Platform Roles</a></li>
+                    <li class="toc-h2"><a href="#permission-naming" class="toc-link">How Permissions Are Named</a></li>
+                    <li class="toc-h2"><a href="#creating-roles" class="toc-link">Creating a Role</a></li>
+                    <li class="toc-h2"><a href="#assigning-permissions" class="toc-link">Editing a Role &amp; Assigning Permissions</a></li>
+                    <li class="toc-h2"><a href="#managing-permissions" class="toc-link">Managing the Permission Catalog</a></li>
+                    <li class="toc-h2"><a href="#platform-vs-workspace" class="toc-link">Platform Roles vs. Workspace Roles</a></li>
+                    <li class="toc-h2"><a href="#best-practices" class="toc-link">Best Practices</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

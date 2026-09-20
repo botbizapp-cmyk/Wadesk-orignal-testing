@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings – WaDesk SaaS Docs</title>
+    <meta name="description" content="System Settings — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>System Settings</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>System Settings</strong> (Admin &rarr; Settings) is where the platform owner configures everything that isn't tied to a single workspace: the brand, the WhatsApp engine, signup behaviour, billing scope, SEO, the installable app, email, and integrations. Changes take effect immediately.</p>
+                        <p><strong>Secret values are encrypted.</strong> Sensitive credentials &mdash; the Meta App Secret, the webhook verify token, the Twilio Auth Token, Unofficial API tokens, and the Meta system-user and Ads tokens &mdash; are stored encrypted and never shown back to you in full.</p>
+                        <p>The settings landing page shows a quick summary &mdash; how many settings are filled in, how many secrets are stored, what still &ldquo;needs a test&rdquo;, and when settings were last changed and by whom &mdash; followed by a card for each group. Each group has its own page:</p>
+                        <table>
+                            <thead><tr><th>Group</th><th>Where to find it</th><th>Covered in</th></tr></thead>
+                            <tbody>
+                                <tr><td>General &amp; brand, signup, billing scope</td><td>Settings &rarr; General</td><td><a href="#general">General &amp; Brand</a>, <a href="#signup-plan">Signup / Billing</a></td></tr>
+                                <tr><td>WhatsApp engine &amp; provider credentials</td><td>Settings &rarr; WhatsApp Message</td><td><a href="#providers">WhatsApp Provider Configuration</a></td></tr>
+                                <tr><td>Email (SMTP)</td><td>Settings &rarr; Mail</td><td><a href="#mail">Email (SMTP)</a></td></tr>
+                                <tr><td>Wallet rules</td><td>Settings &rarr; Wallet Rules</td><td><a href="#checkout-integrations">Wallet, Checkout &amp; Integrations</a></td></tr>
+                                <tr><td>SEO</td><td>Settings &rarr; SEO</td><td><a href="#seo">SEO</a></td></tr>
+                                <tr><td>Installable app</td><td>Settings &rarr; PWA</td><td><a href="#pwa">Installable App</a></td></tr>
+                                <tr><td>Integrations (Shopify, WooCommerce, catalog)</td><td>Settings &rarr; Integration</td><td><a href="#checkout-integrations">Wallet, Checkout &amp; Integrations</a></td></tr>
+                                <tr><td>Privacy &amp; analytics</td><td>Settings &rarr; Privacy</td><td><a href="#checkout-integrations">Wallet, Checkout &amp; Integrations</a></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="general">General &amp; Brand</h2>
+                        <p>The <strong>General</strong> page (Settings &rarr; General) covers the platform's identity and default behaviour.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default / limit</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td>App name</td><td>Required, up to 80 characters</td><td>The platform name shown throughout the app and emails.</td></tr>
+                                <tr><td>App URL</td><td>Must be a valid web address</td><td>The main web address of your platform.</td></tr>
+                                <tr><td>Support email, contact number, from email</td><td>&mdash;</td><td>Core contact and sender details.</td></tr>
+                                <tr><td>Default timezone / language / currency</td><td>&mdash;</td><td>Platform-wide defaults applied to new workspaces. The language and currency pickers list your active <em>Languages</em> and <em>Currencies</em>.</td></tr>
+                                <tr><td>Address, map URL</td><td>&mdash;</td><td>Optional company address and embedded map for public pages.</td></tr>
+                                <tr><td>Preloader</td><td>On</td><td>Show the loading animation on page load.</td></tr>
+                                <tr><td>Maintenance mode</td><td>Off</td><td>Take the platform offline for everyone except admins.</td></tr>
+                                <tr><td>Public registration</td><td>On</td><td>Allow new accounts to sign themselves up.</td></tr>
+                                <tr><td>Auto-verify email</td><td>Off</td><td>When on, new accounts are treated as verified at signup and skip the verify-email screen. Useful when email isn't set up, or for invite-only setups where you vet people yourself.</td></tr>
+                                <tr><td>Platform branding footer</td><td>Up to 60 characters</td><td>The small footer line added to messages from workspaces whose plan doesn't include &ldquo;remove branding&rdquo;. Saving this updates every workspace right away.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Brand assets</h3>
+                        <p>WaDesk uses a <strong>single favicon shared across all themes</strong>, plus <strong>one logo per theme</strong> so each look can carry its own version. The theme slots are:</p>
+                        <table>
+                            <thead><tr><th>Theme</th><th>Note</th></tr></thead>
+                            <tbody>
+                                <tr><td>Paper (default)</td><td>Light, off-white &mdash; the default look.</td></tr>
+                                <tr><td>Bright white</td><td>Higher-contrast white background.</td></tr>
+                                <tr><td>Dark (beta)</td><td>Upload a light / inverted version of your logo here.</td></tr>
+                                <tr><td>Doodle (fancy)</td><td>Pastel mint background.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The favicon accepts PNG, ICO, JPG, SVG, or WebP (up to 512&nbsp;KB); logos accept PNG, JPG, SVG, or WebP (up to 1&nbsp;MB).</p>
+                        <blockquote class="info"><strong>Tip.</strong> For the Dark theme, upload a light or inverted version of your logo so it stays legible against the dark background.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="signup-plan">Default Signup Plan, Trial &amp; Billing Scope</h2>
+                        <p>Three settings on the General page govern what happens the moment a new owner finishes signing up:</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td>Default signup plan</td><td>(empty)</td><td>The plan a new workspace starts on. The picker lists your active plans and flags which are free. Leave empty to fall back to the first active free plan.</td></tr>
+                                <tr><td>Registration trial days</td><td>14</td><td>When the chosen signup plan is a <strong>free</strong> plan, the new workspace gets a trial of this many days. Range 0&ndash;365.</td></tr>
+                                <tr><td>Billing plan scope</td><td>Per workspace</td><td>How a paid plan applies across an owner's workspaces (see below).</td></tr>
+                            </tbody>
+                        </table>
+                        <ul>
+                            <li><strong>Per workspace</strong> &mdash; each workspace is billed separately on its own plan.</li>
+                            <li><strong>Per account</strong> &mdash; the owner's paid plan unlocks all of their workspaces.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Caution.</strong> The default signup plan must be a real plan, so create the plan first and then select it here. Changing the billing scope affects how every owner's plan benefits are worked out, so review your plans before switching it on a live platform.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="providers">WhatsApp Provider Configuration</h2>
+                        <p>The <strong>WhatsApp Message</strong> page (Settings &rarr; WhatsApp Message) is the most important integration page. You pick <strong>exactly one</strong> messaging engine &mdash; it is used across the whole platform; individual workspaces don't get a choice. Clicking an engine card reveals that engine's credential fields.</p>
+                        <table>
+                            <thead><tr><th>Engine</th><th>Credentials needed</th></tr></thead>
+                            <tbody>
+                                <tr><td>Unofficial API / WhatsApp API</td><td>The Unofficial API server URL.</td></tr>
+                                <tr><td>Business API (Meta)</td><td>Meta App ID, App Secret, webhook verify token, Config ID.</td></tr>
+                                <tr><td>Twilio</td><td>Account SID, Auth Token, WhatsApp From number.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Switching engines mid-traffic drops messages already queued for sending.</strong> Pause campaigns first, then change the engine.</blockquote>
+
+                        <h3>Business API (Meta) fields</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Meta App ID</td><td>From <em>developers.facebook.com &rarr; your app &rarr; Basic settings</em>. Used for one-click sign-in.</td></tr>
+                                <tr><td>App Secret</td><td><strong>Stored encrypted.</strong> Only changed when you actually type a value &mdash; re-saving with the field blank keeps the stored secret. The form shows a &ldquo;stored, leave blank to keep&rdquo; placeholder once set. Re-paste only to rotate it. Also used to verify that incoming Meta messages are genuine.</td></tr>
+                                <tr><td>Webhook verify token</td><td><strong>This is the value you paste into Meta's Callback URL &ldquo;Verify token&rdquo; field.</strong> Meta sends it back when you connect; WaDesk only accepts the connection if it matches. Stored encrypted. Any random string works &mdash; it just has to match on both sides.</td></tr>
+                                <tr><td>Webhook URL (read-only)</td><td>The page displays <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code> with a copy button. Paste it in <em>App dashboard &rarr; WhatsApp &rarr; Configuration &rarr; Callback URL</em> and subscribe to the <code>messages</code> and <code>message_status</code> fields.</td></tr>
+                                <tr><td>Sign-in Config ID</td><td>Optional. From <em>Meta Business Suite &rarr; Login Configurations</em>. Fill it to enable the one-click &ldquo;Sign in with Meta&rdquo; connect flow; leave blank to have workspaces paste their token manually. (Requires the <em>Tech Provider</em> role on the Meta app.)</td></tr>
+                                <tr><td>OAuth redirect URI (read-only)</td><td>Shown as <code>https://YOUR-DOMAIN/connect/wa-store/waba</code>. Paste in <em>App dashboard &rarr; Facebook Login &rarr; Valid OAuth redirect URIs</em>.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Per-workspace credentials.</strong> Each workspace connects its own phone number and access token while adding a connected number (Devices &rarr; Add device). You, the admin, only configure the platform-level Meta App credentials here.</blockquote>
+
+                        <h4>Advanced Business API controls (shown only when Business API is active)</h4>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Multi-workspace sending</td><td>Off</td><td>Sends every message through each workspace's own connected Meta account instead of a single platform-wide token. Required when serving many merchants in production.</td></tr>
+                                <tr><td>Graph API version</td><td><code>v23.0</code></td><td>The Meta API version used for sending. Must look like <code>v23.0</code>.</td></tr>
+                                <tr><td>New template submission / sync</td><td>Off</td><td>When on, new message templates are submitted to Meta when you save them, and their approval status updates automatically.</td></tr>
+                                <tr><td>Template check interval (min)</td><td>30</td><td>How often WaDesk re-checks templates that are still pending after an hour. Range 5&ndash;240.</td></tr>
+                                <tr><td>Strict template checker</td><td>On</td><td>When on, ban-prevention warnings (risky trigger phrases, over-long bodies) block submission instead of just warning you.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Unofficial API field</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Server URL</td><td>Must be a valid web address (e.g. <code>http://localhost:8888</code>). The address where your Unofficial API server runs; it must be able to reach the WaDesk servers. Incoming messages and status updates are handled automatically.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Twilio fields</h3>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Account SID</td><td>From the Twilio Console dashboard.</td></tr>
+                                <tr><td>Auth Token</td><td><strong>Stored encrypted.</strong> Only changed when you type a value (&ldquo;stored, leave blank to keep&rdquo; once set). Also used to verify that incoming Twilio messages are genuine.</td></tr>
+                                <tr><td>WhatsApp sender</td><td>The approved sender or sandbox number, including the country code (for example <code>+14155238886</code>).</td></tr>
+                                <tr><td>Status callback URL (read-only)</td><td>Shown as <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code>. Paste in your Twilio Messaging Service &rarr; Integration tab.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Sending speed &amp; batching</h3>
+                        <p>The bottom of the page controls how fast messages go out, to help you stay under WhatsApp's limits.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>Range</th></tr></thead>
+                            <tbody>
+                                <tr><td>Gap between messages (seconds)</td><td>3</td><td>1&ndash;600</td></tr>
+                                <tr><td>Batch size (recipients per batch)</td><td>50</td><td>1&ndash;10000</td></tr>
+                                <tr><td>Gap between batches (minutes)</td><td>5</td><td>1&ndash;1440</td></tr>
+                                <tr><td>Enable batches</td><td>Off</td><td>On / off</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Pacing tip.</strong> Lower the gap between messages only after running smoothly for a day &mdash; Meta throttles senders that move too fast. <strong>3 seconds</strong> is the safe default. See the <a href="../introduction.html#three-engines">three engines</a> overview for how each engine differs, and the <a href="../integrations/webhooks.html#inbound">Webhooks page</a> for incoming vs outgoing messages.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="mail">Email (SMTP)</h2>
+                        <p>The <strong>Mail</strong> page (Settings &rarr; Mail) sets up outgoing email. Every field starts from whatever your installation was set up with, so a fresh install isn't blank. Saving takes effect immediately &mdash; the very next email uses the new settings.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes / default</th></tr></thead>
+                            <tbody>
+                                <tr><td>Mailer</td><td>SMTP / sendmail / log / array / Mailgun / SES / Postmark / Resend</td></tr>
+                                <tr><td>Host</td><td>Up to 200 characters</td></tr>
+                                <tr><td>Port</td><td>1&ndash;65535 (default 587)</td></tr>
+                                <tr><td>Username</td><td>Up to 200 characters</td></tr>
+                                <tr><td>Password</td><td><strong>Stored encrypted.</strong> Shown as a &ldquo;(set)&rdquo; placeholder &mdash; never the real value. Leave blank to keep the saved password.</td></tr>
+                                <tr><td>Encryption</td><td>TLS / SSL / STARTTLS / none</td></tr>
+                                <tr><td>From name</td><td>Up to 120 characters (defaults to your app name)</td></tr>
+                                <tr><td>From address</td><td>A valid email address</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Send a test.</strong> The page has a <strong>Send test</strong> button: enter an address and WaDesk sends a one-line test email using the saved settings, then shows success or the exact error. A successful test is recorded in the audit log and clears the &ldquo;needs test&rdquo; flag on the settings page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="seo">SEO</h2>
+                        <p>The <strong>SEO</strong> page (Settings &rarr; SEO) sets how your platform appears in search results and when shared on social media, with a live preview that uses your brand name. Fields include the page title, description, and keywords; a robots directive (default <code>index, follow</code>); a canonical URL and author; the social-share card details (title, description, image, type, URL) used by Facebook and Twitter; and search-engine verification codes for Google and Bing. A fresh install ships sensible defaults so the preview is never empty.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="pwa">Installable App (PWA)</h2>
+                        <p>The <strong>PWA</strong> page (Settings &rarr; PWA) lets visitors install your platform like an app on their phone or desktop, and controls how that installed app looks.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th></tr></thead>
+                            <tbody>
+                                <tr><td>PWA enabled / install prompt / offline enabled</td><td>Off / On / On</td></tr>
+                                <tr><td>App name, short name, description</td><td>Falls back to your brand name</td></tr>
+                                <tr><td>Start URL, scope</td><td><code>/</code></td></tr>
+                                <tr><td>Display</td><td>standalone (or fullscreen, minimal-ui, browser)</td></tr>
+                                <tr><td>Orientation</td><td>portrait</td></tr>
+                                <tr><td>Theme color, background color</td><td><code>#075E54</code>, <code>#FBFAF6</code></td></tr>
+                                <tr><td>Icons (192, 512) and splash</td><td>URLs to your icon assets</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Tip.</strong> Provide both the 192&times;192 and 512&times;512 icons &mdash; browsers use the small one for the home-screen tile and the large one for the splash screen. Theme and background colors must be valid hex values.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="checkout-integrations">Wallet, Checkout &amp; Integrations</h2>
+                        <p>Beyond the groups above, System Settings also covers:</p>
+                        <ul>
+                            <li><strong>Wallet rules</strong> (Settings &rarr; Wallet Rules) &mdash; how many credits a new signup gets from a referral, how many credits each outgoing message costs, and how many credits a customer gets per unit of currency when they top up.</li>
+                            <li><strong>Checkout settings</strong> &mdash; how the plan checkout behaves, in its own area (Admin &rarr; Checkout Settings).</li>
+                            <li><strong>Integrations</strong> &mdash; the integration hub, plus Shopify (on/off, app keys, permissions, redirect URL) and WooCommerce connection settings, and the product catalog (with its own test button).</li>
+                            <li><strong>Privacy &amp; Analytics</strong> &mdash; the cookie banner, GDPR / CCPA and accessibility options, and analytics tracking IDs (Google Analytics, Google Tag Manager, Meta Pixel, Microsoft Clarity, Plausible, PostHog, and more).</li>
+                        </ul>
+                        <p>All your settings can be <strong>exported</strong> to a file, and a &ldquo;needs test&rdquo; indicator flags any saved integration &mdash; email, catalog, or Shopify &mdash; that hasn't yet passed a successful test.</p>
+                        <blockquote class="warning"><strong>Caution.</strong> Provider tokens, app secrets, the webhook verify token, and the email password are stored encrypted using your installation's security key. If that key is ever changed, the saved secrets can no longer be read &mdash; you would need to re-enter every secret afterwards.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./ai-keys.html">AI &amp; API Keys</a> &mdash; the global AI provider credentials.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; platform security policy and the record of settings changes.</li>
+                            <li><a href="./announcements.html">Announcements</a> &mdash; the platform-wide marquee bar.</li>
+                            <li><a href="../integrations/webhooks.html">Webhooks</a> &mdash; outbound webhooks, and where the inbound platform webhook is wired.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#general" class="toc-link">General &amp; Brand</a></li>
+                    <li class="toc-h2"><a href="#signup-plan" class="toc-link">Signup Plan, Trial &amp; Billing</a></li>
+                    <li class="toc-h2"><a href="#providers" class="toc-link">WhatsApp Provider Configuration</a></li>
+                    <li class="toc-h2"><a href="#mail" class="toc-link">Email (SMTP)</a></li>
+                    <li class="toc-h2"><a href="#seo" class="toc-link">SEO</a></li>
+                    <li class="toc-h2"><a href="#pwa" class="toc-link">Installable App (PWA)</a></li>
+                    <li class="toc-h2"><a href="#checkout-integrations" class="toc-link">Wallet, Checkout &amp; Integrations</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

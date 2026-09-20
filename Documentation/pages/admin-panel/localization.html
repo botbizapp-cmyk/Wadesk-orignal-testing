@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currencies &amp; Languages – WaDesk SaaS Docs</title>
+    <meta name="description" content="Currencies &amp; Languages — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Currencies &amp; Languages</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The localization area lets you control two things customers see everywhere: the <strong>currencies</strong> they can be billed in and the <strong>languages</strong> the interface is offered in. You'll find them under <strong>Admin &rarr; Currencies</strong> and <strong>Admin &rarr; Languages</strong>.</p>
+                        <p>Both pages work the same way &mdash; a stats strip, a table, and a way to set a single platform default.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="currencies">Currencies</h2>
+                        <p>The currency list defines which currencies workspaces can pick and how prices convert between them. Exchange rates are kept <strong>relative to USD</strong> (USD itself is always 1.0). Changing the default updates every user dashboard, invoice, and wallet display across the platform.</p>
+                        <p>The page has a stats strip (total, active, system default, inactive), a default selector, a search box, and the currency table.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="add-currency">Adding &amp; Editing a Currency</h2>
+                        <p>Click <strong>Add currency</strong> to reveal the form. The same fields apply when editing an existing row.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong></td><td>Required. The display name, e.g. "Indian Rupee".</td></tr>
+                                <tr><td><strong>Code</strong></td><td>Required and unique. The ISO code, e.g. <code>INR</code>.</td></tr>
+                                <tr><td><strong>Symbol</strong></td><td>The symbol shown next to amounts, e.g. <code>&#8377;</code>.</td></tr>
+                                <tr><td><strong>Precision</strong></td><td>Required. Decimal places (0&ndash;6). Use 2 for most currencies, 0 for ones with no minor unit.</td></tr>
+                                <tr><td><strong>Exchange rate</strong></td><td>Required. The rate relative to USD. Hit "Fetch live rates" to auto-fill.</td></tr>
+                                <tr><td><strong>Active</strong></td><td>Whether the currency is offered to workspaces.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="exchange-rates">Live Exchange Rates</h2>
+                        <p>The <strong>Fetch live rates</strong> button pulls current rates from a free public provider (open.er-api.com, no API key required) and bulk-updates every currency whose code appears in the response. USD stays pinned at 1.0. The action reports how many currencies were updated and is recorded in the audit log.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Rates aren't fetched automatically &mdash; refresh them periodically (or before a big billing run) so conversions stay accurate. If the provider is unreachable, you'll get an error and your existing rates are left untouched.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="default-currency">Setting the Default Currency &amp; Toggling</h2>
+                        <p>The <strong>System default</strong> selector at the top sets the platform-wide default currency. New plans and displays fall back to it, and changing it immediately refreshes formatting across the app.</p>
+                        <p>Each row can be toggled active/inactive or deleted.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> You cannot delete the currency that is currently the system default &mdash; the delete is blocked. Change the default to another currency first, then remove the old one.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="languages">Languages</h2>
+                        <p>The languages page controls which languages new users and workspaces can pick from. Active languages appear in the user-side language switcher and in template / auto-reply pickers. The <strong>default</strong> language is the fallback for every brand-new account that hasn't chosen one yet.</p>
+                        <p>The table shows each language's sort order, name and native name, text direction, active state, and a way to set it as default.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="language-pack">The Fixed 20-Language Pack</h2>
+                        <p>WaDesk ships with a fixed pack of 20 languages, each with its own translation. For that reason, <strong>adding brand-new languages is intentionally turned off</strong> &mdash; a new language would need its own translation to display correctly. You can still fully manage the languages that ship.</p>
+                        <table>
+                            <thead><tr><th>Action</th><th>Available?</th></tr></thead>
+                            <tbody>
+                                <tr><td>Toggle a language active/inactive</td><td>Yes</td></tr>
+                                <tr><td>Edit native name, direction, sort order</td><td>Yes</td></tr>
+                                <tr><td>Set a language as the platform default</td><td>Yes</td></tr>
+                                <tr><td>Add a brand-new language</td><td>No (turned off until a translation for it is available)</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="rtl">Text Direction (RTL)</h2>
+                        <p>Each language has a <strong>direction</strong> of either <code>ltr</code> (left-to-right) or <code>rtl</code> (right-to-left). Setting a language such as Arabic or Hebrew to <code>rtl</code> tells the app to mirror its layout for users on that language. You can edit a language's direction on its row.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="default-language">Setting the Default Language</h2>
+                        <p>To make a language the platform default, it must first be <strong>active</strong> &mdash; trying to default an inactive language prompts you to activate it first. Once set, the default applies to all newly created accounts, and the change shows up right away.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> As with currencies, you cannot delete the language that is currently the default. Pick a different default first, then remove it.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#currencies" class="toc-link">Currencies</a></li>
+                    <li class="toc-h2"><a href="#add-currency" class="toc-link">Adding &amp; Editing a Currency</a></li>
+                    <li class="toc-h2"><a href="#exchange-rates" class="toc-link">Live Exchange Rates</a></li>
+                    <li class="toc-h2"><a href="#default-currency" class="toc-link">Default Currency &amp; Toggling</a></li>
+                    <li class="toc-h2"><a href="#languages" class="toc-link">Languages</a></li>
+                    <li class="toc-h2"><a href="#language-pack" class="toc-link">The Fixed 20-Language Pack</a></li>
+                    <li class="toc-h2"><a href="#rtl" class="toc-link">Text Direction (RTL)</a></li>
+                    <li class="toc-h2"><a href="#default-language" class="toc-link">Setting the Default Language</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

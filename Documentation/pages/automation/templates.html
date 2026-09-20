@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Templates – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Templates — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Templates</h1>
+
+                    <section class="mb-12">
+                        <h2 id="why-templates">Why templates exist</h2>
+                        <p><strong>Templates</strong> are pre-written, reusable WhatsApp messages with personalisation variables, headers, footers, and buttons. Find them under <strong>Templates</strong> in the top navigation. The same templates are used across the Team Inbox, Broadcasts, WhatsApp Campaigns, the Scheduled sender, and the Flow builder.</p>
+                        <p>WhatsApp does not let a business send whatever it likes, whenever it likes. The platform is built around two ideas you have to understand before you build a single template:</p>
+                        <ul>
+                            <li><strong>The 24-hour customer-service window.</strong> The moment a customer messages you, a 24-hour window opens. <em>Inside</em> that window you can reply with free-form text, media, interactive messages — anything. The window resets every time the customer messages again.</li>
+                            <li><strong>Outside the window, you need an approved template.</strong> Once 24 hours pass with no inbound message from that customer, free-form sending is blocked. The <em>only</em> way to re-open the conversation — an order update, an appointment reminder, a promotion — is a <strong>template message that Meta has pre-approved</strong>. This is why outreach, broadcasts, and campaigns all run on templates: they are the sanctioned way to start (or restart) a conversation.</li>
+                        </ul>
+                        <p>Pre-approval is how WhatsApp keeps spam under control. Meta reviews each template once, up front, and then you can send the approved version to as many opted-in recipients as your messaging tier allows.</p>
+                        <blockquote class="info"><strong>The bottom line:</strong> on the official WhatsApp connections, a template is the foundation of any outbound WhatsApp program. Getting templates written, checked, and approved is what makes broadcasts and campaigns possible.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engines">How templates differ by WhatsApp connection</h2>
+                        <p>How a template behaves depends on how your WhatsApp number is connected:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Connection</th><th>What a template is</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>WhatsApp Cloud API (official / Meta)</strong></td><td>Submitted to Meta for review.</td><td>Meta's real status — <strong>Pending</strong>, <strong>Approved</strong>, or <strong>Rejected</strong> (plus In appeal, Disabled, Paused, Flagged). Only <strong>Approved</strong> templates can be sent outside the 24-hour window.</td></tr>
+                                <tr><td><strong>Twilio</strong></td><td>Linked to a Twilio content template so marketing, utility, and authentication sends route through Twilio.</td><td>A status you manage yourself (approved / pending / rejected) for your own workflow.</td></tr>
+                                <tr><td><strong>Unofficial API</strong></td><td>No Meta review — sent as an ordinary message with the variables filled in.</td><td>A status you manage yourself.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The status tabs (Approved / Pending / Rejected) show Meta's real status on the official Cloud API connection, and your own status on the Unofficial API or Twilio. On the official connection, only templates Meta has actually approved can be picked elsewhere in the app — so a template you marked "approved" on another connection can never accidentally be sent through Meta and fail.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="template-types">Template types</h2>
+                        <p>The create form supports four types. Pick the type first — the rest of the form adapts to it.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>What it is</th><th>Typical use</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Standard</strong></td><td>Header (text or media) + body + footer + buttons. The everyday template.</td><td>Order updates, promos, reminders, notifications.</td></tr>
+                                <tr><td><strong>Media</strong></td><td>A standard template whose header is an image, video, or document.</td><td>Receipts, brochures, banner-led announcements.</td></tr>
+                                <tr><td><strong>Carousel</strong></td><td>An intro body above 2&ndash;10 swipeable cards. Each card has an image/video, body text, and an identical button shape.</td><td>Product lines, destination sets, multi-offer promos.</td></tr>
+                                <tr><td><strong>Authentication</strong></td><td>A one-time-passcode template with a copy-code or one-tap OTP button. Must be filed under the <strong>AUTHENTICATION</strong> Meta category.</td><td>Login codes, 2FA, transaction verification.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="anatomy">Component reference</h2>
+                        <p>Every part of a template has a field on the create form and a Meta limit. WaDesk's built-in checker catches any rule break before the template is submitted.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Component</th><th>Limit / rules</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong></td><td>Lowercase letters, digits, and underscores; up to 60 characters in the form. Whatever you type is tidied into this format and must contain at least one letter or digit.</td></tr>
+                                <tr><td><strong>Category</strong></td><td>Marketing, Utility, or Authentication — this is the review path Meta uses. You can also tag an industry (e.g. travel / ecommerce) for your own filtering.</td></tr>
+                                <tr><td><strong>Language</strong></td><td>A language code such as <code>en_US</code>, <code>hi_IN</code>, <code>pt_BR</code>, or just <code>en</code>.</td></tr>
+                                <tr><td><strong>Header</strong></td><td>A text header up to 60 characters with <strong>at most one</strong> variable; or an image, video, or document file (the type is detected from the file you upload).</td></tr>
+                                <tr><td><strong>Body</strong></td><td>Up to 1024 characters. Supports <code>*bold*</code>, <code>_italic_</code>, and personalisation variables.</td></tr>
+                                <tr><td><strong>Footer</strong></td><td>Up to 60 characters. <strong>No variables allowed.</strong></td></tr>
+                                <tr><td><strong>Buttons</strong></td><td>Up to 10 total. See the button table below for per-type limits.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="buttons">Button reference</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Button type</th><th>Limit &amp; rules</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Visit website (link)</td><td>Up to 2 per template. The link can be up to 2000 characters. A link with a <code>{{1}}</code> variable in it needs an example value.</td></tr>
+                                <tr><td>Call phone</td><td>Up to 1. Digits only with an optional leading <code>+</code>, 6&ndash;15 digits.</td></tr>
+                                <tr><td>Copy code</td><td>Up to 1. Needs an example code value.</td></tr>
+                                <tr><td>Quick reply</td><td>Text only. Counts toward the 10-button total.</td></tr>
+                                <tr><td>OTP (one-tap / copy)</td><td>Authentication templates only. One-tap also needs your Android app's package name and signing key (signature hash).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Button grouping:</strong> Meta requires same-type buttons to be next to each other. An order like website, quick reply, website is rejected — group all your website / phone / quick-reply buttons together. Button labels are capped at 25 characters.</blockquote>
+
+                        <h3 id="variables">Placeholders &amp; personalisation</h3>
+                        <p>Type placeholders directly in the header or body. You can write them by name (<code>{{first_name}}</code>) or by number (<code>{{1}}</code>) — when you save, WaDesk <strong>converts everything to numbers</strong> (<code>{{1}}</code>, <code>{{2}}</code>, …) in the order they first appear. This is required because Meta rejects named placeholders, so even one stray <code>{{first_name}}</code> would fail the whole submission.</p>
+                        <p>WaDesk remembers which contact field belongs to each number, so the right value is filled in for each recipient when the message is sent. If your text already uses numbers, it is left unchanged.</p>
+                        <blockquote class="warning"><strong>Placeholder rules Meta enforces (WaDesk blocks these before submission):</strong>
+                            <ul>
+                                <li>Body cannot <strong>start</strong> or <strong>end</strong> with a placeholder — add text around it (<code>Hi {{1}}, your order is ready</code>).</li>
+                                <li>No two placeholders back-to-back, even separated by a space (<code>{{1}} {{2}}</code>) — put descriptive text between them.</li>
+                                <li>Numbers must start at <code>{{1}}</code> and run in order with no gaps.</li>
+                                <li>The header allows at most one variable; the footer allows none.</li>
+                                <li>Meta wants one example value per placeholder. Fill these in or the template scores poorly and may be auto-rejected.</li>
+                            </ul>
+                        </blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create-standard">Create a standard template</h2>
+                        <ol>
+                            <li>Go to <strong>Templates</strong> and click <strong>Create Template</strong>.</li>
+                            <li>Keep the type on <strong>Standard</strong> (the pill at the top shows the active type).</li>
+                            <li><strong>Identity:</strong> enter a <strong>name</strong> (lowercase, e.g. <code>order_shipped</code>), pick a <strong>category</strong> (Marketing / Utility / Authentication — this is the Meta review path), and a <strong>language</strong>.</li>
+                            <li><strong>Header (optional):</strong> plain text (max 60, one variable max), or switch to media and upload an image, video, or document. The type is detected from the file.</li>
+                            <li><strong>Body:</strong> write the message. Use <code>{{1}}</code>, <code>{{2}}</code> (or named tags) for personalisation, and <code>*bold*</code> / <code>_italic_</code> for emphasis. Keep it under 1024 characters.</li>
+                            <li><strong>Footer (optional):</strong> a short closing line — no variables.</li>
+                            <li><strong>Buttons (optional):</strong> add up to 10 — action buttons (visit website / call phone / copy code) and quick replies, grouped by type and within the per-type limits.</li>
+                            <li>Click <strong>Submit for review</strong>. WaDesk tidies your placeholders, runs its checks, and takes you to the template's detail page.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Build with AI:</strong> the create form has a <strong>Build with AI</strong> button. Give it a business name, industry, occasion, purpose, call-to-action, and tone, and it returns a ready-to-fill header, body, footer, and buttons (no emojis, within Meta's limits) that you can review and edit. You can only pick the AI providers your admin has enabled.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create-carousel">Create a carousel template</h2>
+                        <ol>
+                            <li>Choose type <strong>Carousel</strong> on the create form.</li>
+                            <li>Write the intro <strong>body</strong> (shown above the cards). This is <strong>mandatory</strong> for carousels — Meta rejects an empty top-level body.</li>
+                            <li>Add <strong>2 to 10 cards</strong>. For each card supply a body (max 160 characters), upload media, and add 1&ndash;2 buttons.</li>
+                            <li>Click <strong>Submit for review</strong>.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Carousel consistency rules (Meta rejects mismatches):</strong> every card must use the <strong>same media type</strong> (all images or all videos), and every card must have the <strong>same buttons</strong> — same number, same types, same order. Each card needs at least one button and at most two. Card bodies are capped at 160 characters. WaDesk blocks any mismatch before it reaches Meta.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create-auth">Create an authentication (OTP) template</h2>
+                        <ol>
+                            <li>Choose type <strong>Authentication</strong> and set the category to <strong>Authentication</strong> (required — Meta rejects an OTP template filed under any other category).</li>
+                            <li>Add exactly one OTP button: <strong>copy code</strong> or <strong>one-tap</strong>.</li>
+                            <li>For one-tap, supply your Android app's <strong>package name</strong> (e.g. <code>com.example.app</code>) and its signing key (<strong>signature hash</strong>).</li>
+                            <li>Click <strong>Submit for review</strong>.</li>
+                        </ol>
+                        <blockquote class="info"><strong>What WaDesk fills in for you:</strong> authentication templates have a fixed shape, so WaDesk builds the standard security-notice body, the code-expiry footer, the OTP button, and a short send window for you. At send time you only supply the code once — it's used for both the message text and the button.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="linter">The checker &amp; fixing rejections</h2>
+                        <p>Before any template is sent to Meta, WaDesk checks it. The goal is to never let a doomed submission reach Meta, because every rejection lowers your WhatsApp number's quality score — and that slows delivery for every other template on the same number.</p>
+                        <p>The checker reports two levels:</p>
+                        <ul>
+                            <li><strong>Errors — block the submission.</strong> Clear breaks of Meta's rules.</li>
+                            <li><strong>Warnings — allow the submission but show a notice.</strong> Practices that often (not always) cause rejection or low quality scores.</li>
+                        </ul>
+
+                        <h3 id="linter-errors">Error categories (must fix)</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Category</th><th>What trips it</th><th>Fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Name / language</td><td>Empty name, no letters or digits, or a language that isn't a valid code.</td><td>Use a name with letters/digits/underscores and a code like <code>en_US</code>.</td></tr>
+                                <tr><td>Body size &amp; spacing</td><td>Empty body, over 1024 characters, tab characters, or 4 or more spaces in a row.</td><td>Trim to 1024; replace tabs and long gaps with single spaces.</td></tr>
+                                <tr><td>Placeholders</td><td>Body starts or ends with a placeholder, placeholders next to each other, gapped or out-of-order numbering, named placeholders, more than one variable in a header, or any variable in a footer.</td><td>Wrap placeholders in text, renumber from <code>{{1}}</code>, move extras to the body.</td></tr>
+                                <tr><td>Buttons</td><td>More than 10 total, more than 2 website, more than 1 phone, more than 1 copy-code, types not grouped, missing label, label over 25 characters, link over 2000 characters, a variable link without an example, or a malformed phone number.</td><td>Group by type, stay within the limits, add example values for variable links.</td></tr>
+                                <tr><td>Carousel</td><td>Fewer than 2 or more than 10 cards, missing intro body, a card without body / media / button, mismatched media type or buttons, card body over 160 characters, more than 2 buttons per card.</td><td>Make every card the same shape and give each one media and a button.</td></tr>
+                                <tr><td>Authentication</td><td>Not filed under the Authentication category, no OTP button, or one-tap missing the package name / signature hash.</td><td>Set the category and complete the OTP button fields.</td></tr>
+                                <tr><td>Emoji (Marketing)</td><td>More than 10 emoji in a Marketing body is rejected (only a warning in other categories).</td><td>Trim to 10 or fewer.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="linter-warnings">Warning categories (review before submitting)</h3>
+                        <ul>
+                            <li><strong>Long body</strong> — over ~800 characters reads poorly on mobile and scores lower.</li>
+                            <li><strong>Layout noise</strong> — 3+ consecutive line breaks, or ALL-CAPS words (5+ letters) that look like shouting.</li>
+                            <li><strong>No personalisation in marketing</strong> — a Marketing template with no placeholders tends to score lower and is more likely to be marked spam.</li>
+                            <li><strong>Missing examples</strong> — fewer real example values than placeholders. Meta auto-rejects templates with no examples; real examples score far better than filler.</li>
+                            <li><strong>Trigger phrases</strong> — see the warning below.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Trigger phrases:</strong> the linter flags promotional/manipulative wording Meta has historically rejected — <em>guaranteed</em>, <em>100%</em>, <em>act now</em>, <em>click here</em>, <em>limited time only</em>, <em>winner</em>, <em>congratulations you have won</em>, <em>free money</em>, <em>claim now</em>, <em>risk free</em>, <em>no obligation</em>, <em>lifetime deal</em>, and <em>don't miss</em>. Reword these before submitting.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="submit-meta">Submit to Meta &amp; the approval lifecycle</h2>
+                        <p>On the official Cloud API connection — when your admin has turned on Meta submission and a WhatsApp Business Account is connected — saving a template automatically submits it to Meta. The steps are:</p>
+                        <ol>
+                            <li>WaDesk checks the template. <strong>Errors stop the submission</strong> (your draft is still saved, so you can fix and retry); warnings are shown but allowed.</li>
+                            <li>Any header media and carousel images are uploaded to Meta.</li>
+                            <li>The template is sent to Meta for review.</li>
+                            <li>The template is marked with its Meta status (usually <strong>Pending</strong>), the category Meta assigned, and the submission time.</li>
+                        </ol>
+                        <p>You land on the template's <strong>detail page</strong>, which shows the status. While it's <strong>Pending</strong>, the page checks with Meta about every 30 seconds so the status flips to <strong>Approved</strong> or <strong>Rejected</strong> on its own. The list also refreshes statuses quietly in the background, so you don't have to keep tabs open.</p>
+                        <p>If a submission fails, your draft is still saved — fix the issue and re-submit from the detail page. The detail page also shows the <strong>quality score</strong> and any <strong>rejection reason</strong> Meta returns.</p>
+                        <blockquote class="warning"><strong>Approval is not instant.</strong> Meta review can take anywhere from minutes to about 48 hours. Do not schedule a broadcast against a template until its status is <strong>Approved</strong> — sending against a not-yet-approved template fails for every recipient (Meta reports it as an unknown template, error #132000).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="send">Send with variables (per engine)</h2>
+                        <p>Once approved, a template can be sent from the <strong>Team Inbox</strong> / Chat, <strong>Broadcasts</strong>, <strong>WhatsApp Campaigns</strong>, the <strong>Scheduled</strong> sender, and the Flow builder.</p>
+                        <p>When you send, WaDesk fills in your variables. The preview shows the values merged into the header and body (both <code>{{name}}</code> and <code>{name}</code> styles work), so what you see in the picker is what the recipient gets. For broadcasts and campaigns, each variable is matched to a contact field, so every recipient gets a personalised copy.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Connection</th><th>How variables are sent</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>WhatsApp Cloud API (official)</strong></td><td>The values are sent in order to fill the approved template's placeholders, matching the exact placeholder count (a mismatch is rejected by Meta). Media headers carry a media link, and only the buttons that need a value (variable links, quick-reply, copy-code, OTP) receive one.</td></tr>
+                                <tr><td><strong>Twilio</strong></td><td>The same values are sent in order against the Twilio content template (its ID looks like <code>HX</code> followed by 32 characters).</td></tr>
+                                <tr><td><strong>Unofficial API</strong></td><td>The body is filled in and sent as a normal WhatsApp message — there is no Meta template involved.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Ban safety:</strong> outside the 24-hour customer-service window you must use an <em>approved</em> template — free-form bulk sends to cold numbers are the fastest way to get a number flagged. Keep marketing personalised, respect opt-outs, and pace your sends. Broadcasts and Campaigns slow sends down for exactly this reason. Each rejected submission also drags your number's quality score down, which slows delivery for every template on that number.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Manage, edit &amp; delete</h2>
+                        <ul>
+                            <li><strong>Edit:</strong> editing a template re-tidies the placeholders and re-checks the rules. On the official Cloud API connection, a meaningful change usually means submitting for review again.</li>
+                            <li><strong>Filter &amp; search:</strong> the list filters by category, status, and name, and you can sort by newest / oldest / name.</li>
+                            <li><strong>Approve / reject (your own):</strong> on the Unofficial API and Twilio connections you can set a template's status yourself for your own workflow.</li>
+                            <li><strong>Delete:</strong> removes the template. Templates belong to your workspace — you can't see, edit, or delete another workspace's templates.</li>
+                            <li><strong>Plan limits:</strong> your plan sets how many templates you can create. Ready-made templates supplied by the platform don't count against your limit.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#why-templates" class="toc-link">Why templates exist</a></li>
+                    <li class="toc-h2"><a href="#engines" class="toc-link">How templates differ per engine</a></li>
+                    <li class="toc-h2"><a href="#template-types" class="toc-link">Template types</a></li>
+                    <li class="toc-h2"><a href="#anatomy" class="toc-link">Component reference</a></li>
+                    <li class="toc-h2"><a href="#create-standard" class="toc-link">Create a standard template</a></li>
+                    <li class="toc-h2"><a href="#create-carousel" class="toc-link">Create a carousel template</a></li>
+                    <li class="toc-h2"><a href="#create-auth" class="toc-link">Create an authentication template</a></li>
+                    <li class="toc-h2"><a href="#linter" class="toc-link">The linter &amp; fixing rejections</a></li>
+                    <li class="toc-h2"><a href="#submit-meta" class="toc-link">Submit to Meta &amp; lifecycle</a></li>
+                    <li class="toc-h2"><a href="#send" class="toc-link">Send with variables (per engine)</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Manage, edit &amp; delete</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

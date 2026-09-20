@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Limitations – WaDesk SaaS Docs</title>
+    <meta name="description" content="Demo Limitations — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Demo Limitations</h1>
+
+                    <section class="mb-12">
+                        <h2 id="demo-overview">Demo Overview</h2>
+                        <p>The <strong>WaDesk</strong> live demo lets you explore the platform with pre-loaded sample data &mdash; workspaces, contacts, conversations, campaigns, templates, and subscription plans &mdash; so you can evaluate the team inbox, marketing tools, flow builder, AI suite, and the multi-tenant admin panel before purchasing.</p>
+                        <p>The demo is designed to show you how WaDesk <em>works</em>, not to connect to live WhatsApp accounts. The restrictions below keep the shared environment stable and prevent it from sending real messages to real people.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="no-real-sends">No Real WhatsApp Sends</h2>
+                        <blockquote class="warning">
+                            <strong>The demo never sends real WhatsApp messages.</strong> This is the single most important demo limitation. Campaigns, broadcasts, single replies, and automated flows are simulated or disabled so that nothing leaves the server to an actual WhatsApp number.
+                        </blockquote>
+                        <p>Specifically, in the demo:</p>
+                        <ul>
+                            <li><strong>No live channel connections.</strong> You cannot scan a QR code to pair a real number on the Unofficial API, and the Cloud API / Twilio credentials are not connected to a live account.</li>
+                            <li><strong>Outbound sending is simulated.</strong> You can build a campaign or compose a reply and see the workflow, but no message is actually delivered to WhatsApp.</li>
+                            <li><strong>Inbound is sample data.</strong> The conversations you see in the inbox are pre-seeded examples, not messages from real contacts.</li>
+                        </ul>
+                        <p>This mirrors how WaDesk should be tested even on your own server &mdash; you should never point a real campaign at real contacts just to "try it out", because a connected number will genuinely send.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="other-restrictions">Other Restrictions</h2>
+                        <p>To keep the demo clean for every visitor, the following are also limited:</p>
+                        <ul>
+                            <li><strong>Sandbox payment gateways.</strong> Plan checkout runs in test mode. No real charges are made; use your payment provider's test card details to walk through the subscription flow.</li>
+                            <li><strong>Email and external notifications disabled.</strong> Transactional emails (verification, password reset, invoices) are not actually delivered, though templates can still be previewed.</li>
+                            <li><strong>AI features may be limited.</strong> AI chat, training, and voice-assistant features may be capped, mocked, or disabled because they consume paid third-party API credits.</li>
+                            <li><strong>Some admin settings are read-only.</strong> Platform-level settings that could break the demo for other visitors (branding resets, system configuration, destructive actions) are locked.</li>
+                            <li><strong>Periodic data resets.</strong> Demo data is reset on a schedule, so any workspaces, contacts, or settings you create will be reverted at the next reset.</li>
+                            <li><strong>Shared environment limits.</strong> Because many people use the demo at once, performance and rate limits are tighter than on a dedicated installation.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="full-version">What the Full Version Unlocks</h2>
+                        <p>When you install your own licensed copy of <strong>WaDesk</strong> on your server, every demo restriction is removed. The full version gives you:</p>
+                        <ul>
+                            <li>Live WhatsApp connections on all three engines &mdash; Unofficial API (QR pairing), WhatsApp Cloud API, and Twilio</li>
+                            <li>Real outbound campaigns, broadcasts, scheduled messages, and automated flows</li>
+                            <li>Live payment gateways (30+ supported) for real subscriptions and trials</li>
+                            <li>Working transactional email and notifications via your own mail provider</li>
+                            <li>Your own AI provider keys (OpenAI, Anthropic, Google) for chat and voice assistants</li>
+                            <li>Full control over every admin and white-label setting</li>
+                        </ul>
+                        <p>For the rules that govern free versus paid end products, see the <a href="general.html#licensing">General FAQs &rarr; Licensing</a>. Before you send anything real, read <a href="whatsapp-bans.html">WhatsApp &amp; Ban Safety</a>.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#demo-overview" class="toc-link">Demo Overview</a></li>
+                    <li class="toc-h2"><a href="#no-real-sends" class="toc-link">No Real WhatsApp Sends</a></li>
+                    <li class="toc-h2"><a href="#other-restrictions" class="toc-link">Other Restrictions</a></li>
+                    <li class="toc-h2"><a href="#full-version" class="toc-link">What the Full Version Unlocks</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

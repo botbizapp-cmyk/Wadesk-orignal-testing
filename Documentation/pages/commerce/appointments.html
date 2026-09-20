@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments &amp; Booking – WaDesk SaaS Docs</title>
+    <meta name="description" content="Appointments &amp; Booking — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Appointments &amp; Booking</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Appointments</strong> lets customers book time slots from inside a WhatsApp chat. WaDesk reads your Google Calendar to see when you're free, offers the next open slots as a WhatsApp list message, and writes confirmed bookings back as calendar events &mdash; optionally with a Google Meet link. Find it under <strong>More &rarr; Appointments</strong>; it's <strong>admin-only</strong>.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Page</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Appointments</strong></td><td>A connection-status panel plus lists of upcoming and recent past bookings, with cancel actions.</td></tr>
+                                <tr><td><strong>Settings</strong></td><td>Connect Google Calendar, pick which calendar to book into, set availability windows, and tune booking rules.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The booking itself happens inside a <strong>flow</strong>: you add a <strong>Book appointment</strong> step to any flow, the customer picks a slot from a list message, and WaDesk books it end-to-end.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Requirement</th><th>Where it comes from / where to set it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Google Calendar set up platform-wide</td><td>An administrator registers a Google Cloud sign-in app at <code>console.cloud.google.com</code> and pastes the <strong>Client ID + Client Secret</strong> under <strong>Admin &rarr; Settings &rarr; Google Calendar</strong> (and enables it). Until then, the connect screen shows an "isn't configured yet" notice.</td></tr>
+                                <tr><td>The redirect address</td><td>Defaults to <code>/appointments/oauth/google/callback</code> on your app's web address; the same admin page can override it. This address must be added to the Google Cloud app's list of authorized redirect URLs.</td></tr>
+                                <tr><td>A connected Google account</td><td>You sign in to Google to grant calendar access on the settings page (per workspace).</td></tr>
+                                <tr><td>Plan features</td><td>Booking requires the <strong>Appointment Booking</strong> and <strong>Google Calendar</strong> plan features. A monthly limit on the number of appointments also applies.</td></tr>
+                                <tr><td>A flow with a Book appointment step</td><td>Customers book through a flow &mdash; see <a href="#booking-flow">The booking flow</a>.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>One sign-in unlocks every Google step.</strong> The same Google connection covers Calendar (Book appointment + Google Meet), Sheets, Docs, Drive (files the app created), and Forms steps, plus the inbox composer &mdash; so the first consent screen asks for the full set at once. You can manage the same account from the dedicated <strong>Google Account</strong> page. Admins who prefer a stricter setup can narrow what's requested in system settings.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-google">Connecting Google Calendar</h2>
+                        <p>Open <strong>Appointments &rarr; Settings</strong> and click <strong>Connect Google Calendar</strong>. You're sent to Google to approve access; on return, WaDesk stores the connection securely and brings you back.</p>
+                        <ol>
+                            <li>WaDesk asks for the kind of access that keeps the connection alive in the background, so you don't have to sign in again and again.</li>
+                            <li>On first connect, it uses your <strong>main calendar</strong> so Meet links and bookings work right away; you can pick a different calendar in Step 1 of the settings form.</li>
+                            <li>The connection renews itself automatically, about <strong>60 seconds</strong> before it would expire.</li>
+                            <li>To disconnect, use <strong>Disconnect</strong> on the settings page &mdash; this removes the stored Google connection for the workspace.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>If renewal breaks.</strong> Keeping the connection alive depends on the admin's Google Cloud app being set up correctly. If it's misconfigured, the connection can quietly stop renewing. If bookings stop writing to the calendar, <strong>disconnect and reconnect</strong> to refresh it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="availability">Availability windows (Step 2)</h2>
+                        <p>Step 2 of the settings form defines <strong>when customers can book</strong>. There is one row per weekday with a <em>from</em> and <em>to</em> time. Leave a day blank to disable it entirely. A fresh workspace defaults to <strong>Mon&ndash;Fri, 09:00&ndash;18:00</strong> with weekends off.</p>
+                        <ul>
+                            <li>Times use 24-hour HH:MM format, and the <em>from</em> time must be earlier than the <em>to</em> time; invalid or empty rows are dropped on save.</li>
+                            <li>Only calendars you can <strong>write to</strong> are listed in the picker.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> pick a dedicated calendar to book into so personal events don't mix with customer bookings.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="booking-rules">Booking rules (Step 3)</h2>
+                        <p>Step 3 controls how slots are generated. These rules feed directly into the slot calculation. All are required except the default location.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Rule</th><th>Range</th><th>Default</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Slot duration (minutes)</td><td>5&ndash;480</td><td>30</td><td>Length of each bookable slot.</td></tr>
+                                <tr><td>Max bookings per day</td><td>1&ndash;96</td><td>16</td><td>Caps how many slots are offered per day.</td></tr>
+                                <tr><td>Buffer before (minutes)</td><td>0&ndash;240</td><td>0</td><td>Gap required before a slot; widens the clash check against calendar busy intervals.</td></tr>
+                                <tr><td>Buffer after (minutes)</td><td>0&ndash;240</td><td>0</td><td>Gap required after a slot.</td></tr>
+                                <tr><td>Advance booking window (days)</td><td>1&ndash;90</td><td>14</td><td>How far into the future slots are offered.</td></tr>
+                                <tr><td>Reminder (minutes before)</td><td>0&ndash;1440</td><td>60</td><td>When to send the WhatsApp reminder. Set to 0 to disable reminders.</td></tr>
+                                <tr><td>Default location (optional)</td><td>Max 191</td><td>&mdash;</td><td>Location written onto each calendar event.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="booking-flow">The booking flow</h2>
+                        <p>Customers don't book from a page &mdash; they book through a flow. In the <strong>flow builder</strong>, add a <strong>Book appointment</strong> step to a flow. When it runs, the step:</p>
+                        <ol>
+                            <li>Fetches the next available slots and sends them to the customer as a WhatsApp list message.</li>
+                            <li>When the customer taps a slot, books it &mdash; creating the appointment and the calendar event.</li>
+                            <li>Sends the confirmation back into the conversation.</li>
+                        </ol>
+                        <p>The plan features and the monthly appointment limit are checked when the booking is made.</p>
+                        <blockquote class="info"><strong>No double-booking.</strong> If a customer taps the same slot twice in the same conversation, they get the existing appointment back rather than two bookings.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="slot-calculation">Slot calculation</h2>
+                        <p>When slots are requested, WaDesk computes the next open times in the calendar's timezone:</p>
+                        <ol>
+                            <li>Build candidate slots from your availability windows, from <strong>now</strong> through the end of your advance booking window.</li>
+                            <li>Check your Google Calendar for the times you're already busy in that range.</li>
+                            <li>Drop any slot that clashes with a busy time, widened by the before / after buffers.</li>
+                            <li>Drop slots that are already in the past.</li>
+                            <li>Apply the max-per-day cap.</li>
+                            <li>Return the first few slots (a small handful at a time &mdash; up to 10, default 5).</li>
+                        </ol>
+                        <p>Each slot is offered with a start time, an end time, and a friendly label like "Mon 3 Jun &middot; 9:00 AM".</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="confirmations-meet">Confirmations, Google Meet &amp; reminders</h2>
+                        <p>When a slot is booked, WaDesk creates the appointment and, if a calendar is selected, writes the event to Google Calendar. Once the event is written, the appointment is marked <strong>confirmed</strong> (otherwise it stays <strong>pending</strong>).</p>
+                        <table>
+                            <thead>
+                                <tr><th>Output</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Calendar event</td><td>Carries the title, description, default location, the start/end times in the calendar's timezone, and Google's default reminders.</td></tr>
+                                <tr><td>Attendee invite</td><td>If the customer's email is captured, they're added as an attendee and Google sends them its own invite email.</td></tr>
+                                <tr><td>Google Meet link</td><td>A separate <strong>Google Meet</strong> flow step creates an event with a Meet video call attached, so the booking includes a video link. It uses the same Google connection. The inbox composer can also create a Meet link on demand.</td></tr>
+                                <tr><td>WhatsApp reminder</td><td>Sent the set number of minutes before the slot (default 60; 0 disables it). Skipped when the booking is made <em>inside</em> the reminder window, or for a cancelled / declined appointment.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cancel-reschedule">Cancel &amp; reschedule</h2>
+                        <p>From the <strong>Appointments</strong> list:</p>
+                        <ul>
+                            <li><strong>Cancel</strong> an upcoming booking &mdash; marks it cancelled and deletes the linked Google Calendar event (if the event is already gone, that's treated as success).</li>
+                            <li><strong>Reschedule</strong> &mdash; moves a booking to a new start/end time. WaDesk updates the <em>same</em> Google Calendar event, so attendees get a "this event was rescheduled" email rather than a brand-new invite, and the WhatsApp reminder is reset for the new time. The end must be after the start.</li>
+                        </ul>
+                        <p>A booking that's already cancelled or declined can't be rescheduled. Appointments use these statuses:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Pending</td><td>Booked, but the calendar event hasn't been written yet.</td></tr>
+                                <tr><td>Confirmed</td><td>Calendar event written; the booking is locked in.</td></tr>
+                                <tr><td>Cancelled</td><td>Cancelled; the calendar event is removed.</td></tr>
+                                <tr><td>Completed</td><td>The appointment has taken place.</td></tr>
+                                <tr><td>No-show</td><td>The customer didn't attend.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="timezones">Timezone handling</h2>
+                        <p>Slots, events, and the bookings list all honour a timezone, resolved in this order: the <strong>connected calendar's timezone</strong> (captured when you pick the calendar), then the <strong>workspace timezone</strong>, and finally <strong>UTC</strong>. The list view shows each booking's start, end, and timezone explicitly so there's no ambiguity for operators working across regions.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Google Calendar isn't configured yet"</td><td>The platform admin hasn't set the Client ID / Secret. Add them under <strong>Admin &rarr; Settings &rarr; Google Calendar</strong> and enable it.</td></tr>
+                                <tr><td>Redirect error from Google after sign-in</td><td>The redirect address isn't listed on the Google Cloud app. Add <code>/appointments/oauth/google/callback</code> (or the address shown in admin settings) to the app's authorized redirect URLs.</td></tr>
+                                <tr><td>Bookings stop writing to the calendar</td><td>The Google connection likely stopped renewing. Disconnect and reconnect on the settings page to refresh it.</td></tr>
+                                <tr><td>No calendars in the picker</td><td>WaDesk only lists calendars you can write to. Grant write access in Google Calendar, then click Refresh.</td></tr>
+                                <tr><td>No slots offered to customers</td><td>Check the availability windows aren't all blank, that the advance window covers upcoming days, and that the calendar isn't fully busy (after buffers).</td></tr>
+                                <tr><td>Customer's tap double-booked?</td><td>It can't &mdash; tapping the same slot twice returns the existing appointment.</td></tr>
+                                <tr><td>Booking blocked when the customer tries to book</td><td>Your plan lacks <strong>Appointment Booking</strong> / <strong>Google Calendar</strong>, or the monthly appointment limit is reached. Upgrade or wait for the limit to reset.</td></tr>
+                                <tr><td>No reminder was sent</td><td>The booking was made inside the reminder window, the reminder time is 0, or the appointment was cancelled/declined &mdash; all skip the reminder.</td></tr>
+                                <tr><td>Meet link missing on a booking</td><td>The plain Book appointment step creates an event without Meet. Use the separate <strong>Google Meet</strong> step (or the inbox composer's Meet action) to attach a video link.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#connect-google" class="toc-link">Connecting Google Calendar</a></li>
+                    <li class="toc-h2"><a href="#availability" class="toc-link">Availability windows</a></li>
+                    <li class="toc-h2"><a href="#booking-rules" class="toc-link">Booking rules</a></li>
+                    <li class="toc-h2"><a href="#booking-flow" class="toc-link">The booking flow</a></li>
+                    <li class="toc-h2"><a href="#slot-calculation" class="toc-link">Slot calculation</a></li>
+                    <li class="toc-h2"><a href="#confirmations-meet" class="toc-link">Confirmations, Google Meet &amp; reminders</a></li>
+                    <li class="toc-h2"><a href="#cancel-reschedule" class="toc-link">Cancel &amp; reschedule</a></li>
+                    <li class="toc-h2"><a href="#timezones" class="toc-link">Timezone handling</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting a Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Connecting a Channel — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Connecting a Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>A workspace cannot send or receive a single WhatsApp message until a <strong>channel</strong> is connected. WaDesk works with WhatsApp through three interchangeable channels, and the whole product &mdash; inbox, broadcasts, campaigns, flows, templates, auto-replies, the AI agent &mdash; adapts to whichever one your workspace is on.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Channel</th><th>How it connects</th><th>Approval needed?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Unofficial API</strong></td><td>Scan a QR code (or enter a pairing code) like WhatsApp Web.</td><td>None</td></tr>
+                                <tr><td><strong>WhatsApp Cloud API</strong> (Meta)</td><td>Connect a verified WhatsApp Business Account with its Phone Number ID, Access Token and WABA ID.</td><td>Meta business verification</td></tr>
+                                <tr><td><strong>Twilio</strong></td><td>Paste a Twilio Account SID, Auth Token and WhatsApp sender number (sandbox or paid).</td><td>Twilio sender approval (or sandbox)</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>One channel is active platform-wide, chosen by the admin</strong> at <strong>Admin &rarr; Settings &rarr; System Message Setting</strong> (Active messaging engine). Each workspace then connects its own credentials for that channel under <strong>Devices</strong>. The Devices screen detects the active channel and shows only the matching connector, so you never send through the wrong one.</blockquote>
+                        <p>This page walks through all three channels end to end: every credential, exactly where to get it, exactly where to paste it in WaDesk, and the exact webhook URLs.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="which-engine">Which Channel Should I Choose?</h2>
+                        <p>If you are not sure, this table is the short version. The rest of the page assumes you have picked one.</p>
+                        <table>
+                            <thead>
+                                <tr><th>&nbsp;</th><th>Unofficial API</th><th>Cloud API (Meta)</th><th>Twilio</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Setup time</strong></td><td>Minutes &mdash; scan a QR</td><td>Hours to days (Meta review)</td><td>Minutes (sandbox) / days (paid sender)</td></tr>
+                                <tr><td><strong>Meta approval</strong></td><td>Not required</td><td>Required (verified business)</td><td>Required for production sender</td></tr>
+                                <tr><td><strong>Hosting</strong></td><td>You run the helper service + the linked phone</td><td>You run the helper service + Meta hosts the Cloud API</td><td>You run the helper service + Twilio hosts the sender</td></tr>
+                                <tr><td><strong>Ban / suspension risk</strong></td><td>Higher &mdash; unofficial, against WhatsApp terms for bulk</td><td>Low &mdash; official, quality-rated</td><td>Low &mdash; official via Twilio</td></tr>
+                                <tr><td><strong>Template messages</strong></td><td>No formal approval; free-form only</td><td>Yes &mdash; official, approved templates</td><td>Yes &mdash; via Twilio Content / approved templates</td></tr>
+                                <tr><td><strong>Cost</strong></td><td>Free (you pay only for hosting)</td><td>Meta conversation pricing</td><td>Twilio per-message + Meta pass-through</td></tr>
+                                <tr><td><strong>Best for</strong></td><td>Fastest start, any number, low volume, internal use</td><td>Official trust, high volume, native Forms / catalog</td><td>Teams already standardised on Twilio</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Take the ban risk on the Unofficial API seriously.</strong> Linking a number via QR is WhatsApp Web technology; high-volume marketing through it can get the number banned. Use a dedicated phone number, warm it up slowly, and prefer the Cloud API for bulk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="the-devices-screen">The Devices Screen</h2>
+                        <p>Everything channel-related lives at <strong>Devices</strong> in the top navigation. It is the single hub for every connection a workspace owns, and what it shows depends on the workspace's active channel:</p>
+                        <ul>
+                            <li><strong>Unofficial API:</strong> a left sidebar of status filters (All, Connected, Disconnected, Needs re-pair, Failed) plus region filters, and a grid of paired phone cards on the right. The page title reads <strong>My devices</strong>.</li>
+                            <li><strong>WhatsApp Cloud API:</strong> a full-width grid of connected WABA numbers with an <strong>Add WABA account</strong> button; an empty state prompts you to connect your first number. The page title reads <strong>My WABA accounts</strong>.</li>
+                            <li><strong>Twilio:</strong> either the connect form (when nothing is connected yet) or a single account card showing the connected sender.</li>
+                        </ul>
+                        <p>A small counter near the page title shows how many numbers are currently connected. Below, each channel has its own walkthrough.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-unofficial">1. Unofficial API &mdash; QR / Pairing Code</h2>
+                        <p>The Unofficial API links any WhatsApp number as a device, exactly like WhatsApp Web. Pairing is handled by a small bundled <strong>helper service</strong> (the Node bridge) that ships in the <code>node/</code> folder and stays connected to WhatsApp on your behalf.</p>
+
+                        <h3>1a. Admin: point WaDesk at the helper service</h3>
+                        <p>The helper service address is platform-level and is set once by the admin.</p>
+                        <ol>
+                            <li>Start the service. From the <code>node/</code> directory run <code>npm install</code> then <code>node index.js</code>. By default it listens on the port set by <code>PORT</code> in <code>node/.env</code> (default <code>8888</code>).</li>
+                            <li>In <code>node/.env</code>, set <code>APP_DOMAIN_NAME</code> to your WaDesk URL (e.g. <code>https://your-domain.com</code>) and set <code>NODE_WEBHOOK_TOKEN</code> to a shared secret password.</li>
+                            <li>In WaDesk, enter the <em>same</em> shared secret in the matching admin setting. The two values must be identical or WaDesk rejects the service's status updates.</li>
+                            <li>Go to <strong>Admin &rarr; Settings &rarr; System Message Setting</strong>, select the <strong>Unofficial API</strong> card, and paste the service address into <strong>Server URL</strong> (e.g. <code>http://localhost:8888</code>). Save.</li>
+                        </ol>
+                        <blockquote class="info"><strong>No webhook to configure.</strong> For the Unofficial API you do not need to set up any inbound webhook by hand &mdash; the helper service already knows your WaDesk URL from <code>APP_DOMAIN_NAME</code> and sends pairing and connection updates back automatically.</blockquote>
+
+                        <h3>1b. Workspace: pair a number</h3>
+                        <ol>
+                            <li>On the <strong>Devices</strong> screen open the <strong>Add device</strong> flow (a QR slot on the left, a short form on the right).</li>
+                            <li>Enter the <strong>WhatsApp number</strong> (with its country code) you want to link. Optionally add a <strong>Device label</strong> (e.g. "Sales line"); you can also override the helper service address for this one device, but normally leave it blank to use the platform default.</li>
+                            <li>Click <strong>Generate QR</strong>. WaDesk starts a pairing session and shows the QR.</li>
+                            <li>On your phone open <strong>WhatsApp &rarr; Settings &rarr; Linked Devices &rarr; Link a Device</strong> and scan the QR shown. If you prefer, request the <strong>8-digit pairing code</strong> and type it into your phone instead.</li>
+                            <li>The page checks every couple of seconds and walks through <em>QR generated &rarr; Syncing data &rarr; Ready</em>. Once the number connects, the device flips to <strong>Connected</strong> automatically.</li>
+                        </ol>
+
+                        <h3>1c. Relink &amp; disconnect behavior</h3>
+                        <ul>
+                            <li><strong>Relink:</strong> if WhatsApp drops the link (or you unlink it from your phone's Linked Devices screen), the device shows as disconnected. Open it and pair again.</li>
+                            <li><strong>Disconnect:</strong> disconnecting ends the session cleanly, so the next connect attempt re-pairs from scratch.</li>
+                            <li><strong>Multiple numbers:</strong> pair more than one. WaDesk balances sends across every active device, so a banned device or a flat battery on one phone does not stall the whole queue.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Keep the paired phone reachable.</strong> A linked device stays online when the phone is off, but the phone must open WhatsApp at least once every 14 days or WhatsApp drops the link. Use a dedicated phone for the number.</blockquote>
+                        <blockquote class="info"><strong>Pros:</strong> instant, no approval, any number, free. <strong>Cons:</strong> you host the bridge, higher ban risk, no native template approval, against WhatsApp ToS for bulk marketing.</blockquote>
+
+                        <h4>Field reference &mdash; Unofficial API</h4>
+                        <table>
+                            <thead>
+                                <tr><th>Value</th><th>Where to get it</th><th>Where to paste it in WaDesk</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Server URL</td><td>The address your helper service listens on (e.g. <code>http://localhost:8888</code>)</td><td>Admin &rarr; Settings &rarr; System Message Setting &rarr; Unofficial API &rarr; Server URL</td></tr>
+                                <tr><td>Shared secret</td><td><code>NODE_WEBHOOK_TOKEN</code> in <code>node/.env</code></td><td>The matching admin setting in WaDesk (must be identical to the service)</td></tr>
+                                <tr><td>WhatsApp number</td><td>The number on the phone you will scan with</td><td>Devices &rarr; Add device &rarr; WhatsApp number</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-cloud-api">2. WhatsApp Cloud API (Meta)</h2>
+                        <p>The Cloud API is Meta's official WhatsApp API. It is the right choice for high volume, native templates, catalogs and Forms. Setup has a <strong>Meta side</strong> (create an app, gather credentials) and a <strong>WaDesk side</strong> (paste them and wire the webhook). A workspace can connect <strong>multiple numbers</strong> &mdash; one card per phone number &mdash; and mark one as the primary sender.</p>
+
+                        <h3>2a. Meta side &mdash; step by step</h3>
+                        <ol>
+                            <li><strong>Create or choose a Meta app.</strong> Go to <a href="https://developers.facebook.com/apps" target="_blank" rel="noopener">developers.facebook.com/apps</a> and create an app (type <em>Business</em>), or open an existing one.</li>
+                            <li><strong>Add the WhatsApp product.</strong> In the app dashboard, add the <strong>WhatsApp</strong> product.</li>
+                            <li><strong>Copy the IDs and temporary token.</strong> Open <strong>WhatsApp &rarr; API Setup</strong>. From there copy the <strong>Phone Number ID</strong> (the ID of the number, not the phone number itself), the <strong>WhatsApp Business Account (WABA) ID</strong>, and the temporary <strong>Access Token</strong> (good for 24 hours &mdash; fine for a first test, useless for production).</li>
+                            <li><strong>Create a System User and a permanent token.</strong> In <a href="https://business.facebook.com/settings" target="_blank" rel="noopener">Business Settings</a> &rarr; <strong>Users &rarr; System Users</strong>, create a System User, assign it to your app/WABA, then <strong>Generate new token</strong>. Select your app and grant the scopes <code>whatsapp_business_messaging</code> <em>and</em> <code>whatsapp_business_management</code>. This permanent token never expires &mdash; use it for production.</li>
+                            <li><strong>Copy the App ID and App Secret.</strong> In the app dashboard go to <strong>Settings &rarr; Basic</strong> and copy the <strong>App ID</strong> and <strong>App Secret</strong>.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Token scopes matter.</strong> A token missing <code>whatsapp_business_management</code> is rejected by WaDesk with a clear message. A 24-hour token connects but stops sending tomorrow. Always use a permanent System User token with both WhatsApp scopes for production.</blockquote>
+
+                        <h3>2b. WaDesk side &mdash; admin app credentials</h3>
+                        <p>The platform-level Meta App credentials are entered once by the admin at <strong>Admin &rarr; Settings &rarr; System Message Setting</strong> &rarr; <strong>Business API</strong> card:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field on screen</th><th>Value to paste</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Meta App ID</strong></td><td>App ID from Settings &rarr; Basic</td></tr>
+                                <tr><td><strong>App Secret</strong></td><td>App Secret from Settings &rarr; Basic (hidden after save; re-paste only to change it)</td></tr>
+                                <tr><td><strong>Webhook verify token</strong></td><td>Any random string you choose &mdash; you will paste the same value into Meta</td></tr>
+                                <tr><td><strong>Graph API version</strong></td><td>Defaults to <code>v23.0</code>; change only after confirming compatibility</td></tr>
+                                <tr><td><strong>Embedded Signup Config ID</strong> (optional)</td><td>Meta Business Suite &rarr; Login Configurations. Enables the 1-click "Continue with Facebook" flow. Leave blank for manual paste only.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info">The App Secret also secures inbound webhooks &mdash; WaDesk uses it to confirm each incoming Meta message is genuine and rejects anything that does not match, so forged messages cannot get in.</blockquote>
+
+                        <h3>2c. WaDesk side &mdash; connect a number (per workspace)</h3>
+                        <p>Per-workspace credentials (the Phone Number ID, WABA ID and Access Token) are entered by each tenant on the <strong>Devices</strong> screen via <strong>Add WABA account</strong>. There are two paths:</p>
+                        <h4>Option A &mdash; Embedded Signup (Continue with Facebook)</h4>
+                        <p>If the admin filled in the <strong>App ID</strong> and <strong>Config ID</strong>, the button reads <strong>Continue with Facebook</strong> and opens Meta's signup dialog. You pick the WABA and phone number inside the dialog; WaDesk exchanges the returned code for a token, subscribes your WABA to webhooks, registers the number and links a catalog &mdash; no copy-pasting. For this flow the admin must also add the OAuth redirect URI <code>https://YOUR-DOMAIN/connect/wa-store/waba</code> in the Meta app under <strong>Facebook Login &rarr; Valid OAuth redirect URIs</strong>.</p>
+                        <h4>Option B &mdash; Manual paste</h4>
+                        <p>Otherwise (or by choosing <em>switch to manual mode</em>), open the manual modal and fill it from <strong>Meta Business Suite &rarr; WhatsApp Manager &rarr; API Setup</strong>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Where to get it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Phone Number ID</strong></td><td>Yes</td><td>WhatsApp &rarr; API Setup. The ID of the number (not the phone number).</td></tr>
+                                <tr><td><strong>WABA ID</strong></td><td>Yes</td><td>WhatsApp &rarr; API Setup. The WhatsApp Business Account ID.</td></tr>
+                                <tr><td><strong>Access Token</strong></td><td>Yes</td><td>Your permanent System User token (starts with <code>EAA…</code>) with both WhatsApp scopes.</td></tr>
+                                <tr><td><strong>Business Manager ID</strong></td><td>No</td><td>Business Settings &rarr; Business Info. Leave blank to auto-resolve.</td></tr>
+                                <tr><td><strong>Display label</strong></td><td>No</td><td>A friendly name; defaults to the verified business name.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>On submit, WaDesk checks with Meta to confirm the token works, pulls the number's details (verified name, quality rating, messaging limit tier), subscribes your WABA to webhooks, and saves the connection securely (credentials are stored encrypted). The first WABA in the workspace becomes the primary sender; use <strong>Set as default</strong> on any card to change that.</p>
+
+                        <h3>2d. Webhook configuration (Meta dashboard)</h3>
+                        <p>This is the step that makes inbound messages and delivery receipts flow in. In the Meta app go to <strong>WhatsApp &rarr; Configuration</strong>:</p>
+                        <ol>
+                            <li><strong>Callback URL:</strong> <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code></li>
+                            <li><strong>Verify Token:</strong> the exact value you stored in WaDesk's <strong>Webhook verify token</strong> field. Meta sends a verification request; WaDesk confirms it only when the token matches.</li>
+                            <li><strong>Verify and save.</strong> Then under <strong>Webhook fields</strong>, <strong>Subscribe</strong> to the <code>messages</code> field (and <code>message_status</code> for delivery/read receipts). Template status updates are handled too if you enable Templates v2.</li>
+                            <li><strong>For WhatsApp calling</strong> (optional), set a second callback for the <code>calls</code> field at <code>https://YOUR-DOMAIN/webhooks/wa-calling</code>, using the <em>same</em> verify token.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Tip:</strong> the same verify token works for both the messages webhook and the calling webhook. You only set it once in WaDesk.</blockquote>
+
+                        <h4>Field reference &mdash; Cloud API</h4>
+                        <table>
+                            <thead>
+                                <tr><th>Value</th><th>Where to get it (Meta)</th><th>Where to paste it (WaDesk)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>App ID</td><td>App &rarr; Settings &rarr; Basic</td><td>Admin &rarr; System Message Setting &rarr; Business API &rarr; Meta App ID</td></tr>
+                                <tr><td>App Secret</td><td>App &rarr; Settings &rarr; Basic</td><td>Admin &rarr; System Message Setting &rarr; Business API &rarr; App Secret</td></tr>
+                                <tr><td>Phone Number ID</td><td>WhatsApp &rarr; API Setup</td><td>Devices &rarr; Add WABA account &rarr; Phone Number ID</td></tr>
+                                <tr><td>WABA ID</td><td>WhatsApp &rarr; API Setup</td><td>Devices &rarr; Add WABA account &rarr; WABA ID</td></tr>
+                                <tr><td>Access Token (permanent)</td><td>Business Settings &rarr; System Users &rarr; Generate token</td><td>Devices &rarr; Add WABA account &rarr; Access Token</td></tr>
+                                <tr><td>Business Manager ID</td><td>Business Settings &rarr; Business Info</td><td>Devices &rarr; Add WABA account &rarr; Business Manager ID (optional)</td></tr>
+                                <tr><td>Callback URL</td><td>You provide this to Meta</td><td><code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code> (Meta &rarr; WhatsApp &rarr; Configuration)</td></tr>
+                                <tr><td>Verify Token</td><td>You choose it</td><td>Admin &rarr; Webhook verify token; paste the same value into Meta</td></tr>
+                                <tr><td>Calling Callback URL</td><td>You provide this to Meta</td><td><code>https://YOUR-DOMAIN/webhooks/wa-calling</code> (subscribe to <code>calls</code>)</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-twilio">3. Twilio</h2>
+                        <p>If your team already runs on Twilio, connect a Twilio WhatsApp sender. A workspace holds <strong>one</strong> Twilio account at a time.</p>
+
+                        <h3>3a. Twilio side</h3>
+                        <ol>
+                            <li>Open <a href="https://console.twilio.com" target="_blank" rel="noopener">console.twilio.com</a>. On the dashboard copy your <strong>Account SID</strong> (starts with <code>AC…</code>) and <strong>Auth Token</strong>.</li>
+                            <li>Get a WhatsApp sender: either activate the <strong>WhatsApp Sandbox</strong> (Messaging &rarr; Try it out &rarr; WhatsApp; the default sandbox number is <code>+14155238886</code>) for testing, or request an approved <strong>WhatsApp sender</strong> under Messaging &rarr; Senders for production.</li>
+                        </ol>
+
+                        <h3>3b. WaDesk side</h3>
+                        <p>Admin defaults (Account SID, Auth Token, and WhatsApp number) can be set at <strong>Admin &rarr; Settings &rarr; System Message Setting</strong> &rarr; <strong>Twilio service</strong> card. Each workspace then connects on the <strong>Devices</strong> screen with the connect form:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Account SID</strong></td><td>Yes</td><td>Starts with <code>AC…</code>. Leave blank to inherit the admin default.</td></tr>
+                                <tr><td><strong>Auth Token</strong></td><td>Yes</td><td>From the Twilio console. Encrypted at rest; used only to call api.twilio.com on your behalf.</td></tr>
+                                <tr><td><strong>From number</strong></td><td>Yes</td><td>E.164 format. Sandbox default <code>+14155238886</code>; otherwise your paid Twilio sender.</td></tr>
+                                <tr><td><strong>Mode</strong></td><td>&mdash;</td><td><em>Sandbox (testing)</em> while your number is in WhatsApp Sandbox; <em>Production</em> once Twilio approves a paid sender.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Click <strong>Save &amp; test</strong>. WaDesk verifies the credentials with Twilio before marking the connection live, then shows a card with the from-number, a masked SID, the connection time and Sandbox/Production mode. All broadcasts, campaigns, scheduled sends, auto-replies and Team Inbox replies on the workspace then route through Twilio.</p>
+
+                        <h3>3c. Inbound / status webhook (Twilio console)</h3>
+                        <p>Sending works as soon as you connect, but to <strong>receive</strong> replies and status updates you must point Twilio's webhooks at WaDesk:</p>
+                        <ul>
+                            <li><strong>Inbound message webhook</strong> (and <strong>Status callback</strong>): <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code></li>
+                            <li>Set it on your sender, or in <strong>Messaging Service &rarr; Integration</strong> tab. For the sandbox, set the same URL under "When a message comes in".</li>
+                        </ul>
+                        <blockquote class="info">WaDesk uses one endpoint for both Meta and Twilio and detects which provider sent each message automatically. Twilio messages are checked against your Auth Token to confirm they are genuine; without it WaDesk refuses the webhook.</blockquote>
+
+                        <h4>Field reference &mdash; Twilio</h4>
+                        <table>
+                            <thead>
+                                <tr><th>Value</th><th>Where to get it</th><th>Where to paste it in WaDesk</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Account SID</td><td>console.twilio.com dashboard</td><td>Devices &rarr; Twilio connect form &rarr; Account SID (or the admin Twilio default)</td></tr>
+                                <tr><td>Auth Token</td><td>console.twilio.com dashboard</td><td>Devices &rarr; Twilio connect form &rarr; Auth Token (or the admin Twilio default)</td></tr>
+                                <tr><td>From number</td><td>Twilio sandbox or approved sender</td><td>Devices &rarr; Twilio connect form &rarr; From number (or the admin Twilio default)</td></tr>
+                                <tr><td>Inbound / Status webhook</td><td>You provide this to Twilio</td><td><code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code> (Twilio sender / Messaging Service)</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connection-status">Connection Status Reference</h2>
+                        <p>Every connection shows a live status. WaDesk simplifies each channel's signals into a small set of states:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Connected</strong></td><td>Online and able to send/receive.</td></tr>
+                                <tr><td><strong>Pending</strong> / Needs re-pair</td><td>Awaiting a QR scan or first connection.</td></tr>
+                                <tr><td><strong>Disconnected</strong></td><td>Not currently linked. Re-pair (Unofficial API) or reconnect (Cloud API / Twilio).</td></tr>
+                                <tr><td><strong>Failed</strong></td><td>The connection attempt errored &mdash; check credentials, permissions, or the helper service.</td></tr>
+                            </tbody>
+                        </table>
+                        <ul>
+                            <li><strong>Unofficial API:</strong> the helper service reports in regularly; a device not heard from for about 90 seconds is marked disconnected so the screen matches reality.</li>
+                            <li><strong>Cloud API:</strong> each WABA card shows Meta's quality rating and messaging-limit tier; reconnect a card with a fresh token if it expires.</li>
+                            <li><strong>Twilio:</strong> use <strong>Reconnect / rotate</strong> to replace credentials, e.g. when changing the Auth Token or moving from Sandbox to a production sender.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+
+                        <h3>QR will not scan / pairing never completes</h3>
+                        <ul>
+                            <li>Confirm the helper service is running and reachable at the <strong>Server URL</strong>. Open that address in a browser; you should reach the service, not a connection error.</li>
+                            <li>The QR expires fast &mdash; let WaDesk regenerate it (the page refreshes every couple of seconds) rather than scanning a stale image.</li>
+                            <li>Make sure the phone has internet and you are scanning under <strong>Linked Devices &rarr; Link a Device</strong>, not a normal chat.</li>
+                            <li>If the status reads "Mismatch" or "Pair failed", disconnect (which ends the session) and pair again from scratch.</li>
+                        </ul>
+
+                        <h3>Helper service offline / sends not going out (Unofficial API)</h3>
+                        <ul>
+                            <li>Restart the service (<code>node index.js</code> in <code>node/</code>) and check its console for errors.</li>
+                            <li>Verify the shared secret matches on both sides: <code>NODE_WEBHOOK_TOKEN</code> in <code>node/.env</code> must equal the matching admin setting in WaDesk. A mismatch makes WaDesk reject every status update, so connections never update.</li>
+                            <li>Confirm <code>APP_DOMAIN_NAME</code> in <code>node/.env</code> points at your WaDesk URL so the service can reach back.</li>
+                            <li>Remember the 14-day rule: if the paired phone has not opened WhatsApp in two weeks, the link is dropped and you must re-pair.</li>
+                        </ul>
+
+                        <h3>Webhook verification fails (Cloud API / calling)</h3>
+                        <ul>
+                            <li>The <strong>Verify Token</strong> in the Meta dashboard must exactly equal WaDesk's <strong>Webhook verify token</strong> (Admin &rarr; System Message Setting). No leading or trailing spaces.</li>
+                            <li>The Callback URL must be the exact path <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code> (or <code>/webhooks/wa-calling</code> for calls) and must be publicly reachable over HTTPS.</li>
+                            <li>If the token field in WaDesk is empty, verification always fails &mdash; set a value first, save, then verify in Meta.</li>
+                        </ul>
+
+                        <h3>Token expired / invalid (Cloud API)</h3>
+                        <ul>
+                            <li>A 24-hour temporary token stops working the next day. Replace it with a permanent <strong>System User</strong> token and reconnect the WABA card.</li>
+                            <li>The token must carry both the <code>whatsapp_business_messaging</code> and <code>whatsapp_business_management</code> permissions; a token missing the management permission is rejected on connect with a clear message.</li>
+                            <li>If the App Secret was changed, update the admin <strong>App Secret</strong> field too, or inbound webhooks will fail their genuineness check.</li>
+                        </ul>
+
+                        <h3>Messages not arriving (any channel)</h3>
+                        <ul>
+                            <li><strong>Cloud API:</strong> in Meta &rarr; WhatsApp &rarr; Configuration, confirm you <strong>subscribed to the <code>messages</code> field</strong> (and <code>message_status</code>). Subscribing, not just verifying, is what delivers events.</li>
+                            <li><strong>Twilio:</strong> confirm the sender's inbound webhook points at <code>https://YOUR-DOMAIN/webhooks/whatsapp/inbound</code>. Without it you can send but not receive; make sure the Auth Token is set so messages pass their genuineness check.</li>
+                            <li><strong>Unofficial API:</strong> ensure the device shows <strong>Connected</strong> and the helper service is running; incoming messages are delivered by the service, no manual webhook needed.</li>
+                            <li><strong>Wrong channel:</strong> if a workspace was switched between channels, leftover devices from the old channel can appear in pickers. Reconnect on the correct channel if sends silently fail.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next-steps">Next Steps</h2>
+                        <p>With a channel connected, head to the <a href="./dashboard.html">Dashboard</a> to confirm messages are flowing and read your KPIs. To understand limits and gating, see <a href="./plans-trial.html">Plans &amp; Free Trial</a>.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#which-engine" class="toc-link">Which Channel Should I Choose?</a></li>
+                    <li class="toc-h2"><a href="#the-devices-screen" class="toc-link">The Devices Screen</a></li>
+                    <li class="toc-h2"><a href="#connect-unofficial" class="toc-link">1. Unofficial API</a></li>
+                    <li class="toc-h2"><a href="#connect-cloud-api" class="toc-link">2. WhatsApp Cloud API (Meta)</a></li>
+                    <li class="toc-h2"><a href="#connect-twilio" class="toc-link">3. Twilio</a></li>
+                    <li class="toc-h2"><a href="#connection-status" class="toc-link">Connection Status Reference</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#next-steps" class="toc-link">Next Steps</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

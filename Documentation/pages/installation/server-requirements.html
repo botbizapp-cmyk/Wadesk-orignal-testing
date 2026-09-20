@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Requirements – WaDesk SaaS Docs</title>
+    <meta name="description" content="Server Requirements — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Server Requirements</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk is a standard <strong>Laravel 12</strong> application paired with a bundled <strong>Node.js helper service</strong>. If your host can run a modern Laravel app <em>and</em> a long-running Node process, it can run WaDesk. This page lists every requirement and why it is needed.</p>
+                        <p>The web installer (next page) checks this list automatically, so you do not have to verify everything by hand &mdash; but knowing it up front helps you pick the right hosting plan.</p>
+                        <blockquote class="info"><strong>Quick read:</strong> PHP 8.2+, MySQL 8 (or MariaDB 10.6+), Composer, write access to two folders, and <strong>Node.js 18+</strong>. The Node helper service is <strong>required</strong> on every channel &mdash; it handles sending and runs the scheduler for bulk and scheduled messages (broadcasts, campaigns, flows).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements-matrix">Requirements at a Glance</h2>
+                        <p>Use this table to size your hosting before you buy. The right-hand column tells you whether a requirement is universal or tied to one engine.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Minimum</th>
+                                    <th>Recommended</th>
+                                    <th>Needed for</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>PHP</strong></td>
+                                    <td>8.2</td>
+                                    <td>8.3 / 8.4</td>
+                                    <td>Always</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MySQL</strong></td>
+                                    <td>8.0</td>
+                                    <td>8.0+</td>
+                                    <td>Always</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MariaDB</strong> (alternative)</td>
+                                    <td>10.6</td>
+                                    <td>10.11+</td>
+                                    <td>Always (instead of MySQL)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Composer</strong></td>
+                                    <td>2.x</td>
+                                    <td>Latest 2.x</td>
+                                    <td>Install / updates</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Node.js</strong></td>
+                                    <td>18 LTS</td>
+                                    <td>20 LTS</td>
+                                    <td>Required &mdash; the helper service + scheduler (all channels)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>npm</strong></td>
+                                    <td>9.x</td>
+                                    <td>Latest</td>
+                                    <td>Helper service dependencies + asset build</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>RAM</strong></td>
+                                    <td>1 GB</td>
+                                    <td>2 GB+</td>
+                                    <td>Always (more if running the bridge)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Disk</strong></td>
+                                    <td>2 GB free</td>
+                                    <td>10 GB+</td>
+                                    <td>App, media, session files</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>HTTPS / SSL</strong></td>
+                                    <td>Recommended</td>
+                                    <td>Required for production</td>
+                                    <td>Webhooks (Cloud API / Twilio)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="php-version">PHP Version</h2>
+                        <p>WaDesk requires <strong>PHP 8.2 or newer</strong> (Laravel 12's minimum). PHP 8.3 or 8.4 is recommended for better performance. The installer blocks the <em>Continue</em> button on its Requirements step if it detects an older runtime, so there is no way to install onto an unsupported version by accident.</p>
+                        <p>On shared hosting, set the PHP version in your control panel (cPanel "Select PHP Version", Plesk "PHP Settings", etc.). On a VPS, install the matching <code>php8.x-fpm</code> package for your web server.</p>
+                        <blockquote class="warning"><strong>Two PHP binaries:</strong> Some hosts run one PHP version for the web (FPM) and a different, older one on the command line (CLI). Composer and any maintenance commands use the CLI version, so confirm <code>php -v</code> also reports 8.2+.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="php-extensions">Required PHP Extensions</h2>
+                        <p>The installer's Requirements step checks for the following extensions and shows a green tick for each one that is loaded. All of them are required &mdash; most ship with a standard PHP install, but <code>gd</code> and <code>zip</code> sometimes need to be enabled explicitly on shared hosting.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Extension</th>
+                                    <th>Why WaDesk needs it</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>bcmath</code></td><td>Precise money / wallet and billing math</td></tr>
+                                <tr><td><code>ctype</code></td><td>String validation used throughout Laravel</td></tr>
+                                <tr><td><code>curl</code></td><td>Outbound calls to the helper service, Meta Graph API, Twilio, AI providers, payment gateways</td></tr>
+                                <tr><td><code>dom</code></td><td>XML / HTML handling (also pulled in by <code>doctrine/dbal</code>)</td></tr>
+                                <tr><td><code>fileinfo</code></td><td>MIME detection for media uploads</td></tr>
+                                <tr><td><code>gd</code></td><td>Image processing for logos, QR rendering, media</td></tr>
+                                <tr><td><code>json</code></td><td>API payloads and config (bundled in modern PHP)</td></tr>
+                                <tr><td><code>mbstring</code></td><td>Multi-byte / Unicode message text (emoji, RTL languages)</td></tr>
+                                <tr><td><code>openssl</code></td><td>Encryption, HTTPS, signed webhooks and tokens</td></tr>
+                                <tr><td><code>pdo</code></td><td>Database access layer</td></tr>
+                                <tr><td><code>tokenizer</code></td><td>Required by the Laravel framework</td></tr>
+                                <tr><td><code>xml</code></td><td>XML parsing for several integrations</td></tr>
+                                <tr><td><code>zip</code></td><td>Archive handling for updates and exports</td></tr>
+                            </tbody>
+                        </table>
+                        <p>You will also need the <strong>PDO MySQL driver</strong> (<code>pdo_mysql</code>). The installer lists detected PDO drivers separately and flags an error if <code>mysql</code> is missing &mdash; without it the database step cannot connect.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="database">Database (MySQL / MariaDB)</h2>
+                        <p>WaDesk stores everything &mdash; workspaces, contacts, messages, campaigns, plans, billing &mdash; in a relational database. <strong>MySQL 8.0+</strong> is the primary target; <strong>MariaDB 10.6+</strong> is fully supported as a drop-in alternative.</p>
+                        <p>Before installing, create:</p>
+                        <ol>
+                            <li>An <strong>empty database</strong> (for example <code>wadesk</code>).</li>
+                            <li>A <strong>database user</strong> with a strong password.</li>
+                            <li><strong>Full privileges</strong> for that user on that database (the installer runs <code>CREATE TABLE</code> migrations).</li>
+                        </ol>
+                        <p>Keep the host, port, database name, username, and password handy &mdash; you enter them on the installer's Database step, and it tests the connection live before saving.</p>
+                        <blockquote class="info"><strong>Default driver settings:</strong> The installer writes a <code>database</code>-driven session, cache, and queue configuration by default, so there is no separate Redis requirement. Redis is optional and can be configured later for higher throughput.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="node-bridge">Node.js &mdash; Required (the helper service)</h2>
+                        <p>WaDesk supports three interchangeable WhatsApp channels, and the bundled Node helper service handles sending for all of them. <strong>Node.js is required &mdash; not optional.</strong> It also runs the scheduler for bulk and scheduled messages (broadcasts, campaigns, flows) on every channel.</p>
+                        <p>The service lives in the <code>node/</code> folder of the project. It holds the WhatsApp connections, renders pairing QR codes, sends messages, and runs its own scheduler for bulk campaigns and recurring sends.</p>
+                        <ul>
+                            <li><strong>Node.js 18 LTS</strong> minimum; 20 LTS recommended.</li>
+                            <li>Install its dependencies once: <code>cd node &amp;&amp; npm install</code>.</li>
+                            <li>Start it with <code>node index.js</code> (kept alive by PM2, Supervisor, or a systemd service on a VPS).</li>
+                            <li>It listens on the port set by <code>PORT</code> in <code>node/.env</code> (default <code>8888</code>).</li>
+                        </ul>
+                        <p>This applies to the official channels too: WhatsApp Cloud API (Meta) and Twilio bulk/automated sends all run through the service. Only a single direct Twilio send can bypass it. In short, a working install <strong>must run the <code>node/</code> service</strong> &mdash; do not treat it as optional.</p>
+                        <blockquote class="warning"><strong>Shared hosting note:</strong> Many entry-level shared plans cannot run a long-running Node process. Because the helper service is required for sending and scheduling on every channel, choose a <strong>VPS</strong> or a host that explicitly allows persistent Node apps. Entry-level shared hosting that cannot keep Node alive is not suitable for WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="web-server">Web Server &amp; Document Root</h2>
+                        <p>WaDesk runs behind <strong>Apache</strong> or <strong>Nginx</strong> (or PHP-FPM via either). Point your domain's document root at the project's <code>public/</code> directory &mdash; never the project root &mdash; so that only public assets are web-accessible.</p>
+                        <ul>
+                            <li><strong>Apache:</strong> the bundled <code>public/.htaccess</code> handles URL rewriting. Ensure <code>mod_rewrite</code> is enabled.</li>
+                            <li><strong>Nginx:</strong> use a standard Laravel <code>try_files $uri $uri/ /index.php?$query_string;</code> location block.</li>
+                            <li><strong>HTTPS:</strong> strongly recommended in all cases, and effectively required if you use the Cloud API or Twilio engines, since Meta and Twilio only deliver inbound webhooks to HTTPS URLs.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="file-permissions">File Permissions</h2>
+                        <p>Laravel needs to write to two locations. The installer's Requirements step explicitly checks each of these and shows a tick or a cross:</p>
+                        <ul>
+                            <li><code>storage/</code> &mdash; and its <code>app/</code> and <code>framework/</code> subfolders (logs, cache, compiled views, file sessions during install)</li>
+                            <li><code>bootstrap/cache/</code> &mdash; the framework's bootstrap cache</li>
+                            <li>The project root / <code>.env</code> must be <strong>writable</strong> &mdash; the installer writes your configuration into <code>.env</code> during the install run</li>
+                            <li><code>lang/</code> must be readable (translation files)</li>
+                        </ul>
+                        <p>On a VPS, set the web-server user as owner and use <code>775</code> on those folders:</p>
+                        <pre>chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache</pre>
+                        <blockquote class="info"><strong>Tip:</strong> If the Requirements step shows a writability cross, fix permissions and simply reload the page &mdash; the check re-runs on every visit. You do not need to restart the wizard.</blockquote>
+                    </section>
+
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#requirements-matrix" class="toc-link">Requirements at a Glance</a></li>
+                    <li class="toc-h2"><a href="#php-version" class="toc-link">PHP Version</a></li>
+                    <li class="toc-h2"><a href="#php-extensions" class="toc-link">Required PHP Extensions</a></li>
+                    <li class="toc-h2"><a href="#database" class="toc-link">Database (MySQL / MariaDB)</a></li>
+                    <li class="toc-h2"><a href="#node-bridge" class="toc-link">Node.js &mdash; Required (the helper service)</a></li>
+                    <li class="toc-h2"><a href="#web-server" class="toc-link">Web Server &amp; Document Root</a></li>
+                    <li class="toc-h2"><a href="#file-permissions" class="toc-link">File Permissions</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

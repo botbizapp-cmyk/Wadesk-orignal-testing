@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Calling – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Calling — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Calling</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>WhatsApp Calling</strong> lets your workspace place and receive real WhatsApp voice calls right from the browser, using the official WhatsApp Business Calling API. The audio runs in your browser, and every call is recorded in the call log.</p>
+                        <p>Calling is managed from <strong>WhatsApp Calling settings</strong> (turn it on or off per number). The live calling controls &mdash; the dial button, the incoming-call popup, and the on-call panel &mdash; appear inside <a href="../messaging/team-inbox.html">Team Inbox</a> when you're working a conversation on a calling-enabled number. The full archive of recordings and transcripts lives in <a href="./call-logs.html">Call Logs</a>.</p>
+                        <blockquote class="info"><strong>Official Cloud API only.</strong> WhatsApp Calling is a feature of the official WhatsApp Cloud API (WABA). It isn't available on the Unofficial API or Twilio &mdash; calling only works on a WABA number.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites</h2>
+                        <p>All of these must be in place before a number can place or take calls:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Requirement</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Engine</td><td>WhatsApp Cloud API (WABA). The number must be connected as an official Cloud API number with a valid phone-number ID and access token.</td></tr>
+                                <tr><td>Plan feature</td><td>The <strong>WhatsApp Calling</strong> plan feature. Without it, the calling controls are hidden.</td></tr>
+                                <tr><td>Role</td><td>Manager or Admin to manage calling. Operators use the live call controls inside Team Inbox.</td></tr>
+                                <tr><td>Calling enabled on the number</td><td>Calling must be turned on for the specific WABA number (see <a href="#per-number-status">Per-number status</a>).</td></tr>
+                                <tr><td>Calling webhook configured</td><td>In Meta, subscribe your WhatsApp Business Account to the <strong>calls</strong> webhook field and point it at <code>https://YOUR-DOMAIN/webhooks/wa-calling</code> (see below). Without it, incoming calls, call-ended events, and permission updates never reach WaDesk.</td></tr>
+                                <tr><td>Browser microphone</td><td>The operator's browser must allow microphone access so it can capture your voice (see <a href="#mic-permission">Microphone permission</a>).</td></tr>
+                                <tr><td>Customer permission (outbound)</td><td>To call a customer, they must have given calling permission first (see <a href="#outbound-dial">Outbound dialling</a>).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>The crown badge.</strong> WhatsApp Calling and <a href="./call-logs.html">Call Logs</a> share the <strong>WhatsApp Calling</strong> plan feature. If your plan doesn't include it, the controls show an upgrade crown and are disabled. <strong>Recording</strong> additionally needs the <strong>Call Recording</strong> feature, and the live AI answering agent needs the <strong>AI Voice Agent</strong> feature &mdash; see the <a href="./ai-call-assistant.html">AI Call Assistant</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="webhook">Configure the calling webhook</h2>
+                        <p>Meta sends call events to WaDesk over a dedicated webhook, separate from the messages webhook:</p>
+                        <ul>
+                            <li><strong>Callback URL:</strong> <code>https://YOUR-DOMAIN/webhooks/wa-calling</code></li>
+                            <li><strong>Verify token:</strong> the value your admin set under <strong>Admin &rarr; Settings &rarr; WhatsApp Message</strong>. Meta's verification check only passes when this matches.</li>
+                            <li><strong>App secret:</strong> set the <strong>WABA app secret</strong> on the same admin screen. Every incoming call webhook is checked against this secret to prove it really came from Meta; if it isn't set, WaDesk refuses the webhook outright (there's no bypass, because each call changes your workspace's data).</li>
+                            <li><strong>Field to subscribe:</strong> <strong>calls</strong>.</li>
+                        </ul>
+                        <p>Three kinds of event come through: an <strong>incoming call</strong> (or your outbound call being picked up), a <strong>call-ended</strong> event (Meta sends the official duration and reason), and a <strong>permission update</strong> (the customer accepted or declined a calling-permission request).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="per-number-status">Per-number status &amp; enabling calling</h2>
+                        <p>The WhatsApp Calling settings list shows every WABA number in the workspace with its current state:</p>
+                        <ul>
+                            <li><strong>Phone number</strong> and display label.</li>
+                            <li><strong>Connection status</strong> &mdash; the provider connection health.</li>
+                            <li><strong>Calling enabled</strong> &mdash; whether voice calling is on for that number, and when it was last enabled.</li>
+                        </ul>
+                        <p>Toggling <strong>calling on/off</strong> tells Meta to enable or disable calling for that number and saves the result. Only WABA numbers can be toggled &mdash; it's rejected on any other number. Once a number is enabled, conversations on it show the <strong>Call</strong> button in Team Inbox.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="mic-permission">Microphone permission</h2>
+                        <p>Voice runs entirely in your browser, so it must be allowed to use the microphone. WaDesk turns the mic on <em>before</em> connecting the call; otherwise the call would be one-way and the customer would hear silence. The first time you start or accept a call, the browser asks for microphone access &mdash; grant it. If it's blocked, WaDesk stops the call with a clear error ("Microphone access blocked &mdash; the caller will not hear you") rather than connecting a one-way call. Re-enable the microphone for the site in your browser settings and try again.</p>
+                        <blockquote class="info"><strong>Two different "permissions".</strong> The <em>microphone</em> permission is a browser setting on your own device. It's separate from the <em>customer calling permission</em> &mdash; the consent the customer gives in WhatsApp before you can dial them (see <a href="#outbound-dial">Outbound dialling</a>).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="outbound-dial">Outbound dialling</h2>
+                        <p>To call a customer, open a conversation on a calling-enabled WABA number and click <strong>Call</strong>. What happens:</p>
+                        <ol>
+                            <li>Your browser turns on the mic and sets up the call connection.</li>
+                            <li>WaDesk checks the customer's calling permission, then asks Meta to place the call to their number. The call is recorded so you can find it later.</li>
+                            <li>The on-call panel appears with a live timer. When the customer answers, the audio connects. Use <strong>Mute</strong> and <strong>Hang up</strong> from the panel.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Customer consent is required first.</strong> WhatsApp doesn't let a business cold-call a user. The customer must have granted calling permission, which WaDesk tracks per number and contact. If there's no active permission on file, the call is refused with a message to send a permission request first. Use the <strong>permission request</strong> action to send the customer a "Can we give you a quick call?" message; their Accept / Decline comes back and updates the stored permission. A granted permission expires &mdash; after it lapses you must ask again.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="incoming-calls">Incoming calls: toast, accept &amp; reject</h2>
+                        <p>When a customer calls one of your enabled numbers, Team Inbox shows an <strong>incoming-call popup</strong> with the caller's name and number. The inbox checks for ringing calls every few seconds, and the popup offers two choices:</p>
+                        <ul>
+                            <li><strong>Accept</strong> &mdash; answer the call (see the next section).</li>
+                            <li><strong>Decline</strong> &mdash; reject the call. The customer stops ringing and the call is recorded as rejected.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="webrtc-accept">Accepting a call</h2>
+                        <ol>
+                            <li>Your browser connects to the customer's call and turns on the mic.</li>
+                            <li>WaDesk tells Meta you've accepted, and the audio connects between your browser and the customer.</li>
+                            <li>The on-call panel takes over with the live timer, mute, and hang-up controls. <strong>Hang up</strong> ends the call; Meta then confirms the final duration and reason.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Built for a shared team.</strong> Accepting is safe when several people share an inbox. If two teammates click Accept on the same ringing call, the first one wins and the second sees "already accepted by another teammate". If Meta rejects the answer, the call can ring on or be retried. Accepting also tells the AI agent to stand down, so an AI and a person don't both answer.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-answer">AI answering &amp; the voicemail fallback</h2>
+                        <p>When a call comes in, WaDesk decides who picks up. It first looks for an <a href="./ai-call-assistant.html">AI Call Assistant</a> to attach (one pinned to the conversation, the workspace default, or the first active Live assistant). What happens next depends on whether an assistant is set up <em>and</em> the voice service is available:</p>
+                        <ol>
+                            <li><strong>Live AI pickup (the main path, when fully set up).</strong> If an assistant is found, it answers the call, speaks its greeting, and holds a real spoken conversation: it transcribes the caller's speech (with Deepgram), sends it to the AI model you chose, turns the reply into a voice (with ElevenLabs), and plays it back &mdash; on a loop. Once the AI claims the call, the voicemail timer below stands down.</li>
+                            <li><strong>Voicemail fallback.</strong> If no assistant is set up, the voice service is unavailable, or the Deepgram / ElevenLabs keys are missing, the call is declined so the customer stops ringing. After a short wait (15 seconds by default), the fallback fires: WaDesk declines the call and sends a spoken <em>voicemail voice note</em> over chat ("Sorry we missed your call &mdash; please reply and we'll get back to you"). The wording comes from the assigned voice agent, and a note is added to the conversation so the operator can see what the AI said. The voice note is only sent when a voice-enabled AI agent exists for the workspace or conversation; otherwise the call is simply declined and logged as missed.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Prerequisites for live AI answering.</strong> Live spoken pickup requires: an AI Call Assistant set up and active; the <strong>AI Voice Agent</strong> plan feature; the voice service running; and <strong>Deepgram</strong> (transcription) + <strong>ElevenLabs</strong> (voice) keys set in Admin &rarr; API Keys. If any piece is missing, the system falls back to the voicemail voice note rather than answering silently. An operator clicking Accept always overrides the AI &mdash; only one of operator / AI / voicemail ever handles a given call.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="recording">Call recording (3-way) &amp; transcript</h2>
+                        <p>Recording applies to AI-answered calls and is set per assistant in the <a href="./ai-call-assistant.html#step-5-routing">AI Call Assistant</a>'s routing step, and needs the <strong>Call Recording</strong> plan feature. Two independent switches control which audio is captured:</p>
+                        <ul>
+                            <li><strong>Record agent</strong> &mdash; the AI's spoken side.</li>
+                            <li><strong>Record caller</strong> &mdash; the customer's side.</li>
+                        </ul>
+                        <p>During a live AI call each side is saved separately. When both are on you get a <strong>3-way result</strong> in Call Logs: an agent track, a caller track, and a combined "Play recording" mix. The <strong>transcript</strong> is captured automatically &mdash; every turn (caller and agent) is saved as it happens and assembled turn-by-turn for the log, alongside any skills the AI used mid-call. Recordings are only saved for calls the AI actually handled; operator-handled calls have no recorder, so no broken players appear.</p>
+                        <p>Everything captured for a call &mdash; recordings, transcript, the mid-call skill timeline, duration, status, and cost &mdash; is recorded in the call log from the first ring (status "in progress") and finalised when the call ends. Each call action is also logged so a call's full history can be reviewed for support or audit.</p>
+                        <blockquote class="warning"><strong>Privacy &amp; retention.</strong> Recordings and transcripts can capture sensitive caller information. Only enable the recording toggles you actually need, keep workspace access limited, and review your retention and consent obligations for your jurisdiction.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="call-logs-link">Where to find call records</h2>
+                        <p>WhatsApp Calling itself is where the live action happens &mdash; placing, answering, and ending calls. To review what happened afterwards, go to <strong><a href="./call-logs.html">Call Logs</a></strong> (under <em>More</em>). There you get one row per call with the caller, direction, duration, status, and cost, plus the full detail: transcript, recordings (agent / caller / mixed), the skills the AI used mid-call, and a jump back into the linked conversation in Team Inbox. Call Logs needs the same <strong>WhatsApp Calling</strong> plan feature as calling.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>No Call button in Team Inbox</td><td>The number isn't calling-enabled, your plan lacks <strong>WhatsApp Calling</strong>, or you're not on a WABA conversation. Enable calling on the number and check the plan.</td></tr>
+                                <tr><td>Incoming calls never ring</td><td>The <strong>calls</strong> webhook isn't subscribed or points at the wrong URL. Verify it's <code>https://YOUR-DOMAIN/webhooks/wa-calling</code> and the verify token matches.</td></tr>
+                                <tr><td>Webhook returns a "server misconfigured" error</td><td>The WABA app secret isn't set. Set it in Admin &rarr; Settings &rarr; WhatsApp Message &mdash; it's required to confirm the webhook is genuine.</td></tr>
+                                <tr><td>"Microphone access blocked"</td><td>The browser denied mic access. Allow it for the site and try again; the call stops on purpose rather than going one-way.</td></tr>
+                                <tr><td>Outbound call refused</td><td>No active calling permission for that contact. Send a permission request and wait for the customer to accept (it expires, so you may need to re-ask).</td></tr>
+                                <tr><td>"Already accepted by another teammate"</td><td>Expected on a shared inbox &mdash; someone else picked up the ringing call first.</td></tr>
+                                <tr><td>Caller hears silence on an AI call, then voicemail</td><td>The voice keys (Deepgram / ElevenLabs) or the voice service are missing, so the call fell back to voicemail. Make sure the voice service is running and the keys are set in Admin &rarr; API Keys.</td></tr>
+                                <tr><td>AI didn't answer, only voicemail</td><td>No active AI Call Assistant was found, or the <strong>AI Voice Agent</strong> feature is off. Set up and activate an assistant.</td></tr>
+                                <tr><td>Recording player is empty</td><td>Recording switches were off for that assistant, or the call was handled by a person (no recorder). Turn on Record agent / Record caller and confirm the <strong>Call Recording</strong> plan feature.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#webhook" class="toc-link">Configure the calling webhook</a></li>
+                    <li class="toc-h2"><a href="#per-number-status" class="toc-link">Per-number status &amp; enabling</a></li>
+                    <li class="toc-h2"><a href="#mic-permission" class="toc-link">Microphone permission</a></li>
+                    <li class="toc-h2"><a href="#outbound-dial" class="toc-link">Outbound dialling</a></li>
+                    <li class="toc-h2"><a href="#incoming-calls" class="toc-link">Incoming calls: accept &amp; reject</a></li>
+                    <li class="toc-h2"><a href="#webrtc-accept" class="toc-link">Accepting a call</a></li>
+                    <li class="toc-h2"><a href="#ai-answer" class="toc-link">AI answering &amp; voicemail fallback</a></li>
+                    <li class="toc-h2"><a href="#recording" class="toc-link">Call recording &amp; transcript</a></li>
+                    <li class="toc-h2"><a href="#call-logs-link" class="toc-link">Where to find call records</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

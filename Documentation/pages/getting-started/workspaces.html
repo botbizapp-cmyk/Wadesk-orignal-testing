@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspaces &amp; Switching – WaDesk SaaS Docs</title>
+    <meta name="description" content="Workspaces &amp; Switching — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Workspaces &amp; Switching</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>A <strong>workspace</strong> is a self-contained space for one business or one client. Everything you do happens <em>inside</em> the workspace you currently have selected: its connected WhatsApp channel, contacts, conversations, broadcasts, flows, templates, team members, plan, and billing all live in that one box and never leak into another. This lets a marketing agency run a separate workspace per client, and a SaaS founder give every customer their own.</p>
+                        <p>Switching workspaces re-scopes the whole app in one click &mdash; the inbox, devices, billing, and dashboard all change to show only the selected workspace. Your <strong>role</strong> is set per workspace, so the same person can be an owner in one workspace and an agent in another.</p>
+                        <blockquote class="info"><strong>Sealed by design.</strong> A contact, device, or campaign that belongs to "Acme Co." is invisible from "Bloomly Marketing", even when both workspaces are owned by the same person. Each workspace also has its own <strong>WhatsApp channel</strong> &mdash; one can run on the Unofficial API while another uses the WhatsApp Cloud API or Twilio.</blockquote>
+                        <p>Every workspace keeps the following separate from all others:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Property</th><th>What it covers</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Channel</strong></td><td>The WhatsApp connection (Unofficial API, WhatsApp Cloud API, or Twilio) and its connected numbers.</td></tr>
+                                <tr><td><strong>Plan &amp; billing</strong></td><td>The subscription plan, free-trial window, message/device/user limits, and which features are unlocked.</td></tr>
+                                <tr><td><strong>Contacts &amp; conversations</strong></td><td>The contact list, opt-in state, the Team Inbox, and chat history.</td></tr>
+                                <tr><td><strong>Content &amp; automation</strong></td><td>Templates, broadcasts, campaigns, flows, auto-replies, and scheduled messages.</td></tr>
+                                <tr><td><strong>Team &amp; roles</strong></td><td>The members invited to the workspace and the role each one holds inside it.</td></tr>
+                                <tr><td><strong>Branding &amp; settings</strong></td><td>Brand color, timezone, business hours, message footer, language, data residency, and notification preferences.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="your-first-workspace">Your First Workspace</h2>
+                        <p>You do not create your first workspace manually. When you register, WaDesk creates one for you automatically. By default it is named after you &mdash; for example <em>"Bohecil's workspace"</em> &mdash; and you are added as its <strong>owner</strong>.</p>
+                        <p>The default workspace starts on the <strong>Starter</strong> plan with a free-trial window so you can explore every feature before committing. From a fresh workspace, the recommended path is:</p>
+                        <ol>
+                            <li>Connect a WhatsApp channel from the <strong>Devices</strong> screen (see <a href="./connect-channel.html">Connecting a Channel</a>). Until a number is online, the dashboard stays empty.</li>
+                            <li>Review your <a href="./dashboard.html">Dashboard</a> to confirm data is flowing.</li>
+                            <li>Decide whether to keep the auto-generated name or rename the workspace from <strong>Settings</strong>.</li>
+                            <li>Invite teammates and assign roles (see <a href="../account/team-members.html">Team Members &amp; Roles</a>).</li>
+                        </ol>
+                        <blockquote class="info"><strong>Tip:</strong> The compact workspace button in the header drops the owner's name prefix &mdash; <em>"Bohecil's workspace"</em> shows simply as <strong>Workspace</strong>. The full name still appears in the button's tooltip and in the dropdown, so multiple workspaces stay easy to tell apart.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="creating-a-workspace">Creating Another Workspace</h2>
+                        <p>To run a second business or client, create a new workspace. There are two ways in, both opening the <strong>Create workspace</strong> page:</p>
+                        <ul>
+                            <li>The workspace switcher in the header &rarr; <strong>Create new workspace</strong> at the bottom of the dropdown.</li>
+                            <li>The user (avatar) menu in the top-right &rarr; <strong>Create workspace</strong>.</li>
+                        </ul>
+                        <h3>Step by step</h3>
+                        <ol>
+                            <li>Open <strong>Create new workspace</strong> from the switcher.</li>
+                            <li>Fill in the form on the left (see the field table below). Only the name is required.</li>
+                            <li>Review the right-hand panel &mdash; it lists your existing workspaces (click any to switch to it) and a reminder that each workspace is sealed.</li>
+                            <li>Click <strong>Create workspace</strong>.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Validation / notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Workspace name</strong></td><td>Yes</td><td>The friendly label your team sees at the top of the app, e.g. <em>Bloomly Marketing</em>. Up to <strong>120 characters</strong>.</td></tr>
+                                <tr><td><strong>Industry</strong></td><td>No</td><td>E-commerce, SaaS, agency, education, healthcare, finance, travel, hospitality, or other.</td></tr>
+                                <tr><td><strong>Team size</strong></td><td>No</td><td>A rough range (1, 2&ndash;5, 6&ndash;20, 21&ndash;100, 100+).</td></tr>
+                                <tr><td><strong>Timezone</strong></td><td>No</td><td>Any timezone (type to search). Defaults to Asia/Kolkata. Used by scheduling and business hours.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>When you submit, WaDesk:</p>
+                        <ol>
+                            <li>Checks the <strong>workspaces-per-owner limit</strong> on your current plan. If you are at the limit, creating is blocked and you are pointed to upgrade.</li>
+                            <li>Creates the workspace on the <strong>Starter</strong> plan with the default brand color and attaches you as its <strong>owner</strong>.</li>
+                            <li>Makes it your current workspace, lands you on the Dashboard with a success message, and adds a "Workspace created" entry to your notifications.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Plan limit:</strong> The number of workspaces a single owner can create is capped by your current plan. If you hit the limit, WaDesk blocks the create action and points you to upgrade. Platform admins are never limited.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="the-switcher">The Workspace Switcher</h2>
+                        <p>The switcher is the button on the left side of the top header, just after the logo. It shows which workspace you are currently in and is the fastest way to move between them. It appears only when you are signed in <em>and</em> have an active workspace.</p>
+                        <p>The button has three parts:</p>
+                        <ul>
+                            <li>A small square <strong>tile</strong> showing the first two letters of the workspace name (e.g. <strong>BO</strong> for "Bohecil's workspace"), tinted with the workspace's brand color, so each one is easy to tell apart.</li>
+                            <li>The <strong>workspace name</strong> &mdash; with the owner's name prefix dropped, and shortened with an ellipsis if it is long.</li>
+                            <li>A <strong>chevron</strong> that opens the dropdown.</li>
+                        </ul>
+                        <p>Click the button to open the <strong>Your workspaces</strong> dropdown. It lists every workspace you belong to, most recently active first, each with its colored tile and name. A checkmark and a highlight show the one you are currently in.</p>
+                        <blockquote class="info"><strong>Note:</strong> A "Create new workspace" link sits at the bottom of the dropdown for quick access.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="switching">Switching Between Workspaces</h2>
+                        <p>To switch, open the switcher dropdown and click the workspace you want. WaDesk sets it as your <strong>current workspace</strong> and reloads into that tenant's data &mdash; the Dashboard, Team Inbox, contacts, and every other screen now reflect the selected workspace only.</p>
+                        <ol>
+                            <li>Click the workspace button in the header.</li>
+                            <li>Pick a workspace from the <strong>Your workspaces</strong> list.</li>
+                            <li>The app re-scopes instantly; the button updates to the new name and color.</li>
+                        </ol>
+                        <h3>How switching works</h3>
+                        <p>When you switch, WaDesk:</p>
+                        <ol>
+                            <li><strong>Confirms you are a member</strong> &mdash; you can only switch into a workspace you actually belong to. A request for one you are not a member of is ignored, so the switcher cannot be used to jump into someone else's workspace.</li>
+                            <li><strong>Sets it as your current workspace</strong> and moves it to the top of the switcher list.</li>
+                            <li><strong>Records the entry</strong> (with IP and device) on the <a href="../account/activity-log.html">Activity Log</a>, unless you re-selected the same workspace.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Why switching matters:</strong> Because data is sealed per workspace, switching is how you "log in" to a different client without signing out. It also changes which <strong>WhatsApp channel</strong> is active &mdash; so a broadcast you compose after switching uses the new workspace's channel, not the previous one.</blockquote>
+                        <blockquote class="warning"><strong>Trial &amp; switching:</strong> If a workspace's free trial has expired, its feature pages are blocked &mdash; but workspace <em>switching stays open</em> on purpose. You can always switch out of an expired-trial workspace into another (non-expired) one without being trapped. See <a href="./plans-trial.html">Plans &amp; Free Trial</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="roles-in-a-workspace">Roles Inside a Workspace</h2>
+                        <p>A workspace is meant to be shared. Beyond the owner, you can invite teammates and give each one a <strong>role</strong> that controls what they can see and do inside that workspace. Roles are <strong>per-workspace</strong> &mdash; being "Manager in Acme" does not make you a Manager in any other workspace.</p>
+                        <p>WaDesk has five roles in a strict hierarchy. The navigation adapts to each member's role, so a button they cannot use never appears:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Role</th><th>Rank</th><th>Typical access</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Owner</strong></td><td>100</td><td>Everything &mdash; settings, devices, billing, campaigns, flows, and team management.</td></tr>
+                                <tr><td><strong>Admin</strong></td><td>80</td><td>Everything the owner has <em>except billing</em>; can invite members.</td></tr>
+                                <tr><td><strong>Manager</strong></td><td>60</td><td>Dashboard, Chat, Templates, Analytics, all inbox queues; manages tags and saved replies.</td></tr>
+                                <tr><td><strong>Agent</strong></td><td>40</td><td>The Team Inbox &mdash; their team and assigned conversations; reply, note, resolve, snooze, tag.</td></tr>
+                                <tr><td><strong>Viewer</strong></td><td>20</td><td>Read-only access to their team's queue and assigned conversations.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each screen has a minimum role (for example the Dashboard needs Manager, and Broadcasts need Admin). Agents and Viewers who open a higher-tier page are gently redirected to the Team Inbox rather than shown a dead-end error. For the full capability list and how to invite, see <a href="../account/team-members.html">Team Members &amp; Roles</a>.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Invited members switch into your workspace using the same switcher described above &mdash; it lists every workspace they belong to, whether they own it or were invited. A brand-new invited user is auto-switched into your workspace on their first login.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Create workspace" is blocked or errors</td><td>You have hit the workspaces-per-owner limit on your current plan. Upgrade your plan, or delete an unused workspace. Platform admins are never limited.</td></tr>
+                                <tr><td>The switcher button is missing from the header</td><td>The switcher appears only when you are signed in and have an active workspace. If you are mid-registration with no workspace yet, finish signing up first.</td></tr>
+                                <tr><td>A workspace I expect is not in the dropdown</td><td>The list shows only workspaces you are a <em>member</em> of. Ask the owner to invite you, or confirm you were not removed.</td></tr>
+                                <tr><td>I switched but the data did not change</td><td>The switch is rejected if you are not a member of the target workspace. Confirm membership; re-open the dropdown and pick again.</td></tr>
+                                <tr><td>Feature pages are blocked in one workspace</td><td>That workspace's free trial has likely expired. Switch into another workspace (switching always works), or buy a plan from <a href="./plans-trial.html">Account &rarr; Plans</a>.</td></tr>
+                                <tr><td>Two workspaces show the same two-letter tile</td><td>The tile is the first two letters of the name. Rename one workspace from Settings, or set a distinct brand color so the tiles differ by tint.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next-steps">Next Steps</h2>
+                        <p>With a workspace selected, the natural path forward is:</p>
+                        <ul>
+                            <li><a href="./connect-channel.html">Connecting a Channel</a> &mdash; pair WhatsApp via the Unofficial API, Cloud API, or Twilio.</li>
+                            <li><a href="./dashboard.html">Dashboard Overview</a> &mdash; read your KPIs and confirm messages are flowing.</li>
+                            <li><a href="./plans-trial.html">Plans &amp; Free Trial</a> &mdash; understand the trial window and how to upgrade.</li>
+                            <li><a href="../account/team-members.html">Team Members &amp; Roles</a> &mdash; invite teammates and assign per-workspace roles.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#your-first-workspace" class="toc-link">Your First Workspace</a></li>
+                    <li class="toc-h2"><a href="#creating-a-workspace" class="toc-link">Creating Another Workspace</a></li>
+                    <li class="toc-h2"><a href="#the-switcher" class="toc-link">The Workspace Switcher</a></li>
+                    <li class="toc-h2"><a href="#switching" class="toc-link">Switching Between Workspaces</a></li>
+                    <li class="toc-h2"><a href="#roles-in-a-workspace" class="toc-link">Roles Inside a Workspace</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#next-steps" class="toc-link">Next Steps</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

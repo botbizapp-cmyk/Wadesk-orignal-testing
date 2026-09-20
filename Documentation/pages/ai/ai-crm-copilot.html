@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CRM Copilot – WaDesk SaaS Docs</title>
+    <meta name="description" content="Run your whole CRM by chat — find and create contacts, companies, deals, estimates, invoices, payments, tasks and projects in plain English, on the dashboard or over WhatsApp, with confirm-before-act safety and a full audit trail.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>AI CRM Copilot</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>AI CRM Copilot</strong> lets you operate your entire CRM in plain English instead of clicking through forms. You describe what you want &mdash; &ldquo;show my open deals&rdquo;, &ldquo;create an estimate for Acme&rdquo;, &ldquo;record a 5,000 payment on invoice INV-0007&rdquo;, &ldquo;send Priya the estimate&rdquo; &mdash; and the copilot understands it, finds the right records, and performs the action, asking you to <strong>confirm before it changes anything</strong>. Every step it takes is written to an <strong>audit log</strong>.</p>
+                        <p>You reach it two ways: from the sidebar under <strong>AI CRM</strong> (a full chat screen on the dashboard), and by <strong>texting your workspace's own WhatsApp number</strong> from a registered manager/admin mobile. Both use the same brain and the same safety rules, so a manager can run the business from their phone without opening a laptop.</p>
+                        <p>Think of it as a teammate who knows your whole CRM: it can look things up, create and update records, move deals through stages, build and send quotes and invoices, record money, manage tasks and projects, and answer reporting questions like &ldquo;what's my revenue this month?&rdquo; &mdash; all from one conversation box.</p>
+                        <blockquote class="info"><strong>At a glance:</strong> plain-English control of contacts, companies, deals, estimates/proposals, invoices, payments, tasks and projects &middot; works on the dashboard <em>and</em> over WhatsApp &middot; confirms before every change &middot; bring-your-own AI key (OpenAI, Anthropic or Gemini) &middot; every action audit-logged &middot; strictly scoped to your one workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements &amp; Access</h2>
+                        <p>Before the copilot can run, three things need to be in place:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Requirement</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>A plan that includes AI CRM</strong></td><td>The feature is plan-gated and checked on the server. If your plan doesn't include it, the AI CRM menu item is hidden and the endpoints refuse the request &mdash; hiding the button is never the only guard.</td></tr>
+                                <tr><td><strong>An AI provider key</strong></td><td>The copilot uses a language model to understand you. Add an <strong>OpenAI</strong>, <strong>Anthropic</strong> or <strong>Gemini</strong> key in your workspace AI settings (or the platform key, if your admin provides one). Without a working key, the copilot replies that AI isn't configured. See <a href="#byok">Bring Your Own Key</a>.</td></tr>
+                                <tr><td><strong>The right role</strong></td><td>Any workspace member can use the dashboard copilot for their own data. The <strong>WhatsApp channel</strong> (commanding it by text) is limited to <strong>managers and admins</strong>, and only from a phone number registered to that user.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The copilot only ever sees and touches the <strong>current workspace's</strong> data. Switching workspaces switches the copilot's scope with you; it can never read another workspace's records.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="what-it-does">What It Can Do &mdash; the Full Tool Set</h2>
+                        <p>The copilot works through a catalog of built-in <strong>tools</strong>. When you type a request, it picks the right tool (or several in sequence) and fills in the details from your sentence. You don't need to know the tool names &mdash; you just describe the outcome. Here is the full range, grouped by area:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Area</th><th>What the copilot can do</th><th>Example you can type</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Contacts</strong></td><td>Find a contact, create one, update fields (phone, email, company, tags), and summarise a contact's history.</td><td>&ldquo;Find the contact Priya&rdquo; &middot; &ldquo;Add a contact: John Mehta, +91 98&hellip;, john@acme.com&rdquo;</td></tr>
+                                <tr><td><strong>Companies</strong></td><td>Create and find companies, link contacts to a company, and roll up a company's deals and revenue.</td><td>&ldquo;Create the company Acme Corp&rdquo; &middot; &ldquo;What's Acme worth to us?&rdquo;</td></tr>
+                                <tr><td><strong>Deals</strong></td><td>Create a deal with a value and stage, find deals, move a deal to another stage, mark Won/Lost, and list open deals.</td><td>&ldquo;Create a deal for Acme worth 50000 in proposal stage&rdquo; &middot; &ldquo;Move the Acme deal to Won&rdquo;</td></tr>
+                                <tr><td><strong>Estimates &amp; proposals</strong></td><td>Create a priced quote with line items and tax, look one up, and send it to the customer's public accept/decline link.</td><td>&ldquo;Create an estimate for Priya: 2 hours consulting at 80&rdquo;</td></tr>
+                                <tr><td><strong>Invoices</strong></td><td>Create an invoice, convert an accepted estimate into an invoice, look up an invoice, and send it.</td><td>&ldquo;Convert estimate #12 to an invoice&rdquo; &middot; &ldquo;Send Acme invoice INV-0009&rdquo;</td></tr>
+                                <tr><td><strong>Payments</strong></td><td>Record a full or partial payment against an invoice (which flips it to Paid when settled), and report what's outstanding.</td><td>&ldquo;Record a payment of 5000 for invoice INV-0007&rdquo; &middot; &ldquo;What's outstanding?&rdquo;</td></tr>
+                                <tr><td><strong>Tasks</strong></td><td>Create a task with a due date and owner, list your tasks, and mark a task done.</td><td>&ldquo;Remind me to call Acme tomorrow&rdquo; &middot; &ldquo;List my tasks&rdquo;</td></tr>
+                                <tr><td><strong>Projects</strong></td><td>Start a project for a customer with a due date, update its progress, and list active/overdue projects.</td><td>&ldquo;Start a project for the Acme website, due next Friday&rdquo;</td></tr>
+                                <tr><td><strong>Reports</strong></td><td>Answer money and pipeline questions &mdash; revenue over a period, outstanding balances, pipeline value by stage, win-rate.</td><td>&ldquo;Revenue report this month&rdquo; &middot; &ldquo;How much is in my pipeline?&rdquo;</td></tr>
+                                <tr><td><strong>Summarise &amp; draft</strong></td><td>Generate a short client brief, summarise a contact or deal, or draft a message you can then send.</td><td>&ldquo;Generate a client brief for Acme&rdquo;</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Because the copilot can chain tools, a single sentence can do several things: &ldquo;create an estimate for Priya for 2 hours consulting at 80 and send it&rdquo; will build the quote <em>and</em> send the link &mdash; pausing once to confirm before it sends.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How a Turn Works</h2>
+                        <p>Every message you send follows the same four steps, so the behaviour is predictable:</p>
+                        <ol>
+                            <li><strong>Understand.</strong> The copilot reads your message (plus the recent chat for context) and decides what you want and which tool(s) fit.</li>
+                            <li><strong>Look up.</strong> For anything that references a record &mdash; &ldquo;the Acme deal&rdquo;, &ldquo;Priya&rdquo;, &ldquo;invoice INV-0007&rdquo; &mdash; it searches your workspace and identifies the exact record. If a name is ambiguous (two Priyas), it asks you which one.</li>
+                            <li><strong>Confirm (only for changes).</strong> If the action <em>reads</em> data, it just answers. If the action <em>changes</em> data &mdash; create, update, send, record a payment &mdash; it summarises exactly what it's about to do and waits for you to reply <strong>yes</strong> (or <strong>no</strong> to cancel). See <a href="#safety">Confirm-Before-Act</a>.</li>
+                            <li><strong>Execute &amp; log.</strong> On your yes, it performs the action, tells you the result (with the record's number/link), and writes an entry to the <strong>Recent AI actions</strong> audit panel.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Context resets cleanly.</strong> Use <strong>New chat</strong> whenever you switch tasks. It clears the running context so an earlier &ldquo;Acme&rdquo; doesn't bleed into your next, unrelated request.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="using">Using It on the Dashboard</h2>
+                        <p>Open <strong>AI CRM</strong> from the sidebar. On a fresh chat you'll see grouped example prompts &mdash; <em>Look things up</em>, <em>Create &amp; do</em>, <em>Money &amp; reports</em>, <em>Send &amp; summarise</em> &mdash; so you can see the range at a glance. Tap any example to drop it into the box, then edit and send. Step by step:</p>
+                        <ol>
+                            <li><strong>Type a request</strong> in plain language and press Enter (Shift+Enter for a new line). The composer grows as you type.</li>
+                            <li><strong>Read the reply.</strong> For a lookup, the copilot lists what it found. For a change, it shows a confirmation summary.</li>
+                            <li><strong>Confirm or cancel.</strong> Reply <em>yes</em> to proceed or <em>no</em> to drop it. You can also just type a new instruction to change course.</li>
+                            <li><strong>Check the audit panel.</strong> The right-hand <strong>Recent AI actions</strong> list shows each tool that ran and a one-line summary of the result.</li>
+                            <li><strong>Start fresh when you switch tasks</strong> with the <strong>New chat</strong> button.</li>
+                        </ol>
+                        <p>The quick-reply chips above the composer (&ldquo;Show my open deals&rdquo;, &ldquo;Revenue report this month&rdquo;, &ldquo;List my tasks&rdquo;, &ldquo;What's outstanding?&rdquo;) are always available as one-tap shortcuts.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="examples">Worked Examples</h2>
+                        <p>Three end-to-end examples showing exactly what the copilot says and does.</p>
+
+                        <h3 id="ex-estimate">Example 1 &mdash; Create and send an estimate</h3>
+                        <ol>
+                            <li>You type: <em>&ldquo;Create an estimate for Priya: 2 hours consulting at 80, then send it.&rdquo;</em></li>
+                            <li>The copilot finds the contact <strong>Priya Sharma</strong>, builds a quote with one line (2 &times; 80 = 160) and replies: <em>&ldquo;I'll create Estimate for Priya Sharma &mdash; 2h consulting @ 80 = 160, and send her the accept link. Confirm?&rdquo;</em></li>
+                            <li>You reply <em>yes</em>.</li>
+                            <li>It creates the estimate, sends Priya the public link, and replies: <em>&ldquo;Done. Estimate #14 created and sent to Priya. She can accept or decline it from the link.&rdquo;</em> Two audit entries appear (create estimate, send estimate).</li>
+                        </ol>
+
+                        <h3 id="ex-payment">Example 2 &mdash; Record a payment</h3>
+                        <ol>
+                            <li>You type: <em>&ldquo;Record a payment of 5000 for invoice INV-0007.&rdquo;</em></li>
+                            <li>The copilot looks up <strong>INV-0007</strong> (total 5,000, unpaid) and replies: <em>&ldquo;Record a payment of 5,000 against INV-0007? That settles it in full and marks it Paid.&rdquo;</em></li>
+                            <li>You reply <em>yes</em>. It writes the payment, flips the invoice to <strong>Paid</strong>, and confirms the new outstanding balance for that customer.</li>
+                        </ol>
+
+                        <h3 id="ex-report">Example 3 &mdash; A reporting question</h3>
+                        <ol>
+                            <li>You type: <em>&ldquo;What's my revenue this month, and what's still outstanding?&rdquo;</em></li>
+                            <li>Because this only reads data, there's no confirmation. The copilot replies with the month's collected revenue and the total outstanding (optionally with an aging split), pulled live from your payments and invoices.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="whatsapp">Commanding It Over WhatsApp</h2>
+                        <p>Managers and admins can run the CRM without opening the dashboard &mdash; by texting the workspace's own WhatsApp number. This turns any connected number into a private control line for your team.</p>
+                        <ol>
+                            <li><strong>Enable the channel.</strong> In the AI CRM screen, an admin/manager flips the <strong>WhatsApp channel</strong> toggle on. (Members without permission see the status but can't toggle it.)</li>
+                            <li><strong>Register the staff mobile.</strong> The manager's own mobile number must be on their profile. Only registered manager/admin numbers are recognised as commanders.</li>
+                            <li><strong>Text a request</strong> to your workspace number &mdash; e.g. &ldquo;show today's revenue&rdquo; or &ldquo;create a deal for Acme worth 20000&rdquo;. The copilot replies on WhatsApp.</li>
+                            <li><strong>Confirm on WhatsApp.</strong> The same confirm-before-act rule applies &mdash; you reply <em>yes</em> in the chat to approve a change.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Only your staff get control.</strong> A customer messaging that same number is handled as a normal conversation (auto-reply, inbox, flows) and is <em>never</em> given CRM control. Copilot commands are accepted only from numbers that belong to a manager or admin in the workspace. Turn the toggle off at any time to disable text-commanding entirely.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="safety">Confirm-Before-Act &amp; Audit</h2>
+                        <p>The copilot is built so it can never quietly change or send something you didn't intend:</p>
+                        <ul>
+                            <li><strong>Reads are instant.</strong> Looking things up, reports and summaries happen immediately &mdash; there's nothing to confirm.</li>
+                            <li><strong>Writes always confirm.</strong> Creating, editing, converting, sending, or recording money always shows a plain-language summary of the exact change and waits for your <em>yes</em>. A <em>no</em>, or any new instruction, cancels it.</li>
+                            <li><strong>Every action is logged.</strong> The <strong>Recent AI actions</strong> panel records which tool ran and a short result summary, so there's a trail of everything the copilot did on your behalf.</li>
+                            <li><strong>Ambiguity is surfaced, not guessed.</strong> If two records match a name, the copilot asks which one rather than picking for you.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="byok">Bring Your Own AI Key</h2>
+                        <p>The copilot runs on <strong>your</strong> AI provider key, so you control the model and the cost:</p>
+                        <ul>
+                            <li><strong>Providers.</strong> OpenAI, Anthropic (Claude) or Google Gemini. Add the key in your workspace AI settings; your platform admin may also provide a shared platform key.</li>
+                            <li><strong>Cost.</strong> Usage is billed by your provider against your key. Copilot conversations are short and text-only, so cost is modest, but heavy use adds up &mdash; watch it on the <strong>AI Usage Dashboard</strong>.</li>
+                            <li><strong>Keys are stored encrypted</strong> and used server-side only; they're never exposed to the browser.</li>
+                            <li><strong>No key, no copilot.</strong> If no working key is configured, the copilot tells you AI isn't set up rather than failing silently.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">Limits, Tips &amp; Troubleshooting</h2>
+                        <ul>
+                            <li><strong>One workspace at a time.</strong> The copilot only ever acts in your current workspace. To work in another, switch to it first.</li>
+                            <li><strong>Be specific with money and names.</strong> Include the amount, the invoice number, or the full contact name when you can &mdash; it reduces follow-up questions.</li>
+                            <li><strong>&ldquo;Sending too fast&rdquo;.</strong> There's a light rate limit; if you fire many messages in a row, wait a moment and continue.</li>
+                            <li><strong>Something went wrong.</strong> If a reply says it failed, check that your AI key is valid and that the record you referenced exists, then try again. The action isn't logged unless it actually ran.</li>
+                            <li><strong>Start a New chat</strong> if answers seem to reference the wrong record &mdash; stale context is the usual cause.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Related guides:</strong> <a href="../commerce/proposals-estimates.html">Proposals &amp; Estimates</a>, <a href="../commerce/auto-invoicing.html">Auto-Invoicing</a>, <a href="../commerce/payment-links.html">Payment Links</a>, <a href="../commerce/projects.html">Projects</a>, <a href="../growth/deals.html">Sales Pipeline (Deals)</a>.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements &amp; Access</a></li>
+                    <li class="toc-h2"><a href="#what-it-does" class="toc-link">What It Can Do</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How a Turn Works</a></li>
+                    <li class="toc-h2"><a href="#using" class="toc-link">Using It on the Dashboard</a></li>
+                    <li class="toc-h2"><a href="#examples" class="toc-link">Worked Examples</a></li>
+                    <li class="toc-h2"><a href="#whatsapp" class="toc-link">Commanding Over WhatsApp</a></li>
+                    <li class="toc-h2"><a href="#safety" class="toc-link">Confirm-Before-Act &amp; Audit</a></li>
+                    <li class="toc-h2"><a href="#byok" class="toc-link">Bring Your Own AI Key</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">Limits &amp; Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

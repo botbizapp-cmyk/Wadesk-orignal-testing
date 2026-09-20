@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Inbox – WaDesk SaaS Docs</title>
+    <meta name="description" content="Team Inbox — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Team Inbox</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Team Inbox</strong> is the shared workspace where your whole team handles incoming WhatsApp conversations from one screen. Open it from the top navigation <strong>Team Inbox</strong> item. Every chat that arrives on a connected number becomes a <em>conversation</em> that any teammate can pick up, assign, answer, note, tag, snooze, or resolve &mdash; without stepping on each other.</p>
+                        <p>It works the same no matter which engine the workspace runs on (Unofficial API, WhatsApp Cloud API, or Twilio): the queue, assignment, notes, SLA timers, and collaboration tools all behave identically. The inbox shows only conversations on the workspace's <em>active</em> engine, so switching engines never leaves old chats cluttering the list &mdash; and never tries to reply to an old conversation through a channel that can no longer reach it.</p>
+                        <p>The first time you open the inbox in a session, that moment becomes your "last seen" mark, so the global "new messages" widget only counts conversations that arrive after it.</p>
+                        <blockquote class="info"><strong>Two views, one queue.</strong> The same conversations can be worked as a scrolling list or as a drag-and-drop <strong>Kanban board</strong> with Open / Pending / Snoozed / Resolved columns &mdash; dragging a card between columns changes its status. Use whichever fits how your team works; both share the exact same data and counts.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="layout">The Inbox Layout</h2>
+                        <p>The screen is divided into three panes:</p>
+                        <ul>
+                            <li><strong>Left &mdash; the queue.</strong> A scrolling list of conversations with filters and tabs across the top. Each row shows the contact, a message preview, unread count, who it's assigned to (person, team color, or AI-agent badge), priority, an SLA-breach flag, and a connection dot for the number it arrived on (green when connected, grey/red when offline; Cloud API rows show as "cloud").</li>
+                            <li><strong>Center &mdash; the conversation.</strong> The selected thread with the full message history (loaded 80 messages at a time, scroll up for older ones), the reply box, and per-message hover actions.</li>
+                            <li><strong>Right &mdash; context.</strong> The customer profile (name, email, mobile, country code, address, language, and custom fields from the matching contact), the customer's recent orders, past conversations with the same contact, internal notes, tags, and the activity timeline (every status change, assignment, tag, note, SLA event, and routing-rule action is recorded here).</li>
+                        </ul>
+                        <p>The list, customer profile, and order history load together when you open a conversation; older messages load as you scroll, so even threads with thousands of messages stay fast.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="queue-tabs">Queue Tabs &amp; Filters</h2>
+                        <p>The tabs at the top of the queue let each operator focus on the right slice of work. The badge count next to each tab always matches the rows you see.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Tab</th><th>What it shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Mine</strong></td><td>Conversations assigned to you. This is the default tab.</td></tr>
+                                <tr><td><strong>Unassigned</strong></td><td>Open conversations nobody has picked up yet &mdash; the team's shared to-do list.</td></tr>
+                                <tr><td><strong>Mentions</strong></td><td>Conversations where a teammate @mentioned you in an internal note.</td></tr>
+                                <tr><td><strong>SLA breach</strong></td><td>Conversations that missed their first-response or resolution target.</td></tr>
+                                <tr><td><strong>All</strong></td><td>Everything you're allowed to see. Owners, admins, and managers see the whole workspace; agents see only their own conversations plus those routed to their teams.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Alongside the tab you can stack these filters:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Filter</th><th>Options</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Status</strong></td><td>Open (default), Snoozed, Resolved, Closed, Spam, or All.</td></tr>
+                                <tr><td><strong>Team</strong></td><td>Narrow to a single department's queue.</td></tr>
+                                <tr><td><strong>Number</strong></td><td>When the workspace has more than one connected number, show only conversations that landed on a specific number.</td></tr>
+                                <tr><td><strong>Search</strong></td><td>Find a conversation by contact name, number, or message text.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="statuses">Conversation Statuses &amp; Priority</h2>
+                        <p>Every conversation has exactly one status that controls which tab and queue it appears in. Status changes are logged to the conversation's activity timeline. The statuses are:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>Meaning</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>open</strong></td><td>Active and needs attention. The default for any new incoming conversation.</td></tr>
+                                <tr><td><strong>pending</strong></td><td>In progress but waiting (for example, on the customer). Still counts as live work and still appears in notifications.</td></tr>
+                                <tr><td><strong>snoozed</strong></td><td>Hidden until a chosen time, then it wakes back to <em>open</em> automatically (see <a href="#snooze">Snooze, Resolve &amp; Reopen</a>).</td></tr>
+                                <tr><td><strong>resolved</strong></td><td>Handled and closed out. Records who resolved it and when. Can be reopened at any time.</td></tr>
+                                <tr><td><strong>closed</strong></td><td>Finished and archived. (Assigning a closed conversation automatically reopens it.)</td></tr>
+                                <tr><td><strong>spam</strong></td><td>Marked as junk and removed from the working queue.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Conversations also carry a <strong>priority</strong> &mdash; <em>low</em>, <em>normal</em>, <em>high</em>, or <em>urgent</em> &mdash; settable from the conversation header. Priority can tighten the SLA targets (a high/urgent chat can get a faster first-response clock; see <a href="#sla">SLA Timers</a>).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="roles">Team Roles &amp; Permissions</h2>
+                        <p>What each teammate can do in the inbox depends on their workspace role. Roles are set when you invite members (<strong>Team Inbox &rarr; Members</strong>, or <strong>Account &amp; Team</strong>). There are five roles:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Role</th><th>What they can do</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Owner</strong></td><td>Full control. Sees every conversation, and manages teams, tags, SLA policies, routing rules, business hours, integrations, members, and billing.</td></tr>
+                                <tr><td><strong>Admin</strong></td><td>Same broad inbox access as the owner, but no billing. Sets up teams, tags, routing, and SLA, and invites members.</td></tr>
+                                <tr><td><strong>Manager</strong></td><td>Sees all conversations across teams, can assign and resolve, manage tags and saved replies, and view the analytics pages. Cannot edit routing or SLA policies.</td></tr>
+                                <tr><td><strong>Agent</strong></td><td>Works the queue &mdash; replies, notes, tags, snoozes, and resolves the conversations assigned to them or their teams. Cannot open manager-only pages (Chat, analytics).</td></tr>
+                                <tr><td><strong>Viewer</strong></td><td>Read-only. Can open and read conversations but cannot reply or make changes.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> Workspaces created on older versions may show a <em>member</em> role &mdash; it works exactly like <strong>Agent</strong>. Every action is permission-checked on the server, so a role isn't just a label on the screen.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="replying">Replying to a Conversation</h2>
+                        <p>Select a conversation to open it, then use the reply box at the bottom of the center pane. Every outgoing message is charged against the wallet, sent through the active engine, then marked <em>sent</em> (or <em>failed</em>, with a refund) based on the result.</p>
+                        <ol>
+                            <li><strong>Text.</strong> Type your message (up to 4096 characters) and press send. The recipient is worked out automatically, so replies always reach the right person.</li>
+                            <li><strong>Media.</strong> Use the attachment control to send an image, video, document, or audio file (up to 16&nbsp;MB) with an optional caption. Selecting several files sends one message per file.</li>
+                            <li><strong>Voice note.</strong> Record directly in the browser; it's sent as a WhatsApp voice message (the round play-button bubble), not a generic audio file.</li>
+                            <li><strong>Template.</strong> Pick an approved template from the Template tab &mdash; its header, footer, and buttons carry through. Templates are required to start conversations outside WhatsApp's 24-hour window on the Cloud API.</li>
+                            <li><strong>Catalog.</strong> Send a single product, a multi-product list, or a storefront link. On a Cloud API number with a linked Meta catalog it uses the native catalog message; otherwise it sends a product carousel.</li>
+                            <li><strong>Canned reply.</strong> Insert a saved reply by typing its <code>/shortcut</code> or choosing one from the picker (see <a href="#canned-replies">Canned Replies</a>).</li>
+                        </ol>
+                        <p>Your first reply on a conversation stops the first-response SLA clock and clears any pending escalation, since an answer means it's been handled. Each reply also counts toward your replies-today figure on the analytics page.</p>
+                        <blockquote class="warning"><strong>Out of credits?</strong> Every outgoing message costs one credit (or whatever your plan sets per message). If the wallet has no credits left, the reply is rejected with a clear "Out of message credits" message and nothing is sent. If the engine itself rejects a send, the message is marked <em>failed</em> with the reason recorded and the credit is automatically refunded &mdash; you are never billed for a message that didn't go out.</blockquote>
+                        <h3 id="message-actions">Per-Message Actions</h3>
+                        <p>Hover any bubble in the thread for the same controls WhatsApp offers:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Pin</strong></td><td>Pins the bubble; the change is pushed to the recipient on WhatsApp (a 7-day pin) where the engine supports it.</td></tr>
+                                <tr><td><strong>Star</strong></td><td>Stars the message for the operator and syncs to your WhatsApp Web starred list. The recipient is not notified.</td></tr>
+                                <tr><td><strong>React</strong></td><td>Adds an emoji reaction (or clears it by sending an empty emoji). Best-effort delivery to the recipient.</td></tr>
+                                <tr><td><strong>Forward</strong></td><td>Copies the message (text + media) into another conversation and sends it there. Consumes one credit; refunded on failure.</td></tr>
+                                <tr><td><strong>Edit</strong></td><td>Edits your own outbound message within WhatsApp's 15-minute edit window. The wire edit is sent first; the local bubble only updates if the provider accepted it. Inbound messages and expired edits return a clear 422.</td></tr>
+                                <tr><td><strong>Delete</strong></td><td><em>Delete for everyone</em> revokes your own outgoing message on WhatsApp (the recipient sees "This message was deleted"); <em>Delete for me</em> just soft-hides it from the inbox. Inbound messages can only be hidden locally.</td></tr>
+                                <tr><td><strong>Info</strong></td><td>Shows the message's status timeline &mdash; created, sent, delivered, read &mdash; plus any failure reason.</td></tr>
+                                <tr><td><strong>Add to contacts</strong></td><td>On an inbound message that carries a shared vCard, promotes the captured card into a real CRM Contact (idempotent &mdash; updates an existing match instead of duplicating).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="assignment">Assignment</h2>
+                        <p>Assigning a conversation makes one person (or one team) responsible for it. Use the <strong>Assign</strong> control in the conversation header, or select rows in the queue and assign in bulk. Assignment follows the same rules everywhere &mdash; the header, bulk actions, and routing rules.</p>
+                        <ul>
+                            <li><strong>Assign to a person</strong> &mdash; the conversation moves into that teammate's <em>Mine</em> tab and they're notified.</li>
+                            <li><strong>Assign to a team</strong> &mdash; routes to a department; the team's assignment strategy then picks the actual member.</li>
+                            <li><strong>Unassign</strong> &mdash; returns the conversation to the Unassigned queue.</li>
+                            <li><strong>Hand over to AI</strong> &mdash; attach a workspace AI assistant (or AI Agent) so it answers the customer's next reply. You can detach it again at any time.</li>
+                        </ul>
+                        <h3 id="auto-assign">Auto-Assignment Strategies</h3>
+                        <p>Each team has one strategy that decides who gets a conversation routed to that team. Strategies only consider <em>available</em> members &mdash; nobody who is <em>offline</em> or <em>busy</em>, and nobody already at or above their capacity (20 open chats by default) &mdash; and fall back to least-loaded when the preferred pick isn't available.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Strategy</th><th>Behavior</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Manual</strong></td><td>No automatic pick &mdash; a person assigns it.</td></tr>
+                                <tr><td><strong>Round robin</strong></td><td>Picks the available member who has gone longest without an assignment, spreading work evenly in turn.</td></tr>
+                                <tr><td><strong>Least loaded</strong></td><td>Gives the conversation to the available member with the fewest open/pending conversations.</td></tr>
+                                <tr><td><strong>Sticky</strong></td><td>Keeps a returning customer with the agent who last replied to them (unless that agent is offline), falling back to least-loaded.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Teams are created under the inbox settings (<strong>Teams</strong>), where you set each team's name, color, members, strategy, and an optional <strong>number restriction</strong> so a team only sees conversations from specific connected numbers. Automatic assignment skips a team whose number restriction doesn't include the conversation's number; manual assignment isn't restricted that way.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="auto-assign-rules">Auto-Assign Rules (Routing)</h2>
+                        <p>Routing rules automatically act on <em>new</em> conversations based on their content and the contact's details &mdash; before anyone touches them. Manage them under <strong>Auto-assign by tag, keyword or hours</strong> in the inbox settings (admins and owners only; the feature is plan-gated). Rules run in two passes: first your normal rules in order, then &mdash; only if nothing matched &mdash; any rules you marked as <strong>fallback</strong> (your catch-all "if nothing else matched, send to Triage" patterns).</p>
+                        <h3 id="routing-conditions">Conditions</h3>
+                        <p>Each rule is a set of conditions that must all be true (you can also build nested AND/OR groups). You can match on:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Condition</th><th>Matches against</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Message text</td><td>The incoming message text.</td></tr>
+                                <tr><td>Contact phone</td><td>The sender's phone number.</td></tr>
+                                <tr><td>Contact tag</td><td>The contact's existing tags.</td></tr>
+                                <tr><td>Channel / priority / language</td><td>The conversation's channel, current priority, or detected language.</td></tr>
+                                <tr><td>Time of day / day of week</td><td>The current hour or weekday, for time-based routing.</td></tr>
+                                <tr><td>Outside business hours</td><td>Whether the message arrived outside your weekly schedule (see below).</td></tr>
+                                <tr><td>Incoming number</td><td>Which connected number the message landed on.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Comparisons include equals, not equals, contains, does not contain, starts with, ends with, is one of, is not one of, greater/less than, has any of, and pattern match. Matching ignores upper/lower case by default.</p>
+                        <h3 id="routing-actions">Actions</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Assign to team</td><td>Routes to a team (using least-loaded), respecting the team's number restriction.</td></tr>
+                                <tr><td>Assign to person / AI agent</td><td>Assigns to a specific teammate, or hands the chat to an AI Agent that responds immediately.</td></tr>
+                                <tr><td>Set priority</td><td>Sets low / normal / high / urgent.</td></tr>
+                                <tr><td>Add tag</td><td>Adds a tag (creating it if needed) and can automatically enroll the contact into a matching flow.</td></tr>
+                                <tr><td>Auto-reply</td><td>Sends a template or free-text reply into the conversation, with an anti-spam cooldown.</td></tr>
+                                <tr><td>Start a flow</td><td>Starts an automation flow for the contact.</td></tr>
+                                <tr><td>Mark as spam</td><td>Flags the conversation as spam and pulls it from the queue.</td></tr>
+                                <tr><td>Set SLA</td><td>Applies a specific SLA policy to the conversation.</td></tr>
+                                <tr><td>Set escalation</td><td>Schedules a delayed action &mdash; if no reply lands within a set number of minutes, the follow-up action (reassign, raise priority, etc.) fires automatically.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Rules run in order; turn on <strong>Stop on match</strong> so once a rule fires, later rules are skipped. When a customer replies to an already-open chat, only the per-message actions (add tag, auto-reply, start a flow) run again &mdash; one-time actions like "assign to team" won't override an operator's manual reassignment.</p>
+                        <blockquote class="info"><strong>Business hours.</strong> Set the workspace's weekly schedule and time zone under <strong>Business hours</strong> (per day: on/off, from, to; default Mon&ndash;Fri 09:00&ndash;18:00, weekends off). The "outside business hours" condition reads from it, and you can set an automatic outside-hours auto-reply template plus its cooldown right there.</blockquote>
+                        <blockquote class="caution"><strong>No setup needed.</strong> Escalations, SLA breaches, and snooze wake-ups are handled automatically whenever the queue refreshes (roughly once every 30&ndash;60 seconds per workspace), so the inbox works out of the box with no extra configuration.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="internal-notes">Internal Notes &amp; Mentions</h2>
+                        <p>Notes are private team comments attached to a conversation &mdash; the customer never sees them. Use them to brief a colleague, record context, or hand off cleanly.</p>
+                        <ol>
+                            <li>Open the conversation and switch to the <strong>Notes</strong> area in the right pane.</li>
+                            <li>Type your note (up to 8000 characters). To pull a teammate in, <strong>@mention</strong> them &mdash; they get an in-app notification and the conversation appears in their <em>Mentions</em> tab.</li>
+                            <li>Notes are timestamped and show who wrote them. You can delete your own notes; admins and managers can delete any note.</li>
+                        </ol>
+                        <p>Each note is recorded on the conversation's timeline, and every mentioned teammate (except you) is notified.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tags">Tags</h2>
+                        <p>Tags label conversations so you can group, filter, and report on them (for example <em>refund</em>, <em>VIP</em>, <em>lead</em>). Add a tag from the conversation header &mdash; pick an existing one, or type a new name and color to create it on the spot. Remove a tag with one click.</p>
+                        <ol>
+                            <li>Open the conversation, click the tag control, choose or create a tag.</li>
+                            <li>The tag is recorded on the timeline, and the change shows up for other operators viewing the queue.</li>
+                            <li>Adding a tag can automatically enroll the contact into any active, published flow that starts on "tag added" for that tag.</li>
+                        </ol>
+                        <p>The number of tags a workspace can create is set by your plan; admins and owners manage the master tag list under inbox settings.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="snooze">Snooze, Resolve &amp; Reopen</h2>
+                        <ul>
+                            <li><strong>Snooze</strong> &mdash; pick a future time to hide a conversation. When that time passes, it wakes back to <em>open</em> automatically and, on the Kanban board, moves off the Snoozed column without a refresh.</li>
+                            <li><strong>Resolve</strong> &mdash; close out a handled conversation. This records who resolved it and when, stops its SLA timers (and flags a breach if it was resolved past the resolution target), adds to your "resolved today" count, and sends a "conversation resolved" webhook.</li>
+                            <li><strong>Reopen</strong> &mdash; bring a resolved conversation back to <em>open</em> if the customer replies again.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="canned-replies">Canned Replies &amp; Playbook Macros</h2>
+                        <p><strong>Saved replies</strong> (canned replies) are reusable message snippets that keep answers fast and consistent. Manage them from the <strong>Saved replies</strong> panel in the inbox.</p>
+                        <ol>
+                            <li>Create a saved reply with a <strong>shortcut</strong>, a title, the body text, and an optional category.</li>
+                            <li>Mark it <strong>personal</strong> to keep it private to you, or leave it shared for the whole workspace.</li>
+                            <li>In the reply box, type <code>/shortcut</code> or open the picker to insert it. Saved replies support <code>{{placeholder}}</code> variables &mdash; including the sending number's phone and name, and contact details &mdash; that fill in with live values before sending.</li>
+                            <li>Each time a reply is used, its usage count goes up, so the picker stays sorted by real popularity.</li>
+                        </ol>
+                        <p>The picker is sorted by how often each reply is used, so your team's most popular answers float to the top. The number of saved replies is set by your plan.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sla">SLA Timers</h2>
+                        <p>Service-Level Agreement (SLA) policies set targets for how quickly conversations must be answered and resolved, and flag the ones that fall behind. Create policies from the <strong>SLA policies</strong> panel (admins and owners). Each policy has these settings:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Setting</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>First response (minutes)</strong></td><td>How fast the first reply must go out.</td></tr>
+                                <tr><td><strong>Resolution (minutes)</strong></td><td>How fast the conversation must be resolved.</td></tr>
+                                <tr><td><strong>Pause when waiting on customer</strong></td><td>Stop the clock while the ball is in the customer's court.</td></tr>
+                                <tr><td><strong>Respect business hours</strong></td><td>Only count time during the workspace's working schedule.</td></tr>
+                                <tr><td><strong>Priority overrides</strong></td><td>Tighter targets for certain priorities (for example a faster first-response time for <em>urgent</em>).</td></tr>
+                                <tr><td><strong>Set as default</strong></td><td>Apply this policy workspace-wide. Setting one default clears it on the others.</td></tr>
+                                <tr><td><strong>Number restriction</strong></td><td>Limit the policy to specific connected numbers. A number-specific policy beats the workspace default for chats on that number.</td></tr>
+                            </tbody>
+                        </table>
+                        <p><strong>How a policy is chosen.</strong> If a routing rule or operator pinned a policy to the conversation, that one wins. Otherwise WaDesk picks the most specific match: a number-specific policy first, then the workspace default, then any policy. When a target is missed, the conversation is flagged as breached, recorded on the timeline, and shown in the <em>SLA breach</em> tab. The header shows a live SLA countdown so operators know what's most urgent.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="collaboration">Collision Detection, Presence &amp; Typing</h2>
+                        <p>Because the inbox is shared, WaDesk shows you in real time when teammates are looking at the same conversation, so two people don't reply at once. This works out of the box, with no extra server setup.</p>
+                        <ul>
+                            <li><strong>Presence avatars</strong> appear on a conversation when other teammates have it open. An avatar drops off after about 30 seconds of silence (tab closed or connection lost).</li>
+                            <li>A <strong>"&hellip; is typing"</strong> indicator shows when someone else is composing, and disappears within about 5 seconds of them stopping.</li>
+                            <li>When you close the conversation or the tab, you drop off the viewer list right away.</li>
+                            <li>You only ever see <em>other</em> people on a conversation, never your own avatar.</li>
+                        </ul>
+                        <h3 id="agent-status">Agent Availability Status</h3>
+                        <p>Operators set their own availability &mdash; <strong>online</strong>, <strong>away</strong>, <strong>busy</strong>, or <strong>offline</strong> &mdash; with an optional status message. This isn't just cosmetic: auto-assignment skips anyone who's <em>busy</em> or <em>offline</em>, so setting yourself busy genuinely stops new work from landing on you. Each agent's status, current load, replies-today, and resolutions-today are visible on the team performance page.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="bulk-actions">Bulk Actions</h2>
+                        <p>Select multiple conversations in the queue to act on them together. Each one is permission-checked individually (any you can't act on are quietly skipped), and the whole operation is recorded in the audit log.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Bulk action</th><th>Effect</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Assign</strong></td><td>Assign the selection to a person or team.</td></tr>
+                                <tr><td><strong>Resolve</strong></td><td>Mark all as resolved and add to your resolutions-today count.</td></tr>
+                                <tr><td><strong>Reopen</strong></td><td>Return all to open.</td></tr>
+                                <tr><td><strong>Snooze</strong></td><td>Snooze all until a chosen time (defaults to one hour out).</td></tr>
+                                <tr><td><strong>Priority</strong></td><td>Set a priority on all.</td></tr>
+                                <tr><td><strong>Tag</strong></td><td>Apply a tag to all.</td></tr>
+                                <tr><td><strong>Spam</strong></td><td>Flag all as spam and pull them from the queue.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="analytics">Analytics, AI Agents &amp; Notifications</h2>
+                        <p>Managers, admins, and owners can open two analytics pages, both with today / week / month views and an optional per-number filter:</p>
+                        <ul>
+                            <li><strong>Team performance</strong> &mdash; per-operator replies, resolutions, and average first-response time, plus live availability status and current load, with workspace-wide totals up top.</li>
+                            <li><strong>AI agent performance</strong> &mdash; per-agent messages sent and failed, success rate, conversations handled, how many are active right now, and an average self-rated quality score with sample replies.</li>
+                        </ul>
+                        <p><strong>AI Agents</strong> are set up in the inbox (provider OpenAI / Anthropic / Gemini, model, tone, instructions, reply length, hand-off rules, optional voice). Assign one to a conversation and it answers the customer's next reply; resolving the conversation records which agent handled it. AI features use the workspace's own AI key or the admin-provided key, subject to your plan's AI access.</p>
+                        <p>A notification widget shows your most recent unread conversations. The "new messages" counter resets whenever you open the list or Kanban view.</p>
+                        <h3 id="webhooks">Outbound Webhooks</h3>
+                        <p>For CRM, Zapier, or Make integrations, admins can set up outbound webhooks (under inbox settings) that fire on inbox events &mdash; for example <code>conversation.assigned</code>, <code>conversation.replied</code>, and <code>conversation.resolved</code> &mdash; with a signing secret and per-hook delivery counts so you can wire conversations into the rest of your tools.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#layout" class="toc-link">The Inbox Layout</a></li>
+                    <li class="toc-h2"><a href="#queue-tabs" class="toc-link">Queue Tabs &amp; Filters</a></li>
+                    <li class="toc-h2"><a href="#statuses" class="toc-link">Conversation Statuses &amp; Priority</a></li>
+                    <li class="toc-h2"><a href="#roles" class="toc-link">Team Roles &amp; Permissions</a></li>
+                    <li class="toc-h2"><a href="#replying" class="toc-link">Replying to a Conversation</a></li>
+                    <li class="toc-h2"><a href="#assignment" class="toc-link">Assignment</a></li>
+                    <li class="toc-h2"><a href="#auto-assign-rules" class="toc-link">Auto-Assign Rules (Routing)</a></li>
+                    <li class="toc-h2"><a href="#internal-notes" class="toc-link">Internal Notes &amp; Mentions</a></li>
+                    <li class="toc-h2"><a href="#tags" class="toc-link">Tags</a></li>
+                    <li class="toc-h2"><a href="#snooze" class="toc-link">Snooze, Resolve &amp; Reopen</a></li>
+                    <li class="toc-h2"><a href="#canned-replies" class="toc-link">Canned Replies &amp; Playbook Macros</a></li>
+                    <li class="toc-h2"><a href="#sla" class="toc-link">SLA Timers</a></li>
+                    <li class="toc-h2"><a href="#collaboration" class="toc-link">Collision Detection, Presence &amp; Typing</a></li>
+                    <li class="toc-h2"><a href="#bulk-actions" class="toc-link">Bulk Actions</a></li>
+                    <li class="toc-h2"><a href="#analytics" class="toc-link">Analytics, AI Agents &amp; Notifications</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

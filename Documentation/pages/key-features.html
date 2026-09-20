@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Features – WaDesk SaaS Docs</title>
+    <meta name="description" content="Key Features — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <script src="../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Key Features</h1>
+                    <p>A complete map of what <strong>WaDesk SaaS</strong> &mdash; the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform &mdash; can do. For each feature this page gives a short description of <em>what it does</em>, <strong>where to find it</strong> in the app, and &mdash; where it applies &mdash; whether it needs a <strong>paid plan</strong>. Every area links to its own detailed guide in the sidebar.</p>
+                    <blockquote class="info"><strong>About the "Plan" column.</strong> Some features are only available on paid plans, and this is always enforced on the server. Some are simply on or off; others have a usage limit (for example, how many messages you can send per month). A dash means the feature is available on every plan. See <a href="./security/plan-enforcement.html">Plan Enforcement</a> for how this works.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="connectivity">Connectivity &amp; Channels</h2>
+                        <p>How a workspace gets a WhatsApp number online. Everything channel-related lives on the <strong>Devices</strong> screen, which shows the setup for whichever engine the workspace is using.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does &amp; where it lives</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Three engines</strong></td><td>Connect WhatsApp using the Unofficial API (QR pairing), the official WhatsApp Cloud API (Meta), or Twilio. Chosen per workspace on the <strong>Devices</strong> screen; the whole app adapts to the engine in use.</td></tr>
+                                <tr><td><strong>Unofficial API (QR pairing)</strong></td><td>Link any number like WhatsApp Web by scanning a QR code or entering a pairing code. Fastest start; no Meta approval needed.</td></tr>
+                                <tr><td><strong>WhatsApp Cloud API</strong></td><td>Connect a verified WhatsApp Business Account, either by entering your Meta details or with one-click sign-up through Meta. Supports multiple numbers per workspace, each shown as a card on the <strong>Devices</strong> screen.</td></tr>
+                                <tr><td><strong>Twilio WhatsApp</strong></td><td>Connect one Twilio sender (your Twilio account details and sender number), with a test/live toggle. All sends then go through Twilio.</td></tr>
+                                <tr><td><strong>Device management &amp; multiple numbers</strong></td><td>Pair numbers, watch live connection status (Connected, Disconnected, Needs re-pair, or Failed), reconnect, and spread sends across several active devices &mdash; all on the <strong>Devices</strong> screen.</td></tr>
+                                <tr><td><strong>WhatsApp Coexistence</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>Onboard a number that is <em>already running on the WhatsApp Business app</em> via Meta's one-click sign-up &mdash; keeping its chat history and mobile access. Messages typed in the app, the business's contacts, and past chat history are mirrored into your Team Inbox. Enabled by the admin under <strong>Settings</strong>; launched from the <strong>Devices</strong> screen.</td></tr>
+                                <tr><td><strong>Run several engines at once</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>A workspace can connect any combination of the three engines simultaneously. Sender pickers across campaigns, broadcasts, scheduled sends, flows, and the inbox group senders by engine; the correct engine is chosen per message and replies go out on the channel the customer used.</td></tr>
+                                <tr><td><strong>Per-number proxy (IP isolation)</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Route each Unofficial-API number out through its own proxy IP, with a fail-closed preflight that verifies the outbound IP before connecting &mdash; so numbers on one server don't share an IP. Set per number on the <strong>Devices</strong> screen; lowers the IP-correlation behind bulk bans.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Full setup for all three engines: <a href="./getting-started/connect-channel.html">Connecting a Channel</a>. Developer detail: <a href="./developer-guide/engines.html">WhatsApp Engines</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="channels">Multi-Channel <span style="color:var(--text-muted);font-size:0.7em;font-weight:500;">New in v1.6</span></h2>
+                        <p>WaDesk is no longer WhatsApp-only. Connect the channels below and work them all from the same <strong>Team Inbox</strong>, with the same auto-reply, flows, AI agent and &mdash; where the channel allows &mdash; broadcasts. Each is added under <strong>Settings &rarr; Channels</strong>, scoped to your workspace, and replies back on its own transport automatically.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Channel</th><th>What you can do</th><th>Guide</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Instagram DMs</strong></td><td>Two-way DMs, story replies and comment-to-DM, with auto-reply, flows, an AI agent, and broadcasts to people who already messaged you. Past conversations backfill on connect.</td><td><a href="./channels/instagram.html">Instagram</a></td></tr>
+                                <tr><td><strong>Facebook Messenger</strong></td><td>Two-way Messenger chats with history backfill, auto-reply, flows, an AI agent, and broadcasts inside the 24-hour window.</td><td><a href="./channels/facebook.html">Facebook</a></td></tr>
+                                <tr><td><strong>Telegram</strong></td><td>Connect a bot for two-way chat, auto-reply, flows, an AI agent, and broadcasts to everyone who started the bot.</td><td><a href="./channels/telegram.html">Telegram</a></td></tr>
+                                <tr><td><strong>TikTok</strong></td><td>Insights, publishing, TikTok Shop and ad-lead capture into Contacts. DM inbox is wired end-to-end and activates once you have TikTok Messaging-Partner approval (region-gated).</td><td><a href="./channels/tiktok.html">TikTok</a></td></tr>
+                                <tr><td><strong>SMS (Twilio &amp; MSG91)</strong></td><td>Inbound texts and replies in the inbox, plus SMS broadcasts and SMS campaigns with real sent / delivered / failed analytics.</td><td><a href="./channels/sms.html">SMS</a></td></tr>
+                                <tr><td><strong>LINE</strong> <span style="color:var(--text-muted);font-size:0.85em;">New in v1.7</span></td><td>Connect a LINE Official Account for two-way chat, auto-reply, flows, an AI agent, rich menus, Flex messages and narrowcast broadcasts. Self-serve &mdash; no app review.</td><td><a href="./channels/line.html">LINE</a></td></tr>
+                                <tr><td><strong>WeChat</strong> <span style="color:var(--text-muted);font-size:0.85em;">New in v1.7</span></td><td>Connect a Verified Service Account for two-way chat inside the 48-hour window, template messages, a custom menu, flows, an AI agent and mass sends.</td><td><a href="./channels/wechat.html">WeChat</a></td></tr>
+                                <tr><td><strong>Viber</strong> <span style="color:var(--text-muted);font-size:0.85em;">New in v1.7</span></td><td>Paste one token and WaDesk registers the webhook for you. Two-way chat with read receipts, keyboards and carousels, auto-reply, flows, an AI agent and broadcasts to every subscriber.</td><td><a href="./channels/viber.html">Viber</a></td></tr>
+                                <tr><td><strong>Email (MailTrixy)</strong> <span style="color:var(--text-muted);font-size:0.85em;">New in v1.7</span></td><td>Bring your mailboxes into the same inbox as your chats. Reply from the inbox, import existing mail on link, sync on demand, plus email flows and email campaigns.</td><td><a href="./channels/email.html">Email</a></td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each channel keeps its own message counts and analytics, so your reporting stays clean per channel.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Team Inbox &amp; Conversations</h2>
+                        <p>The shared workspace for talking to customers, plus internal team comms.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th><th>Plan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Team Inbox</strong></td><td>One shared inbox the whole team works from: assign chats, leave internal notes, snooze, tag, and resolve. Saved replies speed up answers.</td><td>Team Inbox</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Kanban board</strong></td><td>See conversations as cards across columns for your sales or support stages.</td><td>Team Inbox &rarr; Kanban</td><td>Paid plans</td></tr>
+                                <tr><td><strong>Collision detection</strong></td><td>Shows who is viewing and typing, so two agents never reply to the same chat at once.</td><td>Team Inbox</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Auto-assignment &amp; SLA</strong></td><td>Rules send new chats to the right agent or team; response-time timers track how quickly you reply.</td><td>Team Inbox</td><td>&mdash;</td></tr>
+                                <tr><td><strong>1-to-1 Chat</strong></td><td>Quick direct message to a single number, with media, location, reactions, and stickers.</td><td>Chat</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Team Chat</strong></td><td>Internal channels for your staff with @mentions; new members join after approval.</td><td>Team Chat</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Members</strong></td><td>Manage which teammates can work the inbox and their inbox roles.</td><td>Team Inbox &rarr; Members</td><td>&mdash;</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./messaging/team-inbox.html">Team Inbox</a>, <a href="./messaging/chat.html">Chat</a>, <a href="./messaging/team-chat.html">Team Chat</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="outreach">Outreach &amp; Bulk Messaging</h2>
+                        <p>Reaching many contacts at once, with full per-recipient tracking and ban-aware pacing.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Campaigns</strong></td><td>Bulk sends to a chosen audience, with sending-speed controls and smart routing per message to lower ban risk.</td><td>Campaigns</td></tr>
+                                <tr><td><strong>Broadcasts</strong></td><td>Template broadcasts that track delivery, read, failed, and queued status for each recipient, with retry.</td><td>Broadcasts</td></tr>
+                                <tr><td><strong>Scheduled Messages</strong></td><td>One-off and recurring sends, sent at the right local time for each contact.</td><td>Scheduled</td></tr>
+                                <tr><td><strong>Link Generator</strong></td><td>Create trackable short links and see how many people click them.</td><td>Link Generator</td></tr>
+                                <tr><td><strong>WhatsApp Warmer</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>A per-number warm-up profile &mdash; ramping daily budget, send gaps, active hours, spintax wording, and a health score &mdash; enforced on campaigns, broadcasts and scheduled sends to lower ban risk and protect the quality rating.</td><td>Warmer</td></tr>
+                                <tr><td><strong>Message History</strong></td><td>A searchable record of everything sent and received across the workspace.</td><td>Message History</td></tr>
+                            </tbody>
+                        </table>
+                        <p>How much you can send here depends on your plan's limits (for example, messages per month and broadcast recipients). Guides: <a href="./messaging/campaigns.html">Campaigns</a>, <a href="./messaging/broadcasts.html">Broadcasts</a>, <a href="./messaging/scheduled.html">Scheduled</a>, <a href="./automation/wa-links.html">Link Generator</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="templates-automation">Templates &amp; Automation</h2>
+                        <p>Pre-approved messages and hands-off flows that run conversations for you.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th><th>Plan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>WhatsApp Templates</strong></td><td>Build, check, and submit message templates to Meta for approval, then send them with personalized fields, carousels, headers, and buttons.</td><td>Templates</td><td>Paid plans (with a limit)</td></tr>
+                                <tr><td><strong>Flows (visual builder)</strong></td><td>No-code drag-and-drop automations: text, buttons, lists, polls, conditions, delays, AI, Google Sheets/Docs/Forms, appointments, Google Meet, and store actions. Started by a keyword, a tag being added, someone joining a group, or by hand.</td><td>Flows</td><td>Limited by plan</td></tr>
+                                <tr><td><strong>Auto Reply</strong></td><td>Instant keyword-based replies, with cool-down periods and media attachments.</td><td>Auto Reply</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Chatbot Widget</strong></td><td>A chat widget you can add to your website, with your own styling and protected by a private access link (no login needed). Can be powered by an AI assistant.</td><td>Chatbot Widgets</td><td>&mdash;</td></tr>
+                                <tr><td><strong>WhatsApp Forms</strong></td><td>Native in-chat forms for collecting structured answers. <strong>Cloud API engine only.</strong></td><td>WhatsApp Forms</td><td>&mdash;</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./automation/templates.html">Templates</a>, <a href="./automation/flows.html">Flows</a>, <a href="./messaging/auto-reply.html">Auto Reply</a>, <a href="./automation/chatbot-widget.html">Chatbot Widget</a>, <a href="./automation/wa-forms.html">WhatsApp Forms</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai">AI Suite</h2>
+                        <p>Chat and voice AI, all powered by your own provider keys (OpenAI, Anthropic, Gemini) that the admin sets up once under <strong>Admin &rarr; AI Keys</strong>.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th><th>Plan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>AI Training</strong></td><td>Teach chat assistants from your own content &mdash; web pages, plain text, and question-and-answer pairs &mdash; then use them in the chatbot widget, auto-replies, and the AI step inside flows.</td><td>AI Training</td><td>Paid plans</td></tr>
+                                <tr><td><strong>AI Call Assistant</strong></td><td>A voice assistant that answers phone calls, follows the instructions you give it, and can run your tools during the call.</td><td>AI Assistants</td><td>Paid plans</td></tr>
+                                <tr><td><strong>Call Logs</strong></td><td>Transcripts, recordings, and a timeline of any tools used, for every voice call.</td><td>Call Logs</td><td>Paid plans</td></tr>
+                                <tr><td><strong>WhatsApp Calling</strong></td><td>Native WhatsApp Business voice calling (where supported).</td><td>Calling screen</td><td>Paid plans</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./ai/ai-training.html">AI Training</a>, <a href="./ai/ai-call-assistant.html">AI Call Assistant</a>, <a href="./ai/call-logs.html">Call Logs</a>, <a href="./ai/wa-calling.html">WhatsApp Calling</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="commerce">Commerce &amp; Appointments</h2>
+                        <p>Sell products and book time directly through WhatsApp.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th><th>Plan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Catalog</strong></td><td>Keep a product catalog and send product lists straight into a chat.</td><td>Catalog / Store &rarr; Products</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Storefront &amp; Orders</strong></td><td>A hosted online store, plus order tracking from start to finish.</td><td>Store &rarr; Storefront / Orders</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Appointments</strong></td><td>Time-slot booking with confirmations and Google Calendar / Meet links; can be used as a step in a flow.</td><td>Appointments</td><td>Paid plans</td></tr>
+                                <tr><td><strong>WhatsApp Pay</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Native in-chat payments via the WhatsApp <code>order_details</code> message &mdash; the customer pays without leaving the conversation. Region-locked by Meta; the payment configuration is set on Meta's side. Cloud API engine.</td><td>Store checkout</td><td>Depends on plan</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./commerce/catalog.html">Catalog</a>, <a href="./commerce/storefront.html">Storefront</a>, <a href="./commerce/appointments.html">Appointments</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="marketing">Marketing, Contacts &amp; Analytics</h2>
+                        <p>Audience data, paid acquisition, and reporting.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Meta Ads</strong></td><td>Create, sync, and report on Click-to-WhatsApp ad campaigns, without leaving WaDesk.</td><td>Meta Ads</td></tr>
+                                <tr><td><strong>Contacts &amp; Groups</strong></td><td>Import from a spreadsheet, tag, group, and search your audience; joining a group can start a flow.</td><td>Contacts</td></tr>
+                                <tr><td><strong>Attributes</strong></td><td>Built-in and custom fields used to personalize templates, flows, and broadcasts.</td><td>Attributes</td></tr>
+                                <tr><td><strong>Analytics</strong></td><td>Charts for delivery, reads, and conversions across campaigns and devices.</td><td>Analytics</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./growth/meta-ads.html">Meta Ads</a>, <a href="./growth/contacts.html">Contacts</a>, <a href="./growth/attributes.html">Attributes</a>, <a href="./growth/analytics.html">Analytics</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="pipeline">Sales Pipeline (Deals CRM) <span style="color:var(--text-muted);font-size:0.7em;font-weight:500;">New in v1.1</span></h2>
+                        <p>A built-in sales CRM on the <strong>Deals</strong> screen: track opportunities as cards across your own pipeline stages and close them on WhatsApp. Available on plans with the Sales Pipeline feature.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does &amp; how it connects</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Kanban board</strong></td><td>Drag deals across stages; a slide-over panel shows the deal's value, contact, activity timeline, notes, and tasks. Dragging to a Won/Lost stage closes it automatically.</td><td>Deals</td></tr>
+                                <tr><td><strong>Created from anywhere</strong></td><td>A deal can be added by hand, from a chat in the <strong>Team Inbox</strong> ("Create deal"), automatically from a store <strong>order</strong> (opt-in), from a <strong>flow</strong> step, or over the REST API &mdash; each one links to its contact and conversation.</td><td>Deals / Team Inbox / Flows</td></tr>
+                                <tr><td><strong>Two-way flow automation</strong></td><td>Moving a deal to a stage can launch a WhatsApp flow (the <em>deal stage changed</em> trigger); and a flow can itself create or move a deal &mdash; so chats drive the pipeline and the pipeline drives chats.</td><td>Flows</td></tr>
+                                <tr><td><strong>Tasks &amp; reminders</strong></td><td>Add follow-up tasks to a deal; overdue tasks automatically nudge the deal's owner.</td><td>Deals &rarr; deal detail</td></tr>
+                                <tr><td><strong>Reports</strong></td><td>Value by stage, win-rate, weighted forecast, and an agent leaderboard.</td><td>Deals &rarr; Reports</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Release overview: <a href="./update-details/changelog.html#v110-pipeline">Change Log &rarr; Sales Pipeline</a>. REST access via the <a href="./update-details/changelog.html#v110-developer">REST API</a> at <code>/api/v1/deals</code> (live reference at <code>/developers/docs</code> in your app).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="integrations">Integrations</h2>
+                        <p>Connecting WaDesk to the tools you already use.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th><th>Plan</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Google Workspace</strong></td><td>Connect a Google account to use Calendar, Meet links, Sheets, Docs, and Forms inside flows and appointments.</td><td>Google Account</td><td>&mdash;</td></tr>
+                                <tr><td><strong>Shopify</strong></td><td>Sync your store's activity to send order updates and recover abandoned carts.</td><td>Shopify</td><td>Depends on plan</td></tr>
+                                <tr><td><strong>WooCommerce</strong></td><td>Connect a WooCommerce store for the same store automations.</td><td>WooCommerce</td><td>Depends on plan</td></tr>
+                                <tr><td><strong>HubSpot</strong></td><td>Sync contacts and CRM data with HubSpot.</td><td>HubSpot</td><td>Depends on plan</td></tr>
+                                <tr><td><strong>REST API</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>A public, versioned API (<code>/api/v1</code>) with 50+ endpoints &mdash; send messages, run broadcasts &amp; campaigns, schedule sends, manage contacts, deals, flows, templates, and devices. Authenticated with per-workspace API keys; every send routes through the same engine as the dashboard. Live reference at <code>/developers/docs</code>.</td><td>More &rarr; Developers</td><td>Paid plans</td></tr>
+                                <tr><td><strong>Outgoing Webhooks</strong></td><td>Subscribe a URL to 17 events (message received / sent / delivered / read / failed, broadcast &amp; campaign status, contact and device events), delivered as a signed JSON POST (HMAC-SHA256 in <code>X-WaDesk-Signature</code>) you can verify.</td><td>Webhooks</td><td>Paid plans</td></tr>
+                                <tr><td><strong>Incoming Webhooks</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>Generate an inbound capture URL that records every request it receives and can relay it onward &mdash; for piping external systems into WaDesk.</td><td>Webhooks &rarr; Incoming</td><td>Paid plans</td></tr>
+                                <tr><td><strong>Slack</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>Send a WhatsApp message straight from Slack with a signature-verified slash command (<code>/wa send name: message</code>).</td><td>Integrations</td><td>Depends on plan</td></tr>
+                                <tr><td><strong>Trello</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>Connect a Trello board webhook so card events (e.g. assigning a member) can trigger a WhatsApp action.</td><td>Integrations</td><td>Depends on plan</td></tr>
+                                <tr><td><strong>Browser Extension</strong></td><td>A companion browser extension that sends messages and looks up your data (devices, templates, fields, history, and quick send) after you log in.</td><td>Browser extension</td><td>&mdash;</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./integrations/google.html">Google</a>, <a href="./integrations/ecommerce.html">E-commerce &amp; CRM</a>, <a href="./integrations/webhooks.html">Webhooks</a>, <a href="./integrations/extension.html">Browser Extension</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="account">Account &amp; Team</h2>
+                        <p>What an individual workspace owner or member manages about themselves.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Account &amp; Billing</strong></td><td>Your profile, current plan, invoices, and plan changes; the branding controls here are available when your plan allows removing WaDesk branding.</td><td>Account / Account &rarr; Plans</td></tr>
+                                <tr><td><strong>Team Members</strong></td><td>Invite teammates into the workspace and assign their role.</td><td>Team Inbox &rarr; Members</td></tr>
+                                <tr><td><strong>Notifications</strong></td><td>Choose which events alert you, in the app and by email (for example, a device disconnecting).</td><td>Notifications</td></tr>
+                                <tr><td><strong>Activity Log</strong></td><td>A record of your own recent actions.</td><td>Activity Log</td></tr>
+                                <tr><td><strong>Dashboard Quick Access</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>A customisable shortcut grid on your dashboard &mdash; pin the app pages and custom links you use most for one-click access.</td><td>Dashboard</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./account/account-billing.html">Account &amp; Billing</a>, <a href="./account/team-members.html">Team Members</a>, <a href="./account/notifications.html">Notifications</a>, <a href="./account/activity-log.html">Activity Log</a>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="saas">Multi-Client SaaS &amp; Admin</h2>
+                        <p>Everything the platform owner controls, in the Admin panel.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Admin Dashboard</strong></td><td>Platform-wide stats for users, workspaces, revenue, and messaging.</td><td>Admin</td></tr>
+                                <tr><td><strong>User Management</strong></td><td>Create, edit, import, and delete or restore users.</td><td>Admin &rarr; Users</td></tr>
+                                <tr><td><strong>Workspaces</strong></td><td>View, create, suspend, and manage every client workspace.</td><td>Admin &rarr; Workspaces</td></tr>
+                                <tr><td><strong>Plans &amp; Packages</strong></td><td>Define subscription plans, set the roughly 30 features and usage limits for each, and view plan analytics.</td><td>Admin &rarr; Packages</td></tr>
+                                <tr><td><strong>Payment Gateways</strong></td><td>Turn on and set up the 31 payment gateways for checkout &mdash; now including <strong>Lemon Squeezy</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span>.</td><td>Admin &rarr; Payment Gateways</td></tr>
+                                <tr><td><strong>Coupons &amp; Credits</strong></td><td>Discount coupons and credit packages that top up the wallet.</td><td>Admin &rarr; Coupons / Credit Packages</td></tr>
+                                <tr><td><strong>Add-on Packages</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.1)</span></td><td>Sell à-la-carte feature packs on top of a base plan (like credit packages, but for features and limits). Bought after a plan and shown on a dedicated <strong>Add-ons</strong> tab in the customer's account; their flags and limits stack on top of the plan. Optional data-retention control can auto-wipe a workspace's data a set number of days after its plan expires.</td><td>Admin &rarr; Add-ons</td></tr>
+                                <tr><td><strong>Billing &amp; Finance</strong></td><td>Revenue, billing and order history with analytics, and invoices.</td><td>Admin &rarr; Financial / Billing History</td></tr>
+                                <tr><td><strong>Roles &amp; Permissions</strong></td><td>Define roles and fine-grained permissions, including access for your platform staff.</td><td>Admin &rarr; Roles / Permissions</td></tr>
+                                <tr><td><strong>AI Keys</strong></td><td>Store your AI provider keys (OpenAI, Anthropic, Gemini) once for the whole platform.</td><td>Admin &rarr; AI Keys</td></tr>
+                                <tr><td><strong>System Settings</strong></td><td>General settings, allowed sending engines, checkout settings, branding, and more.</td><td>Admin &rarr; Settings</td></tr>
+                                <tr><td><strong>Localization &amp; Translation</strong></td><td>Currencies, languages, and translation providers, with usage tracking.</td><td>Admin &rarr; Currencies / Languages / Translation Providers</td></tr>
+                                <tr><td><strong>Platform Inbox</strong></td><td>A staff-side inbox for your platform team.</td><td>Admin &rarr; Team Inbox</td></tr>
+                                <tr><td><strong>Announcements</strong></td><td>Publish platform-wide announcements to your clients.</td><td>Admin &rarr; Announcements</td></tr>
+                                <tr><td><strong>Support &amp; Guidebook</strong></td><td>A built-in support desk and an in-app guidebook.</td><td>Admin &rarr; Support / Guidebook</td></tr>
+                                <tr><td><strong>Appearance &amp; Theme Colours</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Recolour the entire dashboard (user + admin) to your brand palette; injected live, with one-click reset.</td><td>Admin &rarr; Appearance</td></tr>
+                                <tr><td><strong>Auth Page Editor</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Edit the public Login / Register / Forgot pages live &mdash; pick a template, click any text to edit inline, set the accent colour, and drop in side media.</td><td>Admin &rarr; Settings &rarr; Auth Pages</td></tr>
+                                <tr><td><strong>Cloud Storage</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Store uploaded media on S3 / Wasabi / Backblaze / Spaces / R2 / MinIO instead of the local disk. Off by default; switching is non-destructive.</td><td>Admin &rarr; Storage</td></tr>
+                                <tr><td><strong>Blog &amp; SEO</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Author a marketing blog with full SEO meta, JSON-LD, a dynamic sitemap and robots.txt; public at <code>/blog</code>.</td><td>Admin &rarr; Blog</td></tr>
+                                <tr><td><strong>AI Usage Dashboard</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Platform-wide AI token burn and estimated cost &mdash; by provider, model, and workspace, with a platform-key vs BYOK split and live key health.</td><td>Admin &rarr; AI Dashboard</td></tr>
+                                <tr><td><strong>System Health</strong> <span style="color:var(--text-muted);font-size:0.85em;">(v1.2)</span></td><td>Live probes for the database, cache, queue, Node bridge and storage, plus 24h activity, a throughput chart, per-engine status and host vitals. Auto-refreshes.</td><td>Admin &rarr; System Health</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>White-label branding</strong> applies to the whole platform and to each workspace; removing WaDesk branding is available on plans that allow it. The number of workspaces one owner can create is also set by their plan.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security-features">Security &amp; Operations</h2>
+                        <p>Keeping the platform safe, compliant, and operable.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>What it does</th><th>Where to find it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Two-factor authentication</strong></td><td>Adds a one-time code at login, and can be required across the whole platform.</td><td>Admin &rarr; Settings &rarr; General</td></tr>
+                                <tr><td><strong>Role-based permissions</strong></td><td>Fine-grained access control at both the workspace and platform level.</td><td>Admin &rarr; Roles</td></tr>
+                                <tr><td><strong>Audit log</strong></td><td>A record of every sensitive admin action (for example, suspending a workspace), which you can export.</td><td>Admin &rarr; Audit Log</td></tr>
+                                <tr><td><strong>Security policy</strong></td><td>Adjustable security controls and emergency settings.</td><td>Admin &rarr; Security</td></tr>
+                                <tr><td><strong>Plan enforcement</strong></td><td>Every paid feature is checked on the server, with per-workspace overrides &mdash; simply hiding a button is never relied on for security.</td><td>Platform-wide</td></tr>
+                                <tr><td><strong>Multi-language &amp; right-to-left</strong></td><td>A translated interface with right-to-left support, plus a built-in guidebook and support desk.</td><td>Admin &rarr; Languages</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Guides: <a href="./security/authentication.html">Authentication &amp; 2FA</a>, <a href="./admin-panel/security.html">Security &amp; Audit Log</a>, <a href="./security/plan-enforcement.html">Plan Enforcement</a>, <a href="./security/data-privacy.html">Data &amp; Privacy</a>.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#connectivity" class="toc-link">Connectivity &amp; Channels</a></li>
+                    <li class="toc-h2"><a href="#channels" class="toc-link">Multi-Channel</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Team Inbox &amp; Conversations</a></li>
+                    <li class="toc-h2"><a href="#outreach" class="toc-link">Outreach &amp; Bulk Messaging</a></li>
+                    <li class="toc-h2"><a href="#templates-automation" class="toc-link">Templates &amp; Automation</a></li>
+                    <li class="toc-h2"><a href="#ai" class="toc-link">AI Suite</a></li>
+                    <li class="toc-h2"><a href="#commerce" class="toc-link">Commerce &amp; Appointments</a></li>
+                    <li class="toc-h2"><a href="#marketing" class="toc-link">Marketing, Contacts &amp; Analytics</a></li>
+                    <li class="toc-h2"><a href="#pipeline" class="toc-link">Sales Pipeline (Deals)</a></li>
+                    <li class="toc-h2"><a href="#integrations" class="toc-link">Integrations</a></li>
+                    <li class="toc-h2"><a href="#account" class="toc-link">Account &amp; Team</a></li>
+                    <li class="toc-h2"><a href="#saas" class="toc-link">Multi-Tenant SaaS &amp; Admin</a></li>
+                    <li class="toc-h2"><a href="#security-features" class="toc-link">Security &amp; Operations</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../';</script>
+<script src="../assets/sidebar.js"></script>
+</body>
+
+</html>

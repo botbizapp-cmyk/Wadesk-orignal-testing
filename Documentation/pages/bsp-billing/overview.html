@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSP &amp; Reseller Billing — Overview – WaDesk SaaS Docs</title>
+    <meta name="description" content="BSP &amp; Reseller Billing Overview — how WaDesk resells WhatsApp messaging, the two per-customer billing modes (I pay Meta directly vs Bill me through us), the money funnel, and worked examples.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>BSP &amp; Reseller Billing — Overview</h1>
+                    <p><strong>BSP (Business Solution Provider) reseller billing</strong> is the model where <em>you, the platform owner, resell WhatsApp messaging</em>. Your customers pay <strong>you</strong> for the messages they send, and Meta bills <strong>you</strong> at wholesale for the same traffic. The difference between what your customer pays and what Meta charges you is your margin. WaDesk runs the whole loop &mdash; pricing, wallets, charging, refunds and the profit ledger &mdash; so you can operate as a reseller without building any of the money plumbing yourself.</p>
+                    <blockquote class="info"><strong>Currency is dynamic.</strong> Every amount on this page is shown with a generic symbol. The real platform currency is whatever your install is configured to use &mdash; it could be <strong>&#8377;</strong>, <strong>Rp</strong>, <strong>$</strong>, or any other. Read the numbers as "money units", not as any one currency.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="two-modes"><i class="fa-solid fa-code-branch mr-2"></i>The two per-customer billing modes</h2>
+                        <p>Billing is decided <strong>per customer</strong>, at the moment a customer connects their WhatsApp number. Each customer sits in exactly one of two modes:</p>
+
+                        <h3 id="meta-direct">A. "I pay Meta directly" <span class="text-sm opacity-70">(meta_direct)</span></h3>
+                        <ul>
+                            <li>The customer's <strong>own payment method is on Meta</strong>. Meta invoices the customer for their messaging.</li>
+                            <li>You do not resell messaging to this customer &mdash; you only provide the software.</li>
+                            <li>WaDesk runs the <strong>normal PLAN system</strong> for them: a monthly message allowance plus the plan's features.</li>
+                            <li><strong>No per-message wallet charge</strong> ever happens for this customer. Messages count against the plan quota, nothing is deducted from a money wallet.</li>
+                        </ul>
+
+                        <h3 id="reseller">B. "Bill me through us" <span class="text-sm opacity-70">(reseller)</span></h3>
+                        <ul>
+                            <li>The customer <strong>tops up a prepaid MONEY wallet</strong> inside WaDesk.</li>
+                            <li>Every <strong>delivered</strong> message is charged from that wallet at <strong>your</strong> per-country price.</li>
+                            <li><strong>Your</strong> Meta credit line is attached to the customer's WABA, so <strong>Meta invoices you</strong> (the owner) for their wholesale cost &mdash; not the customer.</li>
+                            <li>You keep the <strong>markup</strong> between your price and Meta's cost on every message.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="money-funnel"><i class="fa-solid fa-arrow-down-wide-short mr-2"></i>The money funnel (reseller mode)</h2>
+                        <p>For a reseller customer, money flows through the platform in a fixed, auditable order:</p>
+                        <ol>
+                            <li><strong>Customer adds money</strong> &mdash; they top up their prepaid wallet in WaDesk.</li>
+                            <li><strong>Money sits in the wallet</strong> &mdash; available balance, shown as real money.</li>
+                            <li><strong>Customer sends</strong> &mdash; a campaign, broadcast, flow, auto-reply or one-to-one chat.</li>
+                            <li><strong>Each DELIVERED message deducts money</strong> from the wallet at the per-country price for that message category.</li>
+                            <li><strong>A failed message auto-refunds</strong> &mdash; if Meta reports the message failed/undelivered, the exact charge is reversed, so the customer never pays for a message that did not arrive.</li>
+                            <li><strong>Meta invoices you monthly</strong> for the wholesale cost of all that traffic on your credit line.</li>
+                            <li><strong>You pay Meta.</strong></li>
+                            <li><strong>Profit = customer price &minus; Meta cost</strong>, accumulated across every delivered message.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="worked-example"><i class="fa-solid fa-table-cells mr-2"></i>Worked example</h2>
+                        <p>A reseller customer starts with a wallet balance of <strong>500</strong>. They run some traffic. Prices below are <em>your</em> selling prices; the Meta cost column is your wholesale cost, and margin is the difference you keep per message.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>Qty</th>
+                                    <th>Price each</th>
+                                    <th>Wallet change</th>
+                                    <th>Running balance</th>
+                                    <th>Meta cost each</th>
+                                    <th>Margin each</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Opening balance (top-up)</td>
+                                    <td>&mdash;</td>
+                                    <td>&mdash;</td>
+                                    <td>+500.00</td>
+                                    <td><strong>500.00</strong></td>
+                                    <td>&mdash;</td>
+                                    <td>&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>India marketing</td>
+                                    <td>100</td>
+                                    <td>1.00</td>
+                                    <td>&minus;100.00</td>
+                                    <td><strong>400.00</strong></td>
+                                    <td>0.72</td>
+                                    <td>+0.28</td>
+                                </tr>
+                                <tr>
+                                    <td>US marketing</td>
+                                    <td>10</td>
+                                    <td>12.00</td>
+                                    <td>&minus;120.00</td>
+                                    <td><strong>280.00</strong></td>
+                                    <td>6.50</td>
+                                    <td>+5.50</td>
+                                </tr>
+                                <tr>
+                                    <td>One US marketing message fails &rarr; auto-refund</td>
+                                    <td>1</td>
+                                    <td>12.00</td>
+                                    <td>+12.00</td>
+                                    <td><strong>292.00</strong></td>
+                                    <td>&mdash;</td>
+                                    <td>reversed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>After this run the customer has <strong>292.00</strong> left in the wallet. Your gross margin was <strong>100 &times; 0.28 = 28.00</strong> on India plus <strong>9 delivered &times; 5.50 = 49.50</strong> on US (the failed one earns nothing and cost nothing), for <strong>77.50</strong> profit on the batch.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="money-model"><i class="fa-solid fa-coins mr-2"></i>Money model &mdash; no drift</h2>
+                        <p>Everything is presented to users as <strong>money</strong>: they top up money, they see a money balance, each message costs money. Internally, the engine stores every amount as an integer where <strong>1 unit = 1 money-cent</strong> (the currency's minor unit). Because all arithmetic happens in whole cents, there is <strong>never any rounding drift</strong> across thousands of tiny charges and refunds. The underlying billing engine is unchanged and battle-tested &mdash; the "money wallet" is the same proven ledger presented in money terms.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="which-mode"><i class="fa-solid fa-circle-question mr-2"></i>Which mode should my customer pick?</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>I pay Meta directly <span class="opacity-70">(meta_direct)</span></th>
+                                    <th>Bill me through us <span class="opacity-70">(reseller)</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Who pays Meta?</strong></td>
+                                    <td>The customer (their card on Meta)</td>
+                                    <td>You, the owner (your credit line)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Who sets the message price?</strong></td>
+                                    <td>Meta (list price to the customer)</td>
+                                    <td>You (your price, incl. markup)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Needs a plan?</strong></td>
+                                    <td>Yes &mdash; monthly allowance + features</td>
+                                    <td>Plan optional; message-limit is ignored</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Needs a wallet?</strong></td>
+                                    <td>No wallet charge for messages</td>
+                                    <td>Yes &mdash; prepaid money wallet, charged per delivery</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="learn-more"><i class="fa-solid fa-diagram-project mr-2"></i>Continue reading</h2>
+                        <ul>
+                            <li><a href="../bsp-billing/meta-setup.html">Meta setup &amp; credit line</a> &mdash; attaching your credit line to a customer's WABA.</li>
+                            <li><a href="../bsp-billing/admin-pages.html">Admin pages</a> &mdash; pricing, income and reseller credit-line screens.</li>
+                            <li><a href="../bsp-billing/customer-flow.html">Customer flow</a> &mdash; what the customer sees when connecting and topping up.</li>
+                            <li><a href="../bsp-billing/billing-engine.html">How the billing engine works</a> &mdash; charge-on-delivery internals.</li>
+                            <li><a href="../bsp-billing/api-reference.html">API reference</a> &mdash; programmatic access to wallets and charges.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#two-modes" class="toc-link">The two billing modes</a></li>
+                    <li class="toc-h2"><a href="#money-funnel" class="toc-link">The money funnel</a></li>
+                    <li class="toc-h2"><a href="#worked-example" class="toc-link">Worked example</a></li>
+                    <li class="toc-h2"><a href="#money-model" class="toc-link">Money model — no drift</a></li>
+                    <li class="toc-h2"><a href="#which-mode" class="toc-link">Which mode should my customer pick?</a></li>
+                    <li class="toc-h2"><a href="#learn-more" class="toc-link">Continue reading</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Engines – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Engines — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Engines</h1>
+
+                    <blockquote class="info">
+                        <strong>Audience:</strong> developers who need to understand how an outbound message picks a provider, where credentials live, and the per-engine quirks. All three engines share one engine-selection step and two send dispatchers &mdash; learn those and the rest is detail.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">The Three Engines</h2>
+                        <p>Every workspace sends WhatsApp through exactly one of three engines. They are interchangeable from the product's point of view &mdash; the inbox, campaigns, flows, and templates all adapt &mdash; but the underlying protocol of each is completely different.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Engine</th><th>How it sends</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Unofficial API</td><td>Node bridge &rarr; WhatsApp Web connection</td></tr>
+                                <tr><td>WhatsApp Cloud API (Meta)</td><td>Node bridge &rarr; Meta Cloud API</td></tr>
+                                <tr><td>Twilio WhatsApp</td><td>Direct from the app &rarr; Twilio REST API</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="provider-config">Where Credentials Live</h2>
+                        <p>Each workspace stores its chosen engine and that engine's credentials together (a workspace may have several connections when running multiple Cloud API numbers; one is marked primary). Credentials are <strong>encrypted at rest</strong> &mdash; in code, always read and write them through the provided helpers, never the raw stored value.</p>
+                        <p>What gets stored differs by engine:</p>
+                        <pre>
+Unofficial API : server URL, device id, when it was paired
+
+Cloud API      : app id/secret, WABA id, business id,
+                 phone number id, access token,
+                 webhook verify token, catalog id, register PIN
+
+Twilio         : account SID, auth token, from-number, sandbox flag</pre>
+                        <blockquote class="warning"><strong>A Meta Ads connection is not a send engine.</strong> It holds Click-to-WhatsApp ad credentials only and is ignored when choosing an engine &mdash; a workspace can run Meta Ads while sending via the Unofficial API or Twilio.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="resolution">How a Send Picks an Engine</h2>
+                        <p>Both dispatchers decide the engine for a message in this order:</p>
+                        <ol>
+                            <li><strong>Admin allow-list first.</strong> The admin sets which engines are allowed (all three by default). Any engine not on this list is ignored even if a workspace is configured for it &mdash; this is how "single-engine mode" works.</li>
+                            <li><strong>Workspace connection.</strong> Use the engine the workspace is connected to, if it is actually connected <em>and</em> on the allow-list.</li>
+                            <li><strong>Legacy hint.</strong> An explicit engine choice carried on older scheduled records is honoured if allowed (covers data created before connections were tracked the current way).</li>
+                            <li><strong>Platform default.</strong> The admin's default engine (falling back to the Unofficial API). If even that is not allowed, the first allowed engine is used.</li>
+                        </ol>
+                        <p>The chosen engine is recorded on each sent message so dashboards and the Devices stats cards can filter by engine. The same order is used when filtering on read (device pickers, stats cards).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="dispatchers">The Two Dispatchers</h2>
+                        <p>There are two send entry points, kept separate so each can evolve independently:</p>
+                        <ul>
+                            <li>One for <strong>chat, campaigns, broadcasts, and scheduled sends</strong>.</li>
+                            <li>One for <strong>team-inbox messages</strong>. It uses the same bridge endpoints underneath.</li>
+                        </ul>
+                        <p>Both share the same guards and the same result. Before any send they check:</p>
+                        <ul>
+                            <li><strong>Emergency halt</strong> &mdash; the admin's platform-wide send freeze. When on, the send is refused.</li>
+                            <li><strong>Monthly quota</strong> &mdash; the workspace's monthly message allowance (counting both chat/campaign and inbox messages), with credit-based overflow billing when exceeded.</li>
+                        </ul>
+                        <p>Every send returns:</p>
+                        <pre>
+[ 'ok' =&gt; bool,           // did the provider accept it?
+  'provider_id' =&gt; ?str,  // the message id, if sent
+  'platform' =&gt; str,      // which engine handled it (or 'halted')
+  'local_only' =&gt; bool,   // saved but not actually sent out
+  'error' =&gt; ?str ]       // failure reason, if any</pre>
+                        <p><code>local_only = true</code> means the message was saved but not actually sent (missing credentials, a Cloud API message queued for later, or a halt). For the caller it counts as saved, not delivered.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="unofficial-api">Engine 1 &mdash; Unofficial API</h2>
+                        <p>Unofficial API sends go to the Node bridge. The bridge URL and the sending number are resolved first, then the correct endpoint is picked by message type &mdash; sending the wrong type to the wrong endpoint silently does nothing:</p>
+                        <pre>
+POST {server_url}/api/send-message/:phone        text (+ optional buttons/footer)
+POST {server_url}/api/send-media-message/:phone  media + caption (+ buttons)
+POST {server_url}/api/send-media-only/:phone      media, no caption
+POST {server_url}/api/send-location/:phone        location
+POST {server_url}/api/schedule-message/:phone     single scheduled send</pre>
+                        <p>Key behaviours:</p>
+                        <ul>
+                            <li><strong>Bridge URL</strong> comes from the workspace's connection, then the admin's Unofficial API Server URL setting, then the <code>SERVER_URL</code> environment value.</li>
+                            <li><strong>Sending number</strong> prefers the number set on the message itself (so multi-device sends route to the right session), then the connection's number, then the most recently connected device.</li>
+                            <li><strong>Media is sent inline</strong> (encoded in the request body) rather than as a URL, carrying the real file type and original filename &mdash; this avoids a deadlock against the single-threaded PHP dev server and keeps correct file extensions on the recipient's side.</li>
+                            <li><strong>Interactive buttons</strong> (open-URL, call, copy-code, quick-reply) and an optional title/footer are merged in from the message's stored details.</li>
+                            <li><strong>Extras</strong> &mdash; reactions, pin/star, edit/delete, and voice notes are Unofficial API only. On Cloud API/Twilio they are silently skipped.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Voice notes:</strong> sending a message as a voice note forces the <code>audio/ogg; codecs=opus</code> format so WhatsApp shows the round play-button bubble instead of a generic audio file.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="waba">Engine 2 &mdash; WhatsApp Cloud API (Meta)</h2>
+                        <p>This is Meta's official Cloud API. Crucially, in WaDesk <strong>Cloud API sends also go through the Node bridge</strong> &mdash; the bridge holds each number's Cloud API credentials and makes the call to Meta itself:</p>
+                        <pre>
+POST https://graph.facebook.com/{version}/{phone_number_id}/messages
+Authorization: Bearer {access_token}
+
+{ "messaging_product": "whatsapp",
+  "recipient_type": "individual",
+  "to": "&lt;digits, no +&gt;",
+  "type": "text|image|video|document|location|interactive|reaction",
+  ... }</pre>
+                        <ul>
+                            <li><strong>API version</strong> is admin-configurable (default <code>v23.0</code>).</li>
+                            <li><strong>Credentials never sit in the app's memory during a send.</strong> The bridge fetches them per-number from the app over a token-protected endpoint, which decrypts them on the way out.</li>
+                            <li><strong>Error hints</strong> are mapped so the UI can react &mdash; e.g. Meta error <code>131047</code> &rarr; "needs a template" (the 24-hour customer-service window has closed), <code>130429</code> &rarr; "rate limited".</li>
+                            <li><strong>Engine-specific features:</strong> native WhatsApp Forms require Cloud API because they rely on Meta Flows. The app gates these automatically.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Inactive failover path.</strong> A complete PHP-only path to Meta also exists in the code, but it is intentionally not used. It is kept only as a reference in case the bridge is ever down. The live path always goes through the bridge.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="twilio">Engine 3 &mdash; Twilio WhatsApp</h2>
+                        <p>Twilio is the one engine sent <strong>directly from the app</strong>, because the bridge's main send path has no Twilio transport. Credentials come from the workspace's connection, then the admin Twilio settings, then the environment:</p>
+                        <pre>
+POST https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json
+(HTTP Basic auth: account_sid : auth_token)
+
+From: whatsapp:+{from}
+To:   whatsapp:+{to}
+StatusCallback: {APP_URL}/api/twilio/status</pre>
+                        <ul>
+                            <li><strong>The <code>+</code> is mandatory</strong> &mdash; Twilio's WhatsApp transport requires the <code>whatsapp:+E164</code> format, so it is always sent.</li>
+                            <li><strong>Sandbox mode</strong> &mdash; when a workspace is in sandbox mode, the From is forced to Twilio's shared sandbox sender <code>+14155238886</code> regardless of the configured production number.</li>
+                            <li><strong>Content Templates</strong> &mdash; the load-bearing Twilio detail. When a message uses a template that has a registered Twilio Content SID, the send switches from plain text to Twilio's Content SID + Content Variables path. Content Variables is a JSON string keyed by <strong>position</strong> (<code>{"1":"John","2":"ABC123"}</code>) matching the <code>{{1}}</code>/<code>{{2}}</code> placeholders &mdash; Twilio does not support named keys. Sending marketing/utility/authentication messages as free text outside the 24-hour window risks Twilio suspending your number, so this path is what keeps them compliant.</li>
+                            <li><strong>Delivery status</strong> &mdash; without the status callback, Twilio never reports delivered/read/failed and messages stay stuck at "sent". The receiver at <code>/api/twilio/status</code> verifies Twilio's signature.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Twilio sends from the bridge too:</strong> the bridge also has a Twilio sender so flows and campaigns can send via Twilio. It is given the Twilio credentials the same way the other engines get theirs and supports the same text / media / location / template messages.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="comparison">Capability Comparison</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Capability</th><th>Unofficial API</th><th>WABA (Meta)</th><th>Twilio</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Setup</td><td>QR scan, instant</td><td>Meta-verified WABA + approved templates</td><td>Twilio account + WhatsApp sender</td></tr>
+                                <tr><td>Transport from PHP</td><td>via Node</td><td>via Node</td><td>direct + Node helper</td></tr>
+                                <tr><td>Text / media / location</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                                <tr><td>Interactive buttons</td><td>Native (CTA)</td><td>Interactive type</td><td>Only via Content Templates</td></tr>
+                                <tr><td>Templates outside 24h</td><td>n/a</td><td>Approved templates</td><td>ContentSid required</td></tr>
+                                <tr><td>WhatsApp Forms (Meta Flows)</td><td>No</td><td>Yes</td><td>No</td></tr>
+                                <tr><td>Reactions / pin / star / edit</td><td>Yes</td><td>No (no-op)</td><td>No (no-op)</td></tr>
+                                <tr><td>Scheduling</td><td>Via the bridge</td><td>Via the bridge</td><td>Via the bridge</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="extending">Extending or Adding an Engine</h2>
+                        <p>If you need a fourth provider, the points to touch are:</p>
+                        <ol>
+                            <li>Register the new engine (its name, label, and icon).</li>
+                            <li>Add a send path for it in both dispatchers, and a branch that routes to it.</li>
+                            <li>Teach the engine resolver about the new engine and where its sending device comes from.</li>
+                            <li>Define what credentials it stores and add the connect screen under Devices.</li>
+                            <li>Add it to the allowed-engines and default-engine handling in the admin panel.</li>
+                        </ol>
+                        <p>Keep the uniform result so every caller (chat, campaigns, broadcasts, flows) keeps working unchanged.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next">Related Pages</h2>
+                        <ul>
+                            <li><a href="./architecture.html">Architecture Overview</a> &mdash; how the dispatchers fit the wider system.</li>
+                            <li><a href="./node-bridge.html">Node Bridge &amp; Realtime</a> &mdash; the Node endpoints the Unofficial API and WABA sends call.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">The Three Engines</a></li>
+                    <li class="toc-h2"><a href="#provider-config" class="toc-link">Where Credentials Live</a></li>
+                    <li class="toc-h2"><a href="#resolution" class="toc-link">How a Send Picks an Engine</a></li>
+                    <li class="toc-h2"><a href="#dispatchers" class="toc-link">The Two Dispatchers</a></li>
+                    <li class="toc-h2"><a href="#unofficial-api" class="toc-link">Engine 1 &mdash; Unofficial API</a></li>
+                    <li class="toc-h2"><a href="#waba" class="toc-link">Engine 2 &mdash; Cloud API (Meta)</a></li>
+                    <li class="toc-h2"><a href="#twilio" class="toc-link">Engine 3 &mdash; Twilio</a></li>
+                    <li class="toc-h2"><a href="#comparison" class="toc-link">Capability Comparison</a></li>
+                    <li class="toc-h2"><a href="#extending" class="toc-link">Extending or Adding an Engine</a></li>
+                    <li class="toc-h2"><a href="#next" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

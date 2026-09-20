@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce &amp; CRM – WaDesk SaaS Docs</title>
+    <meta name="description" content="E-commerce &amp; CRM — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>E-commerce &amp; CRM</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk turns Shopify and WooCommerce into a full <strong>WhatsApp marketing CRM</strong>. Things that happen in your store &mdash; an order, a refund, a sold-out product coming back &mdash; automatically send the right WhatsApp message. Your orders, products, and customers are kept in sync inside WaDesk, and a set of revenue tools (COD confirmation, abandoned-cart recovery, offers, win-back, analytics) all run on that data. HubSpot CRM is also supported for pushing contacts and deals. You'll find each integration under the <strong>More</strong> menu, and each one is set up separately per workspace.</p>
+                        <ul>
+                            <li><strong>Shopify</strong> &mdash; order, shipping, refund, and cart automations; COD double-confirmation; back-in-stock alerts; multi-step abandoned-cart recovery; offers and smart-segment broadcasts; analytics.</li>
+                            <li><strong>WooCommerce</strong> &mdash; the same CRM for self-hosted WordPress stores, plus WooCommerce-only extras: turning COD orders into prepaid, return-risk scoring, a self-serve customer concierge, and an optional add-on plugin (abandoned-cart phone capture and subscription payment reminders).</li>
+                            <li><strong>HubSpot CRM</strong> &mdash; push contacts and deals into HubSpot when a conversation reaches an interesting point.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Plan limits:</strong> Each integration is a paid-plan feature. If your plan doesn't include it, connecting is blocked. An administrator must also switch the integration on platform-wide before any workspace can connect.</blockquote>
+                        <blockquote class="info"><strong>Works with any channel:</strong> every message these commerce features send goes out through whatever WhatsApp connection your workspace uses &mdash; the <strong>Unofficial API</strong>, the <strong>WhatsApp Cloud API</strong>, or <strong>Twilio</strong>. On the Cloud API and Twilio, the template must be approved and a channel must be connected for the message to actually deliver.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites at a glance</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Integration</th><th>What the administrator sets up once</th><th>How each store connects</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Shopify</td><td>Client ID + Client Secret (from a Shopify app), scopes, redirect URI</td><td>Owner clicks Connect and approves &mdash; nothing to paste by hand</td></tr>
+                                <tr><td>WooCommerce</td><td>Just turn the <em>Enable</em> toggle on</td><td>Owner generates API keys in their own WordPress admin and pastes them in</td></tr>
+                                <tr><td>HubSpot</td><td>Client ID + Client Secret (from a HubSpot app), redirect URI</td><td>Owner clicks Connect and approves &mdash; nothing to paste by hand</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Secrets are encrypted.</strong> Every secret you enter &mdash; both the admin app credentials and each store's keys and tokens &mdash; is encrypted before it's saved and only unlocked at the moment it's needed. The admin Shopify secret field stays hidden after saving; leave it blank when you save to keep the value already stored.</blockquote>
+                    </section>
+
+                    <!-- ============================ SHOPIFY ============================ -->
+                    <section class="mb-12">
+                        <h2 id="shopify-admin">Shopify: admin app setup</h2>
+                        <p>Done once for the platform. Since January 2026 legacy custom apps from the Shopify Admin can no longer be created &mdash; use the <a href="https://shopify.dev/dashboard" target="_blank" rel="noopener">Shopify Dev Dashboard</a> (or Shopify CLI).</p>
+                        <ol>
+                            <li>Sign in at <a href="https://partners.shopify.com/signup" target="_blank" rel="noopener">partners.shopify.com</a> (free), then open the <strong>Dev Dashboard &rarr; Apps &rarr; Create app</strong> and pick <strong>Public app</strong>.</li>
+                            <li>In the app's <strong>Configuration &rarr; URLs</strong>, set the <strong>App URL</strong> to <code>https://YOUR-DOMAIN/shopify</code> and add the <strong>Allowed redirection URL</strong>: <code>https://YOUR-DOMAIN/shopify/oauth/callback</code></li>
+                            <li>Open <strong>Configuration &rarr; Client credentials</strong> and copy the <strong>Client ID</strong> and <strong>Client Secret</strong> (shown once).</li>
+                            <li>Add Shopify's required privacy/compliance webhooks (<code>customers/data_request</code>, <code>customers/redact</code>, <code>shop/redact</code>) pointing at the webhook address shown in the next section.</li>
+                            <li>In WaDesk, go to <strong>Admin &rarr; Settings &rarr; Shopify</strong>: paste the <strong>Client ID</strong> and <strong>Client Secret</strong>, keep or edit the default <strong>scopes</strong>, confirm the <strong>Redirect URI</strong>, tick <strong>Enable Shopify</strong>, and Save. The Client Secret is encrypted and hidden after saving.</li>
+                        </ol>
+                        <p>Default scopes: <code>read_products, read_orders, write_orders, read_customers, read_checkouts, read_inventory</code>.</p>
+                        <blockquote class="warning">The Redirect URI must match <strong>exactly</strong> &mdash; same protocol, host, and path, with no slash at the end &mdash; or the connection fails with a <code>redirect_uri mismatch</code> error. The admin page has copy buttons for the App URL, redirect URI, and webhook address to make this easy.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="shopify-connect">Shopify: connecting a store</h2>
+                        <ol>
+                            <li>Open <strong>More &rarr; Shopify</strong>, enter your store name (e.g. <code>my-store</code>, or the full address &mdash; WaDesk fills in the rest), and connect.</li>
+                            <li>Approve the access on Shopify. You're sent back to WaDesk, which securely stores the connection and automatically registers the webhooks it needs.</li>
+                            <li>WaDesk then <strong>imports</strong> your products, orders, and customers, so every CRM feature works right away.</li>
+                        </ol>
+                        <p>WaDesk sets up everything Shopify needs automatically. Each incoming Shopify webhook is signature-checked and rejected if it doesn't match, so only genuine Shopify events are processed.</p>
+                        <blockquote class="info"><strong>Reconnecting</strong> removes the old webhooks and re-registers fresh ones. Your automation settings and logs are kept.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="shopify-automations">Shopify: automations</h2>
+                        <p>The dashboard's <strong>Automations</strong> tab groups every trigger into easy-to-read cards. For each one you choose an approved template, who to send it to (the customer, an admin, or both), a delay, an optional admin number, and an optional <a href="#variables">variable map</a>. The triggers:</p>
+                        <table>
+                            <thead><tr><th>Automation</th><th>Fires when</th></tr></thead>
+                            <tbody>
+                                <tr><td>Order placed / paid / shipped / cancelled</td><td>The order reaches that stage in Shopify</td></tr>
+                                <tr><td>Order delivered</td><td>The shipment is marked delivered</td></tr>
+                                <tr><td>Refund issued</td><td>A refund is created on the order</td></tr>
+                                <tr><td>COD double-confirmation</td><td>A new cash-on-delivery order comes in &mdash; asks the buyer to confirm Yes/No</td></tr>
+                                <tr><td>COD &rarr; Prepaid nudge</td><td>A COD order &mdash; offers a pay-online link (use <code>{{order_url}}</code> in the template)</td></tr>
+                                <tr><td>Back in stock</td><td>A sold-out product comes back in stock &mdash; messages everyone on its waitlist</td></tr>
+                                <tr><td>Abandoned cart (steps 1&ndash;3)</td><td>A checkout is started but not completed &mdash; step 1 sends right away, steps 2 and 3 follow on a schedule</td></tr>
+                                <tr><td>Welcome</td><td>A new customer is created</td></tr>
+                                <tr><td>App uninstalled</td><td>The Shopify app is removed &mdash; clears the stored connection</td></tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Customer replies handled automatically:</strong> a <em>Yes/No</em> to a COD confirmation updates the order in both Shopify and WaDesk; a reply like &ldquo;notify me&rdquo; about a sold-out product adds the customer to that product's back-in-stock waitlist. Both happen automatically when the customer replies on WhatsApp.</p>
+                    </section>
+
+                    <!-- ============================ WOOCOMMERCE ============================ -->
+                    <section class="mb-12">
+                        <h2 id="woo-connect">WooCommerce: connecting a store</h2>
+                        <p>WooCommerce has no central app &mdash; an administrator just turns the <strong>Enable</strong> toggle on under <strong>Admin &rarr; Settings &rarr; WooCommerce</strong>. Each store owner then generates their own API keys and pastes them into WaDesk.</p>
+                        <ol>
+                            <li>In your WordPress admin: <strong>WooCommerce &rarr; Settings &rarr; Advanced &rarr; REST API &rarr; Add key</strong>, set permissions to <strong>Read/Write</strong>, and Generate. Copy the consumer key (starts with <code>ck_</code>) and secret (starts with <code>cs_</code>) &mdash; the secret is shown only once.</li>
+                            <li>In WaDesk open <strong>More &rarr; WooCommerce</strong>, enter your <strong>Store URL</strong> and both keys. A <strong>Test</strong> button checks the connection without saving anything.</li>
+                            <li>On save, WaDesk stores the keys <strong>encrypted</strong>, sets up the webhooks it needs, reads back your store name, currency, country, and WooCommerce version, and <strong>imports</strong> your products, orders, and customers.</li>
+                        </ol>
+                        <p>WaDesk registers the webhooks automatically, and each incoming WooCommerce webhook is signature-checked so only genuine events from your store are processed.</p>
+                        <blockquote class="info"><strong>HTTPS required.</strong> The API keys are only safe over an <code>https://</code> store address. Reconnecting removes the old webhooks and registers fresh ones, keeping your settings and logs.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="woo-automations">WooCommerce: automations</h2>
+                        <p>The <strong>Automations</strong> tab works just like Shopify's, grouped into <strong>Order lifecycle</strong>, <strong>Revenue recovery</strong>, and <strong>Lifecycle marketing</strong>. Each card lets you set a template, who to send it to, a delay, a variable map, and on/off.</p>
+                        <table>
+                            <thead><tr><th>Group</th><th>Automations</th></tr></thead>
+                            <tbody>
+                                <tr><td>Order lifecycle</td><td>Order placed, confirmed (processing), delivered (completed), on-hold, cancelled, and refunded &mdash; each fires when the order reaches that status</td></tr>
+                                <tr><td>Revenue recovery</td><td>COD double-confirmation, COD&rarr;Prepaid nudge, abandoned cart (3 steps), back in stock, and subscription payment-failed reminders</td></tr>
+                                <tr><td>Lifecycle marketing</td><td>Welcome new customer, and a coupon sent in exchange for a review</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The order, customer, and product triggers fire from the standard WooCommerce events WaDesk listens for. The extra triggers (COD steps, cart steps, subscription reminders) come either from those standard events or from the optional <a href="#woo-plugin">companion plugin</a>.</p>
+                        <p><strong>Customer replies handled automatically:</strong> a Yes/No to a COD confirmation updates the order in both WooCommerce and WaDesk; a back-in-stock keyword adds the customer to the product's waitlist.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="woo-plugin">WooCommerce: the WaDesk companion plugin</h2>
+                        <p>WooCommerce on its own can't see a few high-value moments. The optional <strong>WaDesk for WooCommerce</strong> plugin captures them and securely forwards them to WaDesk. Download it from the WooCommerce integration's <strong>Settings</strong> tab &mdash; the file comes <strong>already filled in with your store's connection details</strong>. Install it in WordPress via <em>Plugins &rarr; Add New &rarr; Upload</em>, then confirm under <em>Settings &rarr; WaDesk WhatsApp</em>.</p>
+                        <p>It unlocks:</p>
+                        <ul>
+                            <li><strong>Abandoned-cart recovery</strong> &mdash; captures the shopper's phone and email at checkout (before an order even exists), then starts the cart follow-ups for carts left idle past your chosen time. If the order completes, the pending follow-ups are cancelled.</li>
+                            <li><strong>Subscription payment reminders</strong> &mdash; when a subscription renewal payment fails, it sends a pay-now link so you can recover the renewal right in the chat.</li>
+                        </ul>
+                        <blockquote class="info">The classic checkout is fully supported. If your store uses the newer <strong>Checkout Block</strong>, the phone/email capture may not work &mdash; but the order and COD automations still work normally either way.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="marketing">Marketing CRM: offers, win-back &amp; analytics</h2>
+                        <p>Both Shopify and WooCommerce dashboards add these tools, all built from your synced store data:</p>
+                        <ul>
+                            <li><strong>Products storefront</strong> &mdash; a styled Products tab (search, brand chips, percent-off badges, new arrivals) with per-product <em>Send</em> and <em>Offer</em> buttons.</li>
+                            <li><strong>Offer broadcast</strong> (<strong>Offers</strong> tab) &mdash; send an approved template to every opted-in customer in a group, featuring a product and a coupon code.</li>
+                            <li><strong>Win-back broadcast</strong> &mdash; target customers by their order history: not seen for more than a set number of days, a minimum number of orders, or a minimum total spend &mdash; while skipping anyone who unsubscribed. Set the days to 0 to target regardless of how long ago they ordered.</li>
+                            <li><strong>Customer import</strong> &mdash; your store's customers are synced into Contacts (in a &ldquo;Shopify/WooCommerce Customers&rdquo; group) so broadcasts and flows can reach them.</li>
+                            <li><strong>Analytics tab</strong> &mdash; revenue, average order value, messages sent, offer broadcasts, a 14-day revenue chart, plus impact figures: <strong>COD revenue protected</strong>, <strong>returns avoided</strong>, and how many recovery messages went out &mdash; all real numbers from your own data.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cod-rto">COD confirmation, COD&rarr;Prepaid &amp; RTO risk</h2>
+                        <p>The biggest way to cut failed deliveries (returns to origin, or RTO) in cash-on-delivery markets:</p>
+                        <ul>
+                            <li><strong>COD double-confirmation</strong> &mdash; a new COD order messages the buyer to confirm. <em>Yes</em> moves the order forward; <em>No</em> cancels it. Either way the order is updated in your store and in WaDesk, and the customer gets a confirmation reply.</li>
+                            <li><strong>COD &rarr; Prepaid nudge</strong> &mdash; an optional follow-up offering a pay-online link. On WooCommerce your template can use the <code>{{order_pay_url}}</code> variable for the pay link; on Shopify it uses the order status link.</li>
+                            <li><strong>Return-risk score</strong> (WooCommerce) &mdash; each COD order gets a 0&ndash;100 risk score from your own order history (first-time buyer, past cancellations from that number, order value versus your store average, missing contact details). The score and the reasons are logged, so you can route high-risk orders to the prepaid nudge.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="concierge">WooCommerce self-serve concierge</h2>
+                        <p>Keyword-driven helpers that reply automatically, and only for customers WaDesk recognises from WooCommerce:</p>
+                        <ul>
+                            <li><strong>One-tap reorder</strong> &mdash; a customer who texts &ldquo;reorder&rdquo; gets a fresh checkout link for the items in their last order.</li>
+                            <li><strong>Loyalty / points</strong> &mdash; &ldquo;points&rdquo; or &ldquo;balance&rdquo; replies with their order count and total spend (and a points balance if a points plugin provides one).</li>
+                            <li><strong>Review-gated coupon</strong> &mdash; a positive review (a high rating or a reply like &ldquo;great&rdquo;) from someone whose order was recently delivered automatically sends your reward template with a coupon. Three conditions apply: the order was recently delivered, the reward automation is switched on, and the same customer hasn't already been rewarded in the last 30 days.</li>
+                            <li><strong>Change shipping address</strong> &mdash; &ldquo;change address&rdquo; finds the customer's order while it can still be edited, opens a 15-minute window, and saves their next message as the new shipping address. (Changing quantities or product options is intentionally not allowed, since that affects price and stock.)</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="variables">Template variables</h2>
+                        <p>Order automations give your template these fields to use: <code>name</code>, <code>first_name</code>, <code>order_number</code>, <code>order_name</code>, <code>total</code>, <code>currency</code>, <code>order_url</code> / <code>order_pay_url</code>, <code>tracking_number</code>, <code>tracking_url</code>, and <code>store_name</code>. Each automation also has an advanced <strong>variable order</strong> field &mdash; a comma-separated list that tells WaDesk which field goes into each numbered placeholder in your template. Leave it blank to use the sensible default (name, order, total).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="commerce-flows">Commerce in flows</h2>
+                        <p>Both platforms also connect to the flow builder's commerce node. When a flow creates a draft order or cart, it links that order to the flow. When the order is then placed in your store, WaDesk picks the paused flow back up and continues it down its &ldquo;purchased&rdquo; path &mdash; perfect for thank-you, upsell, or fulfilment follow-ups. This is handled safely, so it can never cause your store to duplicate an order.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="store-dashboard">Store dashboard, logs &amp; sync</h2>
+                        <p>A connected store has tabbed views: <strong>Overview</strong> (counts, 30-day revenue), <strong>Orders</strong>, <strong>Products</strong>, <strong>Offers</strong>, <strong>Customers</strong>, <strong>Automations</strong>, <strong>Analytics</strong>, <strong>Activity</strong> (logs), and <strong>Settings</strong>. A <strong>Sync</strong> button re-imports your store data whenever you want.</p>
+                        <p>Every event that comes in and every message that goes out is logged with its type, status (<code>sent</code> / <code>processed</code> / <code>skipped</code> / <code>failed</code>), recipient, and details &mdash; so you can confirm events arrive and templates fire. <strong>Disconnecting</strong> removes the registered webhooks and the connection; reconnecting sets up a fresh one.</p>
+                        <blockquote class="warning"><strong>For a message to actually send</strong> you need three things: a connected store, at least one automation switched <em>on</em> with an approved template chosen, and a connected WhatsApp channel. If any of these is missing, the event is logged as <code>skipped</code> &mdash; it never throws an error.</blockquote>
+                    </section>
+
+                    <!-- ============================ HUBSPOT ============================ -->
+                    <section class="mb-12">
+                        <h2 id="hubspot-admin">HubSpot: admin app setup</h2>
+                        <p>Done once for the platform. Create a HubSpot <strong>public app</strong> in your developer account.</p>
+                        <ol>
+                            <li>In the app's <strong>Auth</strong> settings add the <strong>Redirect URL</strong>: <code>https://YOUR-DOMAIN/hubspot/oauth/callback</code></li>
+                            <li>Add the scopes (below), copy the <strong>Client ID</strong> + <strong>Client Secret</strong>.</li>
+                            <li>In WaDesk go to <strong>Admin &rarr; Settings &rarr; HubSpot</strong>: paste both, confirm the redirect URI, enable, and Save. The secret is encrypted.</li>
+                        </ol>
+                        <p>Scopes: <code>crm.objects.contacts.read</code>, <code>crm.objects.contacts.write</code>, <code>crm.objects.deals.read</code>, <code>crm.objects.deals.write</code>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="hubspot">HubSpot: connecting &amp; what it does</h2>
+                        <p>Open <strong>More &rarr; HubSpot &rarr; Connect</strong> and approve the access. WaDesk securely stores the connection and keeps it renewed automatically, so you don't have to reconnect. From then on it can push contacts when a new conversation starts, create deals linked to the contact, and avoid duplicates by matching on email. The dashboard shows your HubSpot account name and a recent-activity log.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+                            <tbody>
+                                <tr><td>Connect screen shows "isn't enabled / configured yet"</td><td>The administrator hasn't enabled it (or, for Shopify/HubSpot, hasn't pasted the app credentials).</td><td>Administrator enables it under Admin &rarr; Settings and saves.</td></tr>
+                                <tr><td>Connecting is blocked even though the admin enabled it</td><td>Your plan doesn't include this integration.</td><td>Upgrade to a plan that includes the Shopify / WooCommerce / HubSpot integration.</td></tr>
+                                <tr><td>Connection fails with <code>redirect_uri mismatch</code> (Shopify/HubSpot)</td><td>The app's redirect URL doesn't match the one WaDesk uses.</td><td>Register the redirect URL exactly (no slash at the end), and confirm the Redirect URI field in WaDesk admin matches it.</td></tr>
+                                <tr><td>WooCommerce: "Could not reach WooCommerce"</td><td>Wrong store URL, keys aren't Read/Write, the store blocks API access, or the store isn't on HTTPS.</td><td>Use the <strong>Test</strong> button; confirm the URL, the Read/Write permission, that the store API is reachable, and that the store uses HTTPS.</td></tr>
+                                <tr><td>Automation logged as <code>skipped</code></td><td>No active template is set for that trigger.</td><td>On the Automations tab, switch it on and select an approved template.</td></tr>
+                                <tr><td>Events rejected for a bad signature</td><td>The signature is missing or doesn't match.</td><td>Reconnect the store to set up fresh webhooks; for Shopify, also confirm the app's Client Secret in admin is current.</td></tr>
+                                <tr><td>Abandoned-cart never fires (WooCommerce)</td><td>Carts have no phone number until checkout &mdash; this needs the companion plugin.</td><td>Install the WaDesk companion plugin from the Settings tab and set up the abandoned-cart templates.</td></tr>
+                                <tr><td>Store shows disconnected after working (Shopify)</td><td>The store owner uninstalled the app, which clears the connection.</td><td>Reconnect from <strong>More &rarr; Shopify</strong>; your logs and settings are kept.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites at a glance</a></li>
+                    <li class="toc-h2"><a href="#shopify-admin" class="toc-link">Shopify: admin app setup</a></li>
+                    <li class="toc-h2"><a href="#shopify-connect" class="toc-link">Shopify: connecting a store</a></li>
+                    <li class="toc-h2"><a href="#shopify-automations" class="toc-link">Shopify: automations</a></li>
+                    <li class="toc-h2"><a href="#woo-connect" class="toc-link">WooCommerce: connecting a store</a></li>
+                    <li class="toc-h2"><a href="#woo-automations" class="toc-link">WooCommerce: automations</a></li>
+                    <li class="toc-h2"><a href="#woo-plugin" class="toc-link">WooCommerce: companion plugin</a></li>
+                    <li class="toc-h2"><a href="#marketing" class="toc-link">Offers, win-back &amp; analytics</a></li>
+                    <li class="toc-h2"><a href="#cod-rto" class="toc-link">COD, prepaid &amp; RTO risk</a></li>
+                    <li class="toc-h2"><a href="#concierge" class="toc-link">Self-serve concierge</a></li>
+                    <li class="toc-h2"><a href="#variables" class="toc-link">Template variables</a></li>
+                    <li class="toc-h2"><a href="#commerce-flows" class="toc-link">Commerce in flows</a></li>
+                    <li class="toc-h2"><a href="#store-dashboard" class="toc-link">Dashboard, logs &amp; sync</a></li>
+                    <li class="toc-h2"><a href="#hubspot-admin" class="toc-link">HubSpot: admin app setup</a></li>
+                    <li class="toc-h2"><a href="#hubspot" class="toc-link">HubSpot: connecting</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

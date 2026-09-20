@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per-Number Proxy (IP Isolation) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Per-Number Proxy (IP Isolation) — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Per-Number Proxy (IP Isolation)</h1>
+
+                    <p><strong>Per-Number Proxy</strong> routes each Unofficial-API number's traffic out through its own dedicated proxy IP. Instead of every number on the server sharing one IP address, each number can egress from a different IP &mdash; which reduces the IP-correlation that contributes to bulk bans. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">What it is</h2>
+                        <p>When you run several WhatsApp numbers from a single server, they would normally all connect from that server's one IP address. To WhatsApp, that looks like many accounts operating from the same place &mdash; a pattern that can get the whole group flagged together.</p>
+                        <p>Per-Number Proxy breaks that link. You assign a separate proxy to each number, so each one reaches WhatsApp through its own IP. If one number runs into trouble, it is not automatically tied to all the others by a shared address.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use">Why and when to use it</h2>
+                        <ul>
+                            <li><strong>Running many numbers from one server.</strong> This is the main use case &mdash; give each number its own IP so they are not all correlated by a single shared address.</li>
+                            <li><strong>Reducing bulk-ban risk.</strong> IP-correlation between accounts is one of the signals that contributes to bulk bans; isolating each number's traffic lowers that risk.</li>
+                            <li><strong>Keeping numbers independent.</strong> Problems on one number are less likely to spill over onto your other numbers when they do not share an outbound IP.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>You assign a proxy to a number from the Devices screen. From then on, the heavy lifting happens automatically when that number's session starts:</p>
+                        <ul>
+                            <li>The Node bridge <strong>fetches the number's assigned proxy</strong> as the session starts up.</li>
+                            <li>It then runs a <strong>fail-closed preflight check</strong>: before connecting, it verifies the actual outbound IP (via an <code>ipify</code> lookup) to confirm the traffic really is leaving through the proxy.</li>
+                            <li>If the proxy is wrong or down, the number <strong>will not connect</strong> &mdash; it refuses to fall back to the server's shared IP rather than silently leaking onto it.</li>
+                        </ul>
+                        <p>Because each number connects through its own verified proxy, every number can egress from a different IP.</p>
+                        <blockquote class="info"><strong>Why "fail-closed" matters:</strong> A fail-closed design means that when something goes wrong, the safe thing happens by default. Here, a broken proxy stops the connection instead of quietly routing that number through the shared server IP &mdash; which is exactly the leak you set up isolation to prevent.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="usage">How to set it up</h2>
+                        <ol>
+                            <li>Make sure the feature is enabled for your workspace (it is gated by a feature flag and is <strong>off by default</strong>).</li>
+                            <li>Open the <strong>Devices</strong> screen (URL <code>/devices</code>).</li>
+                            <li>Find the number you want to isolate and open its <strong>proxy panel</strong>.</li>
+                            <li>Enter the proxy details for that number and save.</li>
+                            <li>Restart / reconnect that number's session. On start-up the Node bridge fetches the proxy and runs the fail-closed IP preflight; if the proxy is bad, the number stays disconnected rather than connecting on the wrong IP.</li>
+                            <li>Repeat for each number, assigning a different proxy to each one.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Caution:</strong> If a number's proxy is misconfigured or offline, that number will <strong>not connect at all</strong> &mdash; this is intentional, to stop it leaking onto the shared server IP. Make sure each assigned proxy is reachable, or remove the proxy assignment to let the number connect normally.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>Proxy assignment lives on the <strong>Devices</strong> screen (URL <code>/devices</code>), where each number has its own proxy panel.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan">Plan availability</h2>
+                        <p>Per-Number Proxy is <strong>gated by a feature flag and is off by default</strong>. It applies to the <strong>Unofficial API</strong> engine. If you do not see the proxy panel on the Devices screen, the feature is not enabled for your workspace &mdash; contact the platform owner to turn it on.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./connect-channel.html">Connect a Channel</a> &mdash; how to add the Unofficial-API numbers you then isolate.</li>
+                            <li><a href="./multi-engine.html">Multi-Engine</a> &mdash; running the Unofficial API alongside the official channels.</li>
+                            <li><a href="../messaging/warmer.html">WhatsApp Warmer</a> &mdash; another per-number safeguard that pairs well with IP isolation to reduce ban risk.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#usage" class="toc-link">How to set it up</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#plan" class="toc-link">Plan availability</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

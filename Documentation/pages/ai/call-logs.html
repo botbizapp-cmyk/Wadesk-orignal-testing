@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Logs – WaDesk SaaS Docs</title>
+    <meta name="description" content="Call Logs — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Call Logs</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Call Logs</strong> is the read-only record of every voice call your <a href="./ai-call-assistant.html">AI Call Assistant</a> handled &mdash; with transcripts, recordings, the mid-call skill timeline, and each call's cost and duration. Find it under <strong>More &rarr; Call Logs</strong>.</p>
+                        <p>You don't enter anything here. Each call is logged automatically: the transcript builds up live during the call, and the entry is finalised when the call ends. There's a list view and a detail view, both read-only and limited to your current workspace. Use the page to look into a specific call, confirm what the AI said, or check what a call cost.</p>
+                        <blockquote class="info"><strong>Plan-gated.</strong> Call Logs needs the <strong>WhatsApp Calling</strong> plan feature &mdash; the same one that enables <a href="./wa-calling.html">WhatsApp Calling</a>. Building the assistants that create these logs also needs the <strong>AI Voice Agent</strong> feature (see <a href="./ai-call-assistant.html">AI Call Assistant</a>), and playing recordings needs <strong>Call Recording</strong>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="list">The log list</h2>
+                        <p>The main table shows one row per call, newest first (by start time), scoped to your current workspace, 25 per page. Each row carries:</p>
+                        <table>
+                            <thead><tr><th>Column</th><th>What it shows</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Caller</strong></td><td>The caller's phone number, plus the call <em>direction</em> and the number that was dialled.</td></tr>
+                                <tr><td><strong>Assistant</strong></td><td>Which AI assistant answered (or a dash if unassigned).</td></tr>
+                                <tr><td><strong>Started</strong></td><td>When the call began, shown as a relative time.</td></tr>
+                                <tr><td><strong>Duration</strong></td><td>Call length formatted as M:SS.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Completed, Live now (in progress), No answer, or Failed.</td></tr>
+                                <tr><td><strong>Cost</strong></td><td>The call's total cost in its currency (defaults to USD).</td></tr>
+                                <tr><td><strong>Open</strong></td><td>Jumps to the full call detail.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Four summary cards sit above the table &mdash; <strong>Total</strong> calls, <strong>Last 24h</strong> (with total minutes), <strong>Completed</strong>, and <strong>Failed</strong> (which counts both failed and no-answer calls). These cards always reflect the whole workspace, ignoring any filters you apply, so they give a fixed at-a-glance health read.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="filters">Filtering &amp; searching</h2>
+                        <p>Narrow the list with the controls below. All are optional and combine; the default view is "all calls in the last 30 days".</p>
+                        <table>
+                            <thead><tr><th>Filter</th><th>Options</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Time range</strong></td><td>Last 24h, Last 7 days, Last 30 days (default)</td><td>Filters on the call start time.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>All, Completed, Live now, No answer, Failed</td><td>Matches the status column exactly.</td></tr>
+                                <tr><td><strong>Assistant</strong></td><td>All assistants, or one</td><td>Limits to calls handled by the chosen assistant.</td></tr>
+                                <tr><td><strong>Caller phone search</strong></td><td>free text</td><td>Matches against either the caller's number or the number that was dialled.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Filters stay in the page link and carry across pages, so you can bookmark or share a filtered view.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="detail">Call detail</h2>
+                        <p>Opening a call shows everything captured for it.</p>
+                        <h3 id="detail-header">Header</h3>
+                        <ul>
+                            <li><strong>Caller number, direction, and date/time</strong> at the top.</li>
+                            <li><strong>The answering assistant</strong>, linked straight into its <a href="./ai-call-assistant.html#create">wizard</a> so you can adjust persona, model, or voice without hunting through the list (shows "Unassigned" if none).</li>
+                            <li><strong>Duration, status, and cost</strong> inline.</li>
+                            <li><strong>Failure reason</strong> &mdash; shown in a red callout on failed or no-answer calls, so you can see at a glance why a call dropped.</li>
+                            <li><strong>Open in inbox</strong> &mdash; when the call is linked to a conversation, jump straight to it in <a href="../messaging/team-inbox.html">Team Inbox</a>.</li>
+                            <li><strong>Play recording</strong> &mdash; a combined player button appears when a mixed recording exists.</li>
+                        </ul>
+                        <h3 id="detail-usage">Usage cards</h3>
+                        <p>Three cards show the metered parts behind the cost:</p>
+                        <table>
+                            <thead><tr><th>Card</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>AI usage</strong></td><td>How much the AI model processed, split into input / output below the headline number.</td></tr>
+                                <tr><td><strong>Transcription</strong></td><td>Seconds of caller audio turned into text.</td></tr>
+                                <tr><td><strong>Spoken voice</strong></td><td>Characters the agent spoke aloud.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="detail-transcript">Transcript</h3>
+                        <p>The turn-by-turn conversation. Each turn is labelled <em>AI agent</em> or <em>Caller</em> and carries a timestamp into the call (M:SS from the start). Agent turns sit on the left, caller turns on the right, chat-style. The turn count is shown in the panel header. If transcription was off (or no turns were captured), the panel says so.</p>
+                        <h3 id="detail-tools">Tool calls fired</h3>
+                        <p>A timeline of every <a href="./ai-call-assistant.html#step-3-skills">skill</a> the agent invoked mid-call, each with the function name, the time into the call, and the arguments it passed (pretty-printed). If no tools ran, the panel says so.</p>
+                        <h3 id="detail-recordings">Recordings</h3>
+                        <p>Inline audio players for the <strong>agent side</strong> and the <strong>caller side</strong>, shown only for the sides that were recorded. When neither side nor a mixed recording exists, the panel reads "Recording disabled for this call" rather than showing an empty player.</p>
+                        <blockquote class="info"><strong>How playback works.</strong> Each recorded side is saved during the call. The first time you press play, the audio is prepared into a playable file (and, for the combined track, the two sides are mixed together) so it plays right away. Playback is limited to your workspace and needs the <strong>Call Recording</strong> plan feature.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cost-and-recordings">Cost, recordings &amp; retention</h2>
+                        <p>Whether transcripts and recordings exist depends on what you enabled in the assistant's <a href="./ai-call-assistant.html#step-5-routing">Routing &amp; recording</a> step &mdash; agent audio, caller audio, and auto transcript are independent switches. If recording was off for a call, the detail page says so. Caller-side recording also needs the <strong>Call Recording</strong> plan feature.</p>
+                        <blockquote class="info"><strong>How cost is built.</strong> A call's cost combines the AI usage, the transcription seconds, and the spoken-voice characters &mdash; all three visible on the detail page &mdash; plus your WhatsApp calling minutes. The list's "Last 24h" card adds up minutes over the last day so you can watch spend at a glance. To control cost, tune the assistant per the <a href="./ai-call-assistant.html#cost">AI Call Assistant cost cautions</a>.</blockquote>
+                        <blockquote class="warning"><strong>Cost &amp; privacy caution.</strong> Recordings and full transcripts can capture sensitive caller information. Only enable the recording toggles you actually need, keep access to this workspace limited, and review your retention obligations. Failed and no-answer calls still appear here, so use the inline failure reason and the usage cards to spot a misconfigured assistant before it runs up cost across many calls.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td>No calls appear at all</td><td>Either no number is routed to an assistant yet, or the chosen time range excludes them. Widen the range to Last 30 days and clear the status filter. Confirm your plan includes <strong>WhatsApp Calling</strong>.</td></tr>
+                                <tr><td>A call is stuck on "Live now"</td><td>It is live now, or it dropped mid-call. A crash is reported back so the call flips to Failed with a reason; if it lingers, open the detail to read the failure reason.</td></tr>
+                                <tr><td>Transcript is empty</td><td>Auto transcript was off for that assistant, or transcription couldn't run &mdash; usually a missing Deepgram key. See <a href="./ai-call-assistant.html#troubleshooting">AI Call Assistant troubleshooting</a>.</td></tr>
+                                <tr><td>Recording player is missing or won't load</td><td>That side wasn't recorded (check the assistant's recording switches), the audio file is missing, or your plan lacks <strong>Call Recording</strong>.</td></tr>
+                                <tr><td>A failed call with a reason like missing voice keys</td><td>The admin hasn't set the Deepgram/ElevenLabs keys, so the call was declined. Set them under <a href="../admin-panel/ai-keys.html">AI &amp; API Keys</a>.</td></tr>
+                                <tr><td>The page itself is gated</td><td>Your plan lacks <strong>WhatsApp Calling</strong>. Upgrade or move to a plan that includes it.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#list" class="toc-link">The log list</a></li>
+                    <li class="toc-h2"><a href="#filters" class="toc-link">Filtering &amp; searching</a></li>
+                    <li class="toc-h2"><a href="#detail" class="toc-link">Call detail</a></li>
+                    <li class="toc-h2"><a href="#cost-and-recordings" class="toc-link">Cost, recordings &amp; retention</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

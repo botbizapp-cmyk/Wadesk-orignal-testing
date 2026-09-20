@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third-Party Integrations – WaDesk SaaS Docs</title>
+    <meta name="description" content="Integrating third-party services — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Third-Party Integrations</h1>
+                    <p>WaDesk connects to outside services in three ways. Pick the one that matches your goal &mdash; react to events, enable a first-party connector, or drive a workspace from your own software.</p>
+
+                    <section class="mb-12">
+                        <h2 id="webhooks">1. Webhooks (event-driven)</h2>
+                        <p>The most common integration. Register an HTTPS endpoint and WaDesk POSTs a <strong>signed JSON payload</strong> whenever an event fires &mdash; a new inbound message, a delivery/read receipt, a campaign finishing. Your server verifies the signature and reacts (push to a CRM, trigger a workflow).</p>
+                        <p>Conversely, <strong>incoming webhooks</strong> let an outside system push an event <em>into</em> WaDesk to start a flow or send a message. See <a href="../integrations/webhooks.html">Webhooks</a> for payload shapes and signature verification.</p>
+                        <blockquote class="info"><strong>When to use it.</strong> You want to be notified the moment something happens, without polling &mdash; the reactive glue between WaDesk and your stack.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="native">2. Native connectors (OAuth / API keys)</h2>
+                        <p>WaDesk ships first-party connectors you enable from workspace settings. Each stores its credentials <strong>encrypted</strong> and syncs through the platform's own services &mdash; no direct database access needed.</p>
+                        <table>
+                            <thead><tr><th>Category</th><th>Services</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>CRM &amp; commerce</strong></td><td>HubSpot, Shopify, WooCommerce &mdash; two-way contact/order sync and invoice sharing.</td></tr>
+                                <tr><td><strong>Productivity</strong></td><td>Google (Calendar &amp; Sheets), Slack, Trello &mdash; all signature-verified.</td></tr>
+                                <tr><td><strong>Payments</strong></td><td>A large set of pluggable payment drivers for checkout; each is a self-contained driver class.</td></tr>
+                                <tr><td><strong>AI providers (BYOK)</strong></td><td>Bring your own OpenAI / Anthropic / other keys per workspace; the platform resolves the workspace key first, then the admin key.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>When to use it.</strong> The service is already supported &mdash; connect it in a few clicks and let WaDesk handle the sync.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="rest">3. Drive WaDesk from your app (REST API)</h2>
+                        <p>When you want <em>your</em> software to control a workspace &mdash; send messages, sync contacts, launch campaigns &mdash; use the <a href="rest-api.html">REST API</a> with a workspace key. This is the right choice for a custom portal, a backend job, or a mobile app. See <a href="api-endpoints.html">API Endpoints</a> for the full map.</p>
+                        <blockquote class="info"><strong>When to use it.</strong> You are building something that acts <em>on</em> a workspace, on your own schedule.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="extending">Extending the platform itself</h2>
+                        <p>If you are adding a brand-new provider, payment driver, or connector to the codebase (not just calling the API), read the <a href="customization.html">Customization Guide</a> and <a href="architecture.html">Architecture Overview</a> first &mdash; they show where driver classes, service bindings, and the <a href="node-bridge.html">Node bridge</a> hook in.</p>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#webhooks" class="toc-link">1. Webhooks</a></li>
+                    <li class="toc-h2"><a href="#native" class="toc-link">2. Native connectors</a></li>
+                    <li class="toc-h2"><a href="#rest" class="toc-link">3. REST API</a></li>
+                    <li class="toc-h2"><a href="#extending" class="toc-link">Extending the platform</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

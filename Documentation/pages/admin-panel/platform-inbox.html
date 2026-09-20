@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Inbox &amp; Impersonation – WaDesk SaaS Docs</title>
+    <meta name="description" content="Platform Inbox &amp; Impersonation — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Platform Inbox &amp; Impersonation</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Platform Inbox</strong> (<strong>Admin &rarr; Team inbox</strong>) is the cross-workspace operator screen for the platform owner. It gives you one place to triage problems across <em>every</em> customer workspace &mdash; SLA breaches, spam, and unassigned conversations &mdash; without leaving the admin panel.</p>
+                        <p>By design the platform inbox is <strong>mostly read-only</strong>. You can watch any conversation and take a small set of platform-level actions (write an admin-only note, flag or suspend a workspace, mark a conversation as spam everywhere), but you cannot reply or assign from here. Replying and other customer-facing actions happen on the workspace side via <a href="#impersonation">impersonation</a> &mdash; which keeps the record clean, because every customer-visible action is attributed to a workspace member rather than directly to a staffer.</p>
+                        <blockquote class="info"><strong>Two different "team inboxes."</strong> This is the <em>platform</em> team inbox for your back-office staff. It is not the same as a workspace's own shared <a href="../messaging/team-inbox.html">Team Inbox</a>, which agents use to talk to customers. This page covers the admin one only.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="access">Who Can Open It</h2>
+                        <p>Access is controlled by the platform permissions described on the <a href="./roles-permissions.html">Roles &amp; Permissions</a> page. Each panel checks its own permission, so what a staffer sees depends on their role:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Capability</th><th>Super Admin</th><th>Platform Support</th><th>Auditor</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>View the conversation queue</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                                <tr><td>Write platform notes</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                                <tr><td>Flag a conversation as spam</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                                <tr><td>Flag a workspace</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                                <tr><td>Suspend / unsuspend a workspace</td><td>Yes</td><td>No</td><td>No</td></tr>
+                                <tr><td>Impersonate a workspace</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+                                <tr><td>View the audit log</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="workspace-sidebar">The Workspace Sidebar</h2>
+                        <p>A panel on the right lists workspaces ordered by most recent activity, each showing live counts so you can see at a glance where the pressure is:</p>
+                        <ul>
+                            <li><strong>Open conversations</strong> &mdash; how many open threads the workspace currently has.</li>
+                            <li><strong>SLA breach count</strong> &mdash; open conversations that have breached their SLA.</li>
+                            <li><strong>Plan and status</strong> &mdash; the workspace's plan and whether it is active or suspended.</li>
+                        </ul>
+                        <p>The header also carries four platform-wide KPI cards: total active workspaces, total SLA-breached conversations across the platform, total open conversations, and whether an impersonation session is currently active. Selecting a workspace from the sidebar filter narrows the conversation queue to that workspace.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="queue">The Platform Conversation Queue</h2>
+                        <p>The central queue lists conversations across all workspaces (or a single one, when filtered). Four tabs scope it:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Tab</th><th>Shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>SLA breach</strong></td><td>Open conversations that have breached their SLA. This is the default tab &mdash; your triage starting point.</td></tr>
+                                <tr><td><strong>Unassigned</strong></td><td>Open conversations with no assignee.</td></tr>
+                                <tr><td><strong>Spam</strong></td><td>Conversations marked as spam.</td></tr>
+                                <tr><td><strong>All</strong></td><td>Every open conversation.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each row shows the workspace name, a preview, status, priority, channel, assignee/team, last-message time, SLA due times, and any active workspace flags. Clicking a row opens a <strong>conversation drawer</strong> showing the message thread (read-only), workspace notes, the event timeline, and the platform-notes panel.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="platform-notes">Platform Notes (Admin-Only)</h2>
+                        <p>Inside the conversation drawer you can attach a <strong>platform note</strong> &mdash; an internal annotation visible only to platform staff, never to the workspace or the end customer. Use it to record context for a support case ("refunded via Stripe, see ticket #441") or a warning for other operators.</p>
+                        <ul>
+                            <li>Type the note (up to 8,000 characters) and pick a severity: <strong>Info</strong>, <strong>Warn</strong>, or <strong>Critical</strong>.</li>
+                            <li>Click <strong>Add note</strong>. It is stamped with your name and the time, and recorded in the audit log.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Note:</strong> Platform notes are distinct from <em>workspace notes</em>, which are written by the workspace's own agents inside their inbox. The drawer shows both, in separate sections, so you have full context without blurring the line.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="flag-suspend">Flagging &amp; Suspending a Workspace</h2>
+                        <h3 id="flagging">Flagging</h3>
+                        <p>From the drawer or workspace panel you can attach a <strong>flag</strong> to a whole workspace to mark it for attention. The available flags are: <strong>spam</strong>, <strong>abuse</strong>, <strong>fraud</strong>, <strong>billing overdue</strong>, <strong>terms-of-service violation</strong>, and <strong>frozen</strong>. A flag can carry an optional reason (up to 500 characters) and is recorded in the audit log, as is clearing one.</p>
+                        <p>You can also mark a single conversation as spam from the drawer's <strong>Mark spam</strong> button; this flags that conversation as spam everywhere and is recorded in the audit log.</p>
+                        <h3 id="suspending">Suspending</h3>
+                        <p>Suspending a workspace switches it off (sets it inactive) and automatically adds a <strong>frozen</strong> flag with your reason, so the screen shows why it is suspended. Unsuspending switches it back on and clears that frozen flag. Both actions are recorded in the audit log.</p>
+                        <blockquote class="warning"><strong>Suspension is disruptive.</strong> A suspended workspace is frozen for its owner and team. Always provide a clear reason &mdash; it is stored on the flag and visible to other operators &mdash; and only Super Admins can suspend a workspace by default. Bring it back with Unsuspend rather than re-creating the workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="impersonation">Impersonation</h2>
+                        <p><strong>Impersonation</strong> lets a staffer with the impersonate permission temporarily view a customer's workspace <em>as if they were its owner</em>. This is the only way platform staff gain standing inside a customer workspace &mdash; useful for reproducing a bug, finishing a support task, or replying on the customer's behalf during a ticket.</p>
+                        <h3 id="impersonation-start">Starting a session</h3>
+                        <p>From a conversation drawer, click <strong>Impersonate</strong>. A pop-up requires a <strong>reason</strong>:</p>
+                        <ul>
+                            <li>The reason is <strong>mandatory</strong> and must be between <strong>8 and 500 characters</strong>.</li>
+                            <li>On confirm, the session is recorded with your name, the target workspace, your IP, and device/browser, then you are taken into that workspace's team inbox, viewing it as its owner.</li>
+                            <li>Only one workspace can be in scope at a time &mdash; starting a new session automatically closes any previous open session for your account.</li>
+                            <li>The start is written to the audit log, including the reason.</li>
+                        </ul>
+                        <h3 id="impersonation-stop">Stopping a session</h3>
+                        <p>End the session from the impersonation banner. Stopping does <strong>not</strong> erase the record &mdash; the audit trail is preserved. On stop, the system records how long the session lasted <em>and</em> an activity summary: every audited action you took during the window, broken down by action and by area. This lets a reviewing Super Admin see at a glance exactly what was done, without digging through the log themselves.</p>
+                        <blockquote class="warning"><strong>Impersonation is fully audited &mdash; treat it as a sensitive action.</strong> Every session records who impersonated which workspace, the reason you typed, when it started and stopped, how long it lasted, and a summary of what you did. Use it only for legitimate support or debugging, always write a truthful and specific reason, and end the session as soon as you are done. The <strong>Auditor</strong> role deliberately cannot impersonate. Review impersonation events on the <a href="./security.html">Security &amp; audit log</a> page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="audit">The Audit Log</h2>
+                        <p>The bottom of the platform inbox shows a live <strong>Audit log</strong> panel (also reachable from the <strong>Audit log</strong> button in the header). It lists platform-level actions &mdash; flags, suspensions, spam marks, platform notes, and impersonation start/stop events &mdash; and can be filtered by layer or workspace. Viewing it requires the audit-view permission.</p>
+                        <p>For the full, exportable platform audit log, see the dedicated <a href="./security.html">Security</a> page.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#access" class="toc-link">Who Can Open It</a></li>
+                    <li class="toc-h2"><a href="#workspace-sidebar" class="toc-link">The Workspace Sidebar</a></li>
+                    <li class="toc-h2"><a href="#queue" class="toc-link">The Platform Conversation Queue</a></li>
+                    <li class="toc-h2"><a href="#platform-notes" class="toc-link">Platform Notes (Admin-Only)</a></li>
+                    <li class="toc-h2"><a href="#flag-suspend" class="toc-link">Flagging &amp; Suspending a Workspace</a></li>
+                    <li class="toc-h2"><a href="#impersonation" class="toc-link">Impersonation</a></li>
+                    <li class="toc-h2"><a href="#audit" class="toc-link">The Audit Log</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

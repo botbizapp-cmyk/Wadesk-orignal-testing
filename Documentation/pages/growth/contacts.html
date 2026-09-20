@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts &amp; Groups – WaDesk SaaS Docs</title>
+    <meta name="description" content="Contacts &amp; Groups — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Contacts &amp; Groups</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Contacts</strong> is your workspace address book &mdash; every person you can message, with their name, phone number, email, language, groups, and an internal memo. <strong>Groups</strong> are the segments you sort contacts into (VIP customers, new signups, cart abandoners, and so on) so you can target broadcasts, WhatsApp campaigns, catalog sends, and flow enrolment at exactly the right audience.</p>
+                        <p>Open it from the top navigation under <strong>Contacts</strong>. The page has a side rail of views and group filters, a four-tile stat row, and a searchable contacts table that switches between list and grid. A <strong>Groups</strong> view on the same page lists your groups with live member counts.</p>
+                        <table>
+                            <thead>
+                                <tr><th>What</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Where to find it</td><td>Top navigation &rarr; Contacts (and the Groups view)</td></tr>
+                                <tr><td>Who can open it</td><td>Workspace role <strong>Manager</strong> or above. Agents and Viewers do not see this page.</td></tr>
+                                <tr><td>Page size</td><td>Contacts show <strong>12 per page</strong>.</td></tr>
+                                <tr><td>Visibility</td><td>Shared by the whole workspace &mdash; a teammate sees contacts a colleague added or imported.</td></tr>
+                                <tr><td>Isolation</td><td>Each workspace only ever sees its own contacts and groups.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Shared by workspace:</strong> contacts and groups belong to the workspace, not to the person who created them. The only exception is older records imported before workspaces existed &mdash; those stay visible to their original owner until re-imported.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="prerequisites">Prerequisites</h2>
+                        <p>Contacts has no external credentials &mdash; you can start adding people immediately. Two things govern how many you can hold and what you can do with them:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Requirement</th><th>Where it comes from</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Manager role</strong></td><td>Your workspace owner sets your role under Team Inbox &rarr; Members. Manager (or Admin/Owner) is required to reach Contacts.</td></tr>
+                                <tr><td><strong>Contacts plan limit</strong></td><td>Your plan sets how many contacts you can hold. View your plan and usage under Account &rarr; Plans; the limit applies to both adding one contact and importing a file.</td></tr>
+                                <tr><td><strong>A connected number (to actually message)</strong></td><td>Optional for storing contacts, required for sending. Connect one under Devices. Keep numbers in international format so messaging works straight away.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Plan limit:</strong> if your workspace is already at its contacts limit, adding or importing contacts is blocked until you upgrade or remove some. The check runs before a contact is created and before an import begins.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="add-contact">Adding a contact</h2>
+                        <ol>
+                            <li>Click <strong>Add contact</strong> (top right) to open the contact modal.</li>
+                            <li>Fill in at least a <strong>first name</strong> and a <strong>mobile</strong> number (the only required fields).</li>
+                            <li>Optionally set a country code, email, language, one or more groups, an address, an internal memo, and an avatar image.</li>
+                            <li>Click save. The contact appears at the top of the table (newest first).</li>
+                        </ol>
+                        <h3>Field reference</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Limit / rule</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>First name</strong></td><td>Yes</td><td>Max 191 chars</td><td>Used to build the display name when you don't set one explicitly.</td></tr>
+                                <tr><td>Title</td><td>No</td><td>Max 50 chars</td><td>Optional honorific (Mr, Dr, ...).</td></tr>
+                                <tr><td>Middle name</td><td>No</td><td>Max 191 chars</td><td>Combined into the display name.</td></tr>
+                                <tr><td>Last name</td><td>No</td><td>Max 191 chars</td><td>Combined into the display name.</td></tr>
+                                <tr><td>Name (full)</td><td>No</td><td>Max 191 chars</td><td>If set, used verbatim as the display name; otherwise WaDesk joins title + first + middle + last.</td></tr>
+                                <tr><td><strong>Mobile</strong></td><td>Yes</td><td>Max 32 chars</td><td>The WhatsApp number. If a country code is set and the number doesn't already start with it, the code is prepended automatically.</td></tr>
+                                <tr><td>Country code</td><td>No</td><td>Max 10 chars</td><td>Dialling prefix such as <code>91</code> or <code>1</code>.</td></tr>
+                                <tr><td>Email</td><td>No</td><td>Max 191, validated</td><td>Must be a valid email address.</td></tr>
+                                <tr><td>Language</td><td>No</td><td>Max 80 chars</td><td>Preferred language / locale.</td></tr>
+                                <tr><td>Groups</td><td>No</td><td>Existing group IDs</td><td>One or more groups to file this contact under. Each must already exist in the workspace.</td></tr>
+                                <tr><td>Address</td><td>No</td><td>Max 1000 chars</td><td>Freeform address.</td></tr>
+                                <tr><td>Memo</td><td>No</td><td>Max 2000 chars</td><td>Internal note shown in the Memo column.</td></tr>
+                                <tr><td>Image</td><td>No</td><td>Image, max 2&nbsp;MB</td><td>Optional avatar.</td></tr>
+                                <tr><td>Unsubscribed</td><td>No</td><td>On / off</td><td>Marks the contact as opted out. Counts toward the Unsubscribed stat.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>How the display name is built:</strong> if you fill the full <em>Name</em> field it wins. Otherwise WaDesk joins whichever of <em>title</em>, <em>first name</em>, <em>middle name</em>, and <em>last name</em> are present, separated by spaces.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="import">Importing contacts from CSV</h2>
+                        <p>Click <strong>Bulk upload</strong> to import a CSV file. WaDesk uses a two-step, preview-first flow so you never import blind.</p>
+                        <h3>Step by step</h3>
+                        <ol>
+                            <li><strong>Choose a file.</strong> Pick a <code>.csv</code> file (max 5&nbsp;MB).</li>
+                            <li><strong>Review the auto-mapping.</strong> WaDesk reads the header row, auto-detects which column maps to which field, and shows the <strong>first five data rows</strong> so you can confirm the mapping looks right.</li>
+                            <li><strong>Set "apply to all rows" defaults (optional).</strong> Choose a <em>Status</em>, a <em>Source</em>, a <em>Group</em>, and <em>Tags</em> to stamp onto every imported row (see the table below for how each is stored).</li>
+                            <li><strong>Import.</strong> Submit the file again. Each valid row becomes a contact and you get a summary: "Imported N contacts (M skipped)."</li>
+                        </ol>
+                        <h3 id="header-map">Column auto-detection</h3>
+                        <p>Header names are normalised before matching &mdash; lowercased with all non-alphanumeric characters stripped &mdash; so <code>Phone Number</code>, <code>phone_number</code>, and <code>PHONE-NUMBER</code> all resolve to the same field. The <strong>first</strong> header that matches a field wins. These are the exact recognised names:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Recognised header names (after normalisation)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong></td><td><code>name</code>, <code>full name</code>, <code>contact name</code>, <code>first name</code></td></tr>
+                                <tr><td><strong>Last name</strong></td><td><code>last name</code>, <code>surname</code>, <code>family name</code></td></tr>
+                                <tr><td><strong>Mobile</strong></td><td><code>mobile</code>, <code>phone</code>, <code>phone number</code>, <code>whatsapp</code>, <code>whatsapp number</code>, <code>number</code>, <code>tel</code>, <code>telephone</code>, <code>cell</code>, <code>cellphone</code>, <code>msisdn</code></td></tr>
+                                <tr><td><strong>Email</strong></td><td><code>email</code>, <code>email address</code>, <code>mail</code></td></tr>
+                                <tr><td><strong>Country code</strong></td><td><code>country code</code>, <code>cc</code>, <code>dial code</code></td></tr>
+                                <tr><td><strong>Group</strong></td><td><code>group</code>, <code>groups</code>, <code>contact group</code>, <code>list</code>, <code>lists</code></td></tr>
+                                <tr><td><strong>Language</strong></td><td><code>language</code>, <code>lang</code>, <code>locale</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h3>How rows are processed</h3>
+                        <ul>
+                            <li>A row is <strong>skipped</strong> if it has no <strong>name</strong> or no <strong>mobile</strong>. The skipped count is reported in the summary.</li>
+                            <li>On import, the imported <em>name</em> is stored as both the <strong>full name</strong> and the <strong>first name</strong>; map a <em>last name</em> column if you want surnames split out.</li>
+                            <li>A CSV <strong>Group</strong> column can name multiple groups, comma-separated. Each name is matched case-insensitively against existing workspace groups; any that doesn't exist yet is <strong>created for you</strong>, scoped to the workspace.</li>
+                            <li>The CSV's own group column takes precedence; the "apply to all rows" group is merged in as a fallback so contacts always land in at least that group.</li>
+                        </ul>
+                        <h3>What the "apply to all rows" knobs do</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Knob</th><th>How it is stored</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Group</strong></td><td>Added to each contact's groups (on top of any groups from the CSV).</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Saved on each contact so campaigns can filter by it.</td></tr>
+                                <tr><td><strong>Source</strong></td><td>Saved on each contact so you can tell where they came from.</td></tr>
+                                <tr><td><strong>Tags</strong></td><td>Tags applied to every imported contact.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>File requirements:</strong> CSV only, max 5&nbsp;MB. Keep phone numbers in international format with the country code so messaging works straight away. Your contacts limit is checked before the import runs &mdash; a workspace already at the limit is blocked.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="groups">Groups (segments)</h2>
+                        <p>Groups are how you slice your audience. Click <strong>New group</strong> to create one.</p>
+                        <ol>
+                            <li>Give the group a <strong>name</strong> (required).</li>
+                            <li>Optionally add a <strong>note</strong> and pick a <strong>colour</strong>.</li>
+                            <li>Save. The group appears in the left rail and in the Groups view with a live member count.</li>
+                        </ol>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Required</th><th>Limit</th><th>Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Name</strong></td><td>Yes</td><td>Max 191 chars</td><td>Shown on the group chip everywhere the group appears.</td></tr>
+                                <tr><td>Note</td><td>No</td><td>Max 500 chars</td><td>A short description of who's in the group.</td></tr>
+                                <tr><td>Colour</td><td>No</td><td>Max 32 chars</td><td>Renders as a coloured dot on the group chip.</td></tr>
+                            </tbody>
+                        </table>
+                        <ul>
+                            <li>Switch to the <strong>Groups</strong> view to see every group with its current member count.</li>
+                            <li><strong>Editing</strong> a group lets you rename it, change its note, or change its colour.</li>
+                            <li><strong>Deleting</strong> a group first removes it from every contact that's in it, then removes the group itself. The contacts are kept &mdash; they simply lose that one group.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Why groups matter:</strong> broadcasts, WhatsApp campaigns, catalog sends, and flow enrolment all target by group. Member counts are always calculated fresh, so they're accurate rather than out of date.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="search-filter">Searching, filtering &amp; the stat row</h2>
+                        <p>The contacts table has its own controls:</p>
+                        <ul>
+                            <li><strong>Search</strong> by name, email, or phone &mdash; filtering happens live as you type.</li>
+                            <li><strong>Side-rail views:</strong> All contacts, Groups, Imported (contacts brought in via CSV), and No group (contacts not in any segment).</li>
+                            <li><strong>Group filters:</strong> click any group in the left rail to show only its members.</li>
+                            <li><strong>List / grid toggle</strong> switches the table between a dense list and a card grid.</li>
+                        </ul>
+                        <p>The stat row at the top always shows four workspace-wide counts:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Stat</th><th>Counts</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Total contacts</strong></td><td>Every contact in the workspace.</td></tr>
+                                <tr><td><strong>Groups</strong></td><td>Number of groups defined.</td></tr>
+                                <tr><td><strong>Subscribed</strong></td><td>Contacts not marked unsubscribed.</td></tr>
+                                <tr><td><strong>Unsubscribed</strong></td><td>Contacts marked opted out.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="edit-delete">Editing and deleting</h2>
+                        <p>Each row has an <strong>edit</strong> icon (opens the contact in a modal) and a <strong>delete</strong> icon (asks to confirm). To remove several at once, tick the checkboxes and use <strong>Delete selected</strong>.</p>
+                        <ol>
+                            <li><strong>Edit:</strong> open the row, change any field, save. The same name-building and country-code-prepend rules from <a href="#add-contact">Adding a contact</a> apply on update.</li>
+                            <li><strong>Single delete:</strong> click the delete icon and confirm.</li>
+                            <li><strong>Bulk delete:</strong> select rows and choose <strong>Delete selected</strong>.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Deletion is permanent.</strong> Both single and bulk deletes only affect your current workspace, so you can never delete a contact in another workspace. Deleting a contact removes them from this workspace's address book &mdash; it does <em>not</em> erase past conversation history in the inbox, but the contact will no longer appear in pickers, segments, or campaign audiences.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>"Add contact" / "Bulk upload" is blocked</td><td>You're at your plan's contacts limit. Remove contacts or upgrade under Account &rarr; Plans.</td></tr>
+                                <tr><td>Import skipped many rows</td><td>Those rows had no <strong>name</strong> or no <strong>mobile</strong> value. Check your header names against the <a href="#header-map">auto-detection table</a> and that those columns are filled in.</td></tr>
+                                <tr><td>Phone column not detected</td><td>Rename the header to one of the recognised names (e.g. <code>mobile</code>, <code>phone</code>, <code>whatsapp</code>, <code>msisdn</code>). Matching ignores case and punctuation but the word itself must match.</td></tr>
+                                <tr><td>Numbers don't message correctly</td><td>Store them in full international format. Either include the country code in the number, or add a country-code column / field so WaDesk can add it.</td></tr>
+                                <tr><td>Group from CSV created a duplicate</td><td>Group matching ignores capitalisation, so <code>VIP</code> and <code>vip</code> become one group. A genuinely new name is created on purpose &mdash; tidy up in the Groups view.</td></tr>
+                                <tr><td>File rejected on upload</td><td>It must be a CSV under 5&nbsp;MB. Export from your spreadsheet as <code>.csv</code> (not <code>.xlsx</code>).</td></tr>
+                                <tr><td>Can't reach Contacts at all</td><td>Your workspace role is Agent or Viewer. Ask the owner to raise it to Manager under Team Inbox &rarr; Members.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+                    <li class="toc-h2"><a href="#add-contact" class="toc-link">Adding a contact</a></li>
+                    <li class="toc-h2"><a href="#import" class="toc-link">Importing contacts from CSV</a></li>
+                    <li class="toc-h2"><a href="#groups" class="toc-link">Groups (segments)</a></li>
+                    <li class="toc-h2"><a href="#search-filter" class="toc-link">Searching, filtering &amp; the stat row</a></li>
+                    <li class="toc-h2"><a href="#edit-delete" class="toc-link">Editing and deleting</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

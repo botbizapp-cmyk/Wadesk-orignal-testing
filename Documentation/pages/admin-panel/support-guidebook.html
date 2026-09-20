@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support &amp; Guidebook – WaDesk SaaS Docs</title>
+    <meta name="description" content="Support &amp; Guidebook — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Support &amp; Guidebook</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk gives the platform owner two customer-facing help tools, both in the admin sidebar:</p>
+                        <ul>
+                            <li><strong>Support desk</strong> (Admin &rarr; Support) &mdash; a ticketing system for handling questions from the workspaces on your platform.</li>
+                            <li><strong>Guidebook</strong> (Admin &rarr; Guidebook) &mdash; a self-serve help centre whose articles appear on the public Guidebook page your customers can read.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="support-inbox">Support Inbox</h2>
+                        <p>The <strong>Support inbox</strong> is the main ticket queue. Each ticket carries a number, subject, customer name/email, status, priority, and an optional assigned agent. KPI tiles across the top show <strong>Total</strong> tickets, <strong>Open</strong> (open / pending / in-progress), <strong>Unassigned</strong>, and <strong>Resolved in the last 24 hours</strong>.</p>
+                        <p>Filter the queue by status, priority, agent (<em>Assigned to me</em> or <em>Unassigned</em>), and a free-text search across subject, name, email, and ticket number. Clicking a ticket opens a side panel with the full conversation, the customer's workspace, the assigned agent, and an SLA snapshot.</p>
+                        <table>
+                            <thead><tr><th>Action</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Reply</strong></td><td>Send a reply to the customer (emailed to them), or add an <strong>internal note</strong> that the customer never sees. The first non-note reply stops the first-response SLA timer and moves an open ticket to in-progress.</td></tr>
+                                <tr><td><strong>Assign</strong></td><td>Hand the ticket to an agent, or clear the assignment.</td></tr>
+                                <tr><td><strong>Status</strong></td><td>Set open, in-progress, pending, resolved, or closed. The resolution time is stamped on first resolution and cleared if the ticket is reopened.</td></tr>
+                                <tr><td><strong>Priority</strong></td><td>Set low, normal, high, or urgent.</td></tr>
+                                <tr><td><strong>Run playbook</strong></td><td>Apply a manual playbook to the ticket from the panel.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> Every support action &mdash; reply, assign, status change, priority change &mdash; is written to the audit log. Customer reply emails are sent on a best-effort basis: if your mail configuration fails, the reply is still saved on the ticket and the failure is logged rather than blocking you.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="support-tools">Agents, SLA, Playbooks &amp; Reports</h2>
+                        <p>The support area has several companion tabs:</p>
+                        <ul>
+                            <li><strong>Team inbox</strong> &mdash; a board view of tickets you can move between columns.</li>
+                            <li><strong>Agents</strong> &mdash; add support agents (backed by platform users), toggle them active/inactive, and remove them. Active agents populate the assign dropdown.</li>
+                            <li><strong>SLA</strong> &mdash; define SLA policies for first response and resolution; the side-panel pills (for example "12m left" or "8m over") are computed from these.</li>
+                            <li><strong>Customers</strong> &mdash; browse the workspaces raising tickets and drill into one customer's history.</li>
+                            <li><strong>Playbooks</strong> &mdash; reusable canned responses/actions. Manual playbooks can be run on a ticket from the inbox panel.</li>
+                            <li><strong>Reports</strong> &mdash; support metrics, with a CSV export.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="guidebook">Guidebook (Knowledge Base)</h2>
+                        <p>The <strong>Guidebook</strong> lets you create, edit, publish, and delete the help articles shown on your public Guidebook page. The index shows totals &mdash; total articles, published, drafts, total views, and helpful / not-helpful vote counts &mdash; plus search and a category filter. Articles are grouped by category in the public sidebar.</p>
+                        <p>Each article has:</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+                            <tbody>
+                                <tr><td>Title <em>(required)</em></td><td>The article heading.</td></tr>
+                                <tr><td>Web address (slug)</td><td>The article's link. Auto-generated from the title if left blank; lowercase letters, numbers, and hyphens only. WaDesk makes sure it is unique.</td></tr>
+                                <tr><td>Category <em>(required)</em></td><td>Free text (default "general"); groups articles in the public sidebar.</td></tr>
+                                <tr><td>Excerpt</td><td>A one-line summary shown in the public article list.</td></tr>
+                                <tr><td>Body</td><td>The article text. Supports simple Markdown formatting.</td></tr>
+                                <tr><td>Published</td><td>Off saves a draft that users never see. Publishing stamps the publish date on first publish.</td></tr>
+                                <tr><td>Sort order</td><td>Manual ordering within a category.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>You can <strong>create</strong>, <strong>edit</strong>, <strong>toggle publish</strong> (publish/unpublish without opening the editor), and <strong>delete</strong> articles. Create, update, and delete actions are recorded in the audit log.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Save work-in-progress articles as drafts (Published off) &mdash; they stay hidden from users until you toggle them live. The view, helpful, and not-helpful counters are read-only here; they update automatically as customers read and vote on the public page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./announcements.html">Announcements</a> &mdash; the platform-wide marquee bar.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; the audit trail that records support and guidebook actions.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#support-inbox" class="toc-link">Support Inbox</a></li>
+                    <li class="toc-h2"><a href="#support-tools" class="toc-link">Agents, SLA, Playbooks &amp; Reports</a></li>
+                    <li class="toc-h2"><a href="#guidebook" class="toc-link">Guidebook (Knowledge Base)</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

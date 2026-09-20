@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Installer Wizard – WaDesk SaaS Docs</title>
+    <meta name="description" content="Web Installer Wizard — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Web Installer Wizard</h1>
+
+                    <section class="mb-12">
+                        <h2 id="video">Video Walkthrough</h2>
+                        <p>Prefer to watch? This short video walks through the full installation step by step: <a href="https://youtu.be/bCqlGv_Xaeo" target="_blank" rel="noopener"><strong>https://youtu.be/bCqlGv_Xaeo</strong></a></p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk ships with a built-in, browser-based <strong>install wizard</strong>. After you upload the files and create a database, just visit your domain &mdash; the first request is automatically redirected to <code>/install</code>, where a guided eight-step wizard sets everything up for you.</p>
+                        <p>The wizard writes your configuration file, creates the database tables, loads the default data the admin console needs (roles, plans, currencies, payment gateways, the in-app guidebook), creates your first super-admin account with a private workspace, and finally locks itself so it can never be re-run on a live install.</p>
+                        <blockquote class="info"><strong>No command line needed.</strong> The whole flow happens in the browser. The only prerequisite is that your server meets the <a href="./server-requirements.html">Server Requirements</a> and you have empty-database credentials ready.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inside-download">Inside the Download</h2>
+                        <p>When you buy WaDesk on CodeCanyon you download a single <strong>package ZIP</strong>. Extract it and you get <strong>four folders</strong> &mdash; but only <em>one</em> of them is the app you install. Here is what each contains and whether a first-time install needs it:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Folder</th><th>What's inside</th><th>Need it for a fresh install?</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Database</strong></td><td>A one-off database file used <em>only</em> for the manual <strong>v1.0.0 &rarr; v1.1.0</strong> upgrade.</td><td><strong>No.</strong> Brand-new installs skip this &mdash; it is only for existing v1.0.0 users upgrading to v1.1.0.</td></tr>
+                                <tr><td><strong>Documentation</strong></td><td>The full HTML guide for the project (the pages you are reading now). Open its <code>index.html</code> in a browser to read it offline.</td><td>Reference only &mdash; do <em>not</em> upload it to your server.</td></tr>
+                                <tr><td><strong>Update</strong></td><td>The version <strong>update ZIPs</strong> for the in-app updater (e.g. <code>update_1.7.zip</code>), used later to move an existing install to a newer release.</td><td>No &mdash; only when updating. See the <a href="../update-details/update-process.html">Update Process</a>.</td></tr>
+                                <tr><td><strong>WaDesk</strong></td><td>The actual application &mdash; the Laravel app, the bundled <code>node/</code> bridge, <code>public/</code>, and everything else that runs your site. <strong>This is what you install.</strong></td><td><strong>Yes</strong> &mdash; upload its contents (next section).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Only the <code>WaDesk</code> folder gets uploaded.</strong> The other three &mdash; <code>Database</code>, <code>Documentation</code>, and <code>Update</code> &mdash; stay on your computer. You never upload them to your web server for a fresh install.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="upload-files">Upload the App to Your Server</h2>
+                        <p>Open the <strong><code>WaDesk</code></strong> folder. Everything <em>inside</em> it &mdash; folders like <code>app/</code>, <code>config/</code>, <code>public/</code>, <code>node/</code>, <code>storage/</code>, and root files like <code>artisan</code> and <code>composer.json</code> &mdash; is the application. Upload the <strong>contents of the <code>WaDesk</code> folder</strong> (not the <code>WaDesk</code> folder itself) into your site's <strong>root folder</strong> (on most shared hosting that is <code>public_html</code>), using your hosting File Manager, FTP/SFTP, or SSH.</p>
+                        <blockquote class="info"><strong>Your site runs at <code>yourdomain.com/public</code> at first &mdash; that is normal.</strong> A Laravel app is served from its <code>public/</code> folder, so a fresh upload loads at <code>https://yourdomain.com/public</code>. To serve it cleanly at <code>https://yourdomain.com</code> (no <code>/public</code>), add the small <code>.htaccess</code> rewrite in <a href="#remove-public">Remove <code>public</code> From the URL</a> below &mdash; that is the standard way to do it.</blockquote>
+                        <h3>Set folder permissions</h3>
+                        <p>Make sure the web server can write to these two paths &mdash; the installer verifies them on its Requirements step (Step&nbsp;2):</p>
+                        <ul>
+                            <li><code>storage/</code> and its subfolders</li>
+                            <li><code>bootstrap/cache/</code></li>
+                        </ul>
+                        <pre>chmod -R 775 storage bootstrap/cache</pre>
+                        <p>On a VPS, also make the web-server user the owner (<code>chown -R www-data:www-data storage bootstrap/cache</code>). Full details are on the <a href="./server-requirements.html#file-permissions">Server Requirements</a> page.</p>
+                        <blockquote class="info"><strong>Next:</strong> with the files uploaded and an <a href="#before-you-begin">empty database</a> ready, visit your site in a browser. WaDesk detects it is not yet set up and redirects the first request to <code>/install</code> &mdash; the wizard below.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="before-you-begin">Before You Begin</h2>
+                        <p>Have these ready before you open the wizard:</p>
+                        <ul>
+                            <li>An <strong>empty MySQL 8 database</strong> plus a user with full privileges on it.</li>
+                            <li>Your <strong>site URL</strong> &mdash; the address WaDesk actually runs at, which the wizard saves as the application URL. On a fresh install this <em>includes</em> <code>/public</code>; use the clean domain only once you have removed <code>/public</code> (see <a href="#remove-public">Remove <code>public</code> From the URL</a>):
+                                <ul>
+                                    <li><strong>Main domain:</strong> <code>https://yourdomain.com/public</code></li>
+                                    <li><strong>Subdomain:</strong> <code>https://app.yourdomain.com/public</code></li>
+                                    <li><strong>Localhost (local test):</strong> <code>http://localhost/wadesk/public</code></li>
+                                </ul>
+                            </li>
+                            <li>The email and password you want for the <strong>first admin account</strong>.</li>
+                            <li>Write access to <code>storage/</code>, <code>bootstrap/cache/</code>, and the project root (so the installer can write <code>.env</code>).</li>
+                        </ul>
+                        <p>Then point your browser at your domain. A fresh install detects that it is not yet set up and redirects you straight to the <strong>Welcome</strong> screen.</p>
+
+                        <h3 id="remove-public">Remove <code>public</code> From the URL</h3>
+                        <p>A Laravel app is served from its <code>public/</code> folder, so a fresh install loads with <code>/public</code> in the address &mdash; for example <code>https://yourdomain.com/public</code>. This is normal. The <strong>standard way</strong> to serve the site cleanly at <code>https://yourdomain.com</code> is to create a <code>.htaccess</code> file in your <strong>project root folder</strong> (the folder where you uploaded the app, <em>above</em> <code>public/</code>) and add the following:</p>
+                        <pre>&lt;IfModule mod_rewrite.c&gt;
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+&lt;/IfModule&gt;</pre>
+                        <p>This rewrites every request into <code>public/</code>, so your site opens at <code>https://yourdomain.com</code> without <code>/public</code>. It needs Apache or LiteSpeed with <code>mod_rewrite</code> enabled. After removing <code>/public</code>, make sure the <strong>application URL</strong> saved by the wizard (stored in <code>.env</code> as <code>APP_URL</code>) is the clean address without <code>/public</code>.</p>
+                        <blockquote class="info"><strong>VPS alternative:</strong> instead of the <code>.htaccess</code> rewrite you can point the domain's document root directly at the <code>public/</code> folder &mdash; both give the same clean URL. See also the <a href="../faqs/installation.html#remove-public">Installation FAQ</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-1-welcome">Step 1 &mdash; Welcome</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/01-welcome.png" alt="WaDesk web installer — Welcome step" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>The opening screen introduces the process: <em>"Eight simple steps, about three minutes total."</em> It summarises what the wizard will do (verify the server, connect the database, seed defaults, create your admin login) and shows a short pre-flight checklist:</p>
+                        <ul>
+                            <li>An empty MySQL 8 database and a user with full privileges.</li>
+                            <li>PHP 8.2 or newer with the standard Laravel extension set.</li>
+                            <li>Write access to <code>storage/</code> and <code>bootstrap/cache/</code>.</li>
+                        </ul>
+                        <p>Click <strong>Begin installation</strong> to continue.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-2-requirements">Step 2 &mdash; Requirements</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/02-requirements.png" alt="WaDesk web installer — Requirements check" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>The wizard runs a live environment check against the host. You will see:</p>
+                        <ul>
+                            <li>A <strong>PHP version banner</strong> &mdash; green if you are on 8.2+, red if not.</li>
+                            <li>A <strong>PHP extensions</strong> grid with a tick or cross for each required extension (with an <code>n/total</code> counter).</li>
+                            <li>A <strong>Directories</strong> panel confirming each writable path (<code>storage</code>, <code>storage/app</code>, <code>storage/framework</code>, <code>bootstrap/cache</code>, <code>lang</code>, and <code>.env</code> writability).</li>
+                            <li>A <strong>PDO drivers</strong> panel that must list <code>mysql</code>.</li>
+                        </ul>
+                        <p>The <strong>Continue</strong> button is only enabled when <em>every</em> item passes. If something is marked in coral (red), fix it on the server, then reload the page &mdash; the check re-runs automatically. When everything is green, click <strong>Continue</strong>.</p>
+                        <blockquote class="warning"><strong>Most common blocker:</strong> a missing <code>gd</code> or <code>zip</code> extension, or a non-writable <code>.env</code>. Enable the extension in your PHP settings or fix folder permissions, then refresh. See <a href="./troubleshooting.html">Troubleshooting</a> for the exact fixes, or the <a href="../faqs/installation.html#errors">Installation FAQ</a> for the <em>ZipArchive</em> and <em>curl_init</em> extension errors.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-3-database">Step 3 &mdash; Database Connection</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/03-database.png" alt="WaDesk web installer — Database connection" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+
+                        <h3 id="create-database">Creating the Database</h3>
+                        <p>Before you fill in this step you need an <strong>empty MySQL database</strong> and a <strong>user with full privileges</strong> on it. Create them in your hosting control panel first, then enter the details in the wizard. Pick your panel below:</p>
+                        <div class="tabs-container">
+                            <div class="tabs-header">
+                                <button class="tab-btn active" data-tab="db-cpanel">cPanel</button>
+                                <button class="tab-btn" data-tab="db-hostinger">Hostinger</button>
+                                <button class="tab-btn" data-tab="db-plesk">Plesk</button>
+                                <button class="tab-btn" data-tab="db-aapanel">aaPanel</button>
+                                <button class="tab-btn" data-tab="db-phpmyadmin">phpMyAdmin</button>
+                            </div>
+                            <div class="tab-content active" id="db-cpanel">
+                                <p><strong>cPanel &rarr; MySQL&reg; Databases</strong></p>
+                                <ol>
+                                    <li>Open <strong>MySQL&reg; Databases</strong> (under the "Databases" section).</li>
+                                    <li>Under <strong>Create New Database</strong>, type a name such as <code>wadesk</code> and click <strong>Create Database</strong>. cPanel adds your account prefix, so the real name becomes something like <code>useracc_wadesk</code>.</li>
+                                    <li>Under <strong>MySQL Users &rarr; Add New User</strong>, create a user with a strong password (the full name will look like <code>useracc_wauser</code>).</li>
+                                    <li>Under <strong>Add User To Database</strong>, select the user and the database, click <strong>Add</strong>, tick <strong>ALL PRIVILEGES</strong>, then <strong>Make Changes</strong>.</li>
+                                </ol>
+                                <p>In the wizard use <strong>Host</strong> <code>localhost</code>, <strong>Port</strong> <code>3306</code>, and the <em>full prefixed</em> database name and username.</p>
+                            </div>
+                            <div class="tab-content" id="db-hostinger">
+                                <p><strong>Hostinger &rarr; hPanel Databases</strong></p>
+                                <ol>
+                                    <li>Open <strong>hPanel &rarr; Databases &rarr; Management</strong> (MySQL Databases).</li>
+                                    <li>Under <strong>Create a New MySQL Database</strong>, enter a database name and a username, and set a strong password. Hostinger adds an account prefix, so the real names look like <code>u123456789_wadesk</code> and <code>u123456789_wauser</code>.</li>
+                                    <li>Click <strong>Create</strong>. Hostinger automatically grants the new user full privileges on that database.</li>
+                                </ol>
+                                <p>In the wizard use <strong>Host</strong> <code>localhost</code>, <strong>Port</strong> <code>3306</code>, and the <em>full prefixed</em> database name and username. If <code>localhost</code> fails, Hostinger also shows a specific MySQL host on the same page &mdash; use that instead.</p>
+                            </div>
+                            <div class="tab-content" id="db-plesk">
+                                <p><strong>Plesk &rarr; Databases</strong></p>
+                                <ol>
+                                    <li>Go to <strong>Websites &amp; Domains &rarr; Databases</strong> and click <strong>Add Database</strong>.</li>
+                                    <li>Enter a database name such as <code>wadesk</code> and keep it related to your domain.</li>
+                                    <li>In the same dialog, under <strong>Users</strong>, add a database user with a strong password and leave access set to <strong>all tables</strong>.</li>
+                                    <li>Click <strong>OK</strong>. Plesk then shows the database name, user, and host together.</li>
+                                </ol>
+                                <p>In the wizard use the host Plesk shows (usually <code>localhost</code>), <strong>Port</strong> <code>3306</code>, and the database name and user you just created.</p>
+                            </div>
+                            <div class="tab-content" id="db-aapanel">
+                                <p><strong>aaPanel &rarr; Databases</strong></p>
+                                <ol>
+                                    <li>Open the <strong>Databases</strong> menu and click <strong>Add database</strong>.</li>
+                                    <li>Enter a database name such as <code>wadesk</code>; aaPanel auto-creates a matching user and lets you set the password.</li>
+                                    <li>Set <strong>Access permission</strong> to <strong>Everyone</strong> (or your server's IP), choose the <strong>utf8mb4</strong> character set if asked, then click <strong>Submit</strong>.</li>
+                                </ol>
+                                <p>In the wizard use <strong>Host</strong> <code>127.0.0.1</code>, <strong>Port</strong> <code>3306</code>, and the database name, user, and password you set.</p>
+                            </div>
+                            <div class="tab-content" id="db-phpmyadmin">
+                                <p><strong>phpMyAdmin</strong> &mdash; bundled with most panels, and with Laragon / XAMPP locally.</p>
+                                <ol>
+                                    <li>Open phpMyAdmin and click the <strong>Databases</strong> tab.</li>
+                                    <li>Under <strong>Create database</strong>, type a name such as <code>wadesk</code>, choose collation <strong>utf8mb4_general_ci</strong>, and click <strong>Create</strong>.</li>
+                                    <li><em>Optional:</em> create a dedicated user under <strong>User accounts &rarr; Add user account</strong>, set a password, tick <strong>Grant all privileges on database "wadesk"</strong>, and save. On a local machine you can simply use the built-in <code>root</code> user.</li>
+                                </ol>
+                                <p>In the wizard use <strong>Host</strong> <code>127.0.0.1</code>, <strong>Port</strong> <code>3306</code>, the database name, and the user and password (locally this is often <code>root</code> with an empty or default password).</p>
+                            </div>
+                        </div>
+                        <blockquote class="warning"><strong>Leave the database empty.</strong> Create the database and user only &mdash; do <em>not</em> add any tables. The wizard builds every table for you on the Installing step. Keep the name, user, and password handy for the fields below.</blockquote>
+
+                        <p>Point WaDesk at your empty database. MySQL is the only supported driver (shown as a fixed badge). Fill in:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>What to enter</th><th>Typical value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Host</strong></td><td>Database server address</td><td><code>127.0.0.1</code> or <code>localhost</code></td></tr>
+                                <tr><td><strong>Port</strong></td><td>MySQL port</td><td><code>3306</code></td></tr>
+                                <tr><td><strong>Database name</strong></td><td>Your empty database</td><td><code>wadesk</code></td></tr>
+                                <tr><td><strong>Username</strong></td><td>Database user</td><td>your DB user</td></tr>
+                                <tr><td><strong>Password</strong></td><td>That user's password</td><td>(your password)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Click <strong>Test connection</strong> first. The wizard opens a live PDO connection and shows a green "Connection successful" message, or a red error with the exact reason if it fails. Once the test passes, click <strong>Continue</strong> &mdash; your details are held in the install session (not yet written to disk).</p>
+                        <blockquote class="info"><strong>Tip:</strong> If the test fails, the most common causes are a wrong host (use <code>127.0.0.1</code> instead of <code>localhost</code> on some hosts), a user without privileges on that database, or the database not existing yet. If you see a <em>"Could not find driver"</em> error, see the <a href="../faqs/installation.html#no-driver">Installation FAQ</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-4-application">Step 4 &mdash; Application Basics</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/04-application.png" alt="WaDesk web installer — Application basics" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>Name your install and set its public identity:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Application name</strong></td><td>Shown across the app and in branding (you can rename it later in the admin panel). Defaults to "WaDesk".</td></tr>
+                                <tr><td><strong>Application URL</strong></td><td>Your full public URL, e.g. <code>https://app.example.com</code>. Used to build links, webhooks, and redirects &mdash; get this right.</td></tr>
+                                <tr><td><strong>Timezone</strong></td><td>Searchable list of all timezones; sets the default for scheduling and timestamps.</td></tr>
+                                <tr><td><strong>Default language</strong></td><td>The starting interface language (English, Spanish, Hindi, Arabic, and many more are bundled).</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Click <strong>Continue</strong>. These values are saved into your configuration during the install run.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-5-admin">Step 5 &mdash; Admin Account</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/05-admin.png" alt="WaDesk web installer — Admin account" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>Create your first <strong>super-admin</strong> login and its private workspace:</p>
+                        <ul>
+                            <li><strong>Full name</strong> &mdash; the admin's display name.</li>
+                            <li><strong>Email</strong> &mdash; your login email (also where password recovery would go once SMTP is configured).</li>
+                            <li><strong>Password</strong> and <strong>Confirm password</strong> &mdash; minimum 8 characters; stored securely (hashed, never in plain text).</li>
+                            <li><strong>Workspace name</strong> &mdash; WaDesk is multi-tenant, so your admin account ships with one private workspace pre-configured. You can rename it later from the admin panel.</li>
+                        </ul>
+                        <p>Click <strong>Create admin &amp; install</strong> to move to the install run.</p>
+                        <blockquote class="warning"><strong>Save your password now.</strong> The wizard never displays it again and does not keep it in the session beyond this step. Email recovery requires SMTP, which is configured later &mdash; so store the credentials in a password manager immediately.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-6-node">Step 6 &mdash; Node Bridge</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/06-node-bridge.png" alt="WaDesk web installer — Node bridge setup" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>This step wires WaDesk to its <strong>Node helper service</strong> &mdash; the Node.js bridge that carries sending and scheduling for <strong>every</strong> engine (Unofficial API, WhatsApp Cloud API, and Twilio), not just the Unofficial API. The installer wires it for you: nothing has to be matched up by hand afterwards &mdash; the wizard writes <em>both</em> environment files and uses the <em>same</em> shared secret on each side, so the two halves can always talk to each other. Fill in three fields:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Field</th><th>What to enter</th><th>Typical value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Node server URL</strong></td><td>Where the Node bridge listens. WaDesk sends messages to this address.</td><td><code>http://localhost:8888</code></td></tr>
+                                <tr><td><strong>Shared token</strong></td><td>The secret WaDesk and the bridge use to authenticate each other. <strong>Auto-generated</strong> &mdash; leave it as is, or paste your own.</td><td>(pre-filled)</td></tr>
+                                <tr><td><strong>Port</strong></td><td>The port the Node bridge listens on.</td><td><code>8888</code></td></tr>
+                            </tbody>
+                        </table>
+                        <p>When you continue, the installer writes the configuration to <strong>both</strong> sides automatically:</p>
+                        <ul>
+                            <li>Into WaDesk's Laravel <code>.env</code>: <code>SERVER_URL</code> (the Node server URL), <code>NODE_WEBHOOK_TOKEN</code> (the shared token), and <code>APP_URL</code>.</li>
+                            <li>Into the bridge's own <code>node/.env</code> (which lives inside the app folder): <code>PORT</code>, <code>APP_DOMAIN_NAME</code> (your app URL), and the <strong>same</strong> <code>NODE_WEBHOOK_TOKEN</code>.</li>
+                        </ul>
+                        <p>Because the installer writes the identical token to both files, the shared secret matches by construction &mdash; there is no manual copy-paste step and nothing to keep in sync.</p>
+                        <blockquote class="info"><strong>It's all wired for you.</strong> You no longer edit any <code>.env</code> by hand, set a CORS allowed-origins list, or paste the server URL into the browser extension. The installer handles the Node bridge environment, the shared secret, and the extension URL automatically.</blockquote>
+
+                        <h3 id="node-cpanel">Running the Node Bridge on cPanel</h3>
+                        <p>On a cPanel host you do not start the bridge from a terminal &mdash; cPanel runs and supervises it for you through its <strong>Setup Node.js App</strong> tool. The app ships with a cPanel-specific entry point, so the only work is pointing cPanel at the right folder and swapping in that file.</p>
+                        <ol>
+                            <li>In cPanel, open <strong>Setup Node.js App</strong> and click <strong>Create Application</strong>.</li>
+                            <li>Set the <strong>Application Root</strong> to your <code>domain/node</code> directory &mdash; the folder that contains the Node files.</li>
+                            <li>Set the <strong>Application URL</strong> to your domain and enter <code>node</code> as the URL path (for example <code>https://yourdomain.com/node</code>).</li>
+                            <li>Set the <strong>Application Startup File</strong> to <code>app.cjs</code>. This file is already included in the <code>node</code> folder &mdash; you do not need to create it.</li>
+                            <li>Inside the <code>node</code> folder, rename the existing <code>index.js</code> to <code>index-old.js</code>.</li>
+                            <li>Rename <code>index-cpanel.js</code> to <code>index.js</code>.</li>
+                            <li><strong>Save</strong>, then <strong>Restart</strong> the application from cPanel.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Why the file swap?</strong> <code>index.js</code> is written for a normal server where you start the process yourself. <code>index-cpanel.js</code> is the same bridge adapted to how cPanel's Passenger runtime loads an app. Keeping the original as <code>index-old.js</code> means you can swap back if you later move off cPanel.</blockquote>
+                        <blockquote class="warning"><strong>Repeat this after every update.</strong> An update ships a fresh <code>index.js</code>, which overwrites your renamed file &mdash; so after applying an update on cPanel, redo steps 5 and 6 and restart the application, or the bridge will not come back up.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-7-install">Step 7 &mdash; Installing</h2>
+                        <figure style="margin:1.2rem 0;"><img src="../../assets/install/07-installing.png" alt="WaDesk web installer — Installing progress" loading="lazy" style="max-width:100%;border:1px solid #e3e8e6;border-radius:10px;box-shadow:0 8px 24px -12px rgba(11,31,28,.3);display:block;"></figure>
+                        <p>This screen runs the actual installation as a sequence of six sub-steps, each shown with a live progress bar and timing. The wizard runs them one at a time so that if any sub-step fails, you can fix the cause and retry from exactly that point &mdash; without losing earlier work.</p>
+                        <ol>
+                            <li><strong>Configuration written</strong> &mdash; saves your settings, generates the app encryption key, and creates the shared secret the Node helper service uses to talk to WaDesk.</li>
+                            <li><strong>Database tables created.</strong></li>
+                            <li><strong>Essential data loaded</strong> &mdash; roles &amp; permissions, subscription plans, currencies, payment gateways, translation providers, checkout defaults, and the in-app guidebook.</li>
+                            <li><strong>Admin + workspace ready</strong> &mdash; creates your super-admin user and their private workspace, with you as the owner.</li>
+                            <li><strong>File permissions set</strong> &mdash; links public storage and creates the call-recordings folder.</li>
+                            <li><strong>Installation finalized</strong> &mdash; clears caches and writes the <code>storage/installed</code> marker that locks the wizard.</li>
+                        </ol>
+                        <p>The whole run usually takes 20&ndash;40 seconds. If a step fails, the wizard pauses and shows the error plus a <strong>Retry from failed step</strong> button. On success it shows "Installation complete" and takes you to the final screen automatically.</p>
+                        <blockquote class="info"><strong>Safe to retry:</strong> Each data-loading step can be re-run safely, so retrying a failed install will not create duplicate plans, roles, or gateways.</blockquote>
+                        <blockquote class="warning"><strong>Hit an error?</strong> Common install-time errors &mdash; a 419 page-expired, <em>"Could not find driver"</em>, <em>"Class 'ZipArchive' not found"</em>, <em>"No application encryption key"</em>, or a hidden <code>.env</code> &mdash; are covered in the <a href="../faqs/installation.html#errors">Installation FAQ</a> and on the <a href="./troubleshooting.html">Troubleshooting</a> page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-8-node-service">Step 8 &mdash; Start the Node Helper Service</h2>
+                        <p>The wizard <em>configured</em> the Node service, but it does not <em>start</em> it. You start it once and keep it running. <strong>This is required on every channel</strong> &mdash; the Node bridge carries the send path and runs the scheduler for the Unofficial API, the WhatsApp Cloud API (WABA), and Twilio alike. If it is not running, nothing sends and broadcasts / campaigns / scheduled messages pause. See <a href="../faqs/installation.html#node-required">Do I need Node.js even if I only use the official engines?</a></p>
+
+                        <blockquote class="warning"><strong>Keep it alive.</strong> Run the bridge under a process manager (PM2, systemd, Supervisor, or your panel's Node app manager) so it restarts automatically after a crash or a server reboot. A one-off <code>node index.js</code> stops the moment you close the terminal.</blockquote>
+
+                        <h3 id="node-vps">VPS / dedicated server (SSH) &mdash; recommended</h3>
+                        <p>From the app folder, install the bridge's dependencies once, then run it under PM2 so it auto-restarts and survives reboots:</p>
+<pre><code>cd node
+npm install                       # one time: install the bridge's dependencies
+npm install -g pm2                # a keep-alive process manager
+pm2 start index.js --name wadesk-bridge
+pm2 save
+pm2 startup                       # run the line it prints, so it auto-starts on reboot</code></pre>
+                        <p>Check it is running with <code>pm2 status</code> and view logs with <code>pm2 logs wadesk-bridge</code>. A <strong>systemd</strong> service or a <strong>Supervisor</strong> program running <code>node index.js</code> from the <code>node/</code> directory works equally well.</p>
+
+                        <h3 id="node-cpanel">cPanel &mdash; Setup Node.js App</h3>
+                        <p>No SSH needed &mdash; cPanel manages the process (Passenger/PM2) for you:</p>
+                        <ol>
+                            <li>cPanel &rarr; <strong>Setup Node.js App</strong> &rarr; <strong>Create Application</strong>.</li>
+                            <li><strong>Node.js version:</strong> 18 or newer.</li>
+                            <li><strong>Application mode:</strong> Production.</li>
+                            <li><strong>Application root:</strong> the app's <code>node</code> folder (e.g. <code>wadesk/node</code>).</li>
+                            <li><strong>Application startup file:</strong> <code>index.js</code>.</li>
+                            <li>Click <strong>Create</strong>, then <strong>Run NPM Install</strong>, then <strong>Start App</strong> (or <strong>Restart</strong>).</li>
+                        </ol>
+                        <blockquote class="info"><strong>Match the port &amp; URL.</strong> Whatever port cPanel assigns the Node app, that URL must equal the <strong>Node server URL</strong> from Step 6 (Admin &rarr; Settings &rarr; Providers). Leave the app <strong>Started</strong> &mdash; if you stop it, sending stops.</blockquote>
+
+                        <h3 id="node-plesk">Plesk &mdash; Node.js extension</h3>
+                        <ol>
+                            <li>Install the <strong>Node.js</strong> extension (Plesk &rarr; Extensions) if it isn't already.</li>
+                            <li>Open your domain &rarr; <strong>Node.js</strong>.</li>
+                            <li>Set <strong>Node.js version</strong> to 18+, <strong>Application Root</strong> to the <code>node</code> folder, and <strong>Application Startup File</strong> to <code>index.js</code>.</li>
+                            <li>Click <strong>NPM Install</strong>, then <strong>Enable Node.js</strong> (or <strong>Restart App</strong>).</li>
+                        </ol>
+
+                        <h3 id="node-windows">Windows / other hosts</h3>
+                        <p>Run <code>node index.js</code> from the <code>node/</code> folder under a service wrapper (e.g. <strong>NSSM</strong> on Windows, or systemd on Linux) so it starts on boot and restarts on crash.</p>
+
+                        <blockquote class="info"><strong>No Node.js on your host?</strong> Then WaDesk cannot send on any channel. Move to a host that offers Node.js, or run the <code>node/</code> service on a small separate server and set its public URL as the <strong>Node server URL</strong> in Admin &rarr; Settings &rarr; Providers.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#video" class="toc-link">Video Walkthrough</a></li>
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#inside-download" class="toc-link">Inside the Download</a></li>
+                    <li class="toc-h2"><a href="#upload-files" class="toc-link">Upload the App to Your Server</a></li>
+                    <li class="toc-h2"><a href="#before-you-begin" class="toc-link">Before You Begin</a></li>
+                    <li class="toc-h3"><a href="#remove-public" class="toc-link">Remove public From the URL</a></li>
+                    <li class="toc-h2"><a href="#step-1-welcome" class="toc-link">Step 1 &mdash; Welcome</a></li>
+                    <li class="toc-h2"><a href="#step-2-requirements" class="toc-link">Step 2 &mdash; Requirements</a></li>
+                    <li class="toc-h2"><a href="#step-3-database" class="toc-link">Step 3 &mdash; Database Connection</a></li>
+                    <li class="toc-h3"><a href="#create-database" class="toc-link">Creating the Database</a></li>
+                    <li class="toc-h2"><a href="#step-4-application" class="toc-link">Step 4 &mdash; Application Basics</a></li>
+                    <li class="toc-h2"><a href="#step-5-admin" class="toc-link">Step 5 &mdash; Admin Account</a></li>
+                    <li class="toc-h2"><a href="#step-6-node" class="toc-link">Step 6 &mdash; Node Bridge</a></li>
+                    <li class="toc-h2"><a href="#step-7-install" class="toc-link">Step 7 &mdash; Installing</a></li>
+                    <li class="toc-h2"><a href="#step-8-node-service" class="toc-link">Step 8 &mdash; Start the Node Service</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

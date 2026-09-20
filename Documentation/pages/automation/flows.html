@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flows (Visual Builder) – WaDesk SaaS Docs</title>
+    <meta name="description" content="Flows (Visual Builder) — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Flows (Visual Builder)</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Flows</strong> are visual automations that guide a WhatsApp conversation step by step: send a message, ask a question, branch on the answer, wait, call an AI model, book an appointment, add a row to Google Sheets, sell a product, and more. Find them under <strong>Flows</strong> in the navigation, where you build them on a drag-and-drop canvas.</p>
+                        <p>A flow is made of <strong>steps</strong> (called nodes) joined by <strong>connectors</strong> that show the path from one step to the next. Exactly one step is the <strong>trigger</strong> — the entry point that decides which contacts enter the flow and when. You design the flow on the canvas; when you save, it's stored securely, and when it runs, WaDesk walks through the steps one by one and sends the right WhatsApp message for however your number is connected.</p>
+                        <blockquote class="info"><strong>Works with any setup.</strong> The builder works on all three WhatsApp connections. The same step sends correctly whether your number runs on the Unofficial API, the official Cloud API, or Twilio. Where a connection can't show something the normal way (Twilio has no tappable buttons or lists, for example), WaDesk falls back to a numbered text menu and reads the number the customer types back. See <a href="#engine-notes">Engine notes</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="concepts">Core Concepts</h2>
+                        <ul>
+                            <li><strong>Draft &rarr; Live &rarr; Paused:</strong> a new flow starts as a <em>draft</em>. Publishing makes it <em>live</em>. Turning a live flow off makes it <em>paused</em> — it stops running but keeps its design. The list shows each flow as live, paused, or draft.</li>
+                            <li><strong>Trigger step:</strong> exactly one per flow, always the first step. Every save records the trigger so WaDesk can quickly find which flows a tag or group should start, without opening the whole flow.</li>
+                            <li><strong>Variables &amp; merge tags:</strong> question steps save the customer's answer into a named variable. Reuse it later in any message with a <code>{{var}}</code> tag (for example <code>Thanks {{name}}!</code>). WaDesk fills in the saved value when the message is sent.</li>
+                            <li><strong>Branches:</strong> some steps split the path. A Condition has <strong>yes</strong> / <strong>no</strong>; Book Appointment has <strong>booked</strong> / <strong>no slots</strong>; commerce steps have <strong>purchased</strong> / <strong>abandoned</strong>; multiple-option steps (Buttons, List, Poll) give you one branch per option. Wire each branch to a different next step.</li>
+                            <li><strong>Subscribers:</strong> every contact running through a flow is a <em>subscriber</em>, shown as active, paused, completed, or failed. You can view and pause/resume them per flow.</li>
+                            <li><strong>Scoped to workspace and connection:</strong> flows belong to a workspace, and the list shows the flows for your workspace's current WhatsApp connection. Any teammate with the admin role can build and manage them.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="triggers">Triggers</h2>
+                        <p>The trigger's <strong>type</strong> decides how contacts enter the flow. There are four types:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Trigger type</th><th>Fires when</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Keyword</strong></td><td>A customer sends a WhatsApp message matching one of your keywords (e.g. <code>hi, hello, start</code>).</td></tr>
+                                <tr><td><strong>Tag added</strong></td><td>A specific tag is added to a contact (manually, by a rule, or by a Tag step in another flow).</td></tr>
+                                <tr><td><strong>Group join</strong></td><td>A contact is added to a specific contact group.</td></tr>
+                                <tr><td><strong>Manual enroll</strong></td><td>You add contacts in by hand from the flow's <em>Enroll</em> action (by selecting contacts or a group).</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="set-trigger">Setting the trigger</h3>
+                        <ol>
+                            <li>Open the flow and click the <strong>trigger</strong> step (always first on the canvas).</li>
+                            <li>In the side panel pick the <strong>type</strong>: Keyword, Tag added, Group join, or Manual enroll.</li>
+                            <li>For <strong>Keyword</strong>, type a comma-separated list of keywords.</li>
+                            <li>For <strong>Tag added</strong> / <strong>Group join</strong>, choose the tag or group from the dropdown (your real tags and groups are listed, so you just pick one).</li>
+                            <li>Optionally bind a <strong>device</strong> (see <a href="#device-binding">Device binding</a>) to decide which connected number launches the flow.</li>
+                            <li>Save the flow. If you later rename a tag or change the trigger type, just save again to keep everything in sync.</li>
+                        </ol>
+                        <blockquote class="info"><strong>How matching works.</strong> When a tag is added or a contact joins a group, WaDesk finds the <em>published and active</em> flows whose trigger matches and adds the contact to each. Keyword triggers are matched against incoming messages. A draft or paused flow never enrolls anyone.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="node-reference">Step Reference</h2>
+                        <p>The palette groups steps by purpose. The tables below list every step you can use. "Branches" shows where you can wire the path onward from that step.</p>
+
+                        <h3 id="messaging-nodes">Messaging steps</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Step</th><th>What it does</th><th>Branches</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Message</strong></td><td>Send a single text message (can include <code>{{var}}</code> personalisation).</td><td>One path onward</td></tr>
+                                <tr><td><strong>Sequence</strong></td><td>Send several replies in order — text, image, video, audio, or document — as one step, with a short pause between each.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Media</strong></td><td>Send one image, video, audio, or document, with an optional caption.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Template</strong></td><td>Send an approved WhatsApp template by name. WaDesk loads its content when you save, so it sends fast.</td><td>One path onward</td></tr>
+                                <tr><td><strong>CTA</strong></td><td>Action buttons — up to 3, combining Visit (link), Call (phone), and Copy (code). On the official Cloud API only one link shows as a tappable button; the rest appear in the text.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Location</strong></td><td>Send a location pin (name, address, coordinates).</td><td>One path onward</td></tr>
+                                <tr><td><strong>Poll</strong></td><td>Send a poll with 2&ndash;12 options; optionally allow multiple choices.</td><td>One per option</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="input-nodes">Input &amp; branching steps</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Step</th><th>What it does</th><th>Branches</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Ask</strong></td><td>Ask a question and save the typed answer to a variable. You can require the answer to be a valid email, phone, or number. If you list expected answers, the reply is routed down the matching branch.</td><td>One per expected answer, or one path onward</td></tr>
+                                <tr><td><strong>Buttons</strong></td><td>Reply buttons (max 3). Each option gives you a branch so you can react to the tap.</td><td>One per option</td></tr>
+                                <tr><td><strong>List</strong></td><td>An interactive list (up to 10 rows). Each option gives you a branch. You can set the "open list" button label.</td><td>One per option</td></tr>
+                                <tr><td><strong>Condition</strong></td><td>Split the path based on one or more variable rules combined with AND/OR.</td><td>yes / no</td></tr>
+                                <tr><td><strong>Delay</strong></td><td>Wait a set amount of time (seconds, minutes, hours, or days) before continuing.</td><td>One path onward</td></tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Condition checks:</strong> equals, does not equal, contains, does not contain, greater than, less than, and is empty. Text comparisons ignore capitalisation and surrounding spaces; greater than / less than treat both sides as numbers. With several rules, you choose AND/OR between them; the flow takes the first match.</p>
+
+                        <h3 id="ai-action-nodes">AI, actions &amp; integrations</h3>
+                        <table>
+                            <thead>
+                                <tr><th>Step</th><th>What it does</th><th>Branches</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>AI assistant</strong></td><td>Ask an AI model a question (with the conversation as context), then save and send the reply. You can only pick the providers your admin enabled.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Chatbot</strong></td><td>Hand the conversation to one of your AI agents for a self-contained chat.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Tag</strong></td><td>Add or remove a tag on the contact. Use an existing tag or type a new name to create one.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Assign agent</strong></td><td>Hand the conversation to a team queue (or a specific agent) with an internal note.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Webhook</strong></td><td>Call another system over the internet (your variables can be inserted into the request) and optionally save the response to a variable.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Sub-flow</strong></td><td>Run another flow, then come back and continue this one.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Book appointment</strong></td><td>Offer open slots as a list, book the chosen one on your calendar, and confirm.</td><td>booked / no slots</td></tr>
+                                <tr><td><strong>Google Meet</strong></td><td>Create a Google Meet link and send it during the flow, with a lead time before the meeting starts.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Google Sheets</strong></td><td>Add a row to a spreadsheet, or look up a row by a matching value and save its cells into variables.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Google Docs</strong></td><td>Copy a template document, fill in the placeholders, share it with anyone who has the link, and send the link.</td><td>One path onward</td></tr>
+                                <tr><td><strong>Google Form</strong></td><td>Send a Google Form link and pause; the flow continues once the form is submitted.</td><td>Continues on submit</td></tr>
+                                <tr><td><strong>WhatsApp Form</strong></td><td>Send a published WhatsApp Form as an interactive message. <em>Official Cloud API only.</em></td><td>One path onward</td></tr>
+                                <tr><td><strong>WhatsApp Shop</strong> / <strong>WooCommerce</strong> / <strong>Shopify</strong></td><td>Send a product list or catalog and watch for a purchase. The <strong>purchased</strong> branch runs when the customer buys; <strong>abandoned</strong> runs after the wait time if they don't.</td><td>purchased / abandoned</td></tr>
+                                <tr><td><strong>End</strong></td><td>Stop this branch of the flow.</td><td>&mdash;</td></tr>
+                            </tbody>
+                        </table>
+                        <p>If a step ever can't be understood (for example, after a future change), it's skipped with a warning rather than breaking the whole flow.</p>
+                        <blockquote class="info"><strong>Connection notes (quick view):</strong> the <em>WhatsApp Form</em> step only works on the official Cloud API connection. The Google steps need the workspace's Google account connected (the same connection used for Calendar). On Twilio, the tappable steps (Buttons, List, CTA) become numbered text. Full detail in <a href="#engine-notes">Engine notes</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="build">Build &amp; Connect a Flow</h2>
+                        <ol>
+                            <li>Go to <strong>Flows</strong> and click <strong>Create Flow</strong> (or open an existing one to edit).</li>
+                            <li>Give the flow a <strong>name</strong> and optional <strong>category</strong>.</li>
+                            <li>Set up the <strong>trigger</strong> step first — pick the type and, where relevant, the tag, group, or keywords (see <a href="#set-trigger">Setting the trigger</a>).</li>
+                            <li>Drag steps from the palette onto the canvas. The layout reads left to right.</li>
+                            <li><strong>Connect steps:</strong> drag from a step's output to the next step. Branching steps have several branches — wire each to a different next step. For a Condition, wire <strong>yes</strong> and <strong>no</strong>; for Buttons/List, wire one per option; for commerce, wire <strong>purchased</strong> and <strong>abandoned</strong>.</li>
+                            <li>Open each step and fill in its settings. Use <code>{{var}}</code> tags in any message to reuse answers captured by earlier <em>Ask</em> steps.</li>
+                            <li>End every branch with an <strong>End</strong> step (or a final message). An unconnected branch simply ends the flow there.</li>
+                            <li>Click <strong>Save</strong>. The flow is stored, ready to run.</li>
+                            <li>Click <strong>Publish</strong> to make it live. Use <strong>Pause</strong> later to stop enrolling new contacts without deleting it.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Variables tip.</strong> An <em>Ask</em> step saves into the variable you name (default <code>answer</code>); Buttons/List save into <code>choice</code> by default; the AI assistant saves into <code>reply</code>; a Webhook saves the response into <code>response</code>. Pick clear names and reuse them as <code>{{name}}</code>, <code>{{choice}}</code>, etc.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-generate">Build with AI</h2>
+                        <p>The builder can generate a starter flow from a plain-language description. Describe the automation (for example, "Greet the customer, ask their name, then offer a list of services and book an appointment") and WaDesk drafts a full flow — steps and connections — onto the canvas for you to refine.</p>
+                        <ol>
+                            <li>Open the builder and start <strong>AI generate</strong>.</li>
+                            <li>Pick a <strong>provider</strong> and <strong>model</strong> — you can only pick the ones your admin enabled.</li>
+                            <li>Type your description (up to 2000 characters) and generate.</li>
+                            <li>Review and edit the result, then save and publish as usual.</li>
+                        </ol>
+                        <p><strong>How it works:</strong> the AI is instructed to build a clean flow — one trigger first, every branch finished, a left-to-right layout, <code>{{var}}</code> tags, and no emojis — and the result is capped to a sensible size (up to 20 steps) before it appears on the canvas. You'll get a clear error if the provider isn't enabled or the AI returns something unusable.</p>
+                        <blockquote class="warning"><strong>Always review generated flows.</strong> The AI produces a <em>starting point</em>. Check the trigger, the wording, every branch, and any device/tag/group choices before publishing — and test against your own number first.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="device-binding">Device Binding</h2>
+                        <p>A flow sends from one of the workspace's connected numbers. You can pick a specific number on the trigger step, or leave it unset to use the workspace default.</p>
+                        <ul>
+                            <li>The number picker matches your connection: on the Unofficial API it lists your paired, active phones; on the official Cloud API or Twilio it lists your connected numbers.</li>
+                            <li>If you pick a number, the flow uses it — as long as it's still active and in this workspace.</li>
+                            <li>If you don't pick one (or the chosen one is gone), the flow uses the workspace's first active number.</li>
+                            <li>If no number is available when the flow tries to launch, the subscriber is marked <strong>failed</strong> with "No connected device for this workspace" — connect a number and enroll the contact again.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="pickers-media">Google, Commerce &amp; Media Pickers</h2>
+                        <ul>
+                            <li><strong>Google pickers.</strong> The Google Sheets / Docs / Form steps let you pick a real spreadsheet, template document, or form from your connected Google account, and match its placeholders or columns to flow variables. These steps need the workspace's Google account connected — the same connection used for Calendar and appointments.</li>
+                            <li><strong>Commerce pickers.</strong> The WhatsApp Shop / WooCommerce / Shopify steps let you pick a <strong>store</strong> and then choose products from it. Product details (name, image, price) are saved with the step so the cards display instantly. Older flows keep working — their products are upgraded automatically.</li>
+                            <li><strong>Media upload.</strong> The Media and Sequence steps accept image, video, audio, and document files. Uploads are capped at <strong>50&nbsp;MB</strong>.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enroll-subscribers">Enrolling &amp; Subscribers</h2>
+                        <ul>
+                            <li><strong>Keyword / tag / group flows</strong> enroll contacts automatically when the matching event happens — but only while the flow is published and active.</li>
+                            <li><strong>Manual-enroll flows</strong> are added by you: open the flow, choose contacts or a group, and enroll. The flow must be active. Enrolling the same contact twice does nothing if they're already running; a contact who previously failed gets retried.</li>
+                            <li><strong>Subscriber states:</strong> active, paused, completed, failed. The flow's detail panel lists subscribers with their state, when they were enrolled, and any failure reason; the flows list shows active/completed/failed counts per flow.</li>
+                            <li><strong>Pause / resume a subscriber:</strong> pausing keeps that contact from being re-enrolled by tag/group triggers while you keep them muted. It doesn't stop a conversation already in progress. Resuming clears the pause and any failure, but deliberately doesn't restart the flow (that would double up on contacts mid-conversation).</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Ban safety.</strong> Flows send real WhatsApp messages. On the Unofficial API engine, aggressive automated sends to many cold numbers are a fast path to a number ban. Keep delays sensible, only enroll contacts who opted in, and avoid blasting identical messages to large audiences. Test new flows against your own number before going live.</blockquote>
+                        <blockquote class="warning"><strong>Do not test with live sends to real contacts.</strong> A published flow on a connected workspace will actually message people. When testing, use a throwaway test contact you control — never enroll a real audience just to "see if it works".</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="runtime">How a flow runs</h2>
+                        <p>When a contact is enrolled, WaDesk starts a live conversation for that customer and works through the steps:</p>
+                        <ul>
+                            <li><strong>Step by step.</strong> The flow begins at the first step and follows the connections. After each step it takes the branch the customer's reply chose and runs the next step. When a branch has nothing connected, that path ends.</li>
+                            <li><strong>Reading replies.</strong> For Buttons, List, Poll, and Ask-with-options, the customer's reply chooses a branch. WhatsApp can send a reply in several different forms, and WaDesk understands all of them, so a tap is routed correctly on any device or carrier. Typing a plain number ("1", "2"…) also works as a fallback.</li>
+                            <li><strong>1-hour wait window.</strong> A step that waits for the customer (List, Buttons, Ask, Poll, commerce) keeps the conversation open for up to <strong>1 hour</strong>. Idle conversations are cleaned up after that — long enough for a person to read and tap, short enough not to pile up.</li>
+                            <li><strong>Delays.</strong> A Delay step simply waits the time you set before moving on.</li>
+                            <li><strong>Commerce waits.</strong> A commerce step pauses for the wait time you set. If the customer buys, the flow takes the <strong>purchased</strong> branch; if the time runs out first, it takes <strong>abandoned</strong>. The conversation isn't cancelled while waiting — a late reply can still produce a checkout link.</li>
+                            <li><strong>Appointments.</strong> Book Appointment fetches open slots, sends them as a list, books the chosen one on your calendar, sends a confirmation, and takes the <strong>booked</strong> branch (or <strong>no slots</strong> if nothing is free or the reply can't be matched).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engine-notes">Engine Notes</h2>
+                        <p>Each step is sent through your workspace's current WhatsApp connection. Behaviour differs as follows:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Capability</th><th>Unofficial API</th><th>Official Cloud API</th><th>Twilio</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Text / media / location</td><td>Full support</td><td>Full support</td><td>Full support</td></tr>
+                                <tr><td>Buttons</td><td>Tappable buttons</td><td>Tappable (max 3, labels trimmed to 20 characters)</td><td><strong>Falls back</strong> to numbered text; customer types the number</td></tr>
+                                <tr><td>List</td><td>Tappable list</td><td>Tappable (up to 10 sections of 10 rows)</td><td><strong>Falls back</strong> to numbered text</td></tr>
+                                <tr><td>CTA link</td><td>Tappable</td><td>One tappable link button</td><td>Link shown in the message text</td></tr>
+                                <tr><td>Template</td><td>Sent as plain text</td><td>Sent as an approved template</td><td>Approved Twilio template if set up, otherwise plain text</td></tr>
+                                <tr><td>WhatsApp Form</td><td>Not available</td><td>Supported</td><td>Not available</td></tr>
+                                <tr><td>Commerce (catalog / products)</td><td>Product cards + checkout link</td><td>Native product list / single product</td><td>Product cards + checkout link</td></tr>
+                            </tbody>
+                        </table>
+                        <ul>
+                            <li><strong>Tappable steps fall back on Twilio.</strong> Twilio handles interactive content differently, so WaDesk shows a numbered text menu and reads the number the customer types. Flows stay fully usable on Twilio.</li>
+                            <li><strong>WhatsApp Form is Cloud API only.</strong> The step does nothing on the Unofficial API or Twilio; it needs a published WhatsApp Form.</li>
+                            <li><strong>Google steps need the Google connection.</strong> Connect Google (the same one used for Calendar and appointments) before using Sheets, Docs, Form, or Meet.</li>
+                            <li><strong>Branding footer.</strong> If your plan adds a branding footer, it's automatically added to outgoing text and interactive messages (templates excepted).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Manage Flows</h2>
+                        <ul>
+                            <li><strong>Duplicate:</strong> copies a flow as a fresh <em>draft</em> (titled " (Copy)") so you can iterate without touching the live version.</li>
+                            <li><strong>Pause / resume:</strong> a paused flow stops enrolling new contacts but keeps its design.</li>
+                            <li><strong>Publish / Unpublish:</strong> publishing makes the flow live; unpublishing returns it to draft.</li>
+                            <li><strong>Delete:</strong> removes the flow. Flows belong to your workspace; teammates in the same workspace can manage them.</li>
+                            <li><strong>Filter:</strong> the list filters by status (live / paused / draft), category, and name, and highlights your most-used flows.</li>
+                            <li><strong>Plan limits:</strong> your plan sets how many flows you can create. Editing existing flows doesn't count against the limit.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Contacts aren't being enrolled by a tag/group trigger</td><td>The flow must be both <strong>published and active</strong>, and the trigger's tag/group must match. Save the flow again after editing the trigger.</td></tr>
+                                <tr><td>Subscriber shows <strong>failed</strong> — "No connected device"</td><td>No active number in the workspace when the flow tried to launch. Connect a number (or pick one on the trigger) and enroll again.</td></tr>
+                                <tr><td>Subscriber failed — "Contact has no usable mobile number"</td><td>The contact has no valid phone. Fix the contact, then enroll again.</td></tr>
+                                <tr><td>Subscriber failed — a connection / server error</td><td>The flow engine couldn't be reached. Confirm it's set up and running in admin settings.</td></tr>
+                                <tr><td>Buttons / list show as a numbered text menu</td><td>Expected on Twilio. The customer types the number and it routes to the right branch.</td></tr>
+                                <tr><td>The "abandoned" branch never fires</td><td>Connect the <strong>abandoned</strong> branch on the commerce step — an unconnected branch just ends the flow. Also confirm a wait time is set.</td></tr>
+                                <tr><td>WhatsApp Form step does nothing</td><td>It is Cloud API only and needs a <strong>published</strong> WhatsApp Form. Publish the form first.</td></tr>
+                                <tr><td>AI generate / AI step fails</td><td>The provider must be enabled by your admin. Pick an enabled provider/model, or contact your admin. If it reports "no workspace", refresh the page.</td></tr>
+                                <tr><td>Flow times out mid-conversation</td><td>Steps that wait for a reply give the customer 1 hour. If they don't respond in time the conversation ends — they'll need to start the flow again.</td></tr>
+                                <tr><td>Can't create another flow</td><td>You've hit your plan's flow limit. Delete an unused flow or upgrade.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#concepts" class="toc-link">Core Concepts</a></li>
+                    <li class="toc-h2"><a href="#triggers" class="toc-link">Triggers</a></li>
+                    <li class="toc-h2"><a href="#node-reference" class="toc-link">Step Reference</a></li>
+                    <li class="toc-h2"><a href="#build" class="toc-link">Build &amp; Connect a Flow</a></li>
+                    <li class="toc-h2"><a href="#ai-generate" class="toc-link">Build with AI</a></li>
+                    <li class="toc-h2"><a href="#device-binding" class="toc-link">Device Binding</a></li>
+                    <li class="toc-h2"><a href="#pickers-media" class="toc-link">Google, Commerce &amp; Media</a></li>
+                    <li class="toc-h2"><a href="#enroll-subscribers" class="toc-link">Enrolling &amp; Subscribers</a></li>
+                    <li class="toc-h2"><a href="#runtime" class="toc-link">How a flow runs</a></li>
+                    <li class="toc-h2"><a href="#engine-notes" class="toc-link">Engine Notes</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Manage Flows</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

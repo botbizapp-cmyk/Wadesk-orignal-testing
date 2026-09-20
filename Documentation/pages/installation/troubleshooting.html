@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting – WaDesk SaaS Docs</title>
+    <meta name="description" content="Troubleshooting — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Troubleshooting</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>This page lists the most common install-time and runtime issues, each as <strong>problem &rarr; cause &rarr; fix</strong>. Most install problems come down to file permissions, PHP extensions, or the database; most runtime problems come down to the Node helper service or its shared secret.</p>
+                        <blockquote class="info"><strong>First place to look:</strong> the log file at <code>storage/logs/laravel.log</code> usually contains the exact error. For the helper service, check its console output (or <code>pm2 logs</code> if you run it under PM2).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="storage-permissions">Storage / Permission Errors</h2>
+                        <p><strong>Problem:</strong> The installer's Requirements step shows a red cross on <code>storage</code>, <code>bootstrap/cache</code>, or <code>.env writable</code> &mdash; or after install you see "failed to open stream: Permission denied" or "The stream or file could not be opened".</p>
+                        <p><strong>Cause:</strong> The web-server user cannot write to the folders Laravel needs, or cannot write the <code>.env</code> file the installer must create.</p>
+                        <p><strong>Fix:</strong> Make the two writable folders owned by the web-server user with <code>775</code> permissions, and ensure the project root / <code>.env</code> is writable:</p>
+                        <pre>chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache</pre>
+                        <p>On cPanel/shared hosting, use the File Manager to set <code>storage</code> and <code>bootstrap/cache</code> (and their subfolders) to <code>755</code> or <code>775</code>. Then reload the Requirements page &mdash; the check re-runs automatically, no need to restart the wizard.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="missing-extension">Requirements Step Won't Pass</h2>
+                        <p><strong>Problem:</strong> A PHP extension shows a cross, or the PDO panel does not list <code>mysql</code>, and the <strong>Continue</strong> button stays disabled.</p>
+                        <p><strong>Cause:</strong> A required PHP extension (commonly <code>gd</code>, <code>zip</code>, or <code>pdo_mysql</code>) is not enabled for the active PHP version.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li><strong>cPanel:</strong> "Select PHP Version" &rarr; Extensions tab &rarr; tick the missing extension.</li>
+                            <li><strong>Plesk:</strong> "PHP Settings" &rarr; enable the extension.</li>
+                            <li><strong>VPS:</strong> install the package, e.g. <code>apt install php8.2-gd php8.2-zip php8.2-mysql</code>, then restart PHP-FPM.</li>
+                        </ul>
+                        <p>Confirm the web PHP version matches your CLI PHP version &mdash; some hosts run different builds for each. Reload the page after enabling.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="db-connection">Database Connection Fails</h2>
+                        <p><strong>Problem:</strong> On the Database step, <strong>Test connection</strong> returns a red error such as "Access denied", "Unknown database", or "Connection refused".</p>
+                        <p><strong>Cause:</strong> Wrong host, a database that does not exist, or a user without privileges on it.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li><strong>Access denied:</strong> Verify the username/password and that the user is granted privileges on this specific database.</li>
+                            <li><strong>Unknown database:</strong> Create the empty database first, then re-test.</li>
+                            <li><strong>Connection refused / can't connect:</strong> Try <code>127.0.0.1</code> instead of <code>localhost</code> (or vice versa), confirm the port (default <code>3306</code>), and make sure MySQL is running.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> The test uses a live PDO connection with the exact values you typed, so the error message it shows is the real database error &mdash; read it literally.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="csrf-419">Forms Return 419 / Page Expired During Install</h2>
+                        <p><strong>Problem:</strong> Submitting a wizard step returns a "419 Page Expired" error.</p>
+                        <p><strong>Cause:</strong> The application key could not be written, or the install session cookie was lost &mdash; usually because <code>.env</code> (or the project root) was not writable when the wizard first loaded.</p>
+                        <p><strong>Fix:</strong> Make the project root and <code>.env</code> writable (see <a href="#storage-permissions">Storage / Permission Errors</a>), then revisit <code>/install</code> from the start. WaDesk auto-generates a valid <code>APP_KEY</code> on first load when the file is writable, which is what signs the CSRF tokens.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="blank-page">Blank White Page After Install (500 Error)</h2>
+                        <p><strong>Problem:</strong> The site loads a completely blank page, or a generic 500, after installation.</p>
+                        <p><strong>Cause:</strong> A server-side error &mdash; commonly stale cached config pointing at the wrong values, lingering permission issues, or a missing PHP extension on the web (FPM) PHP build.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ol>
+                            <li>Open <code>storage/logs/laravel.log</code> and read the latest entry &mdash; it names the exact problem.</li>
+                            <li>Clear cached config and views:</li>
+                        </ol>
+                        <pre>php artisan optimize:clear</pre>
+                        <p>Re-check folder permissions and confirm the web-facing PHP version has all required extensions. The installer's last step already clears caches, so a blank page usually means a permission or extension issue rather than cache.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="redirect-install">Site Keeps Redirecting to /install (or Won't Leave It)</h2>
+                        <p><strong>Problem:</strong> Every page bounces back to <code>/install</code> even though you finished &mdash; or, conversely, you cannot reach <code>/install</code> at all.</p>
+                        <p><strong>Cause:</strong> WaDesk treats the file <code>storage/installed</code> as the "installed" flag. If it is missing, the app assumes a fresh install and redirects to the wizard; if it exists, the wizard redirects back to the homepage.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li><strong>Stuck on /install after finishing:</strong> Confirm the final install step succeeded and that <code>storage/installed</code> exists and is readable. If the last step failed to write it (permissions), fix permissions and re-run the final step.</li>
+                            <li><strong>Want to reinstall from scratch:</strong> Only then delete <code>storage/installed</code> and use an empty database. Never do this on a live install with real data.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="bridge-offline">Helper Service Offline / Sends Not Going Out</h2>
+                        <p><strong>Problem:</strong> Unofficial API messages do not send, devices show as disconnected, or status updates never arrive.</p>
+                        <p><strong>Cause:</strong> The Node helper service is not running, WaDesk does not know its URL, or the shared secret does not match.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ol>
+                            <li>Confirm the service is alive: <code>pm2 status</code> (or start it with <code>node index.js</code> from the <code>node/</code> folder).</li>
+                            <li>Confirm the service URL is set in the admin panel under <strong>Settings &rarr; Providers</strong> ("Default Node server URL"), e.g. <code>http://localhost:8888</code>, and that the port matches <code>PORT</code> in <code>node/.env</code>.</li>
+                            <li>Confirm <code>NODE_WEBHOOK_TOKEN</code> is <strong>identical</strong> in <code>node/.env</code> and WaDesk's own <code>.env</code>. A mismatch makes WaDesk reject the service's updates, so sends and status updates silently fail.</li>
+                            <li>If you see CORS errors in the browser console, confirm your domain is in the service's allowed-origins list.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>It must stay up:</strong> The helper service also runs the scheduler for bulk campaigns, scheduled, and recurring sends on the Unofficial API. If it stops, those pause until it restarts &mdash; always run it under PM2, systemd, or Supervisor in production.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="qr-not-generating">QR Code Won't Generate</h2>
+                        <p><strong>Problem:</strong> On the device connect screen, clicking <strong>Generate QR</strong> shows nothing, spins forever, or errors.</p>
+                        <p><strong>Cause:</strong> WaDesk cannot reach the helper service to start a session, or the service cannot connect to WhatsApp.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li>Verify the service is running and reachable at the configured URL (open <code>http://your-service-host:8888</code> from the server to confirm).</li>
+                            <li>Check the service logs for connection errors while it tries to connect to WhatsApp.</li>
+                            <li>Make sure the phone number entered is correct and not already paired in another session.</li>
+                            <li>If a QR appears but expires before you scan, click Generate again &mdash; pairing QRs are short-lived by design. The page refreshes automatically.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="scheduled-not-running">Scheduled / Bulk Sends Not Running</h2>
+                        <p><strong>Problem:</strong> Scheduled campaigns or recurring messages on the Unofficial API do not fire at their set time.</p>
+                        <p><strong>Cause:</strong> This scheduling is driven by the <strong>Node helper service's own scheduler</strong> &mdash; not a background worker or cron. If the service is down or was restarted, pending schedules pause.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li>Keep the helper service running continuously under a process manager (see <a href="#bridge-offline">Helper Service Offline</a>).</li>
+                            <li>After restarting it, the service reloads active campaign and scheduled-message timings on startup &mdash; give it a moment to catch up.</li>
+                            <li>In-app housekeeping (inbox SLA, snooze wake-ups) runs while an operator has the Team Inbox open; it does not need a cron. On a VPS you may optionally add a cron for stricter timing.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="assets-build">Missing Styles / Broken Assets</h2>
+                        <p><strong>Problem:</strong> Pages load unstyled, or the browser console shows 404s for files under <code>build/</code>.</p>
+                        <p><strong>Cause:</strong> The compiled front-end assets (Vite build) are missing &mdash; this happens with a source build that was never compiled, or after changing front-end files.</p>
+                        <p><strong>Fix:</strong> Build the assets once:</p>
+                        <pre>npm install
+npm run build</pre>
+                        <p>If you uploaded a ready-to-use package, the <code>public/build/</code> directory is already included &mdash; in that case re-upload it intact rather than rebuilding. Also confirm <code>APP_URL</code> in <code>.env</code> matches the URL you are actually visiting, and that <code>public/</code> is your document root.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="webhooks-not-arriving">Cloud API / Twilio Webhooks Not Arriving</h2>
+                        <p><strong>Problem:</strong> Inbound messages or status updates from the Cloud API or Twilio channels never reach WaDesk.</p>
+                        <p><strong>Cause:</strong> The webhook URL is not reachable over HTTPS, or the verify token does not match what you set in the provider dashboard.</p>
+                        <p><strong>Fix:</strong></p>
+                        <ul>
+                            <li>Ensure your site is served over <strong>HTTPS</strong> with a valid certificate &mdash; Meta and Twilio only deliver to HTTPS endpoints.</li>
+                            <li>Point the provider's webhook at WaDesk's inbound endpoint (<code>/webhooks/whatsapp/inbound</code>) and use the same verify token you configured in the admin Providers settings.</li>
+                            <li>Confirm <code>APP_URL</code> is correct so generated callback URLs point at your real domain.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="still-stuck">Still Stuck?</h2>
+                        <p>If a problem persists after the fixes above:</p>
+                        <ul>
+                            <li>Read the most recent lines of <code>storage/logs/laravel.log</code> &mdash; it almost always names the exact failure.</li>
+                            <li>Temporarily set <code>APP_DEBUG=true</code> in <code>.env</code> to see the full error in the browser, then run <code>php artisan optimize:clear</code>. Set it back to <code>false</code> for production afterwards.</li>
+                            <li>Check the Node helper service logs for any Unofficial API issue.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Security reminder:</strong> Never leave <code>APP_DEBUG=true</code> on a live, public install &mdash; it can expose configuration details. Re-disable it once you have captured the error.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#storage-permissions" class="toc-link">Storage / Permission Errors</a></li>
+                    <li class="toc-h2"><a href="#missing-extension" class="toc-link">Requirements Step Won't Pass</a></li>
+                    <li class="toc-h2"><a href="#db-connection" class="toc-link">Database Connection Fails</a></li>
+                    <li class="toc-h2"><a href="#csrf-419" class="toc-link">Forms Return 419 During Install</a></li>
+                    <li class="toc-h2"><a href="#blank-page" class="toc-link">Blank White Page After Install</a></li>
+                    <li class="toc-h2"><a href="#redirect-install" class="toc-link">Site Keeps Redirecting to /install</a></li>
+                    <li class="toc-h2"><a href="#bridge-offline" class="toc-link">Helper Service Offline / Sends Failing</a></li>
+                    <li class="toc-h2"><a href="#qr-not-generating" class="toc-link">QR Code Won't Generate</a></li>
+                    <li class="toc-h2"><a href="#scheduled-not-running" class="toc-link">Scheduled / Bulk Sends Not Running</a></li>
+                    <li class="toc-h2"><a href="#assets-build" class="toc-link">Missing Styles / Broken Assets</a></li>
+                    <li class="toc-h2"><a href="#webhooks-not-arriving" class="toc-link">Webhooks Not Arriving</a></li>
+                    <li class="toc-h2"><a href="#still-stuck" class="toc-link">Still Stuck?</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

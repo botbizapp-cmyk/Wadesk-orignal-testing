@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Install Setup – WaDesk SaaS Docs</title>
+    <meta name="description" content="Post-Install Setup — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Post-Install Setup</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The web installer leaves you with a fully working WaDesk install and an admin account. This page covers what to do <em>after</em> that first screen: logging in, getting the Node helper service running (required &mdash; it handles sending and scheduling for every channel), understanding how background tasks run, adding your AI and payment keys, and connecting your first WhatsApp channel.</p>
+                        <blockquote class="info"><strong>You can do these in any order</strong>, but logging in and connecting a channel are what get you sending messages the fastest.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="first-login">Logging In as Admin</h2>
+                        <p>Open your site's login page (or click <strong>Open admin panel</strong> on the installer's final screen) and sign in with the email and password you created in Step 5 of the wizard.</p>
+                        <ul>
+                            <li>The <strong>admin panel</strong> (your domain + <code>/admin</code>) is the platform owner's control center: plans, billing, payment gateways, branding, users, global settings.</li>
+                            <li>Your <strong>workspace</strong> is the day-to-day operating area (inbox, devices, campaigns, contacts). Your admin account already owns one ready-made workspace.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Enable 2FA early.</strong> The admin account controls the whole platform. Turn on two-factor authentication from your account security settings as soon as you log in.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="node-bridge">Starting the Node Helper Service (Required)</h2>
+
+                        <blockquote class="danger">
+                            <span class="danger-badge">Important</span><br>
+                            <strong>The Node helper service must be running at all times &mdash; it is not optional, on any channel.</strong>
+                            Every outbound message goes through it &mdash; for <strong>all three channels</strong>:
+                            the <strong>Unofficial API</strong>, the official <strong>WhatsApp Cloud API (Meta)</strong>, and <strong>Twilio</strong>.
+                            If it is stopped, <strong>nothing sends, anywhere</strong> &mdash; single messages, broadcasts, campaigns,
+                            scheduled and recurring sends all halt until it is back online. Always run it under <code>pm2</code>, <code>systemd</code>, or Supervisor
+                            so it restarts automatically.
+                        </blockquote>
+
+                        <p>The service is a small program in the <code>node/</code> folder. It holds the WhatsApp connections, renders pairing QRs, and is what <strong>every channel</strong> sends through &mdash; the QR-based <strong>Unofficial API</strong>, the official <strong>WhatsApp Cloud API (Meta)</strong>, and <strong>Twilio</strong> alike.</p>
+
+                        <blockquote class="info"><strong>The environment is already configured.</strong> The Node Bridge step of the web installer wrote the bridge's <code>node/.env</code> (<code>PORT</code>, <code>APP_DOMAIN_NAME</code>, and the shared <code>NODE_WEBHOOK_TOKEN</code>) <em>and</em> the matching values in WaDesk's Laravel <code>.env</code> (<code>SERVER_URL</code>, <code>NODE_WEBHOOK_TOKEN</code>). The shared secret matches by construction, the Node server URL is already set, and CORS allows the browser extension and your site automatically &mdash; there is nothing to edit or copy by hand. The two steps below are all that remain.</blockquote>
+
+                        <h3>1. Install dependencies</h3>
+                        <pre>cd node
+npm install</pre>
+
+                        <h3>2. Start it &mdash; and keep it alive</h3>
+                        <p>For a quick test:</p>
+                        <pre>node index.js</pre>
+                        <p>For production you must keep the process running across reboots and crashes. Use a process manager such as <strong>PM2</strong>:</p>
+                        <pre>npm install -g pm2
+pm2 start index.js --name wadesk-bridge
+pm2 save
+pm2 startup</pre>
+                        <p>Alternatively, use a <strong>systemd</strong> service or <strong>Supervisor</strong> program that runs <code>node index.js</code> from the <code>node/</code> directory.</p>
+                        <blockquote class="info"><strong>Why it must stay running:</strong> The service holds every WhatsApp connection and runs its own scheduler for bulk campaigns, scheduled, and recurring sends. If it stops, paired numbers go offline and scheduled sends pause until it is back up.</blockquote>
+
+                        <h3>Environment variables reference</h3>
+                        <p>You do not need to set these &mdash; the installer wrote them during the Node Bridge step. They are listed here only so you can verify the values if you ever need to.</p>
+                        <p><strong>WaDesk Laravel <code>.env</code></strong></p>
+                        <pre>APP_URL=https://app.example.com
+SERVER_URL=http://localhost:8888
+NODE_WEBHOOK_TOKEN=&lt;auto-generated shared secret&gt;</pre>
+                        <p><strong>Bridge <code>node/.env</code></strong></p>
+                        <pre>PORT=8888
+APP_DOMAIN_NAME=https://app.example.com
+NODE_WEBHOOK_TOKEN=&lt;same shared secret as above&gt;
+# ALLOWED_ORIGINS=https://app.example.com,https://www.example.com</pre>
+                        <ul>
+                            <li><code>NODE_WEBHOOK_TOKEN</code> is written identically to both files, so the shared secret always matches.</li>
+                            <li><code>ALLOWED_ORIGINS</code> is optional. CORS is dynamic: the bridge always allows the browser extension, localhost, and your <code>APP_DOMAIN_NAME</code>. <strong>Omit</strong> <code>ALLOWED_ORIGINS</code> to allow any origin (the <code>X-Node-Token</code> shared secret is the real guard); set a comma-separated list to restrict it.</li>
+                            <li>The browser extension's server URL is baked in by the installer from <code>APP_URL</code> &mdash; no manual entry.</li>
+                        </ul>
+
+                        <blockquote class="warning"><strong>If sends silently stop:</strong> the secret is set for you, so this is rare &mdash; but if WaDesk and the bridge ever fall out of sync (for example after editing one file by hand), confirm <code>NODE_WEBHOOK_TOKEN</code> is identical in <code>node/.env</code> and WaDesk's <code>.env</code>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="background-tasks">How Background Tasks Run</h2>
+                        <p>WaDesk is designed to work on plain shared hosting <strong>without</strong> a permanent background worker and <strong>without</strong> a mandatory cron entry. This is what makes it easy to host. Here is how the moving parts actually run:</p>
+                        <ul>
+                            <li><strong>Outbound sending</strong> is handled by the <strong>Node helper service on every channel</strong> &mdash; the Unofficial API, the WhatsApp Cloud API (Meta), and Twilio alike. It must be running for any send to leave the system.</li>
+                            <li><strong>Bulk campaigns, scheduled messages, and recurring sends</strong> are paced and triggered by the <strong>helper service's own scheduler on every channel</strong> &mdash; which is exactly why it must stay running around the clock.</li>
+                            <li><strong>Periodic housekeeping</strong> (inbox SLA escalation, waking snoozed chats, WhatsApp template status refresh) runs automatically while the app is in use &mdash; for example, whenever an operator has the Team Inbox open. No external cron is needed for these.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Optional stricter timing (VPS):</strong> If you want housekeeping to run on a fixed schedule even when no one is online, you can add a system cron that runs the relevant maintenance commands (for example <code>php artisan inbox:escalate</code> and <code>php artisan inbox:wake-snoozed</code>). This is optional &mdash; both also run again the moment someone opens the Team Inbox.</blockquote>
+                        <blockquote class="warning"><strong>No standard worker needed.</strong> Unlike many Laravel apps, WaDesk does not require a background <code>queue:work</code> worker. Adding one is harmless, but it is not what drives campaign sending here &mdash; the Node helper service is.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-keys">Configuring AI Keys</h2>
+                        <p>WaDesk's AI suite (AI chatbots, reply suggestions, voice call assistants) runs on provider keys you supply. Nothing is hard-coded &mdash; if a key is not set, the related feature is simply hidden or disabled.</p>
+                        <p>As the platform owner, add your keys under <strong>Admin &rarr; API Keys</strong>. Supported providers include OpenAI (chat), and voice providers such as Deepgram and ElevenLabs for the call-assistant features. The Meta Graph API version is pre-set during install.</p>
+                        <blockquote class="info"><strong>Updating keys:</strong> You can change or replace AI keys at any time from the admin API Keys area &mdash; no redeploy needed.</blockquote>
+                        <p>The detailed AI configuration walkthrough lives in the <strong>AI Suite</strong> section of this documentation.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="payment-gateways">Configuring Payment Gateways</h2>
+                        <p>If you intend to run WaDesk as a subscription SaaS, set up your payment gateways under <strong>Admin &rarr; Payment Gateways</strong>. The installer pre-loads the full list of supported gateways &mdash; you simply enable the ones you want and paste in their API credentials.</p>
+                        <ul>
+                            <li>Enable a gateway, enter its keys, and toggle it live.</li>
+                            <li>Set your <strong>subscription plans</strong> and pricing under the admin Billing &amp; Plans area.</li>
+                            <li>Multi-currency, trials, coupons, and wallet credits are all built in.</li>
+                        </ul>
+                        <p>Full gateway-by-gateway setup is documented in the <strong>Admin Panel</strong> section.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="branding">Platform Branding</h2>
+                        <p>Before inviting customers, set your platform identity under <strong>Admin &rarr; Settings &rarr; General</strong>: app name, logo, favicon, and colors. WaDesk is white-label, so you can also override branding and message footers per workspace. Set up outbound email (SMTP) under the admin mail settings so password resets and notifications can be delivered.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect-channel">Connecting Your First WhatsApp Channel</h2>
+                        <p>Go to the <strong>Devices</strong> screen in your workspace and choose a channel to connect your first number.</p>
+
+                        <h3>Unofficial API (QR pairing)</h3>
+                        <ol>
+                            <li>Make sure the <a href="#node-bridge">helper service is running</a>. Its URL was already set by the installer.</li>
+                            <li>Enter the <strong>WhatsApp number</strong> you want to use and an optional device label. You can also override the service URL per device if needed.</li>
+                            <li>Click <strong>Generate QR</strong>. WaDesk starts a pairing session and shows the QR (it refreshes automatically every couple of seconds).</li>
+                            <li>On the phone for that number, open WhatsApp &rarr; <strong>Settings &rarr; Linked Devices &rarr; Link a device</strong> and scan the QR.</li>
+                            <li>Once paired, the status flips to connected. Keep that phone online with internet for sends to go out.</li>
+                        </ol>
+
+                        <h3>WhatsApp Cloud API (Meta)</h3>
+                        <p>Connect a verified WhatsApp Business Account via Meta. This unlocks official templates and features but requires Meta approval. Set the shared Meta credentials in the admin Providers settings, then complete the connection from the workspace connect step.</p>
+
+                        <h3>Twilio WhatsApp</h3>
+                        <p>Send through a Twilio WhatsApp sender using Content Templates. Add your Twilio Account SID, Auth Token, and From number in the admin Providers settings, then connect the workspace.</p>
+
+                        <blockquote class="info"><strong>Next:</strong> Once a channel is connected, head to the <strong>Getting Started</strong> and <strong>Team Inbox &amp; Messaging</strong> sections to start handling conversations and sending campaigns. If anything went wrong during this setup, see <a href="./troubleshooting.html">Troubleshooting</a>.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#first-login" class="toc-link">Logging In as Admin</a></li>
+                    <li class="toc-h2"><a href="#node-bridge" class="toc-link">Starting the Node Helper Service</a></li>
+                    <li class="toc-h2"><a href="#background-tasks" class="toc-link">How Background Tasks Run</a></li>
+                    <li class="toc-h2"><a href="#ai-keys" class="toc-link">Configuring AI Keys</a></li>
+                    <li class="toc-h2"><a href="#payment-gateways" class="toc-link">Configuring Payment Gateways</a></li>
+                    <li class="toc-h2"><a href="#branding" class="toc-link">Platform Branding</a></li>
+                    <li class="toc-h2"><a href="#connect-channel" class="toc-link">Connecting Your First WhatsApp Channel</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

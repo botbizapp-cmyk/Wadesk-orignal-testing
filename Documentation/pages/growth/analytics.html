@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics – WaDesk SaaS Docs</title>
+    <meta name="description" content="Analytics — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Analytics</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Analytics</strong> is your workspace-wide messaging dashboard. It combines delivery, read, reply, and engagement numbers across <em>all</em> your WhatsApp sends &mdash; campaigns, broadcasts, scheduled messages, and the team inbox &mdash; into one view so you can see how your messaging is performing at a glance.</p>
+                        <p>Open it from the <strong>More</strong> menu under <strong>Analytics</strong>. The page leads with a headline delivery rate and key-figure cards (with up/down trend badges), then a series of charts and panels: volume over time, delivery rates, daily totals, an engagement funnel, performance by number, message-type mix, top templates, geography, a live activity feed, top contacts, a best-hours heatmap, and a team-performance table.</p>
+                        <table>
+                            <thead>
+                                <tr><th>What</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Where to find it</td><td>More menu &rarr; Analytics</td></tr>
+                                <tr><td>Who can open it</td><td>Workspace role <strong>Manager</strong> or above (same as the dashboard).</td></tr>
+                                <tr><td>Default range</td><td>Last 30 days.</td></tr>
+                                <tr><td>What it counts</td><td>Both your campaign / broadcast / scheduled sends <em>and</em> your team-inbox / chat messages, combined.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Per workspace:</strong> everything on this page is limited to your current workspace, so you only ever see your own numbers. Because it counts campaign/broadcast messages and team-inbox messages together, it's one dashboard instead of two.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ranges">Date ranges</h2>
+                        <p>Use the filter bar near the top to choose the period. The default is the last 30 days.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Range</th><th>Period</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Last 7 days</strong></td><td>The previous 7 days through end of today.</td></tr>
+                                <tr><td><strong>Last 30 days</strong></td><td>The previous 30 days (default).</td></tr>
+                                <tr><td><strong>Last 90 days</strong></td><td>The previous 90 days.</td></tr>
+                                <tr><td><strong>Custom</strong></td><td>Pick a <em>From</em> and <em>To</em> date and click <strong>Apply</strong>.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Clicking a preset updates the range right away; the <strong>Custom</strong> option reveals the date fields, which you confirm with <strong>Apply</strong>. The bar is forgiving:</p>
+                        <ul>
+                            <li>An <strong>inverted</strong> custom range (From later than To) is swapped automatically.</li>
+                            <li>An <strong>empty or unparseable</strong> custom filter falls back to the last 30 days so the dashboard is never blank.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="kpis">Key metrics</h2>
+                        <p>The hero card and the KPI grid summarise the selected period. The big headline above them states the share of messages that reached their reader.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Metric</th><th>What it measures</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Total messages</strong></td><td>Messages you sent in the window (campaign/broadcast and inbox together).</td></tr>
+                                <tr><td><strong>Delivered</strong></td><td>Messages that reached the recipient's phone (sent, delivered, or read). Shown with the delivery-rate percentage.</td></tr>
+                                <tr><td><strong>Failed</strong></td><td>Messages that could not be delivered.</td></tr>
+                                <tr><td><strong>Queued</strong></td><td>Total minus delivered minus failed &mdash; sent but not yet confirmed.</td></tr>
+                                <tr><td><strong>Recipients</strong></td><td>Distinct conversations started in the window.</td></tr>
+                                <tr><td><strong>Replies in</strong></td><td>Messages you received in the window.</td></tr>
+                                <tr><td><strong>Reply rate</strong></td><td>Replies as a share of messages sent &mdash; a rough measure of how many conversations got going.</td></tr>
+                                <tr><td><strong>Delivery rate</strong></td><td>Delivered as a percentage of total. This is the page's headline figure.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Trend badges are real, not estimated.</strong> The small up/down badges compare the selected period against the <em>period right before it</em> of the same length. If the previous period had none of a metric and the current has some, the change shows as +100%. Delivery, recipients, queued, failed, and reply rate each have their own badge.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="charts">Charts and panels</h2>
+                        <p>Below the KPIs, the dashboard fans out into panels. Each is computed live from the same window and workspace scope.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Panel</th><th>What it shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Volume trend</strong></td><td>Sent, delivered, and failed messages per day across the window.</td></tr>
+                                <tr><td><strong>Delivery rates</strong></td><td>A quality donut of how outgoing messages resolved.</td></tr>
+                                <tr><td><strong>Daily totals</strong></td><td>A stacked bar of sent / queued / failed per day.</td></tr>
+                                <tr><td><strong>Engagement funnel</strong></td><td>Four stages &mdash; sent &rarr; delivered &rarr; replied &rarr; engaged (people who replied) &mdash; with each stage's count, its share of the first stage, the drop to the next, and an overall change-vs-previous badge.</td></tr>
+                                <tr><td><strong>By number</strong></td><td>How many messages each connected number sent in the window, with an online/total badge.</td></tr>
+                                <tr><td><strong>Message types</strong></td><td>The mix across Text, Template, Media, Interactive, and Location.</td></tr>
+                                <tr><td><strong>Top templates</strong></td><td>Your most-sent templates with category and language, ranked by sends in the window.</td></tr>
+                                <tr><td><strong>By country</strong></td><td>Where your reach is spread across markets (based on each number's region).</td></tr>
+                                <tr><td><strong>Activity feed</strong></td><td>A live ticker of the most recent message activity in the window.</td></tr>
+                                <tr><td><strong>Top contacts</strong></td><td>Your most active conversations by message count in the window.</td></tr>
+                                <tr><td><strong>Best hours heatmap</strong></td><td>Read rate by hour and weekday, so you can time sends for when your audience is awake.</td></tr>
+                                <tr><td><strong>Team performance</strong></td><td>For agents with at least one conversation assigned in the window: conversations handled, average first-response time, average resolution time, and a satisfaction score (1&ndash;5) from customer ratings.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Empty windows are fine.</strong> If there's no activity in the selected range, the headline reads "No outgoing messages yet" and panels show a clear empty state rather than a broken chart. Once your first queue sends, the dashboard fills in.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engine-aware">Results match your WhatsApp connection</h2>
+                        <p>WaDesk supports three ways to connect a WhatsApp number per workspace: the Unofficial API, the official WhatsApp Cloud API, and Twilio. Analytics matches your current connection &mdash; message counts are limited to the connection the workspace is using, and the <strong>By number</strong> panel adapts too:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Active connection</th><th>The number list shows</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Unofficial API</strong></td><td>Your paired phones.</td></tr>
+                                <tr><td><strong>Official Cloud API</strong> / <strong>Twilio</strong></td><td>Your connected numbers, with an online badge when the connection is live.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Switching connections changes the picture.</strong> Because the dashboard reflects your current connection, switching to a different one changes which past messages are counted. This keeps each connection's performance honest rather than mixing them together.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="exports">Export &amp; scheduled reports</h2>
+                        <p>At the top of the page are two buttons &mdash; <strong>Export CSV</strong> and <strong>Schedule report</strong> &mdash; for taking the dashboard's figures out of the app. An export covers exactly the date range and workspace shown on screen. For raw, message-by-message data you can also export from <strong>Message History</strong> and from <strong>Settings &rarr; Export</strong> (contacts, conversations, messages).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="meta-ads-analytics">Meta Ads analytics</h2>
+                        <p>This page covers your WhatsApp <em>messaging</em>. Ad spend, ROAS, clicks, and lead numbers for Click-to-WhatsApp campaigns live on a separate analytics view inside <a href="./meta-ads.html">Meta Ads</a> &mdash; open it with the <strong>Analytics</strong> button on the Meta Ads page for a workspace-wide ad summary or a single-campaign drill-down. (A small ad spend/revenue summary also appears on this dashboard where the data is available.)</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Dashboard shows "No outgoing messages yet"</td><td>No sends fall in the selected period for your current connection. Widen the range, or check you're on the connection you actually sent on.</td></tr>
+                                <tr><td>Numbers dropped after switching connections</td><td>Expected &mdash; counts are limited to the active connection. Switch back to compare.</td></tr>
+                                <tr><td>Queued count looks high</td><td>Queued = total minus delivered minus failed. Messages that haven't yet reported a delivery sit here and resolve as WhatsApp reports back.</td></tr>
+                                <tr><td>Team performance table is empty</td><td>No conversations were assigned to an agent in the window. Assign conversations in the Team Inbox to fill it in.</td></tr>
+                                <tr><td>Custom range looks wrong</td><td>A backwards range is auto-corrected and an empty one falls back to 30 days. Re-enter valid From/To dates and click Apply.</td></tr>
+                                <tr><td>Can't open Analytics</td><td>Your role is Agent or Viewer. Ask the owner to set you to Manager in Team Inbox &rarr; Members.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#ranges" class="toc-link">Date ranges</a></li>
+                    <li class="toc-h2"><a href="#kpis" class="toc-link">Key metrics</a></li>
+                    <li class="toc-h2"><a href="#charts" class="toc-link">Charts and panels</a></li>
+                    <li class="toc-h2"><a href="#engine-aware" class="toc-link">Results by connection</a></li>
+                    <li class="toc-h2"><a href="#exports" class="toc-link">Export &amp; scheduled reports</a></li>
+                    <li class="toc-h2"><a href="#meta-ads-analytics" class="toc-link">Meta Ads analytics</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

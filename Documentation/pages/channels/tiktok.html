@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the TikTok channel — what it does today (connect account, insights, publish video/photo, TikTok Shop, ad lead capture), where to get the Login Kit credentials and scopes, and an honest note on DM messaging (partner-gated, not available in a standard install).">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>TikTok Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>TikTok</strong> channel connects a TikTok <strong>Business account</strong> so you can manage your presence from WaDesk &mdash; view <strong>insights</strong>, <strong>publish videos and photos</strong>, run <strong>TikTok Shop</strong>, and capture <strong>lead-form submissions</strong> from TikTok ads straight into your <a href="../growth/contacts.html">Contacts</a>. It connects with TikTok Login and reuses the same Contacts, and (for ad leads) the same capture pipeline as your other channels.</p>
+                        <blockquote class="warning"><strong>DM messaging is built &mdash; but gated by TikTok.</strong> The DM inbox is wired end-to-end in WaDesk (connect, store credentials, region gate, inbound webhook, inbox threading and reply). What WaDesk cannot provide is the access itself: TikTok's direct-message API is a <strong>partner-gated Business Messaging program</strong> that TikTok approves for select partners only, and it is <strong>region-limited</strong> (not available in the US, EEA, Switzerland or the UK). Until you hold a TikTok-approved Business Messaging partner app, the DM lane stays off; once you do, you activate it per account &mdash; see <a href="#dm">Enabling the DM inbox</a>. Without that approval, use TikTok as a <strong>content, insights, commerce and lead-capture</strong> channel.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="capabilities">What It Does Today</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Capability</th><th>Status</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Connect account</strong></td><td>Available</td><td>Link a TikTok Business account via TikTok Login (Login Kit OAuth).</td></tr>
+                                <tr><td><strong>Profile &amp; insights</strong></td><td>Available</td><td>Pull profile stats and video performance insights into WaDesk.</td></tr>
+                                <tr><td><strong>Publish video / photo</strong></td><td>Available</td><td>Post or draft videos and photos via TikTok's Content Posting API.</td></tr>
+                                <tr><td><strong>TikTok Shop</strong></td><td>Available</td><td>Connect TikTok Shop for commerce data.</td></tr>
+                                <tr><td><strong>Ad lead capture</strong></td><td>Available</td><td>Lead-gen form submissions from TikTok ads flow into Contacts.</td></tr>
+                                <tr><td><strong>DM inbox &amp; reply</strong></td><td>Ready &mdash; partner-gated</td><td>Wired end-to-end; activate per account once you have a Messaging-Partner app + a supported region.</td></tr>
+                                <tr><td><strong>Comment-to-DM automation</strong></td><td><strong>Not available</strong></td><td>TikTok's API offers no comment trigger, so this can't be built for any vendor.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements</h2>
+                        <table>
+                            <thead><tr><th>You need</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>TikTok Business account</strong></td><td>Switch your account to Business in the TikTok app (Settings &rarr; Account &rarr; Switch to Business Account).</td></tr>
+                                <tr><td><strong>A TikTok developer app (platform admin)</strong></td><td>Registered on TikTok for Developers with Login Kit + the products you use (Display, Content Posting, Shop).</td></tr>
+                                <tr><td><strong>A plan with the TikTok channel</strong></td><td>Enforced server-side; the TikTok menu appears when the channel is enabled.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="dev-app">Platform Admin: TikTok App &amp; Credentials</h2>
+                        <p>One-time setup by the platform operator. You'll end with a <strong>Client Key</strong> and <strong>Client Secret</strong> to paste into WaDesk.</p>
+                        <ol>
+                            <li><strong>Open TikTok for Developers.</strong> Go to <code>developers.tiktok.com</code>, log in, and open <strong>Manage apps</strong>.</li>
+                            <li><strong>Create an app</strong> and complete the business details TikTok requires.</li>
+                            <li><strong>Add Login Kit</strong> and the products you need &mdash; <strong>Display API</strong> (insights), <strong>Content Posting API</strong> (publish), and <strong>TikTok Shop</strong> if used.</li>
+                            <li><strong>Copy the Client Key &amp; Client Secret</strong> from the app's credentials page.</li>
+                            <li><strong>Set the redirect URI</strong> to WaDesk's TikTok callback URL (shown in <strong>WaDesk Admin &rarr; Settings &rarr; WaDesk Message</strong>).</li>
+                            <li><strong>Paste the keys into WaDesk.</strong> In <strong>Admin &rarr; Settings &rarr; WaDesk Message</strong>, fill <strong>TikTok Client Key</strong> and <strong>TikTok Client Secret</strong>, and turn the TikTok channel <strong>on</strong>.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Scopes requested by the Login Kit connect:</strong> <code>user.info.basic</code>, <code>user.info.profile</code>, <code>user.info.stats</code>, <code>video.list</code>, <code>video.upload</code>. These cover profile, insights and publishing &mdash; not messaging.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">User: Connecting Your Account</h2>
+                        <ol>
+                            <li><strong>Open the TikTok page</strong> in WaDesk (<code>/tiktok/accounts</code>) &mdash; it appears in the menu when the channel is enabled.</li>
+                            <li><strong>Click Connect</strong> &mdash; you're sent to TikTok Login (Login Kit OAuth).</li>
+                            <li><strong>Authorize</strong> the requested permissions for your Business account.</li>
+                            <li><strong>Done.</strong> Your profile, insights and publishing tools are available; ad lead-forms begin flowing into Contacts.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="use">Using It</h2>
+                        <ul>
+                            <li><strong>Insights.</strong> Review profile and video performance without leaving WaDesk.</li>
+                            <li><strong>Publish.</strong> Create and post (or draft) videos and photos through the Content Posting API.</li>
+                            <li><strong>TikTok Shop.</strong> Connect Shop for commerce data alongside your other stores.</li>
+                            <li><strong>Ad leads.</strong> When someone submits a TikTok lead-gen form, they're captured as a <a href="../growth/contacts.html">contact</a> you can then reach on WhatsApp, Instagram or SMS.</li>
+                            <li><strong>Unified social.</strong> TikTok posts join the unified social posts &amp; calendar view alongside Instagram and Facebook.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="dm">Enabling the DM Inbox</h2>
+                        <p>The DM inbox is fully wired in WaDesk &mdash; connect, credential storage, region gate, inbound webhook, inbox threading and reply. It only needs TikTok's partner access to switch on. Here is why it's gated and exactly how to activate it once you're approved.</p>
+                        <h3 id="dm-why">Why it's gated</h3>
+                        <ul>
+                            <li>TikTok exposes direct messaging only through a <strong>Business Messaging</strong> program that TikTok must <strong>approve</strong> for your developer app &mdash; it is not a scope you request like insights or publishing.</li>
+                            <li>Even approved, messaging is <strong>region-limited</strong> (not in the US, EEA, Switzerland or the UK) and <strong>reactive-only</strong>: a business may send up to <strong>10 messages in the 48h</strong> after a user's first message, then unlimited for 48h after each user reply.</li>
+                        </ul>
+                        <h3 id="dm-enable">Turning it on</h3>
+                        <ol>
+                            <li><strong>Get Messaging-Partner approval.</strong> Apply to TikTok's Messaging Partner program and create a <strong>TikTok API for Business</strong> app (<code>business-api.tiktok.com</code>) &mdash; separate from the Login Kit app &mdash; to obtain its <strong>Client Key (app_id)</strong> and <strong>Client Secret</strong>.</li>
+                            <li><strong>Admin: set the business app.</strong> In <strong>Admin &rarr; Settings &rarr; WaDesk Message</strong>, fill <code>tiktok_business_app_id</code> and <code>tiktok_business_app_secret</code> and turn on <code>tiktok_inbox_enabled</code>.</li>
+                            <li><strong>Admin: register the webhook.</strong> On your TikTok app in the developer portal, set the webhook callback to <code>https://your-domain/webhooks/tiktok/business</code> and subscribe the <strong>new_message</strong> and <strong>new_conversation</strong> events. (TikTok has no per-account subscribe API &mdash; the webhook is configured on the app, once.)</li>
+                            <li><strong>Operator: connect the account.</strong> On the TikTok account card, a <strong>DM inbox</strong> section now appears &mdash; paste the <strong>Business ID</strong> and <strong>access token</strong> from your partner authorization and click <strong>Connect DM inbox</strong>. WaDesk stores them and detects the account region.</li>
+                            <li><strong>Done.</strong> If the region is supported, incoming DMs arrive in the <a href="../messaging/team-inbox.html">Team Inbox</a> and agents reply from the same composer. Auto-reply rules and flows can then be scoped to TikTok.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Under the hood:</strong> WaDesk calls TikTok's Business Messaging v1.3 endpoints &mdash; <code>/business/message/conversation/list/</code>, <code>/business/message/content/list/</code> and <code>/business/message/send/</code> &mdash; with the access token in the <code>Access-Token</code> header. Every call fails soft, so an un-approved account never breaks the page: it simply reports the DM lane as not enabled.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>No DM inbox for TikTok</strong></td><td>Expected &mdash; DM messaging is partner-gated and off in a standard install. Use ad lead capture instead.</td></tr>
+                                <tr><td><strong>Authorization fails</strong></td><td>Account isn't a Business account, or the app's scopes/redirect URI are misconfigured. Check the TikTok app settings.</td></tr>
+                                <tr><td><strong>Publishing rejected</strong></td><td>Missing <code>video.upload</code> scope or the Content Posting API isn't added to the app. Add it and reconnect.</td></tr>
+                                <tr><td><strong>Connection went stale</strong></td><td>TikTok access tokens expire and are refreshed; if a connection lapses, reconnect the account.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#capabilities" class="toc-link">What It Does Today</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements</a></li>
+                    <li class="toc-h2"><a href="#dev-app" class="toc-link">TikTok App &amp; Credentials</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting Your Account</a></li>
+                    <li class="toc-h2"><a href="#use" class="toc-link">Using It</a></li>
+                    <li class="toc-h2"><a href="#dm" class="toc-link">Enabling the DM Inbox</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

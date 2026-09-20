@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security &amp; Audit Log – WaDesk SaaS Docs</title>
+    <meta name="description" content="Security &amp; Audit Log — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Security &amp; Audit Log</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk gives the platform owner two related tools: a <strong>Security Center</strong> (<strong>Admin &rarr; Security</strong>) where you set platform-wide security policy and reach the emergency controls, and the <strong>Audit Log</strong> (<strong>Admin &rarr; Audit log</strong>) which records every sensitive action across the platform. Both live in the admin sidebar.</p>
+                        <p>The Security Center is organised as a set of policy cards (the "enforcement layers"), a stats strip, a risk-review queue, and a Super-Admin-only danger zone. Every setting ships with a sensible default, so a control you've never touched still behaves correctly until you change it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="kpis">Security KPIs</h2>
+                        <p>The KPI strip at the top of the Security Center summarises the platform's current security posture. The numbers are computed live from the audit log and user table.</p>
+                        <table>
+                            <thead><tr><th>KPI</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Security score</strong></td><td>A simple 0&ndash;100 score: ten key toggle controls, ten points each. Shows you what you have turned on and what is still off.</td></tr>
+                                <tr><td><strong>Open risks</strong></td><td>Unresolved failure/warning audit rows in the last 7 days, with the high-priority (failure) count beneath.</td></tr>
+                                <tr><td><strong>Blocked attempts</strong></td><td>Failed login attempts in the last 24 hours.</td></tr>
+                                <tr><td><strong>Campaign holds</strong></td><td>Warning audit rows in the last 24 hours &mdash; sends paused by a guardrail.</td></tr>
+                                <tr><td><strong>2FA coverage</strong></td><td>Percentage of admin-role users who have confirmed two-factor authentication.</td></tr>
+                                <tr><td><strong>Webhook failures</strong></td><td>Failed webhook events as a percentage of all webhook events in the last 24 hours.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>A <strong>Controls enabled</strong> card breaks coverage into four buckets &mdash; <em>Admin access</em>, <em>WhatsApp abuse prevention</em>, <em>API hardening</em>, and <em>Incident readiness</em> &mdash; each shown as a percentage of its toggles that are on.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="risk-queue">Risk Review Queue</h2>
+                        <p>The <strong>Risk items to review</strong> card lists the most recent failure and warning audit rows so you can triage incidents without leaving the page. Each item carries a severity derived from how recent and how serious it is:</p>
+                        <ul>
+                            <li><strong>High</strong> &mdash; a failure within the last 24 hours.</li>
+                            <li><strong>Medium</strong> &mdash; an older failure.</li>
+                            <li><strong>Watch</strong> &mdash; a warning.</li>
+                        </ul>
+                        <p>Each row shows the signal (the audit action), a short detail, the workspace it belongs to (or "Platform" for platform-layer events), and the actor who triggered it. For the full searchable history, open the Audit Log described below.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="policy-forms">Policy Forms (Enforcement Layers)</h2>
+                        <p>The bulk of the Security Center is a set of policy cards. Each card is a form; saving it stores your changes and writes a single audit-log entry listing exactly which fields changed (old value to new value).</p>
+
+                        <h3>Login, sessions &amp; 2FA</h3>
+                        <table>
+                            <thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td>Require 2FA for admins / owners / all</td><td>Off</td><td>Force two-factor enrolment for the chosen audience (Super Admin, Admin, Support Admin).</td></tr>
+                                <tr><td>Allowed 2FA methods</td><td>TOTP, Email</td><td>Which second factors users may enrol (TOTP, email, Telegram).</td></tr>
+                                <tr><td>Session timeout (minutes)</td><td>60</td><td>Idle time before a session expires (5&ndash;1440).</td></tr>
+                                <tr><td>Max concurrent sessions</td><td>5</td><td>How many active sessions one account may hold (1&ndash;50).</td></tr>
+                                <tr><td>Remember me enabled</td><td>On</td><td>Whether the long-lived "remember me" cookie is allowed.</td></tr>
+                                <tr><td>Lockout after failures / window</td><td>5 in 15 min</td><td>Failed-login threshold and the window it is measured over.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Password policy</h3>
+                        <p>Minimum length (default 8), require uppercase (on), require number (on), require symbol (off), and maximum password age in days (0 = never expires).</p>
+
+                        <h3>WhatsApp guardrails &amp; abuse filters</h3>
+                        <table>
+                            <thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td>Max sends per minute / per day</td><td>60 / 5000</td><td>Hard caps on outbound message rate across the platform.</td></tr>
+                                <tr><td>Hold on scam pattern</td><td>On</td><td>Pause a send that matches a known scam pattern.</td></tr>
+                                <tr><td>Hold on links count</td><td>3</td><td>Pause messages that contain more than this many links.</td></tr>
+                                <tr><td>Require template review</td><td>On</td><td>Templates must be reviewed before they can be used.</td></tr>
+                                <tr><td>Block finance terms / short links</td><td>On / On</td><td>Anti-spam filters for high-risk financial wording and URL shorteners.</td></tr>
+                                <tr><td>Blocked keyword list</td><td>empty</td><td>A custom block list (one keyword per line, also comma-separated).</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3>API, webhooks, devices &amp; IP allowlist</h3>
+                        <p>API rate limit per minute (default 600), webhook signature required (on), webhook replay window in seconds (default 300), device trust required (off), logout devices after N inactive days (default 30), and an optional IP allowlist (enable plus a list of CIDR ranges).</p>
+
+                        <h3>Login alerts &amp; audit retention</h3>
+                        <p>Alert on new device (on), alert on new country (on), and the alert channel (<em>email</em>, <em>whatsapp</em>, or <em>both</em>). The <strong>Audit log retention (days)</strong> setting (default 365) controls how long audit rows are kept &mdash; set it to <code>0</code> to keep everything forever for compliance.</p>
+
+                        <blockquote class="info"><strong>Tip:</strong> The two list fields &mdash; blocked keywords and IP allowlist CIDRs &mdash; accept entries separated by new lines or commas. WaDesk trims, de-duplicates, and stores them as a clean list, so paste freely.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="emergency">Emergency Controls (Super Admin only)</h2>
+                        <p>At the bottom of the Security Center is the danger zone: <strong>Irreversible platform-wide actions</strong>. These five controls are limited to <strong>Super Admin</strong> only &mdash; even a regular Admin account that reaches the page is refused, and the denied attempt is recorded in the audit log showing who tried.</p>
+                        <table>
+                            <thead><tr><th>Action</th><th>Effect</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Revoke ALL sessions</strong></td><td>Logs out every user (including you). Everyone must sign in again.</td></tr>
+                                <tr><td><strong>Force password reset for ALL users</strong></td><td>Flags every account to reset its password on next login.</td></tr>
+                                <tr><td><strong>Rotate ALL webhook secrets</strong></td><td>Issues a fresh webhook secret for every workspace. Existing integrations must update.</td></tr>
+                                <tr><td><strong>Emergency stop sends</strong></td><td>Blocks ALL outbound messages across the platform until you resume.</td></tr>
+                                <tr><td><strong>Resume sends</strong></td><td>Lifts the emergency stop and lets messages flow again.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Every one of these actions is recorded in the audit log.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> These actions cannot be undone by a single click. Each button shows a confirmation prompt first. <strong>Emergency stop sends</strong> blocks every workspace until you press <strong>Resume</strong>, and <strong>Revoke ALL sessions</strong> will log out your own admin session too. Use them only during a genuine incident, and have your login details ready before you revoke sessions.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="audit-log">The Audit Log</h2>
+                        <p>The <strong>Audit Log</strong> page is the permanent, searchable record of sensitive actions. Each row records the layer (<em>platform</em> or <em>workspace</em>), who did it, the action (for example a support reply or a deleted help article), the subject, the workspace, the IP and device/browser, extra details, and a result of <strong>Success</strong>, <strong>Failure</strong>, or <strong>Warning</strong> (colour-coded).</p>
+                        <p>The page also shows summary counts (total rows, today, failures, platform events), the <strong>top actors</strong> over the last 7 days, an <strong>event mix</strong> by module, and a small review queue of recent failures/warnings. Click any row to open its full detail (who, which workspace, IP, device/browser, and the full details).</p>
+
+                        <h3>Filtering</h3>
+                        <p>Filter by free-text search, event type (a dropdown built from the distinct actions in your data), result, layer, workspace, and a from/to date range. Dates must be valid calendar dates and the search text is capped and treated literally, so the filters cannot be abused to craft slow or wildcard queries.</p>
+
+                        <h3>Retention</h3>
+                        <p>The audit log cleans itself up automatically: at most once a day, old rows beyond the retention window you set in the Security Center are removed (default 365 days; set it to <code>0</code> to keep everything forever). The cleanup runs in small batches, so even a large backlog never slows the page down.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="csv-export">CSV Export</h2>
+                        <p>Use <strong>Export</strong> on the Audit Log to download the current filter as a CSV. The export honours the same event, result, and date filters as the on-screen list, so the file matches what you are looking at.</p>
+                        <ul>
+                            <li>The file is named <code>audit-log-YYYY-MM-DD-HHmmss.csv</code> and is downloaded in a streaming fashion, so even a very large log exports without running out of memory.</li>
+                            <li>It is saved in UTF-8 with a byte-order mark, so Excel opens it with the correct character encoding.</li>
+                            <li>It has a built-in <strong>spreadsheet safety guard</strong>: any cell that starts with <code>=</code>, <code>+</code>, <code>-</code>, or <code>@</code> is prefixed with an apostrophe, so spreadsheet apps treat it as plain text rather than running it as a formula.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Note:</strong> The export applies the same checks on your filters as the on-screen page, so they can't be bypassed by tampering with the download link.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; where the WhatsApp provider secrets and webhook tokens are stored (encrypted at rest).</li>
+                            <li><a href="./ai-keys.html">AI &amp; API Keys</a> &mdash; the global AI credentials, also encrypted.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#kpis" class="toc-link">Security KPIs</a></li>
+                    <li class="toc-h2"><a href="#risk-queue" class="toc-link">Risk Review Queue</a></li>
+                    <li class="toc-h2"><a href="#policy-forms" class="toc-link">Policy Forms (Enforcement Layers)</a></li>
+                    <li class="toc-h2"><a href="#emergency" class="toc-link">Emergency Controls (Super Admin only)</a></li>
+                    <li class="toc-h2"><a href="#audit-log" class="toc-link">The Audit Log</a></li>
+                    <li class="toc-h2"><a href="#csv-export" class="toc-link">CSV Export</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

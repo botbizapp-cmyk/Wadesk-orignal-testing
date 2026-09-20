@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the Telegram channel — how the Bot API works, creating a bot with BotFather and getting the token step by step, webhook setup, API limits, connecting in WaDesk, and using it in the inbox, automation and broadcasts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Telegram Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Telegram</strong> channel connects a Telegram <strong>bot</strong> so the people who message it appear in the <a href="../messaging/team-inbox.html">Team Inbox</a> next to your other channels. Telegram is fast, free to message, and great for support and communities &mdash; and it runs the same auto-reply, flows and AI agent as the rest of WaDesk. Unlike WhatsApp and Instagram, there's <strong>no 24-hour window</strong>: once a user has started your bot, you can reply any time.</p>
+                        <blockquote class="info"><strong>Good news:</strong> Telegram needs <em>no</em> platform-admin app setup and no review. Any workspace user with the channel on their plan can create a bot and connect it in two minutes.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>Telegram bots run on the official <strong>Bot API</strong>. Each bot is identified by a secret <strong>token</strong>.</li>
+                            <li>WaDesk registers a <strong>webhook</strong> with Telegram for your bot, so every incoming update (message, button tap, etc.) is pushed to WaDesk instantly.</li>
+                            <li>Replies are sent with the Bot API <code>sendMessage</code> / <code>sendPhoto</code> / etc. methods using your token.</li>
+                            <li>People reach your bot by opening <code>t.me/YourBotUsername</code> and pressing <strong>Start</strong>, or by adding it to a group.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="botfather">Creating a Bot &amp; Getting the Token</h2>
+                        <p>The bot token is issued by Telegram's official <strong>BotFather</strong>. Step by step:</p>
+                        <ol>
+                            <li><strong>Open BotFather.</strong> In any Telegram app, search for <code>@BotFather</code> (the one with the blue verified tick) and open the chat.</li>
+                            <li><strong>Create the bot.</strong> Send <code>/newbot</code>.</li>
+                            <li><strong>Name it.</strong> Reply with a display <strong>name</strong> (e.g. &ldquo;Acme Support&rdquo;).</li>
+                            <li><strong>Choose a username.</strong> Reply with a unique <strong>username</strong> ending in <code>bot</code> (e.g. <code>acme_support_bot</code>).</li>
+                            <li><strong>Copy the token.</strong> BotFather replies with a token like <code>123456789:AAExxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>. This is your bot's password &mdash; keep it secret.</li>
+                            <li><strong>(Optional) polish the bot.</strong> Still in BotFather you can set a profile photo (<code>/setuserpic</code>), a description (<code>/setdescription</code>), an about text (<code>/setabouttext</code>), and command hints (<code>/setcommands</code>).</li>
+                        </ol>
+                        <blockquote class="warning"><strong>If the token leaks,</strong> anyone can control your bot. Revoke and reissue it in BotFather with <code>/revoke</code>, then paste the new token into WaDesk.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting in WaDesk</h2>
+                        <ol>
+                            <li><strong>Open the Telegram page</strong> &mdash; <strong>Channels &rarr; Telegram</strong> in the menu.</li>
+                            <li><strong>Paste the bot token</strong> and save.</li>
+                            <li><strong>WaDesk registers the webhook</strong> with Telegram automatically &mdash; no URLs to copy. It also fetches the bot's username so links work.</li>
+                            <li><strong>Test it.</strong> Open <code>t.me/YourBotUsername</code>, press <strong>Start</strong>, and send a message &mdash; it appears in the Team Inbox within seconds.</li>
+                        </ol>
+                        <blockquote class="info"><strong>One webhook per bot.</strong> A Telegram bot can point its webhook at only one place at a time. Don't run the same token in another tool simultaneously, or updates will be split.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Rules</h2>
+                        <table>
+                            <thead><tr><th>Rule</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>User must start the bot</strong></td><td>A bot cannot message someone who hasn't started it (or added it to a group). There is no cold-messaging on Telegram.</td></tr>
+                                <tr><td><strong>No 24-hour window</strong></td><td>Once started, you can reply to a chat any time &mdash; there's no session expiry like WhatsApp.</td></tr>
+                                <tr><td><strong>Send rate</strong></td><td>Telegram allows roughly <strong>30 messages/second</strong> overall and about <strong>1 message/second to a single chat</strong>; bulk sends to a group of users are limited (around 20/minute per chat for groups). WaDesk paces broadcasts to respect this.</td></tr>
+                                <tr><td><strong>Blocking</strong></td><td>A user can block the bot at any time; sends to them then fail silently. Keep messages relevant to avoid blocks.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <ul>
+                            <li><strong>One thread per chat.</strong> Each Telegram user (or group) that reaches your bot gets a thread, labelled with their Telegram name/username.</li>
+                            <li><strong>Media.</strong> Photos, documents, stickers and voice notes render inline and can be replied to.</li>
+                            <li><strong>Buttons.</strong> Inline and reply keyboards from your flows render as tappable buttons in Telegram.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows &amp; AI</h2>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> Scope Welcome / Away / Out-of-hours / Keyword rules to your Telegram bot in <a href="../messaging/auto-reply.html">Auto Reply</a>.</li>
+                            <li><strong>Flows.</strong> Set the <strong>Trigger node's channel to Telegram</strong> in the <a href="../automation/flows.html">Flow Builder</a>. Buttons, quick replies, media and question steps run on Telegram.</li>
+                            <li><strong>AI agent.</strong> Assign an agent to the bot for automatic replies with hand-off.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">Telegram Broadcasts</h2>
+                        <p>The Telegram broadcast composer sends to <strong>every chat that has started your bot</strong>. Choose the bot, select recipients, write your message with a live preview, and send. Because there's no 24-hour window, you can reach your whole bot audience &mdash; WaDesk paces the send to stay within Telegram's rate limits, and any user who blocked the bot is skipped.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>No messages arriving</strong></td><td>The token is wrong, revoked, or the webhook is owned by another tool. Re-paste a fresh token; WaDesk re-registers the webhook.</td></tr>
+                                <tr><td><strong>&ldquo;Bot was blocked by the user&rdquo;</strong></td><td>That user blocked the bot; you can't message them until they unblock and restart it.</td></tr>
+                                <tr><td><strong>Can't message a new person</strong></td><td>They haven't started the bot. Share your <code>t.me/&hellip;</code> link and ask them to press Start.</td></tr>
+                                <tr><td><strong>Broadcast slow</strong></td><td>Expected &mdash; WaDesk paces to Telegram's per-second limits so the bot isn't throttled or banned.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#botfather" class="toc-link">Creating a Bot &amp; Token</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting in WaDesk</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows &amp; AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">Telegram Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

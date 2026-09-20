@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing &amp; Finance – WaDesk SaaS Docs</title>
+    <meta name="description" content="Billing &amp; Finance — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Billing &amp; Finance</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Billing &amp; Finance</strong> area is where you, the platform owner, watch the money. It pulls together five screens, all built from the same set of orders, so every payment a workspace makes &mdash; whether through Stripe, Razorpay, PayPal, or any of the 30+ gateways &mdash; rolls up into the same numbers.</p>
+                        <table>
+                            <thead><tr><th>Screen</th><th>Where to find it</th><th>What it answers</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Financial</strong></td><td>Admin &rarr; Financial</td><td>"How is revenue trending right now?" MRR, ARR, refunds, outstanding.</td></tr>
+                                <tr><td><strong>Premium</strong></td><td>Admin &rarr; Premium</td><td>"Which plans drive the business?" Plan mix, average revenue per customer, conversion.</td></tr>
+                                <tr><td><strong>Billing History</strong></td><td>Admin &rarr; Billing History</td><td>"Show me every payment event." Charges, refunds, failures.</td></tr>
+                                <tr><td><strong>Order History</strong></td><td>Admin &rarr; Order History</td><td>"How are subscriptions moving?" New, add-on, cancel, cohorts.</td></tr>
+                                <tr><td><strong>Invoices</strong></td><td>Admin &rarr; Invoices</td><td>"Give me the document." Per-order invoice list and printable invoice.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>One source of truth:</strong> Every order has a status (paid, pending, failed, or refunded), the gateway it was paid through, the plan it was for (blank for credit or add-on purchases), and the date it was paid. The dashboards simply slice these orders by date window and status &mdash; so the same payment is never counted twice across screens.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="window-picker">The Window Picker &amp; How Deltas Work</h2>
+                        <p>Every dashboard has a date-window dropdown in the top-right. Changing it reloads the page with the new range applied to every KPI, chart, and table on that screen.</p>
+                        <table>
+                            <thead><tr><th>Screen</th><th>Window options</th><th>Default</th></tr></thead>
+                            <tbody>
+                                <tr><td>Financial &amp; Premium</td><td>Last 7 days, 30 days, 90 days, last year</td><td>30 days</td></tr>
+                                <tr><td>Billing History</td><td>Last 7 days, 30 days, 90 days, last year, all time</td><td>90 days</td></tr>
+                                <tr><td>Order History</td><td>Last 90 days, this year, all time</td><td>90 days</td></tr>
+                                <tr><td>Invoices</td><td>This month, last month, this quarter, this year</td><td>This month</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Wherever you see a small percentage chip on a metric (for example the green or coral chip under <strong>Gross revenue</strong>), it compares the <strong>current window against the window of the same length just before it</strong>. So "Last 30 days" is measured against the 30 days before that. An increase shows in green, a drop in coral.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Because the comparison period scales with your selection, switching to a longer window smooths out day-to-day noise. Use 7 days to spot a sudden gateway outage, and 90 days or last-year to read the real trend.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="financial">Financial Dashboard</h2>
+                        <p>The Financial dashboard (Admin &rarr; Financial) is your revenue control centre. The header lets you jump straight to <a href="#invoices">Invoices</a> or <a href="#order-history">Order history</a>.</p>
+
+                        <h3 id="financial-kpis">The Five KPI Cards</h3>
+                        <table>
+                            <thead><tr><th>KPI</th><th>How it's calculated</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Revenue (window)</strong></td><td>The total of all paid orders within the window. Carries a change chip vs the previous period.</td></tr>
+                                <tr><td><strong>MRR (active)</strong></td><td>A live snapshot &mdash; the total monthly price of every workspace currently on a paid, active plan. This is a "right now" figure, not tied to the window.</td></tr>
+                                <tr><td><strong>ARR (projected)</strong></td><td>MRR &times; 12. A simple annual run-rate projection.</td></tr>
+                                <tr><td><strong>Refunds</strong></td><td>The total of orders refunded in the window (dated by when they were refunded).</td></tr>
+                                <tr><td><strong>Outstanding</strong></td><td>The total of orders still awaiting payment that were created in the window &mdash; money you've invoiced but not yet collected.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Note on MRR:</strong> MRR counts each workspace's <em>current</em> plan price regardless of when it last paid, so it reflects your active subscription base. Revenue (window), by contrast, only counts money that actually came in during the window. The two will differ, and that's expected &mdash; one is a snapshot, the other is a flow.</blockquote>
+
+                        <h3 id="financial-charts">Charts &amp; Tables</h3>
+                        <ul>
+                            <li><strong>Revenue over time</strong> &mdash; a daily chart of paid-order revenue across the window, with the window total printed in the header.</li>
+                            <li><strong>Payment methods</strong> &mdash; a donut showing each gateway's share of paid revenue.</li>
+                            <li><strong>Top paying workspaces</strong> &mdash; the ten highest-spending workspaces in the window, with order count and total spend. Each row links to that workspace's <a href="./workspaces.html">detail page</a>.</li>
+                            <li><strong>Order status</strong> &mdash; a donut of order counts by status (paid / pending / failed / refunded) for the window.</li>
+                            <li><strong>Recent orders</strong> &mdash; the last eight orders platform-wide, with order number, workspace, plan, amount, status badge, and how long ago it happened.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="premium">Premium Dashboard</h2>
+                        <p>Where Financial tracks cash, the Premium dashboard (Admin &rarr; Premium) tracks the <strong>subscription base itself</strong> &mdash; who's on what plan and how well you turn free customers into paying ones. The header links to the <a href="./plans-packages.html">Packages</a> manager and a "New plan" shortcut.</p>
+
+                        <h3 id="premium-kpis">The Four KPI Cards</h3>
+                        <table>
+                            <thead><tr><th>KPI</th><th>How it's calculated</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Paid workspaces</strong></td><td>Number of workspaces on a paid plan.</td></tr>
+                                <tr><td><strong>Free workspaces</strong></td><td>Everyone else &mdash; total workspaces minus paid. Your upgrade target.</td></tr>
+                                <tr><td><strong>ARPU</strong></td><td>Average revenue per paid workspace = MRR &divide; number of paid workspaces.</td></tr>
+                                <tr><td><strong>Trial &rarr; paid</strong></td><td>Conversion rate = workspaces that paid in the window &divide; new sign-ups in the window. Carries a change chip vs the previous period.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="premium-charts">Charts &amp; the Plan Table</h3>
+                        <ul>
+                            <li><strong>Plan distribution</strong> &mdash; a donut of how many workspaces sit on each plan (free workspaces show as "Free").</li>
+                            <li><strong>Revenue by plan</strong> &mdash; a bar chart of window revenue contributed per plan.</li>
+                            <li><strong>New paid signups</strong> &mdash; a daily area chart of workspaces moving onto a paid plan.</li>
+                            <li><strong>Most popular plans</strong> &mdash; the top five plans by order count over the trailing 90 days (this panel is fixed at 90 days regardless of the window picker).</li>
+                            <li><strong>All plans table</strong> &mdash; every package with its price, billing duration, current workspace count, MRR contribution (price &times; workspaces), window revenue, and an active/off badge. Each row has an <strong>Edit</strong> link straight into the package editor.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> Read the All-plans table together with the donut. A plan with many workspaces but low MRR is a candidate for a price review; a plan with few workspaces but high revenue is your enterprise anchor &mdash; protect it.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="billing-history">Billing History</h2>
+                        <p>Billing History (Admin &rarr; Billing History) is the <strong>payment record</strong> &mdash; every charge, refund, and failure the platform has processed. It has two views: the main list and an <strong>Analytics</strong> view, reached from the Analytics button in the header.</p>
+
+                        <h3 id="bh-kpis">KPI Strip</h3>
+                        <p>Five cards summarise the window:</p>
+                        <table>
+                            <thead><tr><th>KPI</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Gross revenue</strong></td><td>Total paid in the window, with a change chip vs the previous period.</td></tr>
+                                <tr><td><strong>Successful charges</strong></td><td>Number of paid orders, plus a success rate (paid &divide; paid + failed).</td></tr>
+                                <tr><td><strong>Failed</strong></td><td>Number of failed orders &mdash; the payments worth chasing or retrying.</td></tr>
+                                <tr><td><strong>Refunds issued</strong></td><td>Refund count with the total refunded amount.</td></tr>
+                                <tr><td><strong>Chargebacks</strong></td><td>Shown for completeness; disputes aren't tracked yet, so this reads zero. The label stays in place for when disputes are added later.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="bh-trend">Auto-Bucketed Trend Chart</h3>
+                        <p>The <strong>Daily charges &amp; refunds</strong> chart adapts its bucket size to the window length so the X-axis never gets crowded:</p>
+                        <table>
+                            <thead><tr><th>Window length</th><th>Bucket</th></tr></thead>
+                            <tbody>
+                                <tr><td>Up to 31 days</td><td>Daily</td></tr>
+                                <tr><td>Up to 100 days</td><td>Weekly (Monday-anchored)</td></tr>
+                                <tr><td>Up to ~400 days</td><td>Monthly</td></tr>
+                                <tr><td>Beyond that (all time)</td><td>Quarterly</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Charges plot in deep green and refunds in coral. The Analytics view adds a third <strong>failed</strong> series in amber.</p>
+
+                        <h3 id="bh-filters">Filtering the List</h3>
+                        <p>Below the trend chart sit the filters. They combine, and they keep the window you've chosen:</p>
+                        <ul>
+                            <li><strong>Status pills</strong> &mdash; All, Successful, Failed, Refunded, Pending.</li>
+                            <li><strong>Gateway dropdown</strong> &mdash; narrow to a single payment provider (only the gateways actually used in your orders appear).</li>
+                            <li><strong>Search box</strong> &mdash; matches order number, customer name, customer email, or workspace name.</li>
+                        </ul>
+                        <p>The list shows 12 events per page with date and time, order number, workspace (and customer email), gateway, plan, amount (refunds shown as negative, in the order's own currency), and a colour-coded status badge. Failed and refunded rows have a tinted background so they're easy to spot. The arrow at the end of each row opens that workspace.</p>
+
+                        <h3 id="bh-analytics">Billing Analytics</h3>
+                        <p>The Analytics view widens the picture with a six-card strip and richer breakdowns:</p>
+                        <table>
+                            <thead><tr><th>KPI</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Gross revenue</strong></td><td>Paid total, with a change chip vs the previous period.</td></tr>
+                                <tr><td><strong>Net revenue</strong></td><td>Gross minus refunds, plus the percentage you kept.</td></tr>
+                                <tr><td><strong>Payment success</strong></td><td>Success rate with the paid / total-attempts count.</td></tr>
+                                <tr><td><strong>Failed</strong></td><td>Failed amount and number of events.</td></tr>
+                                <tr><td><strong>Refunds</strong></td><td>Refunded amount and number of events.</td></tr>
+                                <tr><td><strong>Chargebacks</strong></td><td>Placeholder (zero) until disputes are tracked.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Below the cards: a cash-flow trend showing charges, refunds, and failures together; a <strong>Gateway share</strong> donut splitting paid revenue by provider; the <strong>Top paying workspaces</strong> table; and an <strong>Order status mix</strong> donut.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="order-history">Order History</h2>
+                        <p>Order History (Admin &rarr; Order History) looks at the same orders from a <strong>subscription angle</strong> &mdash; new business, add-ons, and cancellations &mdash; rather than raw payments. Like Billing History, it has a main list and an <strong>Analytics</strong> view.</p>
+
+                        <h3 id="oh-types">Order Types</h3>
+                        <p>Order History gives each order a "type" label based on its status and whether it includes a plan, so you can filter the list by what the order was for:</p>
+                        <table>
+                            <thead><tr><th>Type / badge</th><th>What it means</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>New / Renewal</strong></td><td>A paid order. "New" when no plan is attached, "Renewal" when a plan is attached.</td></tr>
+                                <tr><td><strong>Add-on</strong></td><td>A paid order with no plan attached &mdash; typically a credit top-up or one-off purchase.</td></tr>
+                                <tr><td><strong>Pending</strong></td><td>An order awaiting payment.</td></tr>
+                                <tr><td><strong>Cancel</strong></td><td>A failed or refunded order &mdash; lost revenue.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The filter pills (All, New, Upgrade, Downgrade, Add-on, Cancel) match these types, and the search box matches order number, customer email, or workspace name. Results show 12 per page.</p>
+
+                        <h3 id="oh-index-kpis">KPI Strip</h3>
+                        <p>Six cards: <strong>Total orders</strong> (with a period-over-period change), <strong>Upgrades</strong> (paid count, plus MRR added), <strong>Downgrades</strong> (a placeholder &mdash; downgrades aren't tracked yet), <strong>Add-ons</strong> (count and value), and <strong>Cancels</strong> (count and MRR lost).</p>
+
+                        <h3 id="oh-analytics">Order Analytics</h3>
+                        <p>The Analytics view is the most detailed of the finance screens.</p>
+                        <ul>
+                            <li><strong>Headline KPIs</strong> &mdash; Total orders, Net new MRR, Lost MRR, Average order value (paid total &divide; paid count), Add-on attach rate (add-ons as a % of all orders), and Conversion rate (paid &divide; sign-ups).</li>
+                            <li><strong>Daily order motion</strong> &mdash; a chart (same daily/weekly/monthly/quarterly grouping as Billing History) plotting new orders against cancels.</li>
+                            <li><strong>Order type mix</strong> &mdash; a donut and counters splitting Renewal / Add-on / Cancel.</li>
+                            <li><strong>Add-ons sold</strong> &mdash; the top non-plan items by spend, as ranked bars.</li>
+                            <li><strong>Conversion funnel</strong> &mdash; Pricing-page visits &rarr; Sign-ups &rarr; Trials started &rarr; Active in trial &rarr; Converted to paid.</li>
+                            <li><strong>By country</strong> &mdash; top markets by paid-order count. This panel is illustrative: the platform doesn't store a country for each user, so it stays empty in practice.</li>
+                            <li><strong>Cohort retention</strong> &mdash; a heat-map of the last six monthly sign-up groups, showing the percentage of each group still subscribed at months 0 through 5.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Read these as directional, not exact:</strong> A few items above &mdash; the top funnel stages (visits, trials, active-in-trial) and the downgrade KPI &mdash; use rough estimates, because the platform doesn't yet track page visits or downgrade events. The lower funnel (sign-ups, conversions), cohort retention, average order value, and all revenue figures come from real order data and are accurate. Treat the top of the funnel as a trend, not a precise count.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="invoices">Invoices</h2>
+                        <p>The Invoices screen (Admin &rarr; Invoices) turns each order into a billing <strong>document</strong>. Every paid or pending order gets an invoice with a number based on its order number (shown in the list as <code>INV-...</code>).</p>
+
+                        <h3 id="invoice-kpis">Invoice KPI Strip</h3>
+                        <table>
+                            <thead><tr><th>KPI</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Total invoices</strong></td><td>All-time invoice count.</td></tr>
+                                <tr><td><strong>Paid</strong></td><td>Paid count plus the paid percentage.</td></tr>
+                                <tr><td><strong>Outstanding</strong></td><td>Pending invoice count and the total amount due.</td></tr>
+                                <tr><td><strong>Overdue</strong></td><td>Pending invoices created more than 15 days ago.</td></tr>
+                                <tr><td><strong>This month</strong></td><td>This month's paid total, with a month-over-month delta.</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 id="invoice-list">Invoice List &amp; Status</h3>
+                        <p>Filter with the status pills &mdash; All, Paid, Outstanding, Overdue, Refunded, Void &mdash; plus the window dropdown (this/last month, this quarter, this year) and a search box (invoice number, workspace, owner). The status badge is derived from the order:</p>
+                        <table>
+                            <thead><tr><th>Order status</th><th>Invoice badge</th></tr></thead>
+                            <tbody>
+                                <tr><td>Paid</td><td><strong>paid</strong> (green)</td></tr>
+                                <tr><td>Pending, 15 days old or less</td><td><strong>outstanding</strong> (amber)</td></tr>
+                                <tr><td>Pending, more than 15 days old</td><td><strong>overdue</strong> (coral, with days-late count)</td></tr>
+                                <tr><td>Refunded</td><td><strong>refunded</strong> (purple, amount shown negative)</td></tr>
+                                <tr><td>Failed</td><td><strong>void</strong> (grey)</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Each row shows the invoice number, issue date, due date (with a late marker when overdue), workspace and owner, the plan or "Add-on" item, the amount in its own currency, the status badge, a view-invoice icon, and a per-row actions menu.</p>
+
+                        <h3 id="invoice-view">The Single Invoice View</h3>
+                        <p>Clicking an invoice opens a clean, printable document. It is laid out as a real tax invoice:</p>
+                        <ul>
+                            <li>An admin-only status banner at the top (hidden when printing) summarising amount, gateway, and payment reference.</li>
+                            <li>Your company header &mdash; logo, address, and tax ID &mdash; drawn from the platform <a href="./system-settings.html">billing settings</a>.</li>
+                            <li>A <strong>Bill to</strong> block (billing company / customer / workspace name, email, and address) and a <strong>Payment</strong> block (method, transaction ID, captured-at time, currency, and coupon code if one was used).</li>
+                            <li>Line items with subtotal, any coupon discount (shown negative), tax line (label and rate from your settings), total, amount paid, and balance due.</li>
+                            <li>Footer notes and a "Need help?" block with your billing email and phone.</li>
+                        </ul>
+                        <p>The <strong>Print</strong> and <strong>Download PDF</strong> buttons both trigger the browser's print dialog, so you can hand a customer a PDF without any extra tooling.</p>
+                        <blockquote class="info"><strong>Set your invoice identity once:</strong> The company name, address, tax ID, tax label/rate, and support contact on every invoice come from the platform billing settings. Fill those in under <a href="./system-settings.html">System Settings</a> before sending the first invoice so customers see your brand, not a placeholder.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./plans-packages.html">Plans &amp; Packages</a> &mdash; build the tiers whose prices feed MRR and the plan tables.</li>
+                            <li><a href="./payment-gateways.html">Payment Gateways</a> &mdash; the providers behind the gateway donuts and the ledger.</li>
+                            <li><a href="./coupons-credits.html">Coupons &amp; Credits</a> &mdash; the discounts and credit bundles that appear on invoices and as add-on orders.</li>
+                            <li><a href="./workspaces.html">Workspaces</a> &mdash; the detail page every "top paying workspace" row links to.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#window-picker" class="toc-link">Window Picker &amp; Deltas</a></li>
+                    <li class="toc-h2"><a href="#financial" class="toc-link">Financial Dashboard</a></li>
+                    <li class="toc-h2"><a href="#premium" class="toc-link">Premium Dashboard</a></li>
+                    <li class="toc-h2"><a href="#billing-history" class="toc-link">Billing History</a></li>
+                    <li class="toc-h2"><a href="#order-history" class="toc-link">Order History</a></li>
+                    <li class="toc-h2"><a href="#invoices" class="toc-link">Invoices</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

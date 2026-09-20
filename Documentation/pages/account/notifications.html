@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications – WaDesk SaaS Docs</title>
+    <meta name="description" content="Notifications — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Notifications</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Notifications</strong> page is your workspace activity feed. It collects the in-app alerts WaDesk creates as work happens &mdash; campaigns finishing, devices dropping offline, billing events, mentions, and more &mdash; into one searchable, filterable inbox. Reach it from <strong>More &rarr; Notifications</strong>, or from the bell icon in the top header.</p>
+                        <p>Notifications are tied to your workspace: the feed shows alerts for the workspace you are currently in, <em>plus</em> personal notifications addressed directly to you no matter which workspace you are in (such as "your password was changed"). Switching workspaces switches the shared feed.</p>
+                        <blockquote class="info"><strong>Auto-recorded:</strong> Most notifications are created automatically &mdash; important changes across your workspace appear here with no setup. Notification titles and messages are stored <strong>securely (encrypted)</strong>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="bell-feed">The Bell vs. the Full Page</h2>
+                        <p>There are two surfaces for the same data:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Surface</th><th>Shows</th><th>Best for</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Header bell</strong></td><td>Your <strong>8 most recent</strong> notifications plus an unread count badge, refreshed periodically.</td><td>A glance while you work.</td></tr>
+                                <tr><td><strong>Full Notifications page</strong></td><td>The complete feed with KPIs, category filters, search, and pagination (<strong>12 per page</strong>).</td><td>Triaging or finding something specific.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>At the top of the full page, four KPI cards summarize: your <strong>unread</strong> count (with urgent highlighted), <strong>events today</strong> (versus your recent 30-day daily average, shown as a percentage delta), <strong>active categories</strong> (distinct categories used this week), and your workspace <strong>quiet hours</strong>.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="categories">Categories &amp; Filtering</h2>
+                        <p>Every notification belongs to a category, and the tabs at the top of the feed let you filter to one of them. Each tab shows a live count. The categories WaDesk tracks:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Tab</th><th>What it surfaces</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>All</strong> / <strong>Unread</strong></td><td>The two starting views &mdash; everything, or just the unread ones.</td></tr>
+                                <tr><td><strong>Mentions</strong></td><td>When a teammate @-mentions you in an internal note.</td></tr>
+                                <tr><td><strong>Campaigns</strong> / <strong>Broadcasts</strong></td><td>Bulk-send progress and results.</td></tr>
+                                <tr><td><strong>System</strong></td><td>Profile changes, password changes, and platform notices.</td></tr>
+                                <tr><td><strong>Billing</strong></td><td>Payments, plan changes, and credit events.</td></tr>
+                                <tr><td><strong>Devices</strong></td><td>WhatsApp connection drops and reconnects.</td></tr>
+                                <tr><td><strong>Chat</strong></td><td>Conversation / inbox events.</td></tr>
+                                <tr><td><strong>Templates</strong>, <strong>Webhooks</strong>, <strong>Contacts</strong></td><td>Events from those areas.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The feed itself is grouped by time into <strong>Today</strong>, <strong>Yesterday</strong>, <strong>Earlier this week</strong>, and <strong>Older</strong> so the most relevant items stay at the top (empty groups are hidden). A <strong>search box</strong> filters by notification title and message text. The right column also shows your <strong>top sources this week</strong> &mdash; a ranked count of which categories are most active.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="managing">Marking Read &amp; Clearing</h2>
+                        <p>You have a few ways to keep the feed tidy:</p>
+                        <ul>
+                            <li><strong>Mark all read</strong> &mdash; clears the unread state on everything in one click (button in the page header, and in the bell dropdown).</li>
+                            <li><strong>Mark a single notification read</strong> &mdash; opening or interacting with one marks it as read.</li>
+                            <li><strong>Clear all</strong> &mdash; deletes notifications from the feed (in the results footer or bell dropdown).</li>
+                            <li><strong>Delete one</strong> &mdash; remove a single notification.</li>
+                        </ul>
+                        <p>Urgent notifications &mdash; for example a password change or a device going offline &mdash; are highlighted so they stand out even when the feed is busy, and they are counted separately in the unread total.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="event-catalog">The Event Catalog</h2>
+                        <p>Beyond the broad categories above, WaDesk has an authoritative catalog of high-signal <strong>events</strong> you can tune individually in Settings. These are the named events the notification system knows about:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Area</th><th>Events</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Devices</strong></td><td>Device connected, Device disconnected</td></tr>
+                                <tr><td><strong>Sending</strong></td><td>Campaign completed, Campaign failed, Broadcast completed, Flow started, Flow failed</td></tr>
+                                <tr><td><strong>Inbox</strong></td><td>New customer reply, You were @mentioned, Conversation assigned to you, SLA breached</td></tr>
+                                <tr><td><strong>Billing &amp; wallet</strong></td><td>Wallet low balance, Plan upgraded / downgraded, Payment failed</td></tr>
+                                <tr><td><strong>Integrations</strong></td><td>Webhook delivery failed, Integration disconnected, Appointment booked</td></tr>
+                                <tr><td><strong>Digest</strong></td><td>Weekly summary</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="channels">Channels &amp; Quiet Hours</h2>
+                        <p>How and when you are notified is controlled from the <strong>Settings</strong> page (the <strong>Preferences</strong> button on the Notifications page links straight there). You choose, per event and per category, which delivery <strong>channels</strong> to use:</p>
+                        <ul>
+                            <li><strong>In-app</strong> &mdash; shows in the bell and the Notifications feed.</li>
+                            <li><strong>Email</strong> &mdash; sent to your account email.</li>
+                            <li><strong>Slack</strong> &mdash; posted to a connected Slack channel.</li>
+                        </ul>
+                        <h3>How a channel decision is made</h3>
+                        <p>When an event happens, WaDesk decides whether to send it on each channel using the first rule that applies, in this order:</p>
+                        <ol>
+                            <li>A <strong>specific choice you set for that event</strong> in Settings wins.</li>
+                            <li>Otherwise, a <strong>default you set for that category</strong>.</li>
+                            <li>Otherwise, the <strong>built-in default</strong> for that event.</li>
+                            <li>Otherwise, the overall default (in-app on, email and Slack off).</li>
+                        </ol>
+                        <p>The shipped defaults are tuned like a well-run SaaS &mdash; quiet email by default, but every critical event lights up the in-app bell. A few high-signal events default email (and some Slack) on:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Event</th><th>In-app</th><th>Email</th><th>Slack</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Default (everything else)</td><td>On</td><td>Off</td><td>Off</td></tr>
+                                <tr><td>Device disconnected</td><td>On</td><td>On</td><td>Off</td></tr>
+                                <tr><td>Wallet low balance</td><td>On</td><td>On</td><td>On</td></tr>
+                                <tr><td>Payment failed</td><td>On</td><td>On</td><td>Off</td></tr>
+                                <tr><td>SLA breached</td><td>On</td><td>On</td><td>On</td></tr>
+                                <tr><td>Campaign failed</td><td>On</td><td>On</td><td>Off</td></tr>
+                                <tr><td>Webhook delivery failed</td><td>On</td><td>On</td><td>Off</td></tr>
+                                <tr><td>Integration disconnected</td><td>On</td><td>On</td><td>Off</td></tr>
+                                <tr><td>Weekly summary</td><td>Off</td><td>On</td><td>Off</td></tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Quiet hours</strong> (Do Not Disturb) are a workspace setting &mdash; the Notifications page surfaces the current window (for example 22:00 to 07:00) in a KPI card. During quiet hours, non-urgent alerts are held back so you are not pinged overnight.</p>
+                        <blockquote class="warning"><strong>Note:</strong> Notification channel and category preferences are saved at the <strong>workspace</strong> level and are owner-editable. If a teammate cannot change a preference, that is expected &mdash; the workspace owner controls these defaults.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>I see different notifications than a teammate</td><td>The feed is workspace-shared plus your own personal items. Personal events (password, profile) only appear for you.</td></tr>
+                                <tr><td>The feed emptied after switching workspaces</td><td>Expected &mdash; notifications are workspace-scoped. Switch back to see that workspace's feed.</td></tr>
+                                <tr><td>Not getting email or Slack alerts</td><td>Channels are off by default for most events. Enable them per event/category under Settings &rarr; Preferences (owner-only).</td></tr>
+                                <tr><td>No overnight pings even for things I want</td><td>Quiet hours are holding non-urgent alerts. Urgent events still come through; adjust the quiet-hours window in Settings.</td></tr>
+                                <tr><td>A preference toggle is disabled for me</td><td>Notification preferences are owner-editable at the workspace level. Ask the workspace owner.</td></tr>
+                                <tr><td>Old notifications keep reappearing</td><td>Use <strong>Clear all</strong> to delete them, or <strong>Mark all read</strong> to clear just the unread state.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#bell-feed" class="toc-link">The Bell vs. the Full Page</a></li>
+                    <li class="toc-h2"><a href="#categories" class="toc-link">Categories &amp; Filtering</a></li>
+                    <li class="toc-h2"><a href="#managing" class="toc-link">Marking Read &amp; Clearing</a></li>
+                    <li class="toc-h2"><a href="#event-catalog" class="toc-link">The Event Catalog</a></li>
+                    <li class="toc-h2"><a href="#channels" class="toc-link">Channels &amp; Quiet Hours</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

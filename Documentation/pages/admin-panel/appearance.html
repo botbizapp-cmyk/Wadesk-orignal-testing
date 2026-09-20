@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appearance &amp; Theme Colours – WaDesk SaaS Docs</title>
+    <meta name="description" content="Appearance &amp; Theme Colours — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Appearance &amp; Theme Colours</h1>
+
+                    <p>The <strong>Appearance</strong> screen lets the platform owner recolour the entire WaDesk dashboard &mdash; both the customer-facing user panel and the admin panel &mdash; to match a brand palette, without editing a single line of code. It was introduced in WaDesk <strong>v1.2</strong> and lives at <strong>Admin &rarr; Appearance</strong> (<code>/admin/appearance</code>).</p>
+
+                    <section class="mb-12">
+                        <h2 id="what-it-is">What it is</h2>
+                        <p>Appearance is a no-code theming control. Instead of asking a developer to recompile stylesheets, you choose colour values on a single page and WaDesk applies them across every screen of the platform instantly.</p>
+                        <ul>
+                            <li>It recolours the <strong>whole dashboard</strong> &mdash; the user panel that your customers log into <em>and</em> the admin panel you manage from.</li>
+                            <li>It works on top of the design tokens the interface is built from, so the new colours flow through buttons, links, highlights, surfaces, and accents consistently.</li>
+                            <li>It is a true white-label tool: point the palette at a client's brand colours and the panel looks like the client's own product.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use-it">Why and when to use it</h2>
+                        <p>Use Appearance whenever the default WaDesk colours are not the look you want to present.</p>
+                        <ul>
+                            <li><strong>White-labelling for a client</strong> &mdash; match the dashboard to an agency or reseller client's brand palette so the platform feels native to them.</li>
+                            <li><strong>Brand consistency</strong> &mdash; align the panel with your company's primary and accent colours.</li>
+                            <li><strong>Seasonal or campaign refresh</strong> &mdash; quickly shift the palette and revert later, since a Reset button restores the shipped defaults.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> Appearance controls the <em>application</em> colours. The colours of your public marketing website are edited separately in the <a href="../admin-panel/frontend-editor.html">Frontend Live Editor</a>, and a workspace's own logo and branding are set per workspace &mdash; not here.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>The page presents the theme's <strong>design tokens</strong> as a set of colour fields &mdash; the primary and accent colours, surface and background colours, and so on. You pick a value for each token you want to change.</p>
+                        <p>When you save, the values are stored in the platform's system settings under the <code>theme.color.*</code> keys. From then on, WaDesk injects those values as live <strong>CSS variables</strong> into every page, across every theme and skin the interface ships with. Because the colours are applied as variables rather than hard-coded, the change takes effect immediately and platform-wide &mdash; there is no rebuild and no per-page editing.</p>
+                        <table>
+                            <thead><tr><th>Element</th><th>Behaviour</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Design-token fields</strong></td><td>Each field maps to one colour token used throughout the interface (primary, accent, surfaces, and more).</td></tr>
+                                <tr><td><strong>Stored as</strong></td><td>System settings under <code>theme.color.*</code>.</td></tr>
+                                <tr><td><strong>Applied as</strong></td><td>Live CSS variables injected into every theme/skin, on both the user and admin panels.</td></tr>
+                                <tr><td><strong>Scope</strong></td><td>Platform-wide and instant &mdash; the moment you save, every screen reflects the new palette.</td></tr>
+                                <tr><td><strong>Reset</strong></td><td>A Reset button restores the original shipped default colours.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-to-use">Step by step</h2>
+                        <ol>
+                            <li>Open <strong>Admin &rarr; Appearance</strong> (<code>/admin/appearance</code>).</li>
+                            <li>For each design token you want to change, pick a colour value &mdash; start with the primary and accent colours, which have the broadest visible effect.</li>
+                            <li>Adjust the surface and background tokens if you want to change the panel's overall tone.</li>
+                            <li><strong>Save</strong>. The new palette is written to <code>theme.color.*</code> and applied live across the user and admin panels right away.</li>
+                            <li>If you want to start over, click <strong>Reset</strong> to return every token to its shipped default.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Caution:</strong> Because the change is platform-wide and instant, picking colours with too little contrast can make text hard to read for every user at once. Choose accessible combinations, and use <strong>Reset</strong> if a palette does not work out.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>The control is in the admin sidebar under <strong>Appearance</strong>, reachable directly at <code>/admin/appearance</code>. It is distinct from two nearby tools that are easy to confuse with it:</p>
+                        <ul>
+                            <li>The <strong>Frontend Live Editor</strong> controls the public marketing site's content and colours, not the dashboard.</li>
+                            <li><strong>Per-workspace branding</strong> (logo and workspace identity) is configured for each workspace and does not change the platform palette.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permissions">Plan &amp; permissions</h2>
+                        <p>Appearance is a <strong>platform-admin-only</strong> tool. It is not exposed to ordinary workspace users, and the palette it sets is global &mdash; it applies to everyone using the platform, not to a single workspace.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./auth-pages.html">Auth Page Editor</a> &mdash; restyle the public Login, Register, and Forgot Password pages.</li>
+                            <li><a href="./frontend-editor.html">Frontend Live Editor</a> &mdash; edit the public marketing site's text, colours, and sections.</li>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; where platform-wide settings (including <code>theme.color.*</code>) are stored.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#what-it-is" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use-it" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#how-to-use" class="toc-link">Step by step</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#permissions" class="toc-link">Plan &amp; permissions</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

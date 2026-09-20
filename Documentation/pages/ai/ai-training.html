@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Training – WaDesk SaaS Docs</title>
+    <meta name="description" content="AI Training — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>AI Training</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>AI Training</strong> is where you build <em>chat assistants</em> &mdash; text-based AI personas &mdash; and train them on your own content. A trained assistant powers the <a href="../automation/chatbot-widget.html">chatbot widget</a> on your site. You manage them under <strong>More &rarr; AI Training</strong>.</p>
+                        <p>A chat assistant is two things: a <strong>persona and model setup</strong> (greeting, character brief, tone, language, provider, model, reply length, creativity, fallback, and human-handoff rules) and a set of <strong>knowledge sources</strong> (web links, files, free text, and Q&amp;A pairs). When someone chats, the assistant draws on your material to answer &mdash; see <a href="#how-used">Where the assistant is used</a>.</p>
+                        <p>These are separate from the voice <a href="./ai-call-assistant.html">AI Call Assistant</a>: chat assistants reply in text, voice assistants answer phone calls. Build a chat assistant with the five-step <strong>Smart Agent Builder</strong>: <strong>Identity</strong>, <strong>Persona</strong>, <strong>Brain</strong>, <strong>Safety</strong>, and <strong>Knowledge</strong>.</p>
+                        <blockquote class="info"><strong>Prerequisite &mdash; the admin sets the provider keys.</strong> You don't paste an API key here. The platform admin sets up the OpenAI / Anthropic Claude / Google Gemini keys once under <a href="../admin-panel/ai-keys.html">Admin &rarr; AI &amp; API Keys</a>, and every chat assistant uses them automatically. The builder says it directly: "Admin pre-configures the API keys &mdash; no key required from you."</blockquote>
+                        <blockquote class="info"><strong>Plan-gated.</strong> AI Training needs the <strong>AI Chat Assistant</strong> plan feature &mdash; the same one the chatbot widget relies on &mdash; so a workspace without it can't create assistants.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating a chat assistant</h2>
+                        <ol>
+                            <li><strong>Open the builder</strong> from the AI Training list (or open an existing assistant to edit it).</li>
+                            <li><strong>Work through the five steps</strong> below. Use <strong>Save draft</strong> at any point; the persona and model settings save together.</li>
+                            <li><strong>Add knowledge sources</strong> in Step&nbsp;5. Each source is checked right away and lands in a <em>ready</em> (or <em>failed</em>) state.</li>
+                            <li><strong>Set status to Live</strong> (Step&nbsp;1) so the assistant can be selected in chatbot widgets &mdash; only Live assistants appear in the widget picker.</li>
+                            <li><strong>Attach it</strong> to a <a href="../automation/chatbot-widget.html">chatbot widget</a> to put it to work.</li>
+                        </ol>
+                        <p>A brand-new assistant starts with sensible defaults (a friendly greeting, a concise "helpful website assistant" brief, OpenAI <code>gpt-4o-mini</code>, 400-token replies, creativity 0.7, handoff on). You can change any of them before the first save.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-1-identity">Step 1 &middot; Identity</h2>
+                        <table>
+                            <thead><tr><th>Field</th><th>Required</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Agent display name</strong></td><td>Yes (max 120)</td><td>&mdash;</td><td>For your records only; visitors don't see it.</td></tr>
+                                <tr><td><strong>Roll-out status</strong></td><td>No</td><td>Live</td><td><em>Live</em> (selectable in widgets) or <em>Paused</em> (stays in the list but can't be attached to new widgets).</td></tr>
+                                <tr><td><strong>Preferred language</strong></td><td>No (max 16)</td><td>English</td><td>A standard language code; the assistant auto-matches a visitor's language if it differs.</td></tr>
+                                <tr><td><strong>Conversational tone</strong></td><td>No (max 32)</td><td>Helpful</td><td>Sets the writing style, separate from the character brief &mdash; see the tone table.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="tones">Tone options</h3>
+                        <table>
+                            <thead><tr><th>Tone</th><th>Style</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Helpful</strong></td><td>Calm and on-point.</td></tr>
+                                <tr><td><strong>Friendly</strong></td><td>Warm and casual.</td></tr>
+                                <tr><td><strong>Formal</strong></td><td>Neutral and precise.</td></tr>
+                                <tr><td><strong>Playful</strong></td><td>Light and witty.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The chosen tone shapes the assistant's writing style on every reply, alongside its language.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-2-persona">Step 2 &middot; Persona &amp; opening line</h2>
+                        <table>
+                            <thead><tr><th>Field</th><th>Required</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Opening line</strong></td><td>Yes (max 1000)</td><td>Visitor-facing; shown as the first bubble when chat opens, e.g. "Hi! How can I help today?".</td></tr>
+                                <tr><td><strong>Character brief (system instructions)</strong></td><td>No (max 8000)</td><td>Internal, never shown to visitors. Spell out who the assistant is, the do's and don'ts, price/escalation limits, and refusal rules.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Safety lives in the brief.</strong> The character brief is the right place for guardrails &mdash; for example "never quote prices above $500 (escalate to a human instead)" or "politely refuse to discuss competitors." Everything you write here is fed to the assistant word-for-word, so it shapes every reply.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-3-brain">Step 3 &middot; Model &amp; reply controls</h2>
+                        <p>Choose the brain and tune how it answers.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>Range / values</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Model provider</strong></td><td>OpenAI</td><td>OpenAI, Anthropic, Gemini</td><td>OpenAI (GPT family), Anthropic (Claude family), or Google (Gemini family).</td></tr>
+                                <tr><td><strong>Model name</strong></td><td><code>gpt-4o-mini</code></td><td>free text, max 80</td><td>The exact model name, so new models work without waiting for an app update.</td></tr>
+                                <tr><td><strong>Reply length budget (tokens)</strong></td><td>400</td><td>50&ndash;4000</td><td>About a paragraph at 400. Roughly 1 token &asymp; 4 characters.</td></tr>
+                                <tr><td><strong>Creativity</strong></td><td>0.7</td><td>0&ndash;2</td><td>Lower is consistent and factual; higher varies the phrasing.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="model-reference">Model reference</h3>
+                        <p>Example model names the builder suggests for each provider:</p>
+                        <table>
+                            <thead><tr><th>Provider</th><th>Example model name</th></tr></thead>
+                            <tbody>
+                                <tr><td>OpenAI</td><td><code>gpt-4o-mini</code> (default)</td></tr>
+                                <tr><td>Anthropic</td><td><code>claude-haiku-4-5-20251001</code></td></tr>
+                                <tr><td>Google Gemini</td><td><code>gemini-2.5-flash-lite</code></td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-4-safety">Step 4 &middot; Fallback &amp; human handoff</h2>
+                        <table>
+                            <thead><tr><th>Field</th><th>Default</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Fallback reply</strong></td><td>"A teammate will follow up shortly &mdash; thanks for your patience."</td><td>Sent verbatim if the model returns nothing or the API call fails, so a visitor never sees a blank reply (max 1000).</td></tr>
+                                <tr><td><strong>Enable handoff to a human</strong></td><td>On</td><td>When on, a visitor typing the trigger phrase stops the assistant and lights up the <a href="../messaging/team-inbox.html">Team Inbox</a>.</td></tr>
+                                <tr><td><strong>Trigger phrase</strong></td><td>"talk to human"</td><td>The words that trigger the handoff anywhere in a message (max 60). The assistant is also told this phrase so it recognises the intent.</td></tr>
+                                <tr><td><strong>Handoff acknowledgement</strong></td><td>"Sure &mdash; pulling in a teammate now."</td><td>The final message the assistant sends before going silent (max 1000).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-5-knowledge">Step 5 &middot; Train the agent (knowledge)</h2>
+                        <p>Add the material the assistant answers from. Each source is processed on the spot and shown in a <em>ready</em> (or <em>failed</em>) state with a rough size estimate. There are four kinds of source:</p>
+                        <table>
+                            <thead><tr><th>Kind</th><th>How it is read in</th><th>Limit</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Live URL</strong></td><td>Fetches the public web page and pulls out the plain text (stripping out menus, scripts, and styling). Good for blog posts, FAQs, and short marketing copy.</td><td>Up to about 80,000 characters per page.</td></tr>
+                                <tr><td><strong>Free text</strong></td><td>Paste a help-doc snippet or policy directly; stored as-is.</td><td>Up to 200,000 characters.</td></tr>
+                                <tr><td><strong>Q&amp;A pair</strong></td><td>One question with its standard answer, so the assistant sees both sides. Both fields are required.</td><td>Question max 5,000; answer max 20,000.</td></tr>
+                                <tr><td><strong>Document file</strong></td><td>Upload a knowledge file (TXT, Markdown, CSV, LOG, HTML, PDF, or DOCX); its text is extracted and stored (PDF and DOCX have their text pulled out automatically), and the file is kept for your workspace.</td><td>10&nbsp;MB upload; content trimmed to about 200,000 characters.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Sources can apply to <strong>one assistant</strong> or to the <strong>whole workspace</strong>. A source can be deleted at any time, and uploaded files are removed when the source is deleted. The source list shows the kind, label, state, and size estimate per row.</p>
+                        <blockquote class="info"><strong>File formats.</strong> Accepted file types are TXT, Markdown (.md / .markdown), plain text, CSV, LOG, HTML (.html / .htm), PDF, and DOCX. PDF and DOCX files have their text extracted automatically. Any other file type returns a clear error.</blockquote>
+                        <blockquote class="info"><strong>URL safety &amp; limits.</strong> The URL reader only opens public web pages (http / https). It refuses anything else and blocks any address that points to a private, internal, or local network &mdash; so a link you add can't be used to reach internal systems. It waits up to 20 seconds and reads up to about 80,000 characters per page.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-used">Where the assistant is used</h2>
+                        <p>A <em>ready</em> chat assistant becomes the brain of a <a href="../automation/chatbot-widget.html">chatbot widget</a>. When a visitor sends a message, the widget:</p>
+                        <ol>
+                            <li>Saves the visitor's message to the conversation.</li>
+                            <li>If the widget runs an assistant, generates a reply and saves it, then shows it to the visitor.</li>
+                            <li>If anything goes wrong, shows the assistant's fallback message instead of an error.</li>
+                        </ol>
+                        <p>The reply is built from your character brief, tone, language, and handoff phrase, plus your <strong>knowledge sources</strong>. It uses every <em>ready</em> source that applies to this assistant or the whole workspace, in order, up to <strong>12,000 characters</strong> total. Recent conversation history (about the last 20 turns) is also included so replies stay on topic.</p>
+                        <blockquote class="info"><strong>Other channels.</strong> Today the chatbot widget is what uses chat assistants. The same persona and knowledge setup is designed to power other text-AI channels in future (for example, auto-replies to inbound WhatsApp messages).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="managing">Managing assistants</h2>
+                        <ul>
+                            <li><strong>Duplicate</strong> an assistant &mdash; copies the persona, model settings, and all training sources into a new <em>paused</em> "(copy)". Useful for branching a persona, e.g. cloning a "Pricing concierge" into a Spanish variant.</li>
+                            <li><strong>Delete</strong> an assistant &mdash; removes it from the list while keeping the underlying data.</li>
+                            <li>The list shows totals &mdash; all assistants, active assistants, total knowledge entries, and how many are <em>ready</em> &mdash; plus each row's provider, knowledge count, tone, and last-updated time, with name search.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cost">Cost cautions</h2>
+                        <blockquote class="warning"><strong>Every source you add is given to the assistant on each reply</strong>, so more (and larger) sources mean more cost per reply, up to the 12,000-character limit.</blockquote>
+                        <ul>
+                            <li>Keep sources tight and relevant; a single good FAQ Q&amp;A often covers more than a whole-site dump.</li>
+                            <li>Lean on <strong>Q&amp;A pairs</strong> for the answers that matter most &mdash; they're compact and unambiguous.</li>
+                            <li>Prefer a smaller model (for example <code>gpt-4o-mini</code> or <code>gemini-2.5-flash-lite</code>) with a sensible reply length for high-traffic widgets.</li>
+                            <li>When using admin keys, replies count toward your workspace's monthly AI usage limit; hitting it blocks further replies until you upgrade or switch to your own key.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td>The assistant does not appear in the widget picker</td><td>Only Live assistants can be selected. Set its status to Live in Step&nbsp;1.</td></tr>
+                                <tr><td>A URL source shows <em>failed</em></td><td>The page was unreachable, returned an error, contained no text, or pointed to a private/internal address. Try the main public URL, or paste the text into a Free text source.</td></tr>
+                                <tr><td>A file upload is rejected</td><td>Accepted file types are TXT, Markdown, plain text, CSV, LOG, HTML, PDF, and DOCX, max 10&nbsp;MB. Convert or paste any other format into a Free text source.</td></tr>
+                                <tr><td>The bot answers but ignores my content</td><td>Confirm the source is <em>ready</em> and applies to this assistant or the whole workspace. Remember the content is capped at 12,000 characters in order &mdash; trim or reorder if you exceed it.</td></tr>
+                                <tr><td>Visitors get the fallback message a lot</td><td>That fires when the model returns nothing or errors. Check the admin provider key is valid and the model name is correct; review the monthly usage limit.</td></tr>
+                                <tr><td>Handoff never triggers</td><td>Enable handoff in Step&nbsp;4 and make the trigger phrase something visitors actually type (e.g. "talk to human").</td></tr>
+                                <tr><td>The menu item is missing entirely</td><td>Your plan lacks the <strong>AI Chat Assistant</strong> feature. Upgrade or move to a plan that includes it.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating a chat assistant</a></li>
+                    <li class="toc-h2"><a href="#step-1-identity" class="toc-link">Step 1 &middot; Identity</a></li>
+                    <li class="toc-h2"><a href="#step-2-persona" class="toc-link">Step 2 &middot; Persona</a></li>
+                    <li class="toc-h2"><a href="#step-3-brain" class="toc-link">Step 3 &middot; Model &amp; replies</a></li>
+                    <li class="toc-h2"><a href="#step-4-safety" class="toc-link">Step 4 &middot; Fallback &amp; handoff</a></li>
+                    <li class="toc-h2"><a href="#step-5-knowledge" class="toc-link">Step 5 &middot; Knowledge</a></li>
+                    <li class="toc-h2"><a href="#how-used" class="toc-link">Where the assistant is used</a></li>
+                    <li class="toc-h2"><a href="#managing" class="toc-link">Managing assistants</a></li>
+                    <li class="toc-h2"><a href="#cost" class="toc-link">Cost cautions</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the SMS channel — Twilio and MSG91 setup with exactly where to get every credential, inbound and delivery callbacks, DLT rules in India, message segments and cost, connecting a number, and running the inbox, broadcasts and campaigns.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>SMS Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>SMS</strong> channel adds plain-text messaging to WaDesk through two providers &mdash; <strong>Twilio</strong> and <strong>MSG91</strong>. Inbound texts land in the <a href="../messaging/team-inbox.html">Team Inbox</a>, agents reply from the same screen, and you can run bulk <strong>SMS broadcasts</strong> and <strong>SMS campaigns</strong> with real delivery analytics. SMS is the universal fallback: it reaches any mobile, with no app required, which makes it ideal for OTPs, order updates and reminders.</p>
+                        <p>Each connected number knows its own provider, so a workspace can run Twilio and MSG91 side by side, and every send &mdash; inbox reply, broadcast or campaign &mdash; uses the right transport automatically.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <ul>
+                            <li>You connect a provider by entering its API credentials. WaDesk sends via the provider's HTTP API and receives inbound texts and delivery receipts via <strong>callback URLs</strong> you register with the provider.</li>
+                            <li><strong>Inbound:</strong> a text to your number hits the provider, which POSTs it to WaDesk's inbound URL; WaDesk creates a contact and conversation.</li>
+                            <li><strong>Delivery reports (DLR):</strong> the provider POSTs status updates (sent / delivered / failed) to WaDesk's status URL, which roll into your message and campaign analytics.</li>
+                            <li>SMS is text-only: no read receipts, and long messages split into multiple <strong>segments</strong> (which affects cost).</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="twilio">Twilio: Where to Get Credentials</h2>
+                        <p>Best for global coverage, two-way SMS and reliable delivery receipts.</p>
+                        <ol>
+                            <li><strong>Create a Twilio account</strong> at <code>twilio.com</code> and open the <strong>Console</strong> (<code>console.twilio.com</code>).</li>
+                            <li><strong>Copy your Account SID &amp; Auth Token.</strong> They're on the Console dashboard under <strong>Account Info</strong>. The Auth Token is secret &mdash; treat it like a password.</li>
+                            <li><strong>Get a messaging-capable number.</strong> Go to <strong>Phone Numbers &rarr; Buy a number</strong> and pick one with the <strong>SMS</strong> capability in the country you need. (For high volume or many numbers, create a <strong>Messaging Service</strong> and add your numbers to it.)</li>
+                            <li><strong>Enter them in WaDesk.</strong> In <strong>Channels &rarr; SMS</strong>, choose <strong>Twilio</strong>, and paste the <strong>Account SID</strong>, <strong>Auth Token</strong> and the <strong>sending number</strong> (E.164, e.g. <code>+14155551234</code>).</li>
+                            <li><strong>Set the callbacks.</strong> WaDesk shows an <strong>inbound URL</strong> and a <strong>status-callback URL</strong>. In the Twilio Console, open your number's <strong>Messaging configuration</strong> and paste the inbound URL into &ldquo;A message comes in&rdquo; (HTTP POST); WaDesk also passes the status-callback on each send so delivery receipts return automatically.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Test vs live:</strong> Twilio has test credentials that don't send real messages &mdash; use your <em>live</em> SID/token to actually deliver. Trial accounts can only text verified numbers until you upgrade.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="msg91">MSG91: Where to Get Credentials</h2>
+                        <p>Best for India and regional bulk SMS, with DLT-registered sender IDs and template/flow sends.</p>
+                        <ol>
+                            <li><strong>Create an MSG91 account</strong> at <code>msg91.com</code> and open the <strong>panel</strong> (<code>control.msg91.com</code>).</li>
+                            <li><strong>Copy your Auth Key.</strong> Find it under <strong>Settings / API</strong> in the panel. This single key authenticates your sends.</li>
+                            <li><strong>Register a Sender ID.</strong> Create a 6-character alphabetic <strong>Sender ID</strong> (e.g. <code>ACMEIN</code>). In India this must be <strong>DLT-registered</strong> (see below).</li>
+                            <li><strong>(For template sends) get a Flow/Template ID.</strong> If you use MSG91 Flows/DLT templates, create the template in the panel and copy its <strong>Flow ID / Template ID</strong>.</li>
+                            <li><strong>Enter them in WaDesk.</strong> In <strong>Channels &rarr; SMS</strong>, choose <strong>MSG91</strong>, paste the <strong>Auth Key</strong> and <strong>Sender ID</strong> (and Flow/Template ID if using templates).</li>
+                            <li><strong>Set the inbound &amp; DLR webhooks.</strong> In the MSG91 panel, point the <strong>inbound</strong> and <strong>delivery-report</strong> webhooks at the URLs WaDesk shows, so incoming texts and statuses reach WaDesk.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>India DLT is mandatory.</strong> Indian regulation (TRAI) requires SMS senders to register on a <strong>DLT platform</strong>: register your business entity, your Sender ID (Header), and every message <strong>content template</strong>. Unregistered sender IDs or unapproved content are blocked by the operators, not by WaDesk. Register templates for both promotional and transactional content you plan to send.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="providers">Provider Comparison</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Best for</th><th>You provide</th><th>Two-way inbound</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Twilio</strong></td><td>Global coverage, two-way SMS, delivery receipts.</td><td>Account SID, Auth Token, an SMS number.</td><td>Yes (via inbound webhook on the number).</td></tr>
+                                <tr><td><strong>MSG91</strong></td><td>India &amp; regional bulk SMS, DLT sender IDs, templates.</td><td>Auth Key, Sender ID (DLT), optional Flow/Template ID.</td><td>Yes, where a two-way/virtual number is provisioned.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Connecting an SMS Number</h2>
+                        <ol>
+                            <li><strong>Open the SMS page</strong> &mdash; <strong>Channels &rarr; SMS</strong> in the menu (also reachable from the <strong>Devices</strong> page's <strong>Add &rarr; SMS</strong> card, which links here).</li>
+                            <li><strong>Pick the provider</strong> &mdash; Twilio or MSG91.</li>
+                            <li><strong>Enter the credentials</strong> from the sections above.</li>
+                            <li><strong>Copy the callback URLs</strong> WaDesk shows into the provider (inbound + delivery report).</li>
+                            <li><strong>Save.</strong> The number appears as a connected SMS sender, ready for the inbox, broadcasts and campaigns. Send yourself a test text to confirm two-way flow.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="segments">Message Segments, Cost &amp; Limits</h2>
+                        <table>
+                            <thead><tr><th>Topic</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Segments</strong></td><td>A single SMS is <strong>160 characters</strong> (GSM-7). Longer messages split into concatenated segments of ~153 chars each. Any non-GSM character (many emoji, some accents) switches the whole message to <strong>UCS-2</strong>, dropping the limit to <strong>70</strong> characters per segment. You're billed per segment.</td></tr>
+                                <tr><td><strong>Cost</strong></td><td>SMS is billed by your provider, per segment, per destination country. Keep messages short and stick to GSM characters to control cost.</td></tr>
+                                <tr><td><strong>Throughput</strong></td><td>Per-number and per-account send rates apply (and India has DLT scrubbing delays). WaDesk paces broadcasts/campaigns to the provider's limits.</td></tr>
+                                <tr><td><strong>No read receipts</strong></td><td>SMS reports sent/delivered/failed only &mdash; there is no &ldquo;read&rdquo; status.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Replying in the Inbox</h2>
+                        <ul>
+                            <li>Inbound texts create a contact and a conversation, threaded by the customer's phone number.</li>
+                            <li>Replies typed in the inbox are sent back over SMS through the same number, using the correct provider transport.</li>
+                            <li><strong>Delivery status</strong> (sent / delivered / failed) is captured from the provider's DLR callbacks and shown on the message.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">SMS Broadcasts</h2>
+                        <p>Open <strong>More &rarr; Broadcasts</strong> and choose <strong>SMS</strong>. Pick the SMS number, select your contacts or groups, write the text, and send now or schedule. Each recipient is tracked as sent / delivered / failed from the provider's receipts, with a failure-reason breakdown.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="campaigns">SMS Campaigns</h2>
+                        <p>Open <strong>Campaigns</strong>, choose the <strong>SMS</strong> channel in the chooser, then build a simple campaign:</p>
+                        <ol>
+                            <li><strong>Pick the SMS number</strong> to send from.</li>
+                            <li><strong>Write your message</strong> (plain text; or select a registered template on MSG91).</li>
+                            <li><strong>Choose the audience</strong> &mdash; contacts, groups or tags.</li>
+                            <li><strong>Send now or schedule</strong> for later.</li>
+                        </ol>
+                        <p>The campaign's analytics page shows <strong>real</strong> sent / delivered / failed counts rolled up from Twilio or MSG91 delivery reports &mdash; no estimated numbers.</p>
+                        <blockquote class="warning"><strong>Compliance:</strong> only text people who opted in, include an opt-out where required (e.g. <em>Reply STOP to unsubscribe</em>), respect local regulations, and in India send only DLT-registered content from a registered header. Violations are blocked by operators and can suspend your sender ID.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Sends fail immediately (Twilio)</strong></td><td>Trial account texting an unverified number, wrong SID/token, or a number without SMS capability. Verify the recipient, upgrade the account, or buy an SMS-capable number.</td></tr>
+                                <tr><td><strong>Sends blocked (MSG91/India)</strong></td><td>Sender ID or content template not DLT-approved. Register the header and template on your DLT platform.</td></tr>
+                                <tr><td><strong>No inbound texts</strong></td><td>The inbound webhook isn't set on the provider/number. Paste WaDesk's inbound URL into the number's messaging config.</td></tr>
+                                <tr><td><strong>No delivery updates</strong></td><td>The status/DLR callback isn't configured. Set the delivery-report webhook (MSG91) or confirm the status callback is reaching WaDesk (Twilio).</td></tr>
+                                <tr><td><strong>Unexpectedly high cost</strong></td><td>Emoji/accents forced UCS-2 (70-char segments) or long copy split into many segments. Shorten and stick to GSM-7.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#twilio" class="toc-link">Twilio Credentials</a></li>
+                    <li class="toc-h2"><a href="#msg91" class="toc-link">MSG91 Credentials</a></li>
+                    <li class="toc-h2"><a href="#providers" class="toc-link">Provider Comparison</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting a Number</a></li>
+                    <li class="toc-h2"><a href="#segments" class="toc-link">Segments, Cost &amp; Limits</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Replying in the Inbox</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">SMS Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#campaigns" class="toc-link">SMS Campaigns</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

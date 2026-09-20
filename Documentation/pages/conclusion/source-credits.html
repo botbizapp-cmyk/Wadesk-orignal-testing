@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source &amp; Credits – WaDesk SaaS Docs</title>
+    <meta name="description" content="Source &amp; Credits — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Source &amp; Credits</h1>
+
+                    <section class="mb-12">
+                        <p><strong>WaDesk</strong> is built on top of a number of excellent open-source projects. We are grateful to the maintainers and communities behind every library listed below &mdash; they make WaDesk possible. The tables show each library, what it is used for in WaDesk, and its license type. License terms are owned by the respective projects; please refer to each project for the authoritative text.</p>
+                        <blockquote class="info"><strong>Note:</strong> All of these are bundled or installed as dependencies. Their licenses (predominantly MIT) permit redistribution as part of WaDesk; they do not grant you a separate license to WaDesk itself, which remains governed by your Envato / CodeCanyon license.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="backend">Backend (PHP / Composer)</h2>
+                        <p>The application is a <strong>Laravel 12</strong> project running on PHP 8.2+.</p>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                                <thead>
+                                    <tr style="background:#f1f5f9;">
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Library</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Purpose in WaDesk</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">License</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://laravel.com" target="_blank" rel="noopener">Laravel Framework</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Core application framework (routing, ORM, queue, auth)</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/laravel/tinker" target="_blank" rel="noopener">Laravel Tinker</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">REPL for interacting with the application from the console</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://spatie.be/docs/laravel-permission" target="_blank" rel="noopener">Spatie Laravel Permission</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Role and permission management for team and admin access</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/doctrine/dbal" target="_blank" rel="noopener">Doctrine DBAL</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Database abstraction used for schema introspection and migrations</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="node-bridge">WhatsApp Node.js Bridge</h2>
+                        <p>The bundled Node.js bridge powers the <strong>Unofficial API</strong> engine &mdash; QR pairing, sending, calling, and inbound webhooks.</p>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                                <thead>
+                                    <tr style="background:#f1f5f9;">
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Library</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Purpose in WaDesk</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">License</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">WhatsApp Web protocol library</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">WhatsApp Web (multi-device) client that powers the Unofficial API engine</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/node-webrtc/node-webrtc" target="_blank" rel="noopener">@roamhq/wrtc</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">WebRTC bindings for WhatsApp voice / calling features</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">BSD-2-Clause</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://expressjs.com" target="_blank" rel="noopener">Express</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">HTTP server exposing the bridge API to the Laravel app</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/websockets/ws" target="_blank" rel="noopener">ws</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">WebSocket transport for the WhatsApp connection</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://axios-http.com" target="_blank" rel="noopener">Axios</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">HTTP client for outbound requests and media fetching</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/expressjs/cors" target="_blank" rel="noopener">cors</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Cross-origin request handling for the bridge API</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/motdotla/dotenv" target="_blank" rel="noopener">dotenv</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Loads bridge configuration from environment variables</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">BSD-2-Clause</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/jprichardson/node-fs-extra" target="_blank" rel="noopener">fs-extra</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">File-system helpers for session and media storage</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://momentjs.com/timezone/" target="_blank" rel="noopener">Moment Timezone</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Timezone-aware date handling for scheduling</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/kelektiv/node-cron" target="_blank" rel="noopener">node-cron</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">In-process scheduling for recurring bridge tasks</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">ISC</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/pinojs/pino" target="_blank" rel="noopener">Pino</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Structured, low-overhead logging for the bridge</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/gtanner/qrcode-terminal" target="_blank" rel="noopener">qrcode-terminal</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Renders the pairing QR code in the bridge console</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Apache-2.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/jacktuck/unfurl" target="_blank" rel="noopener">unfurl.js</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Link-preview metadata extraction for outgoing messages</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="frontend">Frontend (JavaScript / CSS)</h2>
+                        <p>The interface is built with <strong>Blade + Alpine.js + Tailwind CSS</strong>, compiled with <strong>Vite</strong>.</p>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                                <thead>
+                                    <tr style="background:#f1f5f9;">
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Library</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Purpose in WaDesk</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">License</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://tailwindcss.com" target="_blank" rel="noopener">Tailwind CSS</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Utility-first CSS framework for the entire UI</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://alpinejs.dev" target="_blank" rel="noopener">Alpine.js</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Lightweight reactivity and interactivity in Blade views</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://vitejs.dev" target="_blank" rel="noopener">Vite</a> &amp; <a href="https://github.com/laravel/vite-plugin" target="_blank" rel="noopener">Laravel Vite Plugin</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Asset bundler and build pipeline</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://apexcharts.com" target="_blank" rel="noopener">ApexCharts</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Interactive charts in dashboards and analytics</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/intl-tel-input/intl-tel-input" target="_blank" rel="noopener">intl-tel-input</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">International phone-number input with country flags</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://tom-select.js.org" target="_blank" rel="noopener">Tom Select</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Searchable, taggable select inputs (audiences, attributes)</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Apache-2.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/soldair/node-qrcode" target="_blank" rel="noopener">qrcode</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Renders WhatsApp pairing QR codes in the browser</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/nolanlawson/emoji-picker-element" target="_blank" rel="noopener">emoji-picker-element</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Emoji picker in the message composer</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Apache-2.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/apvarun/toastify-js" target="_blank" rel="noopener">Toastify JS</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Toast notifications for in-app feedback</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://github.com/harpreetkhalsagtbit/country-state-city" target="_blank" rel="noopener">country-state-city</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Country / state / city data for address and targeting fields</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://react.dev" target="_blank" rel="noopener">React</a> &amp; React DOM</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Powers select interactive components within the UI</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://axios-http.com" target="_blank" rel="noopener">Axios</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Browser HTTP client for AJAX requests</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://fontawesome.com" target="_blank" rel="noopener">Font Awesome (Free)</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Icon set used throughout the app and this documentation</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">CC BY 4.0 / SIL OFL / MIT</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://fonts.google.com/specimen/Inter" target="_blank" rel="noopener">Inter (Google Fonts)</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Primary UI typeface</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">SIL OFL 1.1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="external-services">External Services &amp; APIs</h2>
+                        <p>WaDesk connects to the following third-party platforms. These are services you configure with your own credentials &mdash; they are not bundled, and their use is governed by each provider's own terms.</p>
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+                                <thead>
+                                    <tr style="background:#f1f5f9;">
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Service</th>
+                                        <th style="padding:10px 16px;text-align:left;border-bottom:2px solid #e2e8f0;">Purpose in WaDesk</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://developers.facebook.com/docs/whatsapp" target="_blank" rel="noopener">WhatsApp Cloud API (Meta)</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Official messaging engine, template management, and WhatsApp Forms</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://www.twilio.com/whatsapp" target="_blank" rel="noopener">Twilio WhatsApp</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Alternative official sender using Content Templates</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://www.facebook.com/business/ads" target="_blank" rel="noopener">Meta Ads</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Click-to-WhatsApp ad campaigns</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://platform.openai.com" target="_blank" rel="noopener">OpenAI</a>, <a href="https://www.anthropic.com" target="_blank" rel="noopener">Anthropic Claude</a>, <a href="https://ai.google.dev" target="_blank" rel="noopener">Google Gemini</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Pluggable AI providers for chat and voice assistants</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://www.shopify.com" target="_blank" rel="noopener">Shopify</a>, <a href="https://woocommerce.com" target="_blank" rel="noopener">WooCommerce</a>, <a href="https://www.hubspot.com" target="_blank" rel="noopener">HubSpot</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">E-commerce and CRM integrations</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;"><a href="https://workspace.google.com" target="_blank" rel="noopener">Google Calendar / Meet &amp; Sheets</a></td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Appointment booking links and the Google Sheets add-on</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">30 payment gateways (Stripe, PayPal, Razorpay, and more)</td>
+                                        <td style="padding:10px 16px;border-bottom:1px solid #e2e8f0;">Subscription billing and wallet top-ups in the SaaS admin</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <blockquote class="info"><strong>Trademarks:</strong> WhatsApp and Meta are trademarks of Meta Platforms, Inc. WaDesk is an independent product and is not endorsed by or affiliated with Meta, Twilio, or any other listed provider.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#backend" class="toc-link">Backend (PHP)</a></li>
+                    <li class="toc-h2"><a href="#node-bridge" class="toc-link">WhatsApp Node.js Bridge</a></li>
+                    <li class="toc-h2"><a href="#frontend" class="toc-link">Frontend (JS / CSS)</a></li>
+                    <li class="toc-h2"><a href="#external-services" class="toc-link">External Services &amp; APIs</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

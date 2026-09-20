@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Page Editor – WaDesk SaaS Docs</title>
+    <meta name="description" content="Auth Page Editor — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Auth Page Editor</h1>
+
+                    <p>The <strong>Auth Page Editor</strong> is a live, on-page editor for the three public authentication screens &mdash; <strong>Login</strong>, <strong>Register</strong>, and <strong>Forgot Password</strong>. It was introduced in WaDesk <strong>v1.2</strong> and lives at <strong>Admin &rarr; Settings &rarr; Auth Pages</strong> (<code>/admin/settings/auth-pages</code>). You restyle and reword the screens by editing the real page directly, with no code and no separate publish step.</p>
+
+                    <section class="mb-12">
+                        <h2 id="what-it-is">What it is</h2>
+                        <p>The editor loads the actual auth page inside an editable frame and lets you change its layout, wording, accent colour, and side media in place. The three pages share one design template and one accent colour, so they stay visually consistent, while each page keeps its own text.</p>
+                        <ul>
+                            <li><strong>Login</strong> &mdash; the sign-in screen.</li>
+                            <li><strong>Register</strong> &mdash; the new-account sign-up screen.</li>
+                            <li><strong>Forgot Password</strong> &mdash; the password-reset request screen.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use-it">Why and when to use it</h2>
+                        <p>The auth pages are the first thing a visitor sees, so they carry a lot of your brand impression. Use the editor to:</p>
+                        <ul>
+                            <li>Match the sign-in experience to your brand wording and colours.</li>
+                            <li>Sell the product on the showcase panel &mdash; highlight stats, features, and what is "also inside".</li>
+                            <li>Swap the large side visual for an image, looping video, or GIF that fits a campaign or season.</li>
+                            <li>White-label the entry screens for a reseller or client.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>The real auth page is rendered inside an editable frame, so what you change is exactly what visitors will see. Editing happens in four ways:</p>
+                        <ol>
+                            <li><strong>Choose a design template.</strong> Pick one of five layouts &mdash; <em>Split showcase</em>, <em>Cinematic</em>, <em>Minimal</em>, <em>Brand spotlight</em>, and <em>Aurora</em>. The chosen template applies to all three pages.</li>
+                            <li><strong>Edit any text inline.</strong> Click any piece of text in the frame to edit it on the spot: the eyebrow line, the large heading and its highlighted accent word, and the sub-text. <strong>New in v1.2</strong>, you can also edit every showcase element &mdash; the stat pills, all the feature cards (each card's title and description), and the "What's also inside" heading and its chips.</li>
+                            <li><strong>Set the accent colour.</strong> Use the colour picker to set the accent that the heading's accent word and other highlights use.</li>
+                            <li><strong>Upload side media.</strong> Hover the large side panel to upload an image, video, or GIF for the showcase visual.</li>
+                        </ol>
+                        <p>Every change <strong>saves instantly</strong> to the platform's <code>auth.*</code> settings &mdash; there is no separate publish step. Switch between the Login, Register, and Forgot pages using the tabs.</p>
+                        <table>
+                            <thead><tr><th>What you edit</th><th>Detail</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Design template</strong></td><td>One of five: Split showcase, Cinematic, Minimal, Brand spotlight, Aurora. Applies to all three pages.</td></tr>
+                                <tr><td><strong>Text (inline)</strong></td><td>Eyebrow, heading + accent word, sub-text, and &mdash; new in 1.2 &mdash; stat pills, feature cards (title + description), and the "What's also inside" heading and chips.</td></tr>
+                                <tr><td><strong>Accent colour</strong></td><td>Set with the colour picker; drives the heading's accent word and highlights.</td></tr>
+                                <tr><td><strong>Side media</strong></td><td>Hover the large side panel to upload an image, video, or GIF.</td></tr>
+                                <tr><td><strong>Saving</strong></td><td>Instant to <code>auth.*</code> settings &mdash; no publish step.</td></tr>
+                                <tr><td><strong>Page switch</strong></td><td>Tabs for Login / Register / Forgot.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Tip:</strong> Leaving any field empty reverts that field to its shipped default. That makes it easy to undo a single change &mdash; clear the text and the original wording comes back.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-to-use">Step by step</h2>
+                        <ol>
+                            <li>Open <strong>Admin &rarr; Settings &rarr; Auth Pages</strong> (<code>/admin/settings/auth-pages</code>).</li>
+                            <li>Pick a <strong>design template</strong> &mdash; it applies to all three pages at once.</li>
+                            <li>Use the tabs to choose the page you want to edit: <strong>Login</strong>, <strong>Register</strong>, or <strong>Forgot Password</strong>.</li>
+                            <li>Click any text in the frame &mdash; eyebrow, heading, accent word, sub-text, stat pills, feature cards, or the "What's also inside" chips &mdash; and type your new wording.</li>
+                            <li>Set the <strong>accent colour</strong> with the colour picker.</li>
+                            <li>Hover the large <strong>side panel</strong> and upload an image, video, or GIF.</li>
+                            <li>That's it &mdash; everything is already saved. Repeat for the other two pages if you want different text on each.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Caution:</strong> Saves are instant and there is no publish step, so changes go live to visitors as soon as you make them. Review each edit in the frame before moving on, and remember that clearing a field restores its default rather than leaving it blank.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>The editor is in the admin area under <strong>Settings &rarr; Auth Pages</strong>, reachable directly at <code>/admin/settings/auth-pages</code>. The settings it writes are stored under the <code>auth.*</code> keys.</p>
+                        <blockquote class="info"><strong>Note:</strong> The <strong>Terms</strong> and <strong>Privacy</strong> footer links shown on the auth pages are edited in the <a href="./frontend-editor.html">Frontend Live Editor</a>, not here.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="permissions">Plan &amp; permissions</h2>
+                        <p>The Auth Page Editor is a <strong>platform-admin-only</strong> tool. The pages it edits are the global public auth screens for the whole platform, so the settings apply to every visitor.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./appearance.html">Appearance &amp; Theme Colours</a> &mdash; recolour the user and admin dashboards platform-wide.</li>
+                            <li><a href="./frontend-editor.html">Frontend Live Editor</a> &mdash; edit the public marketing site, including the Terms and Privacy links.</li>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; where platform-wide settings (including <code>auth.*</code>) are stored.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#what-it-is" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use-it" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#how-to-use" class="toc-link">Step by step</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#permissions" class="toc-link">Plan &amp; permissions</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Channel – WaDesk SaaS Docs</title>
+    <meta name="description" content="Full guide to the Instagram DM channel — how it works, the Meta app and permissions it needs, exactly where to get every credential, the API limits and messaging rules, connecting an account, and using it in the inbox, automation and broadcasts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Instagram Channel</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Instagram</strong> channel brings your Instagram <strong>direct messages</strong> into WaDesk. Once connected, incoming DMs, story replies, comment-to-DM conversations and reactions land in the <a href="../messaging/team-inbox.html">Team Inbox</a> right beside your WhatsApp chats, and your agents reply from the same screen. Everything is scoped to your workspace and to the specific Instagram account the message arrived on.</p>
+                        <p>Instagram is a first-class channel, not a read-only feed: you get <strong>auto-replies</strong>, <strong>visual flows</strong>, an <strong>AI agent</strong>, <strong>comment automation</strong>, and <strong>broadcasts</strong> to people who already messaged you &mdash; all built on the same tools you use for WhatsApp.</p>
+                        <blockquote class="info"><strong>Two roles in this guide.</strong> Connecting Instagram has a one-time <strong>platform-admin</strong> part (create a Meta app, get its credentials, pass Meta App Review) and a per-workspace <strong>user</strong> part (click Connect, log in with Facebook). If you're an end user on a hosted WaDesk, your provider has usually done the admin part already &mdash; skip to <a href="#connect">Connecting Your Account</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how">How the Channel Works</h2>
+                        <p>Instagram messaging runs on Meta's <strong>Graph API</strong> through the <strong>Instagram Messaging</strong> product. In practical terms:</p>
+                        <ul>
+                            <li>Your Instagram <strong>Professional</strong> account is linked to a <strong>Facebook Page</strong>. Meta treats the Page as the container that owns messaging permissions.</li>
+                            <li>When someone DMs you, Meta sends a <strong>webhook</strong> to WaDesk. WaDesk stores the message, creates/updates the contact and conversation, and shows it in the inbox.</li>
+                            <li>When you reply, WaDesk calls the Graph API <strong>Send API</strong> to deliver the message from your account.</li>
+                            <li>Conversations are keyed per Instagram account, so a multi-brand workspace never mixes up which account a chat belongs to.</li>
+                        </ul>
+                        <p>Because it's the official API, the same <strong>policy rules</strong> apply as anywhere on Instagram &mdash; most importantly the 24-hour messaging window and the ban on cold-DMing strangers (see <a href="#limits">API Limits &amp; Messaging Rules</a>).</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements</h2>
+                        <table>
+                            <thead>
+                                <tr><th>You need</th><th>Detail</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Instagram Professional account</strong></td><td>A Business or Creator account (switch in the Instagram app: Settings &rarr; Account type). A personal account cannot use messaging.</td></tr>
+                                <tr><td><strong>A linked Facebook Page</strong></td><td>The Instagram account must be connected to a Facebook Page you manage (Instagram app: Settings &rarr; Business tools &rarr; connect Page; or from the Page's settings on Facebook).</td></tr>
+                                <tr><td><strong>Admin access to that Page</strong></td><td>You must sign in during connect as a person with a Facebook admin role on the Page.</td></tr>
+                                <tr><td><strong>A Meta app (platform admin)</strong></td><td>The WaDesk platform needs one Meta app with the Instagram product added and App Review passed. One app serves all your workspaces. See below.</td></tr>
+                                <tr><td><strong>A plan with the Instagram channel</strong></td><td>Plan-gated and enforced server-side.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="meta-app">Platform Admin: Create the Meta App &amp; Get Credentials</h2>
+                        <p>This is a one-time setup done by whoever runs the WaDesk platform. You'll end with an <strong>App ID</strong> and <strong>App Secret</strong> to paste into WaDesk's admin settings.</p>
+                        <ol>
+                            <li><strong>Open the Meta Developer portal.</strong> Go to <code>developers.facebook.com</code>, log in, and open <strong>My Apps</strong>.</li>
+                            <li><strong>Create an app.</strong> Click <strong>Create App</strong>, choose the <strong>Business</strong> type, name it, and create it. This gives you an app dashboard.</li>
+                            <li><strong>Add the Instagram product.</strong> On the app dashboard, add <strong>Instagram</strong> (Instagram Graph API / Instagram Messaging) and, if prompted, <strong>Facebook Login for Business</strong> &mdash; the login flow WaDesk uses.</li>
+                            <li><strong>Get the App ID &amp; App Secret.</strong> Under <strong>App settings &rarr; Basic</strong>, copy the <strong>App ID</strong> and reveal the <strong>App Secret</strong>. Treat the secret like a password.</li>
+                            <li><strong>Set the OAuth redirect URI.</strong> In the Facebook Login settings, add WaDesk's Instagram callback URL (shown in <strong>WaDesk Admin &rarr; Settings &rarr; Instagram</strong>) as a <strong>Valid OAuth Redirect URI</strong>. It must be HTTPS and match exactly.</li>
+                            <li><strong>Configure Webhooks.</strong> Add the <strong>Instagram</strong> webhook, paste WaDesk's webhook callback URL and the verify token (both shown in WaDesk admin), and subscribe to the <strong>messages</strong>, <strong>messaging_postbacks</strong>, <strong>message_reactions</strong> and <strong>comments</strong> fields.</li>
+                            <li><strong>Enter settings in WaDesk.</strong> Instagram has its <strong>own</strong> admin page &mdash; <strong>Admin &rarr; Settings &rarr; Instagram</strong>. Fill the fields &mdash; <code>instagram_app_id</code>, <code>instagram_app_secret</code>, an optional <code>instagram_config_id</code>, the <code>instagram_webhook_verify_token</code> and <code>instagram_graph_version</code> &mdash; then enable and save.</li>
+                        </ol>
+                        <blockquote class="info"><strong>You can reuse the WhatsApp app.</strong> By default Instagram reuses your existing WhatsApp Cloud API Meta app's App ID/Secret, so you often don't need separate Instagram keys at all. You only need a dedicated Instagram App ID/Secret if you use the standalone <strong>Instagram-Login</strong> path instead of Facebook Login.</blockquote>
+                        <blockquote class="warning"><strong>App Review is required for other people's accounts.</strong> While your app is in <strong>Development mode</strong> it can only connect Instagram accounts whose users are added as testers/admins on the app. To let <em>any</em> customer connect their own account, submit the app for <strong>App Review</strong> and request these permissions, with a screencast of the connect-and-reply flow: <code>instagram_basic</code>, <code>instagram_manage_messages</code>, <code>pages_show_list</code>, <code>pages_manage_metadata</code>, and <code>business_management</code>. Approval typically takes a few days; until then, test with your own accounts.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">User: Connecting Your Account</h2>
+                        <p>Once the app is configured, each workspace connects its own account in a few clicks:</p>
+                        <ol>
+                            <li><strong>Prepare the account</strong> &mdash; Professional account, linked to its Facebook Page (see Requirements).</li>
+                            <li><strong>Open the Channels page</strong> (the <strong>Devices</strong> screen in the menu) and click <strong>Add device &rarr; Instagram &rarr; Connect Instagram</strong>.</li>
+                            <li><strong>Log in with Facebook</strong> as the Page admin in the popup that opens.</li>
+                            <li><strong>Grant permissions.</strong> Approve access to your Page(s) and Instagram messaging when Meta asks. Approve <em>all</em> requested items &mdash; unticking one can break messaging.</li>
+                            <li><strong>Pick the account.</strong> If you manage several, choose the Instagram account to connect. WaDesk stores its identity and a long-lived token, and subscribes it to the message webhooks.</li>
+                            <li><strong>Done.</strong> The account shows <strong>Connected</strong>. Your existing conversations backfill so contacts are usable immediately, and new DMs start arriving in the inbox.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Mobile popup note:</strong> the Facebook login opens as a popup. If it's blocked, allow popups for your WaDesk domain and retry. On mobile the flow may switch apps and return &mdash; that's expected.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="limits">API Limits &amp; Messaging Rules</h2>
+                        <p>These are Meta's rules, enforced by the API &mdash; WaDesk follows them so your account stays healthy:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Rule</th><th>What it means</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>24-hour window</strong></td><td>You can freely message a person only within <strong>24 hours</strong> of their last message to you. After that the standard window closes and normal replies are refused.</td></tr>
+                                <tr><td><strong>Human-agent tag</strong></td><td>Meta allows one message up to <strong>7 days</strong> after the last user message when it's sent by a human agent to resolve an issue &mdash; used sparingly, not for marketing.</td></tr>
+                                <tr><td><strong>No cold DMs</strong></td><td>You cannot start a conversation with someone who never messaged you. This is why broadcasts target existing chats only.</td></tr>
+                                <tr><td><strong>Rate limits</strong></td><td>The Graph API caps calls per app and per account. WaDesk paces sends to stay under them; very large bursts are spread out automatically.</td></tr>
+                                <tr><td><strong>Media &amp; avatar links expire</strong></td><td>Instagram serves profile pictures and media on short-lived Meta CDN links. WaDesk refreshes them; a persistently blank avatar means the token/permission needs refreshing (reconnect).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbox">Using the Inbox</h2>
+                        <p>Instagram threads appear in the Team Inbox with an Instagram badge and the sender's IG username and avatar. Specifics:</p>
+                        <ul>
+                            <li><strong>Sender identity.</strong> Each thread shows which of <em>your</em> connected Instagram accounts it belongs to.</li>
+                            <li><strong>Media &amp; reactions.</strong> Photos, reels, shared posts, voice notes and emoji reactions render inline. You can react and reply with media.</li>
+                            <li><strong>Story replies &amp; ice-breakers.</strong> When a customer replies to your story or taps an ice-breaker, the context appears above their message.</li>
+                            <li><strong>One thread per person.</strong> All of a person's messages to one account stay in a single conversation, so history is never fragmented.</li>
+                            <li><strong>24-hour indicator.</strong> The composer reflects whether the window is open, matching WhatsApp's behaviour.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="automation">Auto-Reply, Flows, AI &amp; Comments</h2>
+                        <p>All of WaDesk's conversation automation works on Instagram &mdash; you just pick Instagram as the channel:</p>
+                        <ul>
+                            <li><strong>Auto-reply.</strong> In <a href="../messaging/auto-reply.html">Auto Reply</a>, create Welcome / Away / Out-of-hours / Keyword rules and scope them to your Instagram account. They fire on inbound DMs and reply on Instagram. (Instagram auto-reply is delivered by polling as well as webhooks, so it keeps working even if a webhook is briefly delayed.)</li>
+                            <li><strong>Flows.</strong> In the <a href="../automation/flows.html">Flow Builder</a>, set the <strong>Trigger node's channel to Instagram</strong>. Buttons and quick replies render as tap options, and media, question and condition steps all run on Instagram.</li>
+                            <li><strong>AI agent.</strong> Assign an AI agent per Instagram account to answer DMs in your brand voice, grounded in your knowledge base, with automatic hand-off to a human.</li>
+                            <li><strong>Comment automation.</strong> Auto-reply to comments on a post or reel and invite the commenter into a private DM, then continue in a flow or with an agent.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="broadcasts">Instagram Broadcasts</h2>
+                        <p>Open <strong>More &rarr; Broadcasts</strong> and switch the channel to <strong>Instagram</strong> (or open the composer with Instagram selected). The composer adapts:</p>
+                        <ol>
+                            <li><strong>Pick the Instagram account</strong> to send from &mdash; the account picker works like the WhatsApp number picker.</li>
+                            <li><strong>Choose recipients.</strong> The list is built from people who <strong>already have a DM thread</strong> with that account &mdash; the same contacts you see in the inbox. Cold-DMing strangers isn't possible.</li>
+                            <li><strong>Write the message.</strong> Choose <strong>Text</strong> or a <strong>template</strong>, and watch the live preview render as an Instagram DM.</li>
+                            <li><strong>Send.</strong> Each recipient is messaged from the selected account and the send is mirrored into the inbox thread.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Stay inside the window.</strong> Instagram permits business messages only to people who messaged you, generally within 24 hours. WaDesk enforces this so a broadcast never risks the account &mdash; but keep broadcasts helpful and relevant to protect your standing.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>DMs stop arriving</strong></td><td>Webhook subscription lapsed after a permission change on Meta's side. Reconnect the account from the Channels (Devices) page.</td></tr>
+                                <tr><td><strong>Blank avatars / broken media</strong></td><td>Expired Meta CDN links or a stale token. Reconnect to refresh the token and permissions.</td></tr>
+                                <tr><td><strong>&ldquo;Cannot connect&rdquo; during login</strong></td><td>The account isn't a Professional account, isn't linked to a Page, or you logged in without admin rights on that Page. Fix the link and retry.</td></tr>
+                                <tr><td><strong>Only your own account connects</strong></td><td>The Meta app is still in Development mode &mdash; submit it for App Review to connect customers' accounts.</td></tr>
+                                <tr><td><strong>Reply refused / window closed</strong></td><td>More than 24 hours since the customer's last message. Wait for them to message again, or use a permitted human-agent follow-up.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Related:</strong> the one-time Meta app steps are shared with Meta Ads &mdash; see <a href="../growth/facebook-app-setup.html">Create a Facebook App</a>. Engine details: <a href="../getting-started/connect-channel.html">Connecting a Channel</a>.</blockquote>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how" class="toc-link">How the Channel Works</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements</a></li>
+                    <li class="toc-h2"><a href="#meta-app" class="toc-link">Meta App &amp; Credentials</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Connecting Your Account</a></li>
+                    <li class="toc-h2"><a href="#limits" class="toc-link">API Limits &amp; Rules</a></li>
+                    <li class="toc-h2"><a href="#inbox" class="toc-link">Using the Inbox</a></li>
+                    <li class="toc-h2"><a href="#automation" class="toc-link">Auto-Reply, Flows, AI</a></li>
+                    <li class="toc-h2"><a href="#broadcasts" class="toc-link">Instagram Broadcasts</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

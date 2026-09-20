@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog &amp; SEO – WaDesk SaaS Docs</title>
+    <meta name="description" content="Blog &amp; SEO — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Blog &amp; SEO</h1>
+
+                    <p>WaDesk includes a built-in marketing blog so you can publish content and earn organic search traffic without bolting on a separate CMS. It has three parts: an <strong>admin editor</strong> where you write and manage posts, a <strong>public blog</strong> your visitors read, and a layer of <strong>SEO output</strong> that the public site emits automatically for every page. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The blog turns your WaDesk install into a content-marketing platform. You author posts in the admin panel, they appear instantly on a public, SEO-ready blog, and the marketing site automatically advertises every page to search engines and social networks with the correct metadata. There is nothing to install and no theme to configure &mdash; it uses the same public layout as the rest of your marketing site.</p>
+                        <p>Use it for product announcements, how-to guides, customer stories, and SEO landing content &mdash; anything that helps people discover WaDesk through search rather than ads.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where">Where to Find It</h2>
+                        <p>The editor lives in the admin sidebar under <strong>Admin &rarr; Blog</strong> (URL <code>/admin/blog</code>). The public-facing pages are:</p>
+                        <ul>
+                            <li><code>/blog</code> &mdash; the blog index (the list of published posts).</li>
+                            <li><code>/blog/{slug}</code> &mdash; a single post, addressed by its slug.</li>
+                        </ul>
+                        <p>The public pages are visible to everyone, including logged-out visitors and search-engine crawlers. The editor is restricted to the platform admin.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="writing-posts">Writing &amp; Managing Posts</h2>
+                        <p>From <strong>Admin &rarr; Blog</strong> you can create a new post or edit an existing one. Each post has the following fields:</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Title</strong></td><td>The headline of the post. Also used as the default SEO title.</td></tr>
+                                <tr><td><strong>Slug</strong></td><td>The URL-friendly identifier that forms <code>/blog/{slug}</code>. Keep it short and descriptive.</td></tr>
+                                <tr><td><strong>Cover image</strong></td><td>The hero image shown on the list and at the top of the post. Also used for the Open Graph / Twitter card preview.</td></tr>
+                                <tr><td><strong>Body</strong></td><td>The rich-text content of the post, including inline images.</td></tr>
+                                <tr><td><strong>Status</strong></td><td><em>Published</em> makes the post live on the public blog; <em>Draft</em> keeps it hidden while you work on it.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Save a post as a <strong>Draft</strong> while it is still being written, then switch it to <strong>Published</strong> when it is ready to go live. Draft posts never appear on the public blog or in the sitemap.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Pick the slug carefully before you publish and share a post. The slug is part of the public URL, so changing it later means the old link stops working.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="seo-output">Automatic SEO Output</h2>
+                        <p>The public marketing layout emits complete SEO metadata for every page &mdash; not just blog posts. For each page WaDesk outputs:</p>
+                        <ul>
+                            <li><strong>Meta title and description</strong> &mdash; the snippet search engines show in results.</li>
+                            <li><strong>Open Graph tags</strong> &mdash; the title, description, and image used when a link is shared on Facebook, LinkedIn, WhatsApp, and similar.</li>
+                            <li><strong>Twitter card tags</strong> &mdash; the equivalent preview for X / Twitter.</li>
+                            <li><strong>Canonical URL</strong> &mdash; tells search engines the single official address for the page, so duplicate URLs don't split your ranking.</li>
+                            <li><strong>JSON-LD structured data</strong> &mdash; machine-readable markup that helps search engines understand the page (for example, that a blog post is an article).</li>
+                        </ul>
+                        <p>For a blog post, the cover image becomes the social-preview image and the post title and excerpt feed the meta tags, so a freshly published post is share-ready and indexable with no extra steps.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sitemap-robots">Sitemap &amp; robots.txt</h2>
+                        <p>WaDesk generates the two files search engines look for, automatically and dynamically:</p>
+                        <ul>
+                            <li><code>/sitemap.xml</code> &mdash; a dynamically generated list of your public pages, including every published blog post, so crawlers can find new content quickly.</li>
+                            <li><code>/robots.txt</code> &mdash; the crawl-rules file, which also points crawlers at your sitemap.</li>
+                        </ul>
+                        <p>From the admin you can also <strong>download the sitemap</strong> if you want to submit it manually to a search console. Because both files are generated on the fly, publishing a new post updates them without any manual regeneration.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="images-storage">Images &amp; Storage</h2>
+                        <p>Blog cover images and inline images are stored through your configured <strong>cloud storage provider</strong> when one is set up (for example S3, Wasabi, Bunny, Spaces, R2, or MinIO). If no cloud provider is configured, images are stored on local disk instead. Either way the blog works the same &mdash; cloud storage simply offloads the images to a dedicated, CDN-friendly bucket.</p>
+                        <blockquote class="info"><strong>Note:</strong> See <a href="./system-settings.html">System Settings</a> for how to choose and configure a cloud storage provider. Switching providers does not move images that were already uploaded.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan-permission">Plan &amp; Permission</h2>
+                        <p>Authoring posts is a <strong>platform admin</strong> capability &mdash; it lives in the admin panel, not in a customer workspace. The <strong>public blog</strong> at <code>/blog</code> is open to everyone, so any visitor (and any search-engine crawler) can read published posts without signing in.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; where you configure cloud storage and the marketing-site basics.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; platform-wide admin controls and the record of sensitive actions.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#where" class="toc-link">Where to Find It</a></li>
+                    <li class="toc-h2"><a href="#writing-posts" class="toc-link">Writing &amp; Managing Posts</a></li>
+                    <li class="toc-h2"><a href="#seo-output" class="toc-link">Automatic SEO Output</a></li>
+                    <li class="toc-h2"><a href="#sitemap-robots" class="toc-link">Sitemap &amp; robots.txt</a></li>
+                    <li class="toc-h2"><a href="#images-storage" class="toc-link">Images &amp; Storage</a></li>
+                    <li class="toc-h2"><a href="#plan-permission" class="toc-link">Plan &amp; Permission</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

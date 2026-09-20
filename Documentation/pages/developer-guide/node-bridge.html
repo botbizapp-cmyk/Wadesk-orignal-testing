@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Bridge &amp; Realtime – WaDesk SaaS Docs</title>
+    <meta name="description" content="Node Bridge &amp; Realtime — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Node Bridge &amp; Realtime</h1>
+
+                    <blockquote class="info">
+                        <strong>Audience:</strong> developers running or modifying the bundled Node.js service. The bridge is what makes the Unofficial API engine work, fires every time-based send, and feeds inbound messages back into the team inbox in near-real-time.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">What the Bridge Is</h2>
+                        <p>The bridge is a standalone service in the <code>node/</code> folder, with its own dependencies (separate from the front-end build). Its responsibilities:</p>
+                        <ul>
+                            <li>Hold one live WhatsApp Web connection per paired number (the Unofficial API engine).</li>
+                            <li>Expose HTTP endpoints the app calls to send, schedule, react/pin/star, and manage connections.</li>
+                            <li>Run a scheduler for one-off, recurring, broadcast, and campaign sends &mdash; in each recipient's timezone.</li>
+                            <li>For Cloud API workspaces, make the call to Meta itself (the app hands it the per-number credentials).</li>
+                            <li>Forward inbound messages, delivery receipts, and connection-status changes back to the app.</li>
+                        </ul>
+                        <p>It is built on the Unofficial API WhatsApp Web library, plus scheduling, timezone, HTTP, and WebRTC (used for the WhatsApp voice-call feature) libraries.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="layout">Folder Layout</h2>
+                        <pre>
+node/
+├── index.js          startup, settings cache, session restore, scheduler loops
+├── package.json      the bridge's own dependencies
+├── .env              its settings (port, URLs, shared token)
+├── config/           reads the .env settings
+├── routes/           the HTTP routes
+├── controllers/      handlers: connections, messages, schedules, broadcasts,
+│                       campaigns, flows, and voice calls
+├── services/         broadcast / campaign / flow / schedule / voice-call logic
+├── classes/          per-number connection lifecycle + inbound handling
+├── utils/            shared helpers (settings fetch, cleanup, send pacing)
+└── auth/             saved login state, one folder per connected device</pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="config">Configuration &amp; Environment</h2>
+                        <p>The bridge reads its own <code>node/.env</code>:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Variable</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>PORT</code></td><td>Port the bridge listens on (e.g. <code>8888</code>).</td></tr>
+                                <tr><td><code>DOMAIN_NAME</code></td><td>The bridge's own base URL.</td></tr>
+                                <tr><td><code>APP_DOMAIN_NAME</code></td><td>The app's base URL the bridge calls back to (status, inbound, settings). Also used for Twilio's status callback.</td></tr>
+                                <tr><td><code>NODE_WEBHOOK_TOKEN</code></td><td>The shared secret. <strong>Must equal</strong> the same value in the app's <code>.env</code>.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>On the app side, the bridge URL is taken from the workspace's connection, then the admin Unofficial API Server URL setting, then the <code>SERVER_URL</code> environment value. Set <code>SERVER_URL</code> in the app's <code>.env</code> to point at the bridge:</p>
+                        <pre>
+# app .env
+SERVER_URL=http://localhost:8888
+NODE_WEBHOOK_TOKEN=&lt;same 64-char secret as node/.env&gt;</pre>
+                        <blockquote class="warning"><strong>The two tokens must match.</strong> The app rejects any bridge call whose token doesn't match (and the bridge attaches the token to every callback). Rotate it by regenerating the secret and updating <em>both</em> <code>.env</code> files.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="auth">Authentication Between the Bridge and the App</h2>
+                        <p>The bridge and the app never share a login. All trust flows through the shared token:</p>
+                        <ul>
+                            <li><strong>Bridge &rarr; app:</strong> every callback (status, inbound, schedule status, heartbeat, settings fetch) carries the token. The app compares it and rejects any mismatch.</li>
+                            <li><strong>App &rarr; bridge:</strong> the bridge endpoints the app calls (such as cache-bust) check the same token before acting.</li>
+                            <li><strong>Why it's separate from login:</strong> these endpoints sit outside the browser login system on purpose &mdash; it stops the bridge's frequent calls from competing for the browser session lock.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Dev fallback:</strong> if the token is left unset, the bridge sends no token and the app accepts any caller &mdash; convenient for local dev, but always set the token in production.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="endpoints">HTTP Endpoints</h2>
+                        <p>The <code>:phone</code> path segment is the <strong>sending device's</strong> phone number, digits only. Highlights:</p>
+                        <pre>
+Health / status
+  GET  /                                  server info + active client count
+  GET  /health                            uptime, ready devices, memory, settings
+
+Client lifecycle
+  GET  /api/initialize-client/:phone      start a socket (triggers QR / pairing)
+  GET  /api/client-status/:phone          connection state
+  GET  /api/terminate-client/:phone       soft-disconnect (session preserved)
+  GET  /api/check-connection/:phone       liveness probe
+  GET  /api/get-pairing-code/:phone       phone-number pairing code (alt to QR)
+
+Messaging (Unofficial API)
+  POST /api/send-message/:phone           text (+ buttons/footer)
+  POST /api/send-media-message/:phone     media + caption
+  POST /api/send-media-only/:phone         media, no caption
+  POST /api/send-location/:phone           location
+  POST /api/send-reaction/:phone           emoji reaction
+  POST /api/pin-message/:phone             pin / unpin
+  POST /api/star-message/:phone            star / unstar
+  POST /api/send-contact/:phone            contact card
+  POST /api/edit-message/:phone            edit a sent message
+  POST /api/delete-message/:phone          delete for everyone
+
+Scheduling &amp; bulk (node-cron)
+  POST /api/schedule-message/:phone        single scheduled send
+  POST /api/schedule-message-bulk/:phone   one-off bulk
+  POST /api/schedule-recurring/:phone      recurring
+  POST /api/broadcast/...                   broadcast send + pause/resume/cancel
+  POST /api/wa/:phone/campaign/...          campaign send + schedule + lifecycle
+
+Flows &amp; voice
+  POST /api/flow/start/:phone              start a flow for a contact
+  POST /api/flow/resume-by-phone/...        resume a paused flow (WABA order webhook)
+  POST /api/flow/resume-form/:sessionKey    resume after a WhatsApp Form submission
+  POST /api/waba-call/answer               hand a WABA voice call to the AI bridge
+
+Cache control
+  POST /api/cache-bust                     flush per-phone settings cache (X-Node-Token)
+  GET  /api/refresh-settings               re-fetch all settings from Laravel</pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="settings-cache">The Per-Number Settings Cache</h2>
+                        <p>On every send the bridge needs to know: is this number on Cloud API or the Unofficial API, what is the branding footer, and (for Cloud API/Twilio) the credentials. It fetches this from the app:</p>
+                        <pre>
+GET {APP_DOMAIN_NAME}/api/whatsapp-settings?phone=&lt;digits&gt;
+Header: X-Node-Token: &lt;token&gt;</pre>
+                        <p>The app finds the matching connection by exact phone number, decrypts it, and returns whether it's on Cloud API, the Cloud API token + phone-number id (or the Twilio credentials), and the footer to append.</p>
+                        <p>The bridge caches this response per <strong>workspace + number</strong> for 5 minutes. Important properties:</p>
+                        <ul>
+                            <li><strong>Keyed per tenant</strong> &mdash; a phone number alone isn't unique across workspaces, so the cache is keyed by workspace <em>and</em> number. This closes a window where one workspace's token could be served to another on a cache hit.</li>
+                            <li><strong>Stale-but-valid fallback</strong> &mdash; if a refresh times out, the last <em>successful</em> response is reused rather than falling back to defaults (which would lose the footer and Cloud API detection).</li>
+                            <li><strong>Background warm-up</strong> &mdash; settings are refreshed for every connected number every 5 minutes, plus a warm-up at startup, so chat sends never wait on the app.</li>
+                            <li><strong>Manual refresh</strong> &mdash; when an admin changes a Cloud API connection or the branding footer, the app tells the bridge to drop the cached value (for one number, or all) so the change takes effect immediately instead of after 5 minutes.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="scheduler">The Scheduler</h2>
+                        <p>Time-based sends are owned entirely by the bridge. The app registers a schedule with it, and the bridge turns it into a recurring timer:</p>
+                        <pre>
+app                                  bridge
+  register one-off      ── POST ──>  /api/schedule-message-bulk/:phone
+  register recurring    ── POST ──>  /api/schedule-recurring/:phone
+  pause/resume/cancel   ── POST ──>  /api/{pause|resume}-schedule/:id
+
+cron expression (built so it fires in the user's timezone):
+  one-off:   "{min} {hour} {date} {month} *"
+  daily:     "{min} {hour} * * *"
+  weekly:    "{min} {hour} * * {days}"
+  monthly:   "{min} {hour} {date} * *"</pre>
+                        <ul>
+                            <li><strong>Timezone-correct</strong> &mdash; times are passed with their timezone and the timer is created in the user's timezone, so it fires at the exact wall-clock moment they chose.</li>
+                            <li><strong>Engine choice respected</strong> &mdash; the schedule carries the operator's chosen engine, so the bridge sends on that engine rather than guessing (important when the same number is set up for both Unofficial API and Cloud API).</li>
+                            <li><strong>Survives restarts</strong> &mdash; timers live in memory, so on startup the bridge asks the app for every pending schedule and re-registers them. Without this, a restart would silently lose them.</li>
+                            <li><strong>Failure handling</strong> &mdash; if the bridge is briefly unreachable, the app records the change locally so the UI stays correct and retries on a later pass.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="inbound">Inbound Messages &rarr; the App</h2>
+                        <p>Each connection listens for new messages and forwards every relevant event to one endpoint:</p>
+                        <pre>
+POST {APP_DOMAIN_NAME}/api/inbound-message
+Header: X-Node-Token: &lt;token&gt;</pre>
+                        <p>Three kinds of event flow through this endpoint:</p>
+                        <ul>
+                            <li><strong>Inbound customer messages</strong> &mdash; text, media (capped at 16 MB), location, contact cards, and a forwarded flag. Button/list/quick-reply replies are decoded so the visible text is never empty.</li>
+                            <li><strong>Replies sent from the phone itself</strong> &mdash; when the operator replies from their actual phone or another linked device, it is forwarded as an outbound message so the team-inbox thread shows both sides. Duplicates are filtered out by message id.</li>
+                            <li><strong>Reactions</strong> &mdash; forwarded as a reaction event, not as a new message bubble.</li>
+                        </ul>
+                        <p>Two WhatsApp routing subtleties are handled before forwarding:</p>
+                        <ul>
+                            <li><strong>Phone-number formatting</strong> &mdash; the full international number is preserved (an older approach truncated longer 13-digit numbers like Argentina/Brazil and misrouted sends).</li>
+                            <li><strong>Linked-device IDs</strong> &mdash; modern WhatsApp routes some chats through linked-device IDs that aren't phone numbers. The bridge recovers the real number and sends both identifiers so the app matches every inbound message to one conversation instead of splitting the thread.</li>
+                        </ul>
+                        <p>Groups, status updates, and newsletters are filtered out. Forwarding is fire-and-forget &mdash; auto-reply, keyword, and flow logic run on the same message independently. The app's response may tell the bridge to start a flow, which it does in the same call.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="status-heartbeat">Status Callbacks &amp; Heartbeat</h2>
+                        <p>Beyond messages, the bridge keeps Laravel's view of device + delivery state fresh:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Callback</th><th>Endpoint</th><th>Purpose</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Connection status</td><td><code>POST /api/update-status</code></td><td>QR, connecting, connected, disconnected (with progress + QR payload).</td></tr>
+                                <tr><td>Heartbeat</td><td><code>POST /api/node-heartbeat</code></td><td>Every 30s, the list of live connections so devices show as recently seen and a silent bridge crash flips them to disconnected.</td></tr>
+                                <tr><td>Message status</td><td><code>POST /api/update-message-status</code></td><td>Delivery / read ticks for broadcast + chat messages.</td></tr>
+                                <tr><td>Schedule / broadcast / campaign status</td><td><code>POST /api/update-schedule-status</code>, <code>/api/update-broadcast-status</code>, <code>/api/campaigns/update-status</code></td><td>Per-send and per-batch progress.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sessions">Session Persistence &amp; Lifecycle</h2>
+                        <ul>
+                            <li><strong>Saved login state</strong> &mdash; one folder per connected device, kept on disk so connections survive restarts.</li>
+                            <li><strong>Graceful shutdown</strong> &mdash; on shutdown the bridge cleanly disconnects every connection so pairings survive; they auto-restore on the next start.</li>
+                            <li><strong>Restore check</strong> &mdash; on startup, only healthy saved sessions are restored; incomplete ones are reported to the app as <em>Disconnected</em> so the Devices screen is accurate and no QR pops up on every boot. Re-pairing is always an explicit user action.</li>
+                            <li><strong>Periodic cleanup</strong> &mdash; stale connection locks, finished flow sessions, and expired cooldowns are swept on their own schedules.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Running it:</strong> install dependencies inside the folder (<code>cd node &amp;&amp; npm install</code>) and run <code>node index.js</code> (or under a process manager such as pm2). On startup it loads settings, restores sessions, syncs schedules and campaigns from the app, then starts the refresh and heartbeat loops. The bridge is <strong>required</strong> &mdash; it carries the send path for the Unofficial API and Cloud API, and runs the scheduler and bulk pipeline (broadcasts, campaigns, scheduled, flows) for every engine, including Twilio. Only the paired WhatsApp <em>connection</em> is specific to the Unofficial API; Cloud API and Twilio installs still need the bridge running.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next">Related Pages</h2>
+                        <ul>
+                            <li><a href="./architecture.html">Architecture Overview</a> &mdash; where the bridge sits in the system.</li>
+                            <li><a href="./engines.html">WhatsApp Engines</a> &mdash; the dispatcher side that calls these endpoints.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">What the Bridge Is</a></li>
+                    <li class="toc-h2"><a href="#layout" class="toc-link">Folder Layout</a></li>
+                    <li class="toc-h2"><a href="#config" class="toc-link">Configuration &amp; Environment</a></li>
+                    <li class="toc-h2"><a href="#auth" class="toc-link">Authentication</a></li>
+                    <li class="toc-h2"><a href="#endpoints" class="toc-link">HTTP Endpoints</a></li>
+                    <li class="toc-h2"><a href="#settings-cache" class="toc-link">Per-Number Settings Cache</a></li>
+                    <li class="toc-h2"><a href="#scheduler" class="toc-link">The Scheduler</a></li>
+                    <li class="toc-h2"><a href="#inbound" class="toc-link">Inbound Messages</a></li>
+                    <li class="toc-h2"><a href="#status-heartbeat" class="toc-link">Status &amp; Heartbeat</a></li>
+                    <li class="toc-h2"><a href="#sessions" class="toc-link">Session Persistence</a></li>
+                    <li class="toc-h2"><a href="#next" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

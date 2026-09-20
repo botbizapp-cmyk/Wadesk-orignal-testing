@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Process – WaDesk SaaS Docs</title>
+    <meta name="description" content="Update Process — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Update Process</h1>
+
+                    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:8px;padding:16px 20px;margin:20px 0;">
+                        <strong style="color:#dc2626;font-size:1.05em;">IMPORTANT &mdash; back up everything yourself first.</strong>
+                        <p style="margin:8px 0 0;color:#7f1d1d;line-height:1.6;">Before you update or run any command on this page, take a <strong>complete manual backup of BOTH your code (all files) and your database</strong> yourself &mdash; download a fresh copy. Do <em>not</em> rely solely on the in-app updater's automatic backup. Confirm the backup is complete and restorable <em>before</em> you proceed. <strong>Any loss of data during or after an update is entirely your own responsibility.</strong></p>
+                    </div>
+
+                    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:8px;padding:16px 20px;margin:20px 0;">
+                        <strong style="color:#dc2626;font-size:1.05em;">cPanel / Hostinger users &mdash; read this before updating.</strong>
+                        <ul style="margin:10px 0 0;color:#7f1d1d;padding-left:20px;line-height:1.7;">
+                            <li><strong>The Node app is NEVER auto-restarted &mdash; on ANY hosting (VPS, cPanel, or Hostinger).</strong> The in-app updater refreshes the PHP / Laravel side only; it does <em>not</em> restart the Node bridge anywhere. After <em>every</em> update you must <strong>restart the Node app yourself</strong> &mdash; on a <strong>VPS</strong> run <code>pm2 restart all</code> (or your process manager); on <strong>cPanel / Hostinger</strong> use the Node app manager &mdash; otherwise it keeps running the old code (flows, webhooks, sending).</li>
+                            <li><strong>If you are on Hostinger:</strong> create a <strong>ZIP of the <code>node</code> folder</strong> and re-deploy it (upload &amp; extract over the old one), then in the Node app manager set the <strong>Application startup file to <code>server.cjs</code></strong> and restart.</li>
+                            <li><strong>If you are on cPanel:</strong> set the <strong>Application startup file to <code>app.cjs</code></strong>. Then <strong>delete the existing <code>index.js</code></strong> and <strong>rename <code>index-cpanel.js</code> &rarr; <code>index.js</code></strong> before you start the app.</li>
+                            <li>After re-deploying the <code>node</code> folder, click <strong>Run NPM Install</strong> in the Node app manager (in case dependencies changed), then <strong>Restart</strong>.</li>
+                        </ul>
+                    </div>
+
+                    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:8px;padding:16px 20px;margin:20px 0;">
+                        <strong style="color:#dc2626;font-size:1.05em;">Which file do I upload to the In-App Updater?</strong>
+                        <p style="margin:8px 0 0;color:#7f1d1d;line-height:1.6;">Inside the package you downloaded from CodeCanyon, open the <strong><code>update</code></strong> folder. There you will find the <strong>update ZIP for this version</strong> &mdash; for v1.7 it is <strong><code>update_1.7.zip</code></strong>. <strong>That ZIP is the file you upload</strong> at <strong>Admin &rarr; Update</strong>. Do <em>not</em> upload the full main/installable package, and do <em>not</em> unzip the update file first &mdash; upload the ZIP <strong>exactly as it is</strong>. Each release ships its own update ZIP in this <code>update</code> folder always named for the version it installs (e.g. <code>update_1.4.zip</code> for v1.4).</p>
+                    </div>
+
+                    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:8px;padding:16px 20px;margin:20px 0;">
+                        <strong style="color:#dc2626;font-size:1.05em;">Set your upload size limit to the MAXIMUM before you upload the update ZIP.</strong>
+                        <p style="margin:8px 0 0;color:#7f1d1d;line-height:1.6;">The update ZIP is bigger than the default PHP upload limit, so on a fresh server the uploader will fail with <strong>&ldquo;Upload failed&rdquo;</strong> (or <strong>HTTP&nbsp;413 &mdash; Request Entity Too Large</strong>) <em>before the file ever reaches the updater</em>. This is a server limit, not a bug in WaDesk. Raise these to the <strong>maximum your host allows</strong> (set them to at least <strong>64&nbsp;MB</strong>, or higher &mdash; bigger is safe) <em>before</em> uploading:</p>
+                        <ul style="margin:10px 0 0;color:#7f1d1d;padding-left:20px;line-height:1.7;">
+                            <li><code>php.ini</code> &rarr; <strong><code>upload_max_filesize = 64M</code></strong></li>
+                            <li><code>php.ini</code> &rarr; <strong><code>post_max_size = 64M</code></strong> (must be &ge; <code>upload_max_filesize</code>)</li>
+                            <li><code>php.ini</code> &rarr; <strong><code>max_execution_time = 300</code></strong> and <strong><code>memory_limit = 256M</code></strong> (so a big update doesn&rsquo;t time out)</li>
+                            <li><strong>nginx:</strong> <code>client_max_body_size 64M;</code> in your server block &nbsp;&middot;&nbsp; <strong>Apache:</strong> <code>LimitRequestBody 67108864</code></li>
+                        </ul>
+                        <p style="margin:10px 0 0;color:#7f1d1d;line-height:1.6;"><strong>cPanel:</strong> <em>MultiPHP INI Editor</em> &rarr; select your domain &rarr; set the values above. <strong>Hostinger:</strong> <em>Advanced &rarr; PHP Configuration</em> &rarr; <em>PHP Options</em>. Then <strong>restart PHP&#8209;FPM</strong> and reload the web server. If your host <em>caps</em> uploads below the ZIP size, upload the ZIP into the <code>update</code> folder over <strong>File Manager / FTP</strong> instead, or apply the update <a href="#step-2-upload">manually</a>.</p>
+                    </div>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>This guide explains how to safely update <strong>WaDesk</strong> to a newer version. All PHP dependencies and frontend assets are pre-built in the update package, so a standard update is: <strong>back up &rarr; upload new files &rarr; run migrations &rarr; clear cache and rebuild assets &rarr; restart the Node bridge</strong>.</p>
+                        <p>Always review the <a href="changelog.html">Change Log</a> first to understand what has changed and whether a release needs new environment variables or configuration.</p>
+                        <blockquote class="info"><strong>Two ways to update.</strong> From <strong>v1.1.0</strong> onward, WaDesk includes a one-click <strong>In-App Updater</strong> in the admin panel that automates everything below. The <strong>manual</strong> file-replacement steps on this page are still fully supported &mdash; and are the <em>only</em> way to move from <strong>v1.0.0 to v1.1.0</strong>, because 1.0.0 shipped before the updater existed. See <a href="#methods">Choosing Your Update Method</a> first.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="methods">Choosing Your Update Method</h2>
+                        <p>Which path you take depends on the version you are <em>currently</em> running.</p>
+
+                        <h3 id="method-1-0">Updating from v1.0.0 &rarr; v1.1.0 (Manual)</h3>
+                        <section class="mb-12">
+                            <h4 id="video">Video Walkthrough</h4>
+                            <p>Prefer to watch? This short video walks through the update process step by step: <a href="https://youtu.be/vQ9_Nzo3ncU" target="_blank" rel="noopener"><strong>https://youtu.be/vQ9_Nzo3ncU</strong></a></p>
+                        </section>
+                        <p>Version 1.0.0 has no in-app updater, so this one upgrade must be done <strong>manually</strong> by replacing files on your server. It is a one-time manual step; afterwards you will have the updater. In short:</p>
+                        <ul>
+                            <li><strong>Back up</strong> your database and files (<a href="#step-1-backup">Step 1</a>).</li>
+                            <li><strong>Replace</strong> the application code &mdash; <code>app/</code>, <code>bootstrap/</code> (except <code>bootstrap/cache/</code>), <code>config/</code>, <code>database/</code>, <code>lang/</code>, <code>resources/</code>, <code>routes/</code>, <code>public/build/</code>, the <code>node/</code> bridge source, and root files like <code>composer.json</code>, <code>composer.lock</code>, <code>package.json</code>, <code>artisan</code>, and <code>config/version.php</code> (<a href="#step-2-upload">Step 2</a>).</li>
+                            <li><strong>Skip / never overwrite</strong> &mdash; <code>.env</code>, <code>storage/</code> (holds the Node bridge's WhatsApp sessions for every connected number), your uploaded files in <code>public/</code> (media, logos, branding), and the installed <code>vendor/</code> and <code>node/node_modules/</code> dependency folders (<a href="#do-not-overwrite">What NOT to Overwrite</a>).</li>
+                            <li><strong>Then</strong> run migrations &rarr; clear caches &rarr; restart the Node bridge &amp; queue (Steps 3&ndash;5).</li>
+                        </ul>
+                        <blockquote class="warning"><strong>The golden rule for the manual upgrade:</strong> replace <em>code</em> folders, never replace <em>data/config</em> (<code>.env</code>, <code>storage/</code>, <code>public/</code> uploads). When in doubt, extract the package to a separate folder and copy only the code across.</blockquote>
+
+                        <h3 id="method-1-1">Updating from v1.1.0 and later (In-App Updater)</h3>
+                        <p>Once you are on v1.1.0+, every future update can be done from inside the admin panel at <strong>Admin &rarr; Update</strong> &mdash; no FTP/SSH, no manual file juggling. The updater runs the same safe sequence this page describes, automatically, and only the Super Admin can run it. How it works:</p>
+                        <ol>
+                            <li><strong>Verify license</strong> &mdash; enter your CodeCanyon purchase code; the updater validates it with Envato before allowing an update.</li>
+                            <li><strong>Automatic backup</strong> &mdash; it snapshots your current files and database first, so you always have a restore point.</li>
+                            <li><strong>Upload the package</strong> &mdash; from the package's <strong><code>update</code></strong> folder, upload the <strong>version update ZIP</strong> (for v1.2 that is <code>update_1.2.zip</code>) <em>exactly as it is</em> &mdash; do not unzip it, and do not upload the full installable package. The updater reads its <code>config/version.php</code> and refuses anything that is not newer than your current version.</li>
+                            <li><strong>Apply files</strong> &mdash; it extracts and replaces the application code <em>while preserving</em> your <code>.env</code>, <code>storage/</code>, and uploaded files automatically &mdash; the things you would manually exclude are protected for you.</li>
+                            <li><strong>Run migrations</strong> &mdash; new database migrations are applied.</li>
+                            <li><strong>Finalize</strong> &mdash; caches are cleared and a health check confirms the app still boots. You then restart the Node bridge (see <a href="#step-5-bridge">Step 5</a>) so Unofficial API numbers pick up the new bridge code.</li>
+                        </ol>
+                        <blockquote class="info"><strong>One-click rollback.</strong> Every run keeps a backup. If a release misbehaves, the <strong>Rollback</strong> button on the same screen restores the previous files and database from any saved backup &mdash; no command line needed.</blockquote>
+                        <blockquote class="warning"><strong>Still take your own backup</strong> before a major update, and the bridge restart in Step 5 is the one manual touch the updater cannot do for you (it runs as a separate process).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="update-1-3">Updating from v1.2 &rarr; v1.3</h2>
+                        <blockquote class="warning"><strong>Updates are sequential &mdash; v1.2 is compulsory before v1.3.</strong> You <strong>cannot</strong> jump straight to v1.3 from an older release. You must already be running <strong>v1.2</strong> first, then apply <strong>v1.3</strong> on top. If you are on v1.0.0 or v1.1.0, update <em>one step at a time</em> &mdash; e.g. 1.0.0&nbsp;&rarr;&nbsp;1.1.0&nbsp;&rarr;&nbsp;1.2&nbsp;&rarr;&nbsp;1.3 &mdash; running migrations and clearing cache after each step. The updater refuses any package that is not newer than your installed version, so it will block an out-of-order upload.</blockquote>
+                        <p>Once you are on <strong>v1.2</strong>, apply v1.3 with the In-App Updater exactly as described above:</p>
+                        <ol>
+                            <li><strong>Raise your upload limit to the maximum first</strong> (see the red box at the top of this page) &mdash; the v1.3 ZIP is larger than the default PHP limit and will be rejected otherwise.</li>
+                            <li><strong>Back up</strong> your database and files yourself (<a href="#step-1-backup">Step&nbsp;1</a>).</li>
+                            <li>Go to <strong>Admin &rarr; Update</strong>, verify your CodeCanyon purchase code, then upload <strong><code>update_1.3.zip</code></strong> from the package&rsquo;s <code>update</code> folder &mdash; <em>exactly as it is</em>, do not unzip it.</li>
+                            <li>Let it <strong>apply files</strong> and <strong>run migrations</strong>, then <strong>finalize</strong>.</li>
+                            <li><strong>Restart the Node bridge</strong> (<a href="#step-5-bridge">Step&nbsp;5</a>) &mdash; on a VPS <code>pm2 restart all</code>; on cPanel/Hostinger use the Node app manager. <strong>This is required for v1.3</strong> &mdash; the scheduled-message and connection fixes live in the Node bridge and only take effect after a restart.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Node token must match.</strong> v1.3 hardens the Laravel&harr;Node connection. Make sure the same <code>NODE_WEBHOOK_TOKEN</code> is set in <em>both</em> Laravel (Admin&nbsp;&rarr;&nbsp;settings, or <code>.env</code>) and the Node bridge&rsquo;s <code>node/.env</code>, then run <code>php artisan config:clear</code> and restart Node. If they don&rsquo;t match, device pairing, sending, and scheduled messages return &ldquo;unauthorized&rdquo;. (Alternatively, point the Node server URL at <code>http://127.0.0.1:&lt;port&gt;</code> when Laravel and Node share the same server &mdash; loopback is trusted automatically.)</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="update-1-4">Updating from v1.3 &rarr; v1.4</h2>
+                        <blockquote class="warning"><strong>Updates are sequential &mdash; v1.3 is compulsory before v1.4.</strong> You <strong>cannot</strong> jump straight to v1.4 from an older release. You must already be running <strong>v1.3</strong> first, then apply <strong>v1.4</strong> on top. If you are further back, update <em>one step at a time</em> &mdash; e.g. 1.1.0&nbsp;&rarr;&nbsp;1.2&nbsp;&rarr;&nbsp;1.3&nbsp;&rarr;&nbsp;1.4 &mdash; running migrations and clearing cache after each step. The updater refuses any package that is not newer than your installed version, so it will block an out-of-order upload.</blockquote>
+                        <p>Once you are on <strong>v1.3</strong>, apply v1.4 with the In-App Updater exactly as described above:</p>
+                        <ol>
+                            <li><strong>Raise your upload limit to the maximum first</strong> (see the red box at the top of this page) &mdash; the v1.4 ZIP is larger than the default PHP limit and will be rejected otherwise.</li>
+                            <li><strong>Back up</strong> your database and files yourself (<a href="#step-1-backup">Step&nbsp;1</a>).</li>
+                            <li>Go to <strong>Admin &rarr; Update</strong>, verify your CodeCanyon purchase code, then upload <strong><code>update_1.4.zip</code></strong> from the package&rsquo;s <code>update</code> folder &mdash; <em>exactly as it is</em>, do not unzip it.</li>
+                            <li>Let it <strong>apply files</strong> and <strong>run migrations</strong>, then <strong>finalize</strong>.</li>
+                            <li><strong>Clear the view cache</strong> &mdash; run <code>php artisan view:clear</code> (<a href="#step-4-cache">Step&nbsp;4</a>). <strong>This is required for v1.4</strong>: the pricing page is a compiled Blade view, so without this the old compiled copy keeps serving the previous yearly-price calculation even though the new files are in place.</li>
+                            <li><strong>Restart the Node bridge</strong> (<a href="#step-5-bridge">Step&nbsp;5</a>) &mdash; on a VPS <code>pm2 restart all</code>; on cPanel/Hostinger use the Node app manager.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Check your yearly plans after updating.</strong> v1.4 fixes how a plan with a <strong>yearly billing period</strong> is priced and charged. If you sell an annual plan, open <strong>Admin &rarr; Packages</strong> and confirm the billing period and amount read as you intend &mdash; a plan set to <code>1 year</code> is now charged its full yearly amount in a single payment and is treated as yearly even when the pricing-page toggle is not carried in the URL. Also check <strong>Admin &rarr; Settings</strong> that the yearly toggle is enabled if you offer monthly&rarr;annual conversion; with it switched off, the toggle is hidden and monthly plans are billed monthly.</blockquote>
+                        <blockquote class="warning"><strong>On cPanel, redo the Node entry-point rename.</strong> An update ships a fresh <code>index.js</code>, which overwrites the file you renamed during setup. After finalizing, go back into the <code>node</code> folder, rename <code>index.js</code> to <code>index-old.js</code> and <code>index-cpanel.js</code> to <code>index.js</code>, then restart the Node app &mdash; otherwise the bridge will not come back up. Full steps: <a href="../installation/web-installer.html#node-cpanel">Running the Node Bridge on cPanel</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="update-1-7">Updating from v1.6 &rarr; v1.7</h2>
+                        <blockquote class="warning"><strong>Updates are sequential &mdash; v1.6 is compulsory before v1.7.</strong> You <strong>cannot</strong> jump straight to v1.7 from an older release. You must already be running <strong>v1.6</strong> first, then apply <strong>v1.7</strong> on top. If you are further back, update <em>one step at a time</em> &mdash; e.g. 1.4&nbsp;&rarr;&nbsp;1.5&nbsp;&rarr;&nbsp;1.6&nbsp;&rarr;&nbsp;1.7 &mdash; running migrations and clearing cache after each step. The updater refuses any package that is not newer than your installed version, so it will block an out-of-order upload.</blockquote>
+                        <p>v1.7 is a channel release: it adds <strong>Email</strong> (through a connected MailTrixy install), plus <strong>LINE</strong>, <strong>WeChat</strong> and <strong>Viber</strong>. Once you are on <strong>v1.6</strong>, apply v1.7 with the In-App Updater exactly as described above:</p>
+                        <ol>
+                            <li><strong>Raise your upload limit to the maximum first</strong> (see the red box at the top of this page).</li>
+                            <li><strong>Back up</strong> your database and files yourself (<a href="#step-1-backup">Step&nbsp;1</a>).</li>
+                            <li>Go to <strong>Admin &rarr; Update</strong>, verify your CodeCanyon purchase code, then upload <strong><code>update_1.7.zip</code></strong> from the package&rsquo;s <code>update</code> folder &mdash; <em>exactly as it is</em>, do not unzip it.</li>
+                            <li>Let it <strong>apply files</strong> and <strong>run migrations</strong>, then <strong>finalize</strong>.</li>
+                            <li><strong>Clear the view cache</strong> &mdash; run <code>php artisan view:clear</code> (<a href="#step-4-cache">Step&nbsp;4</a>). <strong>Required for v1.7</strong>: the new channel screens are compiled Blade views, so without this the old compiled copies keep rendering.</li>
+                            <li><strong>Restart the Node bridge</strong> (<a href="#step-5-bridge">Step&nbsp;5</a>) &mdash; on a VPS <code>pm2 restart all</code>; on cPanel/Hostinger use the Node app manager. v1.7 updates the Node runtime that runs the new channels&rsquo; flows.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Email is OFF on every plan by default &mdash; tick it or the channel stays invisible.</strong> The v1.7 migration adds the Email plan flag defaulting to <em>off</em>, so even a correctly connected MailTrixy bridge shows nothing: no mailbox picker, no email sender, no Email option anywhere. After finalizing, go to <strong>Admin &rarr; Packages</strong>, edit each plan that should include email, and tick <strong>Email</strong> (set a monthly limit if you want to cap usage). This is the single most common &ldquo;the update didn&rsquo;t work&rdquo; report.</blockquote>
+                        <blockquote class="info"><strong>The new channels need their credentials before a workspace can connect them.</strong> Each is off until configured in <strong>Admin &rarr; Settings</strong>: <strong>LINE</strong> needs a Channel access token and Channel secret, <strong>WeChat</strong> needs AppID, AppSecret, Token and EncodingAESKey (and a Verified Service Account), <strong>Viber</strong> needs just its bot authentication token, and <strong>Email</strong> needs a reachable MailTrixy install plus a shared secret entered on both sides. See each channel&rsquo;s guide under <strong>Channels</strong> for exactly what to set. Existing workspaces keep working unchanged &mdash; every new feature is opt-in and plan-gated.</blockquote>
+                        <blockquote class="warning"><strong>On cPanel, redo the Node entry-point rename.</strong> As with every update, v1.7 ships a fresh <code>index.js</code> that overwrites your renamed file. After finalizing, rename <code>index.js</code> to <code>index-old.js</code> and <code>index-cpanel.js</code> to <code>index.js</code> in the <code>node</code> folder, then restart the Node app. Full steps: <a href="../installation/web-installer.html#node-cpanel">Running the Node Bridge on cPanel</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="update-1-6">Updating from v1.5 &rarr; v1.6</h2>
+                        <blockquote class="warning"><strong>Updates are sequential &mdash; v1.5 is compulsory before v1.6.</strong> You <strong>cannot</strong> jump straight to v1.6 from an older release. You must already be running <strong>v1.5</strong> first, then apply <strong>v1.6</strong> on top. If you are further back, update <em>one step at a time</em> &mdash; e.g. 1.3&nbsp;&rarr;&nbsp;1.4&nbsp;&rarr;&nbsp;1.5&nbsp;&rarr;&nbsp;1.6 &mdash; running migrations and clearing cache after each step. The updater refuses any package that is not newer than your installed version, so it will block an out-of-order upload.</blockquote>
+                        <p>v1.6 is a large, multi-channel release, so it ships a big batch of new files and database migrations. Once you are on <strong>v1.5</strong>, apply v1.6 with the In-App Updater exactly as described above:</p>
+                        <ol>
+                            <li><strong>Raise your upload limit to the maximum first</strong> (see the red box at the top of this page) &mdash; the v1.6 ZIP is larger than the default PHP limit and will be rejected otherwise.</li>
+                            <li><strong>Back up</strong> your database and files yourself (<a href="#step-1-backup">Step&nbsp;1</a>).</li>
+                            <li>Go to <strong>Admin &rarr; Update</strong>, verify your CodeCanyon purchase code, then upload <strong><code>update_1.6.zip</code></strong> from the package&rsquo;s <code>update</code> folder &mdash; <em>exactly as it is</em>, do not unzip it.</li>
+                            <li>Let it <strong>apply files</strong> and <strong>run migrations</strong> (v1.6 adds several new tables &mdash; companies, payments, tasks, projects, quotes and the channel tables), then <strong>finalize</strong>.</li>
+                            <li><strong>Clear the view cache</strong> &mdash; run <code>php artisan view:clear</code> (<a href="#step-4-cache">Step&nbsp;4</a>). <strong>Required for v1.6</strong>: the new inbox, channel and CRM screens are compiled Blade views, so without this the old compiled copies keep rendering.</li>
+                            <li><strong>Restart the Node bridge</strong> (<a href="#step-5-bridge">Step&nbsp;5</a>) &mdash; on a VPS <code>pm2 restart all</code>; on cPanel/Hostinger use the Node app manager. v1.6 updates the Node runtime that powers Instagram and cross-channel flows, so this step is required for those channels to work.</li>
+                        </ol>
+                        <blockquote class="info"><strong>New channels need their credentials before a workspace can connect them.</strong> v1.6 adds Instagram, Facebook Messenger, Telegram, TikTok and SMS. Each is off until configured in <strong>Admin &rarr; Settings</strong>: Instagram/Facebook reuse (or extend) your existing Meta app, Telegram needs a bot token, SMS needs Twilio or MSG91 keys, and TikTok needs its app credentials. See each channel&rsquo;s guide under <strong>Channels</strong> for exactly what to set. Existing WhatsApp workspaces keep working unchanged &mdash; every new feature is opt-in and plan-gated.</blockquote>
+                        <blockquote class="warning"><strong>On cPanel, redo the Node entry-point rename.</strong> As with every update, v1.6 ships a fresh <code>index.js</code> that overwrites your renamed file. After finalizing, rename <code>index.js</code> to <code>index-old.js</code> and <code>index-cpanel.js</code> to <code>index.js</code> in the <code>node</code> folder, then restart the Node app. Full steps: <a href="../installation/web-installer.html#node-cpanel">Running the Node Bridge on cPanel</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="waba-process">WhatsApp Cloud API (WABA) Setup</h2>
+                        <p>The <strong>WABA / WhatsApp Cloud API</strong> engine is Meta&rsquo;s official API &mdash; ideal for verified business sending, templates, and calling. To connect a number:</p>
+                        <ol>
+                            <li><strong>Create / open your WhatsApp Business Account</strong> in <a href="https://business.facebook.com" target="_blank" rel="noopener">Meta Business Manager</a> and add a phone number under <em>WhatsApp &rarr; API Setup</em>.</li>
+                            <li><strong>Collect four values:</strong> <code>Phone Number ID</code>, <code>WABA ID</code>, a <strong>permanent access token</strong> (via a System User), and an <strong>App Secret</strong> for webhook signature verification.</li>
+                            <li>In WaDesk go to <strong>Devices &rarr; Add device &rarr; Meta (WABA)</strong> and paste those values. WaDesk stores the token encrypted at rest.</li>
+                            <li><strong>Set the webhook</strong> in your Meta app to WaDesk&rsquo;s callback URL (shown on the connect screen) and <strong>Verify</strong> it. Subscribe to the <em>messages</em> field so inbound messages, statuses, and calls reach the Team Inbox.</li>
+                            <li><strong>Approve templates</strong> under <strong>Templates</strong> &mdash; outbound business&#8209;initiated messages outside the 24&#8209;hour window must use an approved template. WaDesk lints templates before submit to reduce rejections.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>Coexistence:</strong> the same WABA number cannot run on the Unofficial API and Cloud API at the same time. If you migrate a number to WABA, disconnect it from the Unofficial engine first. WaDesk blocks connecting the same WABA in two workspaces (first&#8209;connected wins).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-1-backup">Step 1: Back Up Your Database and Files</h2>
+                        <p>Never skip this step. Before touching anything, back up the two things that contain your data and configuration:</p>
+                        <ul>
+                            <li><strong>Database:</strong> Export it via your hosting control panel (phpMyAdmin &rarr; Export) or over SSH:
+                                <pre>mysqldump -u your_db_user -p your_database > wadesk-backup.sql</pre>
+                            </li>
+                            <li><strong>Files:</strong> Download or compress your whole WaDesk directory &mdash; or at minimum the items you must never lose: <code>.env</code>, the <code>storage/</code> folder, and any user uploads in <code>public/</code>.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Keep these backups until you have confirmed the update works.</strong> If anything goes wrong, they are your fastest path back to a working install (see <a href="#rollback">Rollback</a>).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-2-upload">Step 2: Upload the New Files</h2>
+                        <p>Download the latest version from your CodeCanyon <strong>Downloads</strong> page, then upload the new files into your WaDesk directory, overwriting the existing application code. You can use your hosting File Manager, FTP/SFTP, or over SSH:</p>
+                        <pre>rsync -av --exclude='.env' --exclude='storage/' --exclude='node/node_modules/' /tmp/wadesk-update/ /var/www/wadesk/</pre>
+                        <p>Overwrite the application code &mdash; <code>app/</code>, <code>config/</code>, <code>database/migrations/</code>, <code>resources/</code>, <code>routes/</code>, <code>public/build/</code>, the <code>node/</code> bridge source, and root files such as <code>composer.json</code> and <code>config/version.php</code>.</p>
+                        <blockquote class="info"><strong>Assets are pre-built.</strong> The update package already contains the compiled Vite assets in <code>public/build/</code>, so for most updates you do not need to run <code>composer install</code> or <code>npm run build</code>. Only rebuild if the changelog says new dependencies were added (see Step 4).</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="do-not-overwrite">What NOT to Overwrite</h2>
+                        <p>These contain your data and configuration. Replacing them will break your install or lose your data. <strong>Always exclude them when uploading:</strong></p>
+                        <ul>
+                            <li><code>.env</code> &mdash; Your database credentials, app key, mail, AI, and payment-gateway keys. Losing this breaks the installation.</li>
+                            <li><code>storage/</code> &mdash; Logs, cached files, sessions, and the bundled Node bridge's WhatsApp session/auth data. Overwriting this disconnects every Unofficial API number.</li>
+                            <li>User uploads in <code>public/</code> (e.g. uploaded media, logos, and branding assets) &mdash; never delete buyer-uploaded files.</li>
+                            <li><code>vendor/</code> and <code>node/node_modules/</code> &mdash; Installed dependencies. Leave them in place unless the changelog tells you to reinstall.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Critical:</strong> If your update tool cannot exclude folders, extract the package to a separate directory first and copy only the application code across &mdash; do not let <code>.env</code> or <code>storage/</code> be overwritten.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-3-migrate">Step 3: Run Database Migrations</h2>
+                        <p>New versions may add or change database tables. Run migrations so the schema matches the new code. Only new migrations run &mdash; your existing data is not touched.</p>
+                        <p><strong>VPS / Dedicated Server (SSH):</strong></p>
+                        <pre>php artisan migrate --force</pre>
+                        <p><strong>Shared Hosting (no SSH):</strong> Use your hosting's &ldquo;PHP / Cron&rdquo; or terminal tool to run the same command in your application's root directory, or ask your hosting provider's support to run <code>php artisan migrate --force</code> for you.</p>
+                        <blockquote class="warning"><strong>Do not skip migrations.</strong> Running new code against an old schema is the most common cause of post-update errors.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-4-cache">Step 4: Clear Cache and Rebuild Assets</h2>
+                        <p>Stale config, route, view, and compiled caches can make new code misbehave. Clear and rebuild them.</p>
+                        <p><strong>VPS / Dedicated Server (SSH):</strong></p>
+                        <pre>php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache</pre>
+                        <p><strong>Shared Hosting (no SSH):</strong> Using your File Manager, delete the contents of these folders (keep the folders themselves):</p>
+                        <ul>
+                            <li><code>bootstrap/cache/</code> &mdash; delete all <code>.php</code> files</li>
+                            <li><code>storage/framework/cache/data/</code> &mdash; delete all files</li>
+                            <li><code>storage/framework/views/</code> &mdash; delete all <code>.php</code> files</li>
+                        </ul>
+                        <p><strong>Only if the changelog says new dependencies were added,</strong> reinstall and rebuild:</p>
+                        <pre>composer install --no-dev --optimize-autoloader
+npm install
+npm run build</pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-5-bridge">Step 5: Restart the Node Bridge</h2>
+                        <p>If any workspace uses the <strong>Unofficial API</strong> engine, restart the bundled Node.js bridge so it runs the new code. Your saved WhatsApp sessions live in <code>storage/</code> and are <em>not</em> affected by a restart &mdash; connected numbers stay connected.</p>
+                        <p><strong>If you run the bridge under PM2:</strong></p>
+                        <pre>pm2 restart wadesk-bridge</pre>
+                        <p><strong>If you run it under systemd:</strong></p>
+                        <pre>sudo systemctl restart wadesk-bridge</pre>
+                        <p>Then restart Laravel's queue workers so they pick up the new code as well:</p>
+                        <pre>php artisan queue:restart</pre>
+                        <blockquote class="info"><strong>Cloud API / Twilio only:</strong> If no workspace uses the Unofficial API, you can skip the bridge restart &mdash; but still run <code>queue:restart</code>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-6-verify">Step 6: Verify</h2>
+                        <p>Confirm the update succeeded by checking the core flows:</p>
+                        <ul>
+                            <li>The admin panel and a workspace dashboard both load without errors.</li>
+                            <li>Connected WhatsApp numbers still show as connected (Unofficial API), or your Cloud API / Twilio sender still sends.</li>
+                            <li>A test message sends and inbound messages arrive in the Team Inbox.</li>
+                            <li>Queue jobs are processing (campaigns, scheduled sends).</li>
+                            <li>The version shown in the admin panel matches the new release.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Never run a real campaign as your test.</strong> Use a single test number you control &mdash; live workspaces send real WhatsApp messages.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="rollback">Rollback</h2>
+                        <p>If the update causes problems and you need to revert to the previous version:</p>
+                        <ol>
+                            <li><strong>Restore the database:</strong>
+                                <pre>mysql -u your_db_user -p your_database &lt; wadesk-backup.sql</pre>
+                            </li>
+                            <li><strong>Restore files:</strong> Replace the updated application code with your backed-up copy. Your <code>.env</code> and <code>storage/</code> were never touched, so leave them as they are.</li>
+                            <li><strong>Clear caches:</strong>
+                                <pre>php artisan optimize:clear</pre>
+                            </li>
+                            <li><strong>Restart the bridge and queue:</strong>
+                                <pre>pm2 restart wadesk-bridge
+php artisan queue:restart</pre>
+                            </li>
+                        </ol>
+                        <p>Keep your backup until the new version has been verified in production for a few days.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="important-notes">Important Notes</h2>
+                        <blockquote class="warning">
+                            <strong>Critical:</strong> Follow these guidelines to avoid data loss and downtime.
+                        </blockquote>
+                        <ul>
+                            <li><strong>Never delete or overwrite <code>.env</code></strong> &mdash; it holds your app key, database credentials, and all API/payment keys.</li>
+                            <li><strong>Never delete or overwrite <code>storage/</code></strong> &mdash; it holds logs, sessions, and the Node bridge's WhatsApp auth data for every connected number.</li>
+                            <li><strong>Always run migrations</strong> after uploading new files.</li>
+                            <li><strong>Always clear caches</strong> &mdash; stale config/route/view caches are a frequent source of post-update bugs.</li>
+                            <li><strong>Restart the Node bridge and queue workers</strong> so long-running processes pick up the new code.</li>
+                            <li><strong>Check the changelog for breaking changes</strong> &mdash; some releases require new environment variables or a dependency reinstall. Review the <a href="changelog.html">Change Log</a> before every update.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#video" class="toc-link">Video Walkthrough</a></li>
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#methods" class="toc-link">Choosing Your Update Method</a></li>
+                    <li class="toc-h3"><a href="#method-1-0" class="toc-link">From v1.0.0 (Manual)</a></li>
+                    <li class="toc-h3"><a href="#method-1-1" class="toc-link">From v1.1.0+ (In-App)</a></li>
+                    <li class="toc-h2"><a href="#update-1-3" class="toc-link">Updating v1.2 &rarr; v1.3</a></li>
+                    <li class="toc-h2"><a href="#update-1-4" class="toc-link">Updating v1.3 &rarr; v1.4</a></li>
+                    <li class="toc-h2"><a href="#update-1-7" class="toc-link">Updating v1.6 &rarr; v1.7</a></li>
+                    <li class="toc-h2"><a href="#update-1-6" class="toc-link">Updating v1.5 &rarr; v1.6</a></li>
+                    <li class="toc-h2"><a href="#waba-process" class="toc-link">WABA Setup</a></li>
+                    <li class="toc-h2"><a href="#step-1-backup" class="toc-link">Step 1: Back Up</a></li>
+                    <li class="toc-h2"><a href="#step-2-upload" class="toc-link">Step 2: Upload New Files</a></li>
+                    <li class="toc-h2"><a href="#do-not-overwrite" class="toc-link">What NOT to Overwrite</a></li>
+                    <li class="toc-h2"><a href="#step-3-migrate" class="toc-link">Step 3: Run Migrations</a></li>
+                    <li class="toc-h2"><a href="#step-4-cache" class="toc-link">Step 4: Clear Cache &amp; Rebuild</a></li>
+                    <li class="toc-h2"><a href="#step-5-bridge" class="toc-link">Step 5: Restart Node Bridge</a></li>
+                    <li class="toc-h2"><a href="#step-6-verify" class="toc-link">Step 6: Verify</a></li>
+                    <li class="toc-h2"><a href="#rollback" class="toc-link">Rollback</a></li>
+                    <li class="toc-h2"><a href="#important-notes" class="toc-link">Important Notes</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

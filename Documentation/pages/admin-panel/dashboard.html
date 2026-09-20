@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – WaDesk SaaS Docs</title>
+    <meta name="description" content="Admin Dashboard — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Admin Dashboard</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Admin Dashboard</strong> is the home screen of the platform-owner console. After logging in as a platform admin you land on the Users page; open the Dashboard from the admin menu. It answers one question at a glance: <em>how is the whole platform doing right now?</em></p>
+                        <p>Everything on this page is calculated live from your real data &mdash; paid orders, signups, sent messages, and workspace activity. A fresh install shows zeros and fills in as customers sign up and pay. There are no fake placeholder numbers.</p>
+                        <blockquote class="info"><strong>Who can see it?</strong> Only users with a platform role (admin, owner, or super-admin). When such a user logs in they are taken to the admin console; regular workspace users land on their own workspace dashboard instead.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="time-window">The Time Window Picker</h2>
+                        <p>At the top-right of the page is a <strong>window picker</strong>. Every metric, chart, and delta on the dashboard is calculated for the window you choose, and compared against the <em>previous</em> window of the same length (so a 7-day view compares this week against last week).</p>
+                        <table>
+                            <thead><tr><th>Option</th><th>Window</th><th>Compared against</th></tr></thead>
+                            <tbody>
+                                <tr><td>Last 24 hours</td><td>1 day</td><td>The day before</td></tr>
+                                <tr><td>Last 7 days <em>(default)</em></td><td>7 days</td><td>The prior 7 days</td></tr>
+                                <tr><td>Last 30 days</td><td>30 days</td><td>The prior 30 days</td></tr>
+                                <tr><td>Last 90 days</td><td>90 days</td><td>The prior 90 days</td></tr>
+                                <tr><td>Last 1 year</td><td>365 days</td><td>The prior year</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Changing the dropdown reloads the page for the new window, and the choice is kept in the page address &mdash; so you can bookmark or share a specific view.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="kpi-cards">The Four Headline KPIs</h2>
+                        <p>The top strip shows four cards. Each card shows the value for the selected window plus a percentage delta against the previous window (green when up, red when down).</p>
+                        <table>
+                            <thead><tr><th>Card</th><th>What it measures</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Total income</strong></td><td>The total of all <em>paid</em> orders in the window.</td></tr>
+                                <tr><td><strong>Profit</strong></td><td>A rough estimate &mdash; currently 32% of income. This is a placeholder until real cost and refund data is tracked.</td></tr>
+                                <tr><td><strong>Total views</strong></td><td>Total messages sent across the platform (including both campaign sends and team-inbox replies).</td></tr>
+                                <tr><td><strong>Conversion rate</strong></td><td>Paid workspaces &divide; new signups in the window, shown as a percentage. Tells you how many new accounts became paying customers.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Caution:</strong> The <strong>Profit</strong> figure is a rough 32% estimate, not an accounting number. Do not use it for financial reporting &mdash; use the income figure and your own cost data.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="revenue-chart">Revenue Over Time</h2>
+                        <p>Below the KPIs is a revenue chart split into twelve buckets across the selected window. Short windows bucket by day; longer windows bucket by week or month automatically. A lighter "target" line sits behind the actual revenue line &mdash; it is a simple projection (10% growth on the prior bucket) so you have a visual benchmark to beat.</p>
+                        <p>The card header shows the window total and the total target alongside it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="geography-platform">Geography &amp; Payment Mix</h2>
+                        <p>Three smaller panels break down where your business is coming from:</p>
+                        <ul>
+                            <li><strong>Sessions by country</strong> &mdash; the top four countries by new signups in the window, with a share percentage. This panel is illustrative: the platform doesn't store a country for each user, so in practice it stays empty.</li>
+                            <li><strong>Sales by region</strong> &mdash; a radar chart that rolls those countries up into broad regions (Europe, Americas, Africa, Middle East, Pacific, Asia).</li>
+                            <li><strong>Sales by platform</strong> &mdash; a donut of the top three payment gateways by paid revenue in the window. On a fresh install this shows Stripe / Razorpay / PayPal at zero until real orders arrive.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Note:</strong> The country and region breakdowns are illustrative placeholders &mdash; the platform doesn't store a country for each user, so these panels stay empty in practice. That's expected, not a bug.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan-breakdown">Registered Users by Plan</h2>
+                        <p>A donut splits your total user base into <strong>premium</strong> (users who own at least one workspace on a paid plan) versus <strong>basic</strong> (everyone else, including free and trial). The center shows the total user count and the premium share as a percentage &mdash; a quick read on how much of your audience is monetised.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="workspace-activity">Workspace Activity</h2>
+                        <p>This table lists the five most recently active workspaces. For each one you get the workspace name and industry, the owner, the current plan (as a coloured pill), the last 7 days' message volume, a health badge, and estimated monthly recurring revenue (MRR). Clicking any row opens that workspace's <a href="./workspaces.html">detail page</a>.</p>
+                        <p>The <strong>health</strong> badge is a simple traffic light based on messages sent in the last 7 days:</p>
+                        <table>
+                            <thead><tr><th>Badge</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Good</strong></td><td>More than 50,000 messages in the last 7 days &mdash; a healthy, active account.</td></tr>
+                                <tr><td><strong>Watch</strong></td><td>Between 5,000 and 50,000 &mdash; moderate activity.</td></tr>
+                                <tr><td><strong>Risk</strong></td><td>Under 5,000 &mdash; low activity; the account may be dormant or churning.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="admin-alerts">Admin Alerts</h2>
+                        <p>The alerts panel surfaces up to three operational issues that need your attention, with an "open" count in the header. Alerts are generated from live conditions:</p>
+                        <ul>
+                            <li><strong>Payment failures</strong> (high severity) &mdash; orders that failed in the last 24 hours, with the gateway's failure reason.</li>
+                            <li><strong>Message spikes</strong> (medium severity) &mdash; a workspace sending at least 3&times; its normal hourly volume in the last hour, which can signal abuse or a runaway campaign.</li>
+                            <li><strong>Workspaces pending review</strong> (low severity) &mdash; a count of suspended/unapproved workspaces awaiting an admin decision.</li>
+                        </ul>
+                        <p>When nothing is wrong, the panel reads <em>"All systems healthy &mdash; no alerts."</em></p>
+                        <blockquote class="warning"><strong>Tip:</strong> Treat a sudden message-spike alert as a cue to open that workspace and check its campaigns &mdash; a spike combined with a flood of failures often means a number is getting rate-limited or is at risk of a WhatsApp block.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-go-next">Where to Go Next</h2>
+                        <p>The dashboard is a launch pad. From here you'll typically drill into:</p>
+                        <ul>
+                            <li><a href="./user-management.html">User Management</a> &mdash; find, verify, suspend, or reset any account.</li>
+                            <li><a href="./workspaces.html">Workspaces</a> &mdash; inspect a workspace, log in as the owner, or adjust limits.</li>
+                            <li><a href="./plans-packages.html">Plans &amp; Packages</a> &mdash; tune pricing, limits, and feature gates.</li>
+                            <li><a href="./payment-gateways.html">Payment Gateways</a> &mdash; enable the gateways your customers actually use.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#time-window" class="toc-link">The Time Window Picker</a></li>
+                    <li class="toc-h2"><a href="#kpi-cards" class="toc-link">The Four Headline KPIs</a></li>
+                    <li class="toc-h2"><a href="#revenue-chart" class="toc-link">Revenue Over Time</a></li>
+                    <li class="toc-h2"><a href="#geography-platform" class="toc-link">Geography &amp; Payment Mix</a></li>
+                    <li class="toc-h2"><a href="#plan-breakdown" class="toc-link">Registered Users by Plan</a></li>
+                    <li class="toc-h2"><a href="#workspace-activity" class="toc-link">Workspace Activity</a></li>
+                    <li class="toc-h2"><a href="#admin-alerts" class="toc-link">Admin Alerts</a></li>
+                    <li class="toc-h2"><a href="#where-to-go-next" class="toc-link">Where to Go Next</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

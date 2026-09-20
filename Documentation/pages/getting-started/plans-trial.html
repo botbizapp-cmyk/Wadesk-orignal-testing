@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans &amp; Free Trial – WaDesk SaaS Docs</title>
+    <meta name="description" content="Plans &amp; Free Trial — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Plans &amp; Free Trial</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk runs as a subscription business. Every workspace is tied to a <strong>plan</strong>, and a plan decides three things: the <strong>limits</strong> a workspace gets (messages, devices, users, sub-workspaces, and dozens more), the <strong>features</strong> it can use (campaigns, flows, AI, calling, branding removal, and more), and whether it is on a <strong>free trial</strong>.</p>
+                        <p>New workspaces start on a free plan with a trial window so you can explore the whole product before paying. When the trial ends, feature <em>use</em> is blocked until you buy a paid plan.</p>
+                        <blockquote class="info"><strong>Admins bypass everything.</strong> Platform admins are never restricted by the trial, plan limits, or per-feature locks. The rest of this page describes what a regular user experiences.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-plans-resolve">How Billing Is Scoped</h2>
+                        <p>The platform admin chooses how plans apply across the workspaces an owner has:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Billing scope</th><th>Behaviour</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Per workspace</strong> (default)</td><td>Each workspace is billed and limited on its own &mdash; the agency / per-client model. Limits and features come from that workspace's own plan.</td></tr>
+                                <tr><td><strong>Per account</strong></td><td>The owner's <em>best</em> (highest-priced paid) plan applies to every workspace they own. Buy a paid plan anywhere and all your workspaces inherit it &mdash; no second trial, no second block.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>A workspace is on a <strong>free plan</strong> when its plan is free (or none is set). It is <strong>on trial</strong> when it is on a free plan <em>and</em> a trial window was set. The trial is <strong>expired</strong> when it is on trial and that window has passed. Paid plans, and free plans with no expiry, are never "expired".</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="the-trial-bar">The Free-Trial Bar</h2>
+                        <p>While your current workspace is on a free plan with an active trial, a slim dark banner sits across the top of the app. It is non-dismissible by design &mdash; a constant, gentle reminder of where you stand.</p>
+                        <ul>
+                            <li><strong>During the trial</strong> it reads "You have <em>N</em> days to explore this Trial account" and offers two buttons: <strong>Connect Channel</strong> (jump to Devices) and <strong>Buy Now</strong> (open the plans page).</li>
+                            <li><strong>When the trial has ended</strong> it switches to "Your free trial has ended &mdash; buy a plan to unlock all features" with a single <strong>Buy Now</strong> button.</li>
+                        </ul>
+                        <blockquote class="info"><strong>When the bar does not show:</strong> It is hidden for platform admins, for workspaces on a paid plan, and for free plans with no expiry set. The day count <strong>rounds up</strong>, so the final day still reads "1 day" rather than "0".</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="what-the-trial-allows">What the Trial Allows</h2>
+                        <p>A trial is a full preview. You can open and explore <strong>every feature</strong> in the navigation, connect a channel, and send within your plan's limits. The goal is to let you build out a real workspace &mdash; connect WhatsApp, import contacts, draft templates, set up a flow &mdash; before deciding to pay.</p>
+                        <blockquote class="warning"><strong>Limits still apply during the trial.</strong> The trial does not lift the underlying plan caps (messages, devices, users). It is a time window for evaluation, not an unlimited pass. Heavy production sending should wait for a paid plan sized to your volume.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="when-the-trial-expires">When the Trial Expires</h2>
+                        <p>Once the trial window passes on a free-plan workspace, you can no longer <em>use</em> any feature until you buy a plan. The features stay <strong>visible</strong> in the navigation so you can see what you would unlock, but opening one (or saving in it) is blocked and sends you to the plans page with a warning.</p>
+                        <p>Some areas stay open on purpose so you are never trapped and can always recover:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Still reachable</th><th>Why</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Plan picker, checkout, payment pages</td><td>So you can actually buy a plan.</td></tr>
+                                <tr><td>Account settings, invoices, support</td><td>Manage your account and get help.</td></tr>
+                                <tr><td>Workspace switching</td><td>Switch into another (non-expired) workspace instead of being stuck.</td></tr>
+                                <tr><td>Logout, sign-up, email verification, public pages</td><td>Basic account flows always work.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Never locks you out.</strong> If anything goes wrong while checking your trial, WaDesk lets the request through &mdash; so a glitch can never lock you out of your own workspace. Paid plans, and free plans with no expiry, are never considered "expired".</blockquote>
+                        <blockquote class="info"><strong>Account-wide plans (optional):</strong> If the platform admin uses <em>per account</em> billing, buying a paid plan on any one workspace unblocks every workspace that owner has &mdash; no second trial. By default (per workspace), each workspace is billed and limited on its own.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="viewing-comparing-plans">Viewing &amp; Comparing Plans</h2>
+                        <p>Open the plans page at <strong>Account &rarr; Plans</strong>, or click <strong>Buy Now</strong> in the trial bar. It lists every active plan, with a highlighted "popular" option and a side-by-side feature comparison. Your <strong>current plan</strong> is badged so you can see exactly where you sit.</p>
+                        <ul>
+                            <li>Prices use your <strong>workspace currency</strong> (falling back to the platform default currency).</li>
+                            <li>If the admin enables it, a <strong>yearly toggle</strong> applies an annual discount (default 20%).</li>
+                            <li>A <strong>refund window</strong> (default 7 days) and a <strong>pricing FAQ</strong> are shown when the admin has configured them.</li>
+                            <li><strong>Custom-quote</strong> plans route to support ("Talk to sales") instead of self-checkout.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Tip:</strong> Plans, prices, currencies, the yearly discount, the refund policy, and the pricing FAQ are all admin-controlled (via System Settings and the admin pricing screens), so what you see is tailored to your specific install.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="upgrading">Upgrading via Checkout</h2>
+                        <p>To upgrade, pick a plan and proceed to <strong>checkout</strong>:</p>
+                        <ol>
+                            <li>On the plans page, click the plan's button (e.g. <em>Choose Pro</em>) to open its checkout page.</li>
+                            <li>Review the plan. WaDesk converts the price into your <strong>workspace currency</strong>, then shows the payment methods that support that currency.</li>
+                            <li>Apply a <strong>coupon</strong> if you have one (with an instant preview; it is re-checked at payment), fill in your billing details (name, email, company, address, tax ID), and choose your payment method.</li>
+                            <li>Complete payment.</li>
+                        </ol>
+                        <h3>What happens on success</h3>
+                        <p>When the payment is confirmed, WaDesk:</p>
+                        <ul>
+                            <li>Marks the order <strong>paid</strong> and records when.</li>
+                            <li>Moves the workspace onto the new plan and clears the trial &mdash; so the trial bar and the block lift immediately.</li>
+                            <li>Counts the coupon usage, if one was used, so usage caps hold.</li>
+                            <li>Returns you to <strong>Account &rarr; Order history</strong> with a success message; limits rise to the new tier and locked features unlock.</li>
+                        </ul>
+                        <p>This is safe to retry &mdash; a duplicate confirmation for the same order will not charge or apply the plan twice.</p>
+                        <blockquote class="info"><strong>30 payment gateways</strong> with multi-currency support are available; which ones appear depends on what your platform admin has enabled and which currencies each gateway accepts. Free plans simply continue free; custom-quote plans send you to sales. For coupon, tax, and gateway detail, see <a href="../account/account-billing.html">Account &amp; Billing</a>.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="in-app-paywall">The In-App Paywall</h2>
+                        <p>Separate from the trial, individual <strong>features</strong> can be included or excluded per plan (for example WhatsApp calling, AI agents, or branding removal). Even on a paid plan, a feature not included in your tier is locked &mdash; WaDesk shows this in two consistent ways.</p>
+                        <h3>The premium crown</h3>
+                        <p>A small shiny <strong>gold crown</strong> appears next to a feature's label (for example beside <strong>Campaigns</strong>, <strong>Flows</strong>, or <strong>Templates</strong> in the navigation) when your current plan does not include it. Hovering shows "Premium feature &mdash; upgrade your plan to unlock", and clicking the crown jumps to the plans page.</p>
+                        <h3>The upgrade bottom-sheet</h3>
+                        <p>If you open a locked feature's page anyway, a slide-up <strong>paywall</strong> covers it. It says which feature is not on your plan and shows the actual <strong>plans that unlock it</strong>, so you can pick one and upgrade on the spot. It also offers <strong>Compare all plans</strong> and <strong>Go back</strong> links.</p>
+                        <blockquote class="info"><strong>No dead ends.</strong> The crown and paywall are purely informational and actionable &mdash; they show nothing for platform admins or for features your plan already includes. When a feature is unlocked, both vanish.</blockquote>
+                        <blockquote class="warning"><strong>Channel note:</strong> A few features depend on the channel, not just the plan &mdash; for example native WhatsApp Forms require the WhatsApp Cloud API. WaDesk hides or locks those automatically so you never hit a feature your channel cannot support.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>I bought a plan but the trial bar is still showing</td><td>Reload the page; a successful payment clears the trial and moves the workspace onto the paid plan. If it persists, check Order history shows the order as <strong>paid</strong>.</td></tr>
+                                <tr><td>Feature pages redirect me to the plans page</td><td>Your trial has expired. Buy a plan, or switch into a non-expired workspace &mdash; switching is always allowed.</td></tr>
+                                <tr><td>A crown shows on a feature I think I paid for</td><td>That specific feature is not included in your plan. The crown is per-feature, not per-tier; a paid plan can still exclude an add-on feature. Compare plans to find one that includes it.</td></tr>
+                                <tr><td>My chosen gateway is greyed out at checkout</td><td>That gateway does not accept your workspace currency, or the admin has not enabled it. Pick another gateway or contact your administrator.</td></tr>
+                                <tr><td>The current-plan badge is on the wrong plan</td><td>Under <em>per account</em> billing, your plan is your best one across all owned workspaces, which may differ from this workspace's own stored plan.</td></tr>
+                                <tr><td>A feature is hidden entirely (no crown, no page)</td><td>It likely depends on the channel (e.g. WhatsApp Forms need the Cloud API). Connect the required channel for that workspace.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next-steps">Next Steps</h2>
+                        <p>To make the most of your trial:</p>
+                        <ul>
+                            <li><a href="./connect-channel.html">Connect a Channel</a> so you can send and receive during the trial.</li>
+                            <li>Explore the <a href="./dashboard.html">Dashboard</a> to watch your numbers build up.</li>
+                            <li>Manage workspaces and teammates from <a href="./workspaces.html">Workspaces &amp; Switching</a>.</li>
+                            <li>See order history, invoices, coupons, and tax on <a href="../account/account-billing.html">Account &amp; Billing</a>.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how-plans-resolve" class="toc-link">How Billing Is Scoped</a></li>
+                    <li class="toc-h2"><a href="#the-trial-bar" class="toc-link">The Free-Trial Bar</a></li>
+                    <li class="toc-h2"><a href="#what-the-trial-allows" class="toc-link">What the Trial Allows</a></li>
+                    <li class="toc-h2"><a href="#when-the-trial-expires" class="toc-link">When the Trial Expires</a></li>
+                    <li class="toc-h2"><a href="#viewing-comparing-plans" class="toc-link">Viewing &amp; Comparing Plans</a></li>
+                    <li class="toc-h2"><a href="#upgrading" class="toc-link">Upgrading via Checkout</a></li>
+                    <li class="toc-h2"><a href="#in-app-paywall" class="toc-link">The In-App Paywall</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#next-steps" class="toc-link">Next Steps</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

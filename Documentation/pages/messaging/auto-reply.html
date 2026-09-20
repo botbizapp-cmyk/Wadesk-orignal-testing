@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Reply – WaDesk SaaS Docs</title>
+    <meta name="description" content="Auto Reply — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Auto Reply</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Auto Reply</strong> lets you answer common WhatsApp messages instantly, around the clock, without an operator. You define <em>keyword rules</em>; when an incoming message matches a rule's keyword, WaDesk sends back the reply you configured automatically.</p>
+                        <p>Open it from the <strong>Auto Reply</strong> page (admin/owner role). The page lists all your rules with a stats strip showing total rules, how many are active vs. paused, the total times they've fired, and how many fired in the last 24 hours. You can view rules as a list or a grid, and filter by number, status, or reply type. The page also highlights your <strong>top performers</strong> &mdash; the four most-triggered active rules.</p>
+                        <blockquote class="info"><strong>Always on.</strong> Auto replies fire on incoming messages even when no one is logged in. On every incoming message, WaDesk matches a rule, charges one message credit to the wallet of the number's owner, and sends the reply &mdash; all in the background, whether or not anyone is at the dashboard.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How Matching Works</h2>
+                        <p>On every incoming message, WaDesk finds the number that received it and checks that number's active rules against the message in stages, returning the first rule that fires:</p>
+                        <ol>
+                            <li><strong>Direct match</strong> &mdash; the message is checked against each rule's keyword using its matching method (exact, contains, or fuzzy).</li>
+                            <li><strong>Saved translations</strong> &mdash; if nothing matched, WaDesk checks each rule's saved translations of the keyword.</li>
+                            <li><strong>Live translation</strong> &mdash; still nothing? It detects the message's language, translates it to English, and tries again. This catches any language the translator supports.</li>
+                            <li><strong>Fuzzy fallback</strong> &mdash; finally, fuzzy rules are checked by how similar the message is to the keyword.</li>
+                        </ol>
+                        <p>The three matching methods:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Matching method</th><th>Fires when&hellip;</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Exact</strong></td><td>The message equals the keyword exactly (ignoring upper/lower case). Best for precise triggers like <em>menu</em> or <em>stop</em>.</td></tr>
+                                <tr><td><strong>Contains</strong></td><td>The keyword appears anywhere in the message (so "what's your <em>pricing</em> plan?" matches the keyword <em>pricing</em>).</td></tr>
+                                <tr><td><strong>Fuzzy</strong></td><td>The message is <em>similar enough</em> to the keyword, based on a similarity threshold you set (0&ndash;100, default 80). Catches typos like "pricng".</td></tr>
+                            </tbody>
+                        </table>
+                        <p>A single rule can hold several keywords at once &mdash; enter them as a comma-separated list (for example <code>hi, hello, hey</code>) and any one of them triggers the reply.</p>
+                        <blockquote class="info"><strong>Multilingual + auto-translate.</strong> Auto Reply detects the customer's language and will still match a rule even if they write the keyword in another language &mdash; either from a saved translation on the rule, or by detecting and translating it on the fly (cached for 24 hours, so a new language is only looked up once). The reply is then delivered in the matched language automatically, with no extra setup. Saving a rule is instant; the translation work happens when a message comes in, not when you save.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reply-types">Reply Types</h2>
+                        <p>When a rule matches it can do more than send text. Choose a reply type when you build the rule:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Reply type</th><th>What it sends</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Custom</strong></td><td>Your own content &mdash; text, image, video, document, or an approved template. Supports multiple content variants.</td></tr>
+                                <tr><td><strong>Flow</strong></td><td>Starts an automation flow for the contact, handing the conversation to your visual flow builder (requires a valid, active flow).</td></tr>
+                                <tr><td><strong>Share contact</strong></td><td>Sends a chosen contact's details (name, phone, email) back as a WhatsApp contact card.</td></tr>
+                                <tr><td><strong>Send catalog</strong></td><td>Sends your product catalog as a multi-product list.</td></tr>
+                                <tr><td><strong>Request location</strong></td><td>Asks the customer to share their location.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>For <strong>custom</strong> replies, the message can be <strong>text</strong>, <strong>image</strong>, <strong>video</strong>, <strong>document</strong>, or a <strong>template</strong>. Text replies (and image/video captions) support <code>{{placeholder}}</code> variables that fill in before sending &mdash; both workspace-wide values (e.g. <code>{{promo_key}}</code>) and contact fields like <code>{{name}}</code>, <code>{{first_name}}</code>, <code>{{mobile}}</code>, and <code>{{email}}</code> &mdash; so the customer never sees a raw placeholder.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Creating an Auto Reply</h2>
+                        <ol>
+                            <li>On the Auto Reply page, click <strong>Create</strong>.</li>
+                            <li>Enter the <strong>keyword(s)</strong> &mdash; one word or a comma-separated list.</li>
+                            <li>Pick the <strong>matching method</strong> (exact, contains, or fuzzy). For fuzzy, set the similarity percentage (0&ndash;100, default 80).</li>
+                            <li>Choose the <strong>number(s)</strong> the rule applies to. If your workspace has more than one connected number you can select several, and WaDesk creates one rule per number for you.</li>
+                            <li>Choose the <strong>reply type</strong> and fill in its content (your message variants, the flow, the target contact, the catalog, etc.).</li>
+                            <li>Optionally set a <strong>cooldown</strong> and <strong>timeout</strong> (see below).</li>
+                            <li>Save. New rules are active by default.</li>
+                        </ol>
+                        <blockquote class="caution"><strong>Connect a number first.</strong> Auto replies fire on a specific WhatsApp number, so you need at least one active number in the workspace before you can create or import rules. The total number of auto-reply rules is set by your plan, and the feature itself must be included in your plan.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="cooldown">Cooldowns &amp; Timeouts</h2>
+                        <p>Two optional timers stop a rule from spamming a customer:</p>
+                        <ul>
+                            <li><strong>Cooldown</strong> &mdash; the minimum number of seconds before the same rule fires again for the same contact. Prevents repeat replies when someone sends the keyword several times in a row.</li>
+                            <li><strong>Timeout</strong> &mdash; a window (in seconds) used to govern how the rule behaves over a conversation.</li>
+                        </ul>
+                        <p>Both accept 0 up to 86,400 seconds (24 hours). Leave them blank to keep the rule simple.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="media">Media Replies</h2>
+                        <p>A custom reply isn't limited to text. Set the message type to <strong>image</strong>, <strong>video</strong>, or <strong>document</strong> and upload the file when building the rule. Images and videos can carry a caption (which also supports placeholders). Documents are sent with their original filename so the customer recognizes them. WaDesk delivers each as the right WhatsApp message type.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Managing Rules</h2>
+                        <p>From the list or grid view you can:</p>
+                        <ul>
+                            <li><strong>Toggle</strong> a rule active or paused with one click &mdash; a paused rule never fires but is kept for later.</li>
+                            <li><strong>Edit</strong> a rule to change its keywords, matching, number, reply, or timers. (Editing a rule that applies to several numbers changes only that one number's copy.)</li>
+                            <li><strong>Delete</strong> a rule (its content files are removed too).</li>
+                            <li><strong>Search</strong> rules by keyword, number, or reply content, and <strong>filter</strong> by number, status (active / paused), or type.</li>
+                        </ul>
+                        <h3 id="bulk">Bulk Actions</h3>
+                        <p>Select several rules at once to <strong>delete</strong>, <strong>activate</strong>, or <strong>deactivate</strong> them together &mdash; handy when reorganizing a large rule set.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="import">Importing Rules from CSV</h2>
+                        <p>To set up many rules quickly, import them from a spreadsheet:</p>
+                        <ol>
+                            <li>Click <strong>Import</strong> and download the sample CSV to see the exact column layout.</li>
+                            <li>Fill in your rows using the columns below.</li>
+                            <li>Upload the file (CSV or TXT, up to 5&nbsp;MB). WaDesk reports how many rules were imported and how many rows were skipped.</li>
+                        </ol>
+                        <p>The sample file ships with these column headers and two example rows:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Column</th><th>Meaning / accepted values</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><code>keyword</code></td><td>The trigger word(s). Required &mdash; rows with no keyword are skipped.</td></tr>
+                                <tr><td><code>matching_method</code></td><td><code>exact</code>, <code>contains</code>, or <code>fuzzy</code> (defaults to exact if blank or invalid).</td></tr>
+                                <tr><td><code>fuzzy_similarity</code></td><td>0&ndash;100 (defaults to 80).</td></tr>
+                                <tr><td><code>device_id</code></td><td>Which number the rule applies to. Leave blank to use your first active number.</td></tr>
+                                <tr><td><code>reply_type</code></td><td><code>custom</code> (default), <code>flow</code>, <code>share_contact</code>, <code>send_catalog</code>, or <code>request_location</code>.</td></tr>
+                                <tr><td><code>message_type</code></td><td><code>text</code> (default), <code>image</code>, <code>video</code>, <code>document</code>, or <code>template</code>.</td></tr>
+                                <tr><td><code>reply_text</code></td><td>The reply body (for custom text rules).</td></tr>
+                                <tr><td><code>status</code></td><td><code>active</code>/<code>paused</code> (also accepts 1/0, yes/no, true/false).</td></tr>
+                                <tr><td><code>cooldown</code>, <code>timeout</code></td><td>Seconds (0&ndash;86400).</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Smart matching.</strong> The importer recognizes common column-name spellings (for example <code>keywords</code>, <code>trigger</code>, <code>match_type</code>, <code>device_phone</code>, <code>message</code>/<code>body</code>), matches a row to a number by its ID <em>or</em> its phone number, and falls back to your first active number when none is named. Rows are skipped when they have no keyword, a custom-text rule with no reply text, or a flow type pointing at a flow that isn't in this workspace. Re-importing the same keyword for the same number updates the existing rule rather than creating a duplicate.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="engines">Engine Support</h2>
+                        <p>Auto Reply works across all three WhatsApp engines. Each rule is tied to the engine of the number it's attached to, and the Auto Reply page only shows rules for the workspace's <em>active</em> engine. So a workspace that switches engines won't see rules from the old one, and a multi-engine workspace can have Unofficial API rules on one number and Cloud API rules on another at the same time.</p>
+                        <blockquote class="caution"><strong>Out of credits.</strong> If the number's owner has an empty wallet, the auto reply doesn't go out &mdash; WaDesk stays quiet. It still records that the keyword <em>would</em> have matched, so your analytics stay accurate.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="analytics">Per-Rule Analytics</h2>
+                        <p>Open a rule's detail page to see how it's performing over the last 30 days:</p>
+                        <ul>
+                            <li>A <strong>recent fires</strong> feed (last 8) and the <strong>top contacts</strong> who triggered it.</li>
+                            <li>An <strong>hour-of-day heatmap</strong> and a <strong>daily firing chart</strong> (30 days).</li>
+                            <li>Which keyword <strong>variant</strong> matched, and how many unique customers triggered it.</li>
+                            <li>A <strong>conversion funnel</strong>: incoming messages &rarr; matched any rule &rarr; matched this rule &rarr; reply sent. Note that the "reply sent" stage reflects matched/triggered auto-replies, not a delivery confirmation &mdash; it mirrors the matched count rather than a delivery receipt.</li>
+                            <li><strong>Average response time</strong> &mdash; how fast the rule finds a match, a real ceiling on how quickly it can respond.</li>
+                        </ul>
+                        <p>The list page also shows total triggers, the active/paused split, fires in the last 24 hours, and your top-performing active rules.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Rule never fires</td><td>Check it's <em>active</em>, set to the <em>right number</em>, and that the number is the one the customer messaged. Exact-match rules only fire on the whole message &mdash; switch to <em>contains</em> for phrases.</td></tr>
+                                <tr><td>Fires once then goes quiet</td><td>The <strong>cooldown</strong> is doing its job &mdash; the same contact can't re-trigger the same rule until the cooldown passes. Lower or clear it if you want repeats.</td></tr>
+                                <tr><td>Matched in analytics but nothing delivered</td><td>The number owner's wallet ran out of credits; the match is still logged. Top up the wallet.</td></tr>
+                                <tr><td>Rule disappeared from the list</td><td>The workspace's active engine was switched &mdash; the list only shows rules for the current engine. Switch back, or recreate the rule on the new engine's number.</td></tr>
+                                <tr><td>Customer sees raw <code>{{name}}</code></td><td>No matching contact for that number, or the field is empty. Add the contact, or remove the placeholder.</td></tr>
+                                <tr><td>CSV rows skipped on import</td><td>Most often: missing keyword, a custom-text rule with no reply text, or a flow type pointing at a flow that isn't in this workspace.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How Matching Works</a></li>
+                    <li class="toc-h2"><a href="#reply-types" class="toc-link">Reply Types</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Creating an Auto Reply</a></li>
+                    <li class="toc-h2"><a href="#cooldown" class="toc-link">Cooldowns &amp; Timeouts</a></li>
+                    <li class="toc-h2"><a href="#media" class="toc-link">Media Replies</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Managing Rules</a></li>
+                    <li class="toc-h2"><a href="#import" class="toc-link">Importing Rules from CSV</a></li>
+                    <li class="toc-h2"><a href="#engines" class="toc-link">Engine Support</a></li>
+                    <li class="toc-h2"><a href="#analytics" class="toc-link">Per-Rule Analytics</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

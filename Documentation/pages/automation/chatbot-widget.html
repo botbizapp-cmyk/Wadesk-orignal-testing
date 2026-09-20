@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Widget – WaDesk SaaS Docs</title>
+    <meta name="description" content="Chatbot Widget — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Chatbot Widget</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>Chatbot Widget</strong> is a chat bubble you add to any website with a single line of code. Visitors click the bubble, chat with an AI assistant trained on your content, and can be handed off to a real agent in the Team Inbox or sent straight into WhatsApp. Manage widgets under <strong>More &rarr; Chatbot Widgets</strong>.</p>
+                        <p>Each widget is fully customisable (colours, position, header, welcome message, background) and works on any website. It is protected by a long, unguessable access code rather than a login, so it runs safely on your customers' sites, not just yours. Chats started by the widget appear automatically in your Team Inbox alongside your WhatsApp conversations — there is no separate place to manage them.</p>
+                        <blockquote class="info"><strong>Works with any setup:</strong> the widget works no matter how your WhatsApp number is connected. AI replies come from an AI assistant you set up under <strong>AI Training</strong>; the "open WhatsApp" option simply opens a chat with your number, and an agent reply from the inbox is sent back through your connected WhatsApp.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="modes">Widget Modes</h2>
+                        <p>A widget runs in one of three modes:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Mode</th><th>Behaviour</th><th>Requires</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>AI</strong></td><td>Visitor chats with the AI assistant right inside the bubble; the whole conversation is saved.</td><td>An active AI assistant selected.</td></tr>
+                                <tr><td><strong>WhatsApp</strong></td><td>The bubble opens a WhatsApp chat with your number, optionally with a pre-filled message.</td><td>A target WhatsApp number.</td></tr>
+                                <tr><td><strong>Both</strong></td><td>The AI answers in the bubble, with a button to continue on WhatsApp.</td><td>An assistant <em>and</em> a target number.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>AI modes require an assistant.</strong> If you pick <em>AI</em> or <em>Both</em> you must choose an AI assistant from your workspace, otherwise the widget won't save. Create one under <strong>AI Training</strong> first, then attach it here.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create">Create a Widget</h2>
+                        <ol>
+                            <li>Go to <strong>Chatbot Widgets</strong> and click <strong>Create Widget</strong>.</li>
+                            <li>Give it a <strong>name</strong> and choose a <strong>mode</strong> (AI / WhatsApp / Both).</li>
+                            <li>For AI modes, pick the <strong>AI assistant</strong>. For WhatsApp modes, set the <strong>target number</strong> (country code + number) and an optional <strong>prefilled message</strong>.</li>
+                            <li>Style the bubble and panel (see <a href="#appearance">Appearance</a>).</li>
+                            <li>Optionally enable <strong>pre-chat fields</strong> — collect <strong>name</strong>, <strong>email</strong>, and/or <strong>phone</strong> before the chat starts.</li>
+                            <li>Optionally restrict <strong>allowed domains</strong> (see <a href="#embed">Embed &amp; allowed domains</a>).</li>
+                            <li>Click <strong>Save</strong>. On the first save WaDesk creates the widget's access code and gives you the <strong>embed code</strong> to paste on your site, plus a live <strong>preview link</strong>.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="appearance">Appearance &amp; Behaviour</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Setting</th><th>Controls</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Position</strong></td><td>Bubble corner — bottom-right or bottom-left.</td></tr>
+                                <tr><td><strong>Button colour / image</strong></td><td>The floating bubble's colour, or a custom icon image (falls back to a built-in chat icon).</td></tr>
+                                <tr><td><strong>Header</strong></td><td>Header title, background colour, and text colour.</td></tr>
+                                <tr><td><strong>Welcome message</strong></td><td>The first message shown when the panel opens. It is also seeded into the conversation so agents see it as the opening bubble in the inbox.</td></tr>
+                                <tr><td><strong>Message bubbles</strong></td><td>Bubble colour and text colour for chat messages.</td></tr>
+                                <tr><td><strong>Body background</strong></td><td>Solid colour or a background image.</td></tr>
+                                <tr><td><strong>Action button</strong></td><td>Label, background, and text colour for the primary call-to-action button (used for the WhatsApp handoff in WhatsApp/Both modes).</td></tr>
+                                <tr><td><strong>Pre-chat fields</strong></td><td>Whether to collect name / email / phone before the chat starts.</td></tr>
+                                <tr><td><strong>Auto-open</strong></td><td>Whether the panel opens automatically a moment after page load.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-assistant">Link an AI Assistant</h2>
+                        <ul>
+                            <li><strong>Where it comes from.</strong> AI replies are generated by an AI assistant you create and train under <strong>AI Training</strong> (on your docs, FAQs, and web pages). The widget only lets you pick <strong>active</strong> assistants from your workspace.</li>
+                            <li><strong>How replies flow.</strong> When a visitor sends a message, WaDesk saves it, asks your assistant for a reply, saves that too, and shows it in the bubble. If the assistant runs into a problem, the visitor sees your assistant's fallback message (or a generic "a team member will follow up" line) instead of a broken chat.</li>
+                            <li><strong>Switching modes.</strong> Move a widget from AI to Both to add a "continue on WhatsApp" button alongside the AI chat, or to WhatsApp-only to skip the in-bubble AI entirely.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="embed">Embed &amp; Allowed Domains</h2>
+                        <p>After saving, copy the one-line code and paste it <strong>just before the closing <code>&lt;/body&gt;</code> tag</strong> of any page you want the widget on. It adds the floating button, and when a visitor clicks it, the chat panel opens. Agent replies from your inbox appear in the panel automatically, without the visitor needing to refresh.</p>
+                        <pre><code>&lt;script src="https://your-wadesk-domain.com/widget/&lt;your-access-code&gt;/embed.js" async&gt;&lt;/script&gt;</code></pre>
+                        <p><strong>Where to paste it.</strong> Drop it into your site's footer (WordPress: a "before &lt;/body&gt;" snippet plugin or your theme footer; Shopify: your theme's main layout file, before <code>&lt;/body&gt;</code>; plain HTML: at the end of the page). One snippet per site is enough — it loads on every page.</p>
+                        <h3 id="cors">Allowed domains</h3>
+                        <p>The widget runs inside your customer's website. The <strong>allowed-domains</strong> list controls which websites are permitted to load it:</p>
+                        <ul>
+                            <li><strong>Empty list (default)</strong> &rarr; the widget runs on <em>any</em> site. The access code is the gate, and rate limiting guards against abuse.</li>
+                            <li><strong>Non-empty list</strong> &rarr; only the listed websites are allowed; everything else is blocked with a clear message in the browser's developer console telling you which domain to add.</li>
+                            <li><strong>Format.</strong> Enter plain domain names like <code>acme.com</code> or <code>shop.acme.com</code> — any <code>https://</code> prefix and path are removed for you, capitalisation doesn't matter, and duplicates are ignored. You can add up to 50 domains.</li>
+                            <li><strong>No wildcards.</strong> You can't use <code>*.acme.com</code> to cover all subdomains — add each domain explicitly, so a lookalike like <code>evil.acme.com</code> can never sneak in.</li>
+                        </ul>
+                        <p>When a website is allowed, the visitor's chat stays connected to the same conversation as they move between pages.</p>
+                        <blockquote class="info"><strong>Tip.</strong> Leave the list empty while you set up, then lock it down to your real websites once you know them.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="handoff">AI Replies &amp; Team Inbox Handoff</h2>
+                        <ul>
+                            <li><strong>In-bubble AI.</strong> In AI / Both mode the assistant answers directly in the bubble, and both sides of the conversation are saved.</li>
+                            <li><strong>Handoff to WhatsApp.</strong> In WhatsApp / Both mode the button opens a WhatsApp chat with your number (with the pre-filled message, if set). The visitor continues with your team in the <strong>Team Inbox</strong>, where it behaves like any other WhatsApp conversation (assignment, notes, response targets).</li>
+                            <li><strong>Agent takeover.</strong> Widget conversations appear in your inbox like any other chat, so an agent can step in and reply at any time; the visitor sees the agent's message without refreshing.</li>
+                            <li><strong>Visitor capture.</strong> If you enabled pre-chat fields, the visitor's name, email, and phone are recorded and shown to the agent as context, so they have background immediately.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="visitors">Visitor Tracking &amp; Rate Limits</h2>
+                        <ul>
+                            <li><strong>Returning visitors.</strong> The widget remembers a visitor (using a cookie tied to that one widget) so when they come back, the inbox shows one continuous conversation rather than a new one each visit. A cookie from one widget can never be used to read another widget's conversations.</li>
+                            <li><strong>What's recorded.</strong> For each visitor: a unique ID, any captured name/email/phone, the page they came from, their browser, their IP address, and when they were first and last seen.</li>
+                            <li><strong>Stats.</strong> The widgets list shows a visitor count per widget plus a workspace-wide total, alongside how many widgets are active.</li>
+                            <li><strong>Rate limits.</strong> To prevent abuse if your embed code is copied, each visitor is limited to <strong>60 messages per minute</strong>, and the chat checks for new replies up to <strong>120 times per minute</strong>. Normal chats stay well under these.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="manage">Manage Widgets</h2>
+                        <ul>
+                            <li><strong>Reset access code:</strong> if your embed code is copied or ends up on the wrong website, reset the access code — the old code stops working immediately and you re-paste the new one. Saved conversations are unaffected.</li>
+                            <li><strong>Duplicate:</strong> makes a copy of a widget with a fresh access code so you can run a variant on another site.</li>
+                            <li><strong>Pause:</strong> a paused widget stops loading on sites until you reactivate it.</li>
+                            <li><strong>Delete:</strong> removes the widget.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Keep your access code safe:</strong> it is visible in your site's page source. Use the allowed-domains list for sensitive sites, and reset the code if you suspect misuse.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Bubble doesn't appear on the site</td><td>The embed code must be present before <code>&lt;/body&gt;</code>, the widget must be <strong>active</strong>, and the access code must be the current one (resetting it makes old codes stop working). A paused or deleted widget won't load.</td></tr>
+                                <tr><td>Widget blocked / error in the browser console</td><td>The website isn't on the widget's allowed-domains list. Add the domain (e.g. <code>shop.acme.com</code>), or empty the list to allow any site.</td></tr>
+                                <tr><td>Save rejected — "AI mode needs an assistant"</td><td>You chose AI or Both without selecting an assistant. Create one in AI Training and pick it, or switch to WhatsApp mode.</td></tr>
+                                <tr><td>Save rejected — "Assistant not in this workspace"</td><td>The selected assistant belongs to another workspace. Pick one from your current workspace.</td></tr>
+                                <tr><td>AI gives a fallback message every time</td><td>The assistant is hitting an error or has no fallback set. Check its training and settings under AI Training.</td></tr>
+                                <tr><td>"Open WhatsApp" button missing</td><td>WhatsApp/Both mode needs a valid target number (country code + number). Set it and save.</td></tr>
+                                <tr><td>New conversation created on every visit</td><td>The visitor's browser is blocking the cookie that remembers them. The widget still works; conversations just won't link across visits.</td></tr>
+                                <tr><td>Visitors hitting limits during a busy chat</td><td>Each visitor can send up to 60 messages a minute — normal use stays well under this.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#modes" class="toc-link">Widget Modes</a></li>
+                    <li class="toc-h2"><a href="#create" class="toc-link">Create a Widget</a></li>
+                    <li class="toc-h2"><a href="#appearance" class="toc-link">Appearance &amp; Behaviour</a></li>
+                    <li class="toc-h2"><a href="#ai-assistant" class="toc-link">Link an AI Assistant</a></li>
+                    <li class="toc-h2"><a href="#embed" class="toc-link">Embed &amp; Allowed Domains</a></li>
+                    <li class="toc-h2"><a href="#handoff" class="toc-link">AI Replies &amp; Handoff</a></li>
+                    <li class="toc-h2"><a href="#visitors" class="toc-link">Visitor Tracking &amp; Rate Limits</a></li>
+                    <li class="toc-h2"><a href="#manage" class="toc-link">Manage Widgets</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

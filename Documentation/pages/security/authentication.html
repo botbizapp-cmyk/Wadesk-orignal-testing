@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication &amp; 2FA – WaDesk SaaS Docs</title>
+    <meta name="description" content="Authentication &amp; 2FA — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Authentication &amp; 2FA</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk signs users in with a standard, secure session login for the web app. It covers everything you'd expect &mdash; login, registration, logout, and password reset &mdash; plus the steps that create or switch a workspace after you sign in. On top of that, WaDesk adds <strong>two-factor authentication (2FA)</strong> with an authenticator app, an admin policy to <strong>require 2FA</strong>, and a <strong>show/hide toggle</strong> on every password field.</p>
+                        <p>Passwords are stored using bcrypt, a strong one-way hash &mdash; they're never kept in readable form and are never sent back out by the app.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="registration">Registration Flow</h2>
+                        <p>Sign-up is a guided, multi-step flow so a new operator never lands on an empty dashboard. The account is created first, then the user is walked through creating a workspace and (optionally) picking a plan.</p>
+                        <ol>
+                            <li><strong>Step 1 &mdash; Account.</strong> Name, email, password (at least 8 characters, entered twice to confirm), and an accepted Terms checkbox. The email must not already be in use. If an administrator has turned on <em>Auto-verify email</em> (under Admin &rarr; Settings &rarr; General), the account is verified right away; otherwise the user goes through the usual verify-your-email screen.</li>
+                            <li><strong>Step 2 &mdash; Workspace.</strong> The new user names their first workspace. It starts on the default plan the administrator chose, and if that's a free plan the trial countdown begins.</li>
+                            <li><strong>Step 3 &mdash; Plan / credits.</strong> An optional step to buy a credit pack &mdash; you can skip it and come back from your wallet later.</li>
+                        </ol>
+                        <p>Referrals are tracked during sign-up: if someone arrives through a referral link, the referrer gets the credit. You can't refer yourself, and a referral can't be counted twice.</p>
+                        <blockquote class="info"><strong>Note:</strong> Platform staff (Super Admin, Admin, Platform Support, Auditor) skip the workspace step entirely. On login they go straight to the admin area, since workspaces are a customer-side concept.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="login-logout">Login &amp; Logout</h2>
+                        <p>Login checks the email and password. On success, the session is refreshed to a new ID (which prevents session-fixation attacks), and the user is sent to the right place for their role:</p>
+                        <ul>
+                            <li><strong>Platform staff</strong> &rarr; the admin panel.</li>
+                            <li><strong>A user with no workspace</strong> &rarr; the workspace-creation step.</li>
+                            <li><strong>Agents / Viewers</strong> &rarr; the Team Inbox (their home &mdash; they don't have dashboard access).</li>
+                            <li><strong>Everyone else</strong> &rarr; the dashboard (or wherever they were originally headed).</li>
+                        </ul>
+                        <p>A <strong>Remember me</strong> option keeps you signed in across browser sessions. Logging out ends the session completely, so the old session can never be reused.</p>
+                        <blockquote class="info"><strong>Failed-login messages are deliberately vague.</strong> A wrong email and a wrong password both show the same "credentials don't match" message, so the form never reveals whether an email is registered.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="password-reset">Password Reset</h2>
+                        <p>The forgot-password flow always replies with the same neutral message &mdash; "A password-reset link has been sent if that email exists" &mdash; whether or not the email is on file, so it can't be used to discover which emails have accounts. The reset link works only once and expires after a while; using it sets a new password (stored securely) and sends the user back to login.</p>
+                        <blockquote class="warning"><strong>Before going live:</strong> A fresh install may be set up to write emails into a log file instead of actually sending them &mdash; which means reset links would land in a log instead of reaching users. Configure a real email service so reset links are delivered properly and aren't sitting in a log file.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="two-factor">Two-Factor Authentication (TOTP)</h2>
+                        <p>WaDesk has its own built-in two-factor system based on the standard TOTP method (RFC&nbsp;6238) &mdash; the same approach used by every popular authenticator app, so Google Authenticator, 1Password, Authy, and similar all work. It shows a QR code to scan, then verifies the 6-digit codes your app generates (which change every 30 seconds). It allows one code's worth of clock drift on either side, so you're not locked out if your phone's clock is slightly off.</p>
+                        <p>Users turn on 2FA from <strong>Settings &rarr; Security</strong>:</p>
+                        <ul>
+                            <li><strong>Enable</strong> &mdash; the app shows the QR code; you confirm by entering a current code. 2FA is only switched on once a code verifies successfully.</li>
+                            <li><strong>Disable</strong> &mdash; you must re-enter your account password before 2FA is turned off and the stored secret and recovery codes are erased.</li>
+                        </ul>
+                        <p>Every enable, disable, and failed attempt is recorded in the security audit log, along with who did it, the workspace, the IP address, and the browser.</p>
+
+                        <h3 id="2fa-storage">How 2FA Data Is Stored</h3>
+                        <p>The two sensitive pieces &mdash; the authenticator secret and your recovery codes &mdash; are always stored encrypted, never in readable form:</p>
+                        <table>
+                            <thead>
+                                <tr><th>What's stored</th><th>Protection</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Whether 2FA is on</td><td>Plain on/off flag</td></tr>
+                                <tr><td>The authenticator secret (used to check your codes)</td><td><strong>Encrypted</strong></td></tr>
+                                <tr><td>Your one-time recovery codes</td><td><strong>Encrypted</strong></td></tr>
+                                <tr><td>When 2FA was confirmed</td><td>Plain date/time</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="enforced-2fa">Enforced 2FA (Admin Policy)</h2>
+                        <p>Platform owners can <em>require</em> 2FA from <strong>Admin &rarr; Security</strong>. Any user covered by the policy who hasn't set up 2FA yet is sent to the security settings screen to do so before they can continue. There are three switches:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Policy</th><th>Who it requires 2FA from</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Require 2FA for everyone</td><td>Every signed-in user</td></tr>
+                                <tr><td>Require 2FA for admins</td><td>Users with an admin-level role</td></tr>
+                                <tr><td>Require 2FA for owners</td><td>Anyone who owns at least one workspace</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The login, logout, registration, password, email-verification, and 2FA-setup screens always stay reachable, so a user can always get to the screen where they enroll. The admin Security dashboard also shows a live <strong>2FA coverage</strong> figure &mdash; the percentage of admin users who have confirmed 2FA.</p>
+                        <blockquote class="warning"><strong>Recommended:</strong> For any live deployment, turn on <em>Require 2FA for admins</em> (and ideally <em>for owners</em>) under Admin &rarr; Security. Admin and owner accounts can reach billing, message sending, and other workspaces' data &mdash; they're the highest-value targets and shouldn't rely on a password alone.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sessions">Session Management</h2>
+                        <p>Sessions are tracked on the server. Beyond login and logout, WaDesk lets operators and admins control active sessions directly:</p>
+                        <ul>
+                            <li><strong>Per-user</strong> (Settings &rarr; Security): sign out an individual device, or "revoke all other sessions" to sign out every device except the one you're on. You can't sign out your current session here &mdash; use Logout for that.</li>
+                            <li><strong>Platform-wide</strong> (Admin &rarr; Security, Super Admin only): a single "revoke all sessions" action signs out every user everywhere and forces them all to log in again.</li>
+                        </ul>
+                        <p>Related platform policies &mdash; session timeout, maximum number of devices signed in at once, locking an account after repeated failed logins, and whether "Remember me" is offered &mdash; are all set on the Admin &rarr; Security page.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="password-reveal">Universal Password Reveal</h2>
+                        <p>Every password field in the app automatically gets a show/hide eye button &mdash; the login and register forms, the security tab, admin payment-gateway credential fields, and the API-key inputs all get it, including fields that appear later as you expand a section. The reveal happens entirely in your browser; the value is never sent anywhere or written to a log.</p>
+                        <p>Template authors can also force the eye button onto a non-password field by adding <code>data-reveal</code>, or hide it from a field with <code>data-no-reveal</code>.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#registration" class="toc-link">Registration Flow</a></li>
+                    <li class="toc-h2"><a href="#login-logout" class="toc-link">Login &amp; Logout</a></li>
+                    <li class="toc-h2"><a href="#password-reset" class="toc-link">Password Reset</a></li>
+                    <li class="toc-h2"><a href="#two-factor" class="toc-link">Two-Factor Authentication</a></li>
+                    <li class="toc-h2"><a href="#enforced-2fa" class="toc-link">Enforced 2FA (Admin Policy)</a></li>
+                    <li class="toc-h2"><a href="#sessions" class="toc-link">Session Management</a></li>
+                    <li class="toc-h2"><a href="#password-reveal" class="toc-link">Universal Password Reveal</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

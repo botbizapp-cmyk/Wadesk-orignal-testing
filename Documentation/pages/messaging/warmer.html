@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Warmer – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Warmer — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Warmer</h1>
+
+                    <p>The <strong>WhatsApp Warmer</strong> is a per-number "warm-up" system. It gradually ramps up how much a number sends and paces every send, so a number builds a natural sending history instead of going from zero to bulk overnight. The goal is to lower the risk of bans and protect each number's quality rating. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">What it is</h2>
+                        <p>Every connected number gets its own <strong>warm-up profile</strong>. Rather than treating all your numbers the same, the Warmer lets each number ramp at its own pace and stay inside its own safe daily limit. A fresh number starts small and slowly earns a higher daily budget over the following days, exactly the way a real person's usage would grow.</p>
+                        <p>The Warmer is not just a planning tool &mdash; its limits are <strong>actually enforced</strong> on the real bulk-sending paths. Campaigns, broadcasts, and scheduled sends all obey the number's daily budget, the minimum gap between sends, and the active-hours window, and they apply spintax variation automatically.</p>
+                        <blockquote class="info"><strong>Tip:</strong> For the <strong>Unofficial API</strong>, warming is primarily about <em>ban avoidance</em> &mdash; pacing and varying messages so the number looks like a normal human account. For the official channels (<strong>WhatsApp Cloud API</strong> and <strong>Twilio</strong>), warming acts as <em>volume pacing</em> to protect the quality rating, since Meta enforces its own messaging tiers on its side.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use">Why and when to use it</h2>
+                        <p>New WhatsApp numbers that immediately blast large volumes are the classic trigger for a ban or a quality-rating drop. The Warmer smooths that out.</p>
+                        <ul>
+                            <li><strong>Bringing a fresh number online.</strong> Start the number on a small daily budget and let it ramp up over several days before you point big campaigns at it.</li>
+                            <li><strong>Protecting an established number during big campaigns.</strong> Keep an already-trusted number safely paced so a one-off large send does not spike its volume and hurt its standing.</li>
+                            <li><strong>Running steady, human-like activity.</strong> The gap floor and active-hours window stop a number from firing hundreds of messages back-to-back at 3 a.m., which is a strong spam signal.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <p>Each number's warm-up profile is made up of a few simple controls. Together they shape both <em>how much</em> the number may send and <em>how</em> it sends.</p>
+                        <table>
+                            <thead><tr><th>Control</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Ramping daily budget</strong></td><td>The maximum number of messages the number may send in a day. It starts low and increases day by day, so the number builds volume gradually instead of all at once.</td></tr>
+                                <tr><td><strong>Minimum gap between sends</strong></td><td>A floor on the time between two messages from the same number, so sends are spaced out rather than fired in a burst.</td></tr>
+                                <tr><td><strong>Active-hours window</strong></td><td>The number only sends during the hours you set (for example normal business hours), mimicking when a real person would be messaging.</td></tr>
+                                <tr><td><strong>Spintax message variation</strong></td><td>Each message is worded slightly differently using spintax, so the same campaign does not send an identical string to everyone &mdash; a common bulk-spam fingerprint.</td></tr>
+                                <tr><td><strong>Health score</strong></td><td>A simple indicator of how well the number is being warmed and paced, so you can see at a glance which numbers are in good shape.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>When a campaign, broadcast, or scheduled send runs, WaDesk checks each outbound message against the sending number's profile: it confirms the number is still under its daily budget, that enough time has passed since the last send to satisfy the gap floor, and that the current time is inside the active-hours window. It then applies spintax to the message body before sending and records the send so the budget and gap stay accurate. This applies across all three engines.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="usage">How to set up a warm-up profile</h2>
+                        <ol>
+                            <li>Open <strong>Warmer</strong> from the menu (URL <code>/warmer</code>).</li>
+                            <li>Pick the number you want to warm and open its profile.</li>
+                            <li>Set the <strong>ramping daily budget</strong> &mdash; the starting daily cap and how it should grow day by day.</li>
+                            <li>Set the <strong>minimum gap</strong> between sends and the <strong>active-hours window</strong> the number should send within.</li>
+                            <li>Add your <strong>spintax</strong> variations so messages are reworded automatically.</li>
+                            <li>Save. From now on, campaigns, broadcasts, and scheduled sends from that number automatically respect these limits &mdash; there is nothing extra to switch on per campaign.</li>
+                            <li>Check the <strong>health score</strong> periodically and adjust the ramp if you want the number to grow faster or slower.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>The Warmer lives at <code>/warmer</code>. Open it from the WaDesk menu to see your connected numbers and their warm-up profiles and health scores in one place.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan">Plan availability</h2>
+                        <p>Access to the WhatsApp Warmer depends on your plan. If you do not see it in the menu, your current plan may not include it &mdash; check your plan details or contact the platform owner.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./campaigns.html">Campaigns</a> &mdash; bulk sends that honour each number's warm-up budget, gap, and active hours.</li>
+                            <li><a href="./broadcasts.html">Broadcasts</a> &mdash; one-to-many sends that are paced by the Warmer.</li>
+                            <li><a href="./scheduled.html">Scheduled Messages</a> &mdash; queued sends that also obey the warm-up limits.</li>
+                            <li><a href="../getting-started/connect-channel.html">Connect a Channel</a> &mdash; how to add the numbers you then warm up.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#usage" class="toc-link">How to set up a warm-up profile</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#plan" class="toc-link">Plan availability</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

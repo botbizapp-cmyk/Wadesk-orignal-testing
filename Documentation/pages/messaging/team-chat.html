@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Chat – WaDesk SaaS Docs</title>
+    <meta name="description" content="Team Chat — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Team Chat</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Team Chat</strong> is WaDesk's built-in, Slack-style messenger for your internal team. It gives operators a place to talk to each other &mdash; ask a question, share context, coordinate on a tricky customer &mdash; without leaving the app and without anything ever going out over WhatsApp.</p>
+                        <p>Open it from the top navigation <strong>Chat</strong> item. It sits right next to the Team Inbox so your team can switch between answering customers and talking to each other in one tab.</p>
+                        <blockquote class="info"><strong>Internal only.</strong> Team Chat lives entirely inside WaDesk. Messages here are never sent to customers, never touch WhatsApp / Unofficial API / Cloud API, and don't cost message credits. It is purely for your team.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="layout">The Chat Layout</h2>
+                        <p>The page has three areas:</p>
+                        <ul>
+                            <li><strong>Left &mdash; Channels.</strong> The list of channels you belong to, each with an unread badge, plus a member search box.</li>
+                            <li><strong>Center &mdash; the conversation.</strong> The selected channel's message stream and the composer at the bottom.</li>
+                            <li><strong>Right / header &mdash; channel info.</strong> The channel name, description, and who is online or typing.</li>
+                        </ul>
+                        <p>Every workspace automatically gets a <strong>#general</strong> channel that includes everyone &mdash; it's created for you the first time anyone opens Team Chat, and it cannot be deleted.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="channels">Channels</h2>
+                        <p>Channels organize conversations by topic or team. There are two kinds you can create, plus direct messages:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Type</th><th>Who can see it</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Public</strong></td><td>Every member of the workspace is automatically included. Good for #general, #announcements, #support.</td></tr>
+                                <tr><td><strong>Private</strong></td><td>Invite-only. Only people explicitly added can see or post. The creator joins automatically as the channel admin.</td></tr>
+                                <tr><td><strong>Direct message</strong></td><td>A one-to-one conversation between two teammates.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="create-channel">Creating a channel</h3>
+                        <ol>
+                            <li>Click the add (<strong>+</strong>) control next to the Channels heading.</li>
+                            <li>Enter a name &mdash; lowercase letters, numbers, dashes, and underscores only (for example <code>support</code>).</li>
+                            <li>Add an optional description so teammates know what the channel is for.</li>
+                            <li>Choose <strong>Public</strong> or <strong>Private</strong> and create it.</li>
+                        </ol>
+                        <blockquote class="caution"><strong>Admins only.</strong> Creating and deleting channels is limited to workspace <strong>owners</strong> and <strong>admins</strong>. The <strong>#general</strong> channel is protected and cannot be deleted. Names must be unique within the workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="messaging">Sending Messages</h2>
+                        <p>Type in the composer at the bottom of a channel and send. While you type, teammates viewing the same channel see a typing indicator. A few things you can do:</p>
+                        <ul>
+                            <li><strong>Reply</strong> to a specific message to keep a thread of context (replies stay within the same channel).</li>
+                            <li><strong>Edit</strong> your own message within a 15-minute window &mdash; edited messages show an "(edited)" badge.</li>
+                            <li><strong>Delete</strong> your own message; admins can delete any message in the workspace.</li>
+                            <li><strong>Pin</strong> an important message so it stands out (channel admins or the message author).</li>
+                            <li><strong>React</strong> with an emoji &mdash; tapping the same emoji again removes your reaction.</li>
+                        </ul>
+                        <p>Unread counts per channel update as new messages arrive, and a channel is marked read once you open it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="mentions">@Mentions</h2>
+                        <p>To get a specific teammate's attention, type <strong>@</strong> in the composer. A picker of workspace members appears &mdash; choose someone to mention them. The mentioned person is highlighted in the message so they know the note is for them.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Mentions only resolve to people who are members of the workspace, so you can't accidentally tag someone outside your team.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="images">Images &amp; File Attachments</h2>
+                        <p>Share files right in a channel:</p>
+                        <ol>
+                            <li>Click the attach control, or simply <strong>drag an image</strong> into the composer.</li>
+                            <li>Supported types include images, PDFs, and common document formats (up to 20&nbsp;MB).</li>
+                            <li>An attachment preview appears before you send so you can confirm the right file.</li>
+                            <li>Image attachments render as inline previews in the message stream; documents show as a downloadable file with its name.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="invites">Inviting Teammates &amp; the Approval Flow</h2>
+                        <p>Anyone in the workspace can request to bring a new teammate into Team Chat, but additions are gated by admin approval so the roster stays controlled.</p>
+                        <ol>
+                            <li>Click the <strong>Invite teammate</strong> control next to the Channels heading.</li>
+                            <li>Enter the person's email (and optionally their name) plus a short note on why they should join. You can also target a specific channel.</li>
+                            <li>Submit the request. If <em>you</em> are an owner or admin, it's approved instantly and the person is added right away. Otherwise it's submitted as <strong>pending</strong>.</li>
+                        </ol>
+                        <p>The approval flow works like this:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Status</th><th>What it means</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Pending</strong></td><td>Submitted by a non-admin, waiting for an owner or admin to review.</td></tr>
+                                <tr><td><strong>Approved</strong></td><td>An admin accepted it &mdash; the invitee is added to the workspace and to the target channel (if one was chosen).</td></tr>
+                                <tr><td><strong>Declined</strong></td><td>An admin rejected the request; nobody is added.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Admins see all pending requests and can approve or decline each one; regular members see only the requests they themselves submitted.</p>
+                        <blockquote class="caution"><strong>Note:</strong> If the invited email doesn't yet belong to a WaDesk account, the request is recorded but the person can't be auto-joined &mdash; send them a sign-up link separately, then approve once they have an account.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="presence">Presence, Typing &amp; Search</h2>
+                        <ul>
+                            <li><strong>Online presence</strong> &mdash; teammates active in the workspace show as online.</li>
+                            <li><strong>Typing indicator</strong> &mdash; see when someone is composing a message in the current channel.</li>
+                            <li><strong>Search</strong> &mdash; find past messages within a channel by typing a word or phrase.</li>
+                        </ul>
+                        <p>Presence and typing are lightweight and refresh on their own, so you always have a current picture of who's around without any setup.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#layout" class="toc-link">The Chat Layout</a></li>
+                    <li class="toc-h2"><a href="#channels" class="toc-link">Channels</a></li>
+                    <li class="toc-h2"><a href="#messaging" class="toc-link">Sending Messages</a></li>
+                    <li class="toc-h2"><a href="#mentions" class="toc-link">@Mentions</a></li>
+                    <li class="toc-h2"><a href="#images" class="toc-link">Images &amp; File Attachments</a></li>
+                    <li class="toc-h2"><a href="#invites" class="toc-link">Inviting Teammates &amp; the Approval Flow</a></li>
+                    <li class="toc-h2"><a href="#presence" class="toc-link">Presence, Typing &amp; Search</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

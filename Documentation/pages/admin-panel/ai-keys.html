@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI &amp; API Keys – WaDesk SaaS Docs</title>
+    <meta name="description" content="AI &amp; API Keys — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>AI &amp; API Keys</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>AI &amp; API Keys</strong> page holds the platform owner's global AI provider keys. Every AI feature &mdash; the AI chatbot, reply suggestions, content generation, the voice assistant &mdash; runs on a key set either here or in a customer's own workspace settings. This page is the platform-level fallback that keeps those features working for every customer who hasn't supplied their own key.</p>
+                        <p>Find it in the admin sidebar under <strong>Admin &rarr; AI / API keys</strong>. All five supported providers are already listed as cards, so there is no "install" step. You simply paste a key, fill any optional fields, pick a default model, click <strong>Save</strong>, and flip the card to <strong>Active</strong>.</p>
+                        <p>On each card you can:</p>
+                        <ul>
+                            <li><strong>Save</strong> the API key, default model, display order, and any optional fields that provider offers.</li>
+                            <li><strong>Activate</strong> or deactivate the provider (you must save a key before you can activate &mdash; see below).</li>
+                        </ul>
+                        <blockquote class="info"><strong>Note:</strong> On a brand-new install the five provider cards appear automatically. If your support team ever needs to restore them, ask them to re-run the install setup &mdash; it never overwrites a key or default you have already saved.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="providers">Supported Providers</h2>
+                        <p>WaDesk supports five AI providers, one card each. Each card shows only the fields that vendor actually issues. The table below tells you exactly <strong>where to get each key from the provider's dashboard</strong> and <strong>what that key powers</strong> inside WaDesk.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Where to GET the key (provider dashboard)</th><th>What it powers in WaDesk</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>OpenAI</strong></td><td><a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a> &mdash; log in, <em>Create new secret key</em>, copy the <code>sk-…</code> value (shown once).</td><td>AI chatbot, reply suggestions, content generation (GPT models); Whisper speech-to-text and OpenAI TTS in the voice assistant.</td></tr>
+                                <tr><td><strong>Anthropic</strong></td><td><a href="https://console.anthropic.com/settings/keys">console.anthropic.com/settings/keys</a> &mdash; Settings &rarr; API keys &rarr; <em>Create Key</em>, copy the <code>sk-ant-…</code> value.</td><td>AI chatbot, reply suggestions, content generation (Claude models).</td></tr>
+                                <tr><td><strong>Google Gemini</strong></td><td><a href="https://aistudio.google.com/app/apikey">aistudio.google.com/app/apikey</a> &mdash; <em>Create API key</em> in Google AI Studio.</td><td>AI chatbot, reply suggestions, content generation (Gemini models).</td></tr>
+                                <tr><td><strong>Mistral</strong></td><td><a href="https://console.mistral.ai/api-keys">console.mistral.ai/api-keys</a> &mdash; La Plateforme &rarr; API Keys &rarr; <em>Create new key</em>.</td><td>Chat / content generation (Mistral, Codestral, Ministral, Devstral, Magistral).</td></tr>
+                                <tr><td><strong>ElevenLabs</strong></td><td><a href="https://elevenlabs.io/app/settings/api-keys">elevenlabs.io/app/settings/api-keys</a> &mdash; Profile &rarr; API key. (Older UI: avatar menu &rarr; Profile + API key.)</td><td>Text-to-speech for the voice assistant (high-quality multilingual voices).</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 id="provider-fields">Each Provider's Fields</h3>
+                        <p>Every card has one required field &mdash; the <strong>API key</strong> &mdash; plus a few optional extras. The extras are only sent to the vendor when you fill them in.</p>
+                        <table>
+                            <thead><tr><th>Provider</th><th>Required</th><th>Optional extras &amp; what to put</th></tr></thead>
+                            <tbody>
+                                <tr><td>OpenAI</td><td>API key (the <code>sk-…</code> secret)</td><td><strong>Organization ID</strong> (e.g. <code>org-xxxxxxxx</code>), only if you bill to a specific organisation. Get it from <a href="https://platform.openai.com/account/organization">platform.openai.com/account/organization</a>.</td></tr>
+                                <tr><td>Anthropic</td><td>API key (the <code>sk-ant-…</code> secret)</td><td><strong>Default max tokens</strong> (placeholder <code>4096</code>) &mdash; a cap on how long each reply can be, not a credential.</td></tr>
+                                <tr><td>Gemini</td><td>API key (the AI Studio key)</td><td><strong>Project ID</strong>, only for Vertex AI billing.</td></tr>
+                                <tr><td>Mistral</td><td>API key (the La Plateforme key)</td><td>None.</td></tr>
+                                <tr><td>ElevenLabs</td><td>API key (the ElevenLabs key)</td><td><strong>Default voice ID</strong>, used when a caller hasn't picked a voice. Copy it from your <em>Voices</em> library (<a href="https://elevenlabs.io/app/voice-library">elevenlabs.io/app/voice-library</a>) &rarr; voice &rarr; ID.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Where you paste all of this:</strong> the provider's card on this page. The API key goes in the masked <em>API key</em> field; the optional values go in the plain fields beneath it on the same card. Click <strong>Save</strong> to store them.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="default-models">Per-Provider Default Models</h2>
+                        <p>Each card has a <strong>Default model</strong> dropdown. The default model is what WaDesk uses for that provider unless a feature or workspace asks for a different one. The lists are kept in step with each vendor's published models, and retired ones are removed in each update.</p>
+                        <table>
+                            <thead><tr><th>Provider</th><th>Seeded default</th><th>Models offered in the dropdown</th></tr></thead>
+                            <tbody>
+                                <tr><td>OpenAI</td><td><code>gpt-5.4-mini</code></td><td>GPT-5.5, 5.5-pro, 5.4, 5.4-pro, 5.4-mini, 5.4-nano, 5-mini, 5-nano; GPT-4.1 and 4.1-mini; then a <em>legacy</em> line with GPT-4o and GPT-4o-mini.</td></tr>
+                                <tr><td>Anthropic</td><td><code>claude-opus-4-7</code></td><td>Claude Opus 4.7, Sonnet 4.6, Haiku 4.5 (current flagships); Opus 4.6, Sonnet 4.5, Opus 4.5 (still maintained).</td></tr>
+                                <tr><td>Gemini</td><td><code>gemini-3.5-flash</code></td><td>Gemini 3.5 Flash, 3.1 Pro Preview, 3.1 Flash-Lite; plus the maintained 2.5 Pro / Flash / Flash-Lite line.</td></tr>
+                                <tr><td>Mistral</td><td><code>mistral-large-latest</code></td><td>large / medium / small "latest" aliases and Codestral-latest; plus dated builds: Ministral 3 (14B / 8B), Devstral 2, Magistral Medium.</td></tr>
+                                <tr><td>ElevenLabs</td><td><code>eleven_v3</code></td><td>Eleven v3 (flagship, 70+ languages), Multilingual v2, Turbo v2.5, Flash v2.5.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>If a default model was set previously and no longer appears in the curated list, the dropdown keeps it and tags it <em>(custom)</em> so it is never silently dropped.</p>
+                        <blockquote class="info"><strong>Tip:</strong> Entries below a <em>legacy</em> marker in a dropdown still work but receive fewer vendor updates. Prefer a current flagship unless a workspace specifically depends on the older model's behavior.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="configure">How to Configure a Provider</h2>
+                        <ol>
+                            <li>Open <strong>AI / API keys</strong> in the admin sidebar.</li>
+                            <li>Get the key from the provider's dashboard using the link in the <a href="#providers">Supported Providers</a> table (for OpenAI, that is <a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a>).</li>
+                            <li>On the matching card in WaDesk, paste the key into the masked <strong>API key</strong> field.</li>
+                            <li>Fill any optional fields the card shows (Organization ID, Project ID, default max tokens, voice ID).</li>
+                            <li>Pick a <strong>Default model</strong> from the dropdown.</li>
+                            <li>Click <strong>Save</strong>. You will see a confirmation such as "OpenAI settings saved."</li>
+                            <li>Click the card's <strong>Activate</strong> button to enable it as a platform fallback.</li>
+                        </ol>
+                        <p>The stats strip at the top counts your providers: <strong>Providers</strong> (total), <strong>Active</strong> (enabled), <strong>Ready</strong> (active <em>and</em> has a key), and <strong>No key set</strong>. Use it to confirm at a glance that the providers you rely on are fully set up &mdash; you want them showing under <em>Ready</em>.</p>
+                        <blockquote class="warning"><strong>Caution &mdash; activation guard:</strong> A provider cannot be activated until it has a key. If you click <strong>Activate</strong> on an empty card, the toggle is rejected with "Add an API key before activating." Save the key first, then activate.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="masking">How Keys Are Hidden &amp; Protected</h2>
+                        <p>API keys are <strong>encrypted</strong> when stored, and a saved key is never shown back to you in the page &mdash; redisplaying it could leak the secret to browser extensions, screen-share recordings, or screenshots.</p>
+                        <p>The key field therefore works on a "leave blank to keep" basis:</p>
+                        <ul>
+                            <li>When a key is already on file, the field shows <strong>empty</strong> with a placeholder like <code>•••••••••• (saved &mdash; leave blank to keep)</code>.</li>
+                            <li>Saving with the key field <strong>blank</strong> keeps the stored key untouched &mdash; so you can change the model or an optional field without re-pasting the secret.</li>
+                            <li>Typing a new value <strong>overwrites</strong> the stored key.</li>
+                            <li>The same "blank keeps it" rule applies to the optional fields, so an empty field never wipes a previously saved value.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>Caution &mdash; after a server encryption-key change:</strong> Keys are encrypted with your app's master encryption key. If that key is ever changed (a server-level maintenance task), the previously stored API keys can no longer be read. The page handles this gracefully &mdash; an unreadable key simply shows as "No key" rather than breaking &mdash; but you will need to re-paste every provider key afterwards.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="fallback-chain">The Fallback Chain (BYOK &rarr; Admin Key)</h2>
+                        <p>WaDesk supports two levels of AI keys. When a workspace runs an AI feature, WaDesk picks a key in this order:</p>
+                        <ol>
+                            <li><strong>The workspace's own key (BYOK)</strong> &mdash; used only when the workspace's plan allows <em>Bring Your Own Key</em> <em>and</em> the workspace has saved its own active key for that exact provider (in its own AI settings). When this is used, the cost falls on the workspace.</li>
+                            <li><strong>The matching Active provider on this page</strong> &mdash; the platform fallback. Used whenever step 1 doesn't apply, i.e. the workspace isn't on a BYOK plan, or is but hasn't set its own key for that provider.</li>
+                            <li><strong>Neither</strong> &mdash; the feature shows a clear error that no key is available.</li>
+                        </ol>
+                        <p>WaDesk also tracks which source was used, so usage is metered against the correct side. In practice, the providers you mark <strong>Active</strong> here become the default AI engine for every customer who hasn't brought their own key &mdash; their AI features keep working without each customer needing a vendor account.</p>
+                        <blockquote class="info"><strong>Note:</strong> Disabling a provider here (deactivating it, or removing its key) immediately stops workspaces without their own key from using that provider. Workspaces that supplied their own key on a BYOK plan are unaffected. Plan an off-hours change if you are switching the platform's primary AI vendor.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead><tr><th>Symptom</th><th>Likely cause &amp; fix</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>"Add an API key before activating"</strong></td>
+                                    <td>You tried to activate a card with no key on file. Paste the key, click <strong>Save</strong>, then <strong>Activate</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Invalid / unauthorized key</strong> (401 from the vendor)</td>
+                                    <td>The key was mistyped, revoked, or belongs to a different environment. Re-create it on the provider dashboard (see the <a href="#providers">links above</a>) and paste the fresh value. For OpenAI also confirm the <em>Organization ID</em> matches the org that owns the key.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Model not available</strong> / "model not found"</td>
+                                    <td>The selected <em>Default model</em> isn't enabled for your account, or the vendor renamed it. Pick a current flagship from the dropdown. If you previously saved a model that is now tagged <em>(custom)</em>, switch it to a listed model.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quota / rate-limit / billing errors</strong> (429 or "insufficient quota")</td>
+                                    <td>The vendor account has no billing set up or has hit a usage cap. Add billing / raise limits in the provider dashboard. For OpenAI/Gemini, verify the right Organization / Project is being billed via the optional extra field.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Key worked, now every card shows "No key"</strong></td>
+                                    <td>Your server's master encryption key was changed, so the stored keys can no longer be read. Re-paste each provider key (see <a href="#masking">How Keys Are Hidden &amp; Protected</a>).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>A BYOK workspace ignores the admin key</strong></td>
+                                    <td>Expected: on a BYOK plan the workspace's own key wins. To force the platform key, remove the workspace key or move it off the BYOK plan (see <a href="#fallback-chain">The Fallback Chain</a>).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No provider cards at all</strong></td>
+                                    <td>The starter provider list didn't load. Ask your support team to re-run the install setup to restore the five cards.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./system-settings.html">System Settings</a> &mdash; the WhatsApp engine providers (Meta Cloud API, Twilio, Unofficial API) and platform branding.</li>
+                            <li><a href="./payment-gateways.html">Payment Gateways</a> &mdash; the same pre-seeded, encrypted, leave-blank-to-keep credential pattern, applied to payments.</li>
+                            <li><a href="./security.html">Security &amp; Audit Log</a> &mdash; how key changes and other sensitive admin actions are recorded.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#providers" class="toc-link">Supported Providers</a></li>
+                    <li class="toc-h2"><a href="#default-models" class="toc-link">Per-Provider Default Models</a></li>
+                    <li class="toc-h2"><a href="#configure" class="toc-link">How to Configure a Provider</a></li>
+                    <li class="toc-h2"><a href="#masking" class="toc-link">Credential Masking &amp; Encryption</a></li>
+                    <li class="toc-h2"><a href="#fallback-chain" class="toc-link">The Fallback Chain (BYOK)</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

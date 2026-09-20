@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Extension – WaDesk SaaS Docs</title>
+    <meta name="description" content="Browser Extension — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Browser Extension</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>The <strong>WaDesk Companion</strong> is a Chrome browser extension that adds a side panel directly inside WhatsApp Web. It lets you send personalised messages to a list of numbers, import contacts from a CSV, browse your saved templates, and review recent sends &mdash; all without leaving the WhatsApp Web tab.</p>
+                        <p>You sign in with your WaDesk account, and the panel works inside WhatsApp Web using the same session you scanned on your phone. It's an alternative, browser-side way to send &mdash; it does not need a connected device on the server side.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> Bulk sending from WhatsApp Web carries the same ban risk as any unofficial automation. Use conservative pacing, keep volumes modest, and only message contacts who expect to hear from you. The built-in random-delay control exists for exactly this reason.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="install">Installing the Extension</h2>
+                        <p>The extension ships as a folder (named <code>extension</code>) inside your WaDesk download. To install it in Chrome (or any Chromium browser):</p>
+                        <ol>
+                            <li>Open <code>chrome://extensions</code> in your address bar.</li>
+                            <li>Turn on <strong>Developer mode</strong> (top-right toggle).</li>
+                            <li>Click <strong>Load unpacked</strong> and select the <code>extension</code> folder.</li>
+                            <li>Pin the extension so its icon is visible in the toolbar.</li>
+                        </ol>
+                        <blockquote class="info"><strong>Important:</strong> The extension ships pointed at a demo server with demo branding. Before you use or share it, set your own server address (and optionally swap the logo and brand name) &mdash; see <a href="#customize">Customize for Your Install</a> below.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="customize">Customize for Your Install (domain, logo, branding)</h2>
+                        <p>The extension lives in the <code>extension</code> folder of your WaDesk download. There's <strong>nothing to compile</strong> &mdash; you just open a couple of plain text files, change a value, and click <strong>reload</strong> on <code>chrome://extensions</code>. Three quick edits below.</p>
+
+                        <h3 id="customize-domain">1. Set your server address (required)</h3>
+                        <p>Open the file <code>extension/content.js</code> in any text editor. Near the very top you'll see a clearly marked CONFIG block. Replace the demo address with your own WaDesk web address:</p>
+                        <pre>// ===================== CONFIG =====================
+// Set your server URL here
+const WADESK_SERVER_URL = 'https://your-domain.com';
+// ===================== END CONFIG =================</pre>
+                        <p>Use the same web address you open WaDesk on, with no slash at the end. This is the only place you set it.</p>
+                        <blockquote class="warning"><strong>Use a real <code>https://</code> address.</strong> The demo value only works on one local network. Browsers block insecure (plain <code>http://</code>) connections from a secure page like WhatsApp Web, so an <code>https://</code> address is required.</blockquote>
+
+                        <h3 id="customize-logo">2. Replace the logo</h3>
+                        <p>The whole extension uses a single image file: <code>extension/assets/images/logo.png</code>. Replace that one file with your own &mdash; the toolbar icon, the toolbar popup, and the side panel all update at once. Use a <strong>square PNG with a transparent background</strong>, at least 128&times;128 pixels, and keep the same filename. The popup shows this logo in white, so a solid single-colour mark looks best.</p>
+
+                        <h3 id="customize-name">3. Rename the extension (white-label)</h3>
+                        <p>The shipped name is "WaSnap". To show your own brand, change the name text in two files with a text editor:</p>
+                        <table>
+                            <thead>
+                                <tr><th>What changes</th><th>File to edit</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>The extension name and store description (shown in Chrome and the toolbar tooltip)</td><td><code>manifest.json</code></td></tr>
+                                <tr><td>The popup title and heading</td><td><code>popup.html</code></td></tr>
+                                <tr><td>The name shown in the side panel before sign-in</td><td><code>content.js</code></td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Good to know:</strong> once a user signs in, the side panel automatically picks up your live brand name and logo from your WaDesk server &mdash; so it self-brands. The names you set above are only the placeholders shown before sign-in. The one exception is the extension name in <code>manifest.json</code>, which Chrome always shows as-is, so set that one regardless.</blockquote>
+
+                        <p>After editing, open <code>chrome://extensions</code> and click the extension's <strong>reload</strong> icon to apply everything.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="panel">Opening the Panel</h2>
+                        <ol>
+                            <li>Open <strong>web.whatsapp.com</strong> and make sure WhatsApp Web is logged in.</li>
+                            <li>Click the WaDesk Companion toolbar icon and choose <strong>Open panel</strong>, or use the floating button the extension injects on the page.</li>
+                            <li>The WaDesk side panel slides in alongside the WhatsApp Web conversation list.</li>
+                        </ol>
+                        <p>If the panel does not appear, refresh the WhatsApp Web tab so the content script re-injects.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="signin">Signing In</h2>
+                        <p>The panel asks for your WaDesk <strong>email</strong> and <strong>password</strong> &mdash; the same login you use for the web app. Once you're signed in, the extension stays connected until you sign out.</p>
+                        <blockquote class="info"><strong>Note:</strong> Your sign-in is held as a secure access key that lives only inside the extension; the server never stores it in readable form. Clicking <strong>Log out</strong> revokes that key immediately, so it can't be reused &mdash; do this on shared computers.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="features">Panel Features</h2>
+                        <p>The panel has three tabs:</p>
+                        <ul>
+                            <li><strong>Send</strong> &mdash; build a recipient list (type numbers with a country dial-code picker, or import a CSV), compose a message, optionally enable a random delay between sends, and run the send with a live progress counter.</li>
+                            <li><strong>Recent</strong> &mdash; your recent send history, with an <strong>Export CSV</strong> action.</li>
+                            <li><strong>Templates</strong> &mdash; a searchable list of your workspace's message templates, so you can drop a template into the composer.</li>
+                        </ul>
+                        <p>Everything in the panel &mdash; your sender numbers, merge fields, templates, send history, and plan usage &mdash; comes live from your WaDesk account, so it always matches the web app.</p>
+                        <blockquote class="info"><strong>Note:</strong> The sender and template lists match whichever WhatsApp connection your workspace uses. On the Unofficial API you see your connected phones; on the WhatsApp Cloud API or Twilio you see that channel's numbers, and only sendable templates are offered. The extension never mixes connection types.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="csv">Importing Contacts (CSV)</h2>
+                        <p>On the Send tab, use the upload button to import a CSV or TXT file. An <strong>Import Contacts</strong> dialog lets you map the file to numbers:</p>
+                        <ul>
+                            <li>Pick the sheet (for multi-sheet files) and the <strong>column</strong> that holds phone numbers.</li>
+                            <li>Set the <strong>From row</strong> and <strong>To row</strong> range to import a slice of the file.</li>
+                        </ul>
+                        <p>A <strong>Download demo CSV</strong> link provides a correctly-formatted starter file. Imported numbers are added to the recipient list, and a counter shows how many are queued. A <strong>Filter</strong> option lets you narrow the list before sending.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sending">Sending Messages</h2>
+                        <ol>
+                            <li>Confirm the recipient list and choose the sender number.</li>
+                            <li>Compose the message text (and attach an image if needed).</li>
+                            <li>Optionally enable the <strong>random gap</strong> toggle and set a min/max delay in seconds between sends.</li>
+                            <li>Click <strong>Send</strong>. A progress indicator shows the count as each message goes out.</li>
+                        </ol>
+                        <p>Each message is checked, sent through your workspace's WhatsApp connection, and recorded &mdash; so it shows up both in the panel's history and in the web app's message history.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> Always keep the random delay on for any list larger than a handful of numbers. Sending many messages back-to-back from a personal WhatsApp Web session is the fastest way to get a number flagged or banned.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="api-auth">How sign-in stays secure</h2>
+                        <p>After you sign in, the extension uses a private access key &mdash; not your WhatsApp Web session and not a saved password &mdash; for every action it takes against your WaDesk account. That key is the only credential it holds, so treat it like a password:</p>
+                        <ul>
+                            <li>On a <strong>shared or public computer</strong>, always click <strong>Log out</strong> when you're done. That instantly revokes the key so no one else can use it.</li>
+                            <li>The key is stored only inside the extension on your own browser &mdash; it is never exposed elsewhere.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#install" class="toc-link">Installing the Extension</a></li>
+                    <li class="toc-h2"><a href="#customize" class="toc-link">Customize for Your Install</a></li>
+                    <li class="toc-h2"><a href="#panel" class="toc-link">Opening the Panel</a></li>
+                    <li class="toc-h2"><a href="#signin" class="toc-link">Signing In</a></li>
+                    <li class="toc-h2"><a href="#features" class="toc-link">Panel Features</a></li>
+                    <li class="toc-h2"><a href="#csv" class="toc-link">Importing Contacts (CSV)</a></li>
+                    <li class="toc-h2"><a href="#sending" class="toc-link">Sending Messages</a></li>
+                    <li class="toc-h2"><a href="#api-auth" class="toc-link">How sign-in stays secure</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

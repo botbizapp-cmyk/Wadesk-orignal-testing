@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Overview – WaDesk SaaS Docs</title>
+    <meta name="description" content="Architecture Overview — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Architecture Overview</h1>
+
+                    <blockquote class="info">
+                        <strong>Audience:</strong> developers deploying, customizing, or extending WaDesk. This page maps the moving parts &mdash; the Laravel app, the bundled Node.js bridge, and the database &mdash; so you know where each responsibility lives.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">The Big Picture</h2>
+                        <p>WaDesk runs as two processes plus a database:</p>
+                        <ul>
+                            <li><strong>The Laravel 12 web app</strong> (PHP 8.2+) &mdash; the product itself: the UI, workspaces, plans and billing, the team inbox, campaigns, flows, and the admin panel. This is what users and admins log into.</li>
+                            <li><strong>The Node.js bridge</strong> (the <code>node/</code> folder) &mdash; a long-running service that holds the live WhatsApp Web connections for the Unofficial API engine, fires scheduled and bulk sends on time, and forwards inbound messages back to the app.</li>
+                            <li><strong>MySQL 8.0+</strong> (MariaDB 10.6+ works) &mdash; the single source of truth, and also the default store for the queue, cache, and sessions.</li>
+                        </ul>
+                        <p>The two processes talk over plain HTTP, trusting each other through one shared secret token (no shared login). The app calls the bridge to send and schedule; the bridge calls the app to deliver inbound messages and status updates. See <a href="./node-bridge.html">Node Bridge &amp; Realtime</a>.</p>
+                        <pre>
+                +-----------------------------------------------------------+
+                |                        Browser                            |
+                |          (Blade + Alpine.js + Tailwind, Vite)             |
+                +-----------------------------+-----------------------------+
+                                              | HTTPS (logged-in user)
+                                              v
+                +-----------------------------------------------------------+
+                |                      Laravel 12 app                       |
+                |                                                           |
+                |   Page requests --> business logic --> send dispatchers   |
+                |   Picks the right WhatsApp engine for each workspace      |
+                |                                                           |
+                |   Queue worker (database) for background sends            |
+                +----+--------------------------------+---------------------+
+                     |                                |
+                     | HTTP  (shared token)           |  HTTPS (token / signature)
+                     v                                ^
+        +------------------------------+   +----------+---------------------+
+        |   Node.js bridge             |   |   WhatsApp Cloud API (Meta)    |
+        |   - live WhatsApp links      |   |   Twilio REST API              |
+        |   - scheduler                |   +--------------------------------+
+        |   - inbound -> app           |
+        +--------------+---------------+
+                       | reads/writes
+                       v
+        +------------------------------+
+        |          MySQL 8.0+          |
+        |  (also: queue, cache,        |
+        |   sessions by default)       |
+        +------------------------------+</pre>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="repo-layout">Repository Layout</h2>
+                        <p>The project is a standard Laravel layout with the Node bridge living inside it under <code>node/</code>. The folders you will touch most often:</p>
+                        <pre>
+wadesk/
+├── app/                  the PHP application code (business logic, send dispatchers, models)
+├── config/               Laravel configuration
+├── database/             migrations and seed data
+├── lang/                 en.json + 20 translated locales
+├── node/                 the bundled Node.js bridge (has its own dependencies)
+├── resources/
+│   ├── css/              stylesheets (dashboard + public landing pages)
+│   ├── js/               front-end scripts
+│   └── views/            page templates (user, admin, public)
+├── routes/               URL definitions (app pages, admin panel, bridge/webhook endpoints)
+├── public/               the web document root and the compiled assets
+├── composer.json         PHP dependencies
+├── package.json          front-end build (Vite + Tailwind v4)
+└── vite.config.js        front-end build entry points</pre>
+                        <blockquote class="info"><strong>Note:</strong> the Node bridge installs its <em>own</em> dependencies inside <code>node/</code>, separate from the front-end build dependencies at the project root. They are two independent installs.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="tech-stack">Technology Stack</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Layer</th><th>Technology</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Backend framework</td><td>Laravel 12 on PHP 8.2+</td></tr>
+                                <tr><td>Front-end</td><td>Blade + Alpine.js + Tailwind CSS v4, compiled with Vite 7</td></tr>
+                                <tr><td>Database</td><td>MySQL 8.0+ / MariaDB 10.6+</td></tr>
+                                <tr><td>Queue / Cache / Session</td><td>Database by default (all configurable)</td></tr>
+                                <tr><td>Unofficial engine</td><td>Node.js + Express 5 + the Unofficial API WhatsApp Web library</td></tr>
+                                <tr><td>Official engines</td><td>WhatsApp Cloud API (Meta, default API <code>v23.0</code>) and Twilio WhatsApp</td></tr>
+                                <tr><td>Scheduling</td><td>The bridge fires time-based sends; the app runs its periodic jobs inline (see below)</td></tr>
+                                <tr><td>Media transfer</td><td>Sent inline over HTTP between the app and the bridge (no shared file storage needed)</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="request-lifecycle">Request &amp; Send Lifecycle</h2>
+                        <p>A normal page view is a stock Laravel request. The interesting path is an <strong>outbound WhatsApp send</strong>, which always funnels through one of two send dispatchers (one for chat/campaigns/broadcasts/scheduled, one for the team inbox). Every send:</p>
+                        <ol>
+                            <li>Builds or loads the message record.</li>
+                            <li>Works out which WhatsApp engine the workspace uses.</li>
+                            <li>Checks the platform-wide emergency halt and the monthly message quota.</li>
+                            <li>Routes it: Unofficial API and Cloud API (WABA) sends both go to the <strong>Node bridge</strong>; Twilio is sent <strong>directly from PHP</strong>.</li>
+                            <li>Returns a uniform result so the caller knows what to record:</li>
+                        </ol>
+                        <pre>
+[ 'ok' =&gt; bool,           // did the provider accept it?
+  'provider_id' =&gt; ?str,  // the message id, if sent
+  'platform' =&gt; str,      // which engine handled it
+  'local_only' =&gt; bool,   // saved but not actually sent out
+  'error' =&gt; ?str ]       // failure reason, if any</pre>
+                        <p>Engine selection and the per-engine differences are covered on <a href="./engines.html">WhatsApp Engines</a>.</p>
+                        <blockquote class="warning"><strong>One bridge entry for two engines.</strong> Cloud API (WABA) sends are also routed through the Node bridge, because the bridge already holds each number's WABA credentials and makes the Meta call itself. A PHP-only Meta path exists in the code but is intentionally not active &mdash; it is kept only as a documented failover reference.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="multi-tenancy">Multi-Tenancy &amp; Engine Resolution</h2>
+                        <p>Every tenant is a <strong>workspace</strong>. A user can belong to several workspaces and switch between them, and almost all data is scoped to one workspace.</p>
+                        <p>"Which WhatsApp engine is this workspace on right now?" is decided in one place, in this order:</p>
+                        <ol>
+                            <li>The engine connected for that workspace (chosen when its channel was set up). A Click-to-WhatsApp ad connection is ignored here &mdash; it holds ad credentials, not a send engine.</li>
+                            <li>The platform default engine (an admin setting).</li>
+                            <li>A final fallback to the Unofficial API.</li>
+                        </ol>
+                        <p>Always use this shared resolver wherever a form, stats card, or device picker should show only the active engine. Skipping it is how wrong-engine devices leak into pickers and cause silent send failures.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="data-model">Core Concepts</h2>
+                        <p>A handful of concepts anchor the whole system. Knowing these makes the rest of the product easy to follow:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Concept</th><th>Role</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Workspace</td><td>The tenant. Owns its plan, branding, and all of its data.</td></tr>
+                                <tr><td>Channel connection</td><td>A workspace's chosen engine plus its credentials. Credentials are encrypted at rest, and the details stored differ per engine (Cloud API / Unofficial API / Twilio).</td></tr>
+                                <tr><td>Device</td><td>One WhatsApp number connected to the Unofficial API by QR scan.</td></tr>
+                                <tr><td>Messages &amp; conversations</td><td>The chat and campaign message history.</td></tr>
+                                <tr><td>Inbox messages</td><td>The team-inbox conversation bubbles (handled separately from chat/campaigns).</td></tr>
+                                <tr><td>Templates</td><td>WhatsApp message templates (body, buttons, carousel, approval status).</td></tr>
+                                <tr><td>Scheduled / broadcast / campaign</td><td>The three bulk and automated send surfaces, each with its own recipient log.</td></tr>
+                                <tr><td>Plans &amp; features</td><td>Subscription plans and the per-plan feature gating they grant.</td></tr>
+                                <tr><td>Platform settings</td><td>Admin-level configuration (default engine, branding footer, tokens, API version, and more).</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="queue-and-scheduling">Queue &amp; Scheduling Model</h2>
+                        <p>WaDesk splits background work across the two processes:</p>
+                        <ul>
+                            <li><strong>The Laravel queue</strong> (database-backed by default) runs background jobs. You need a queue worker running &mdash; <code>php artisan queue:work</code>, or the bundled <code>composer dev</code> for local development.</li>
+                            <li><strong>The Node bridge</strong> owns time-based WhatsApp delivery: one-off scheduled sends, recurring schedules, broadcasts, and campaigns are registered with it and fired at the right moment in each recipient's timezone.</li>
+                        </ul>
+                        <blockquote class="warning"><strong>No system cron job is required.</strong> By design, the app's periodic tasks &mdash; inbox SLA escalation, snooze wake-ups, template status refresh &mdash; run automatically as a side effect of the screens that are already polling for updates (such as the team inbox). You do not need a <code>schedule:run</code> cron entry. Time-based <em>sends</em> are handled entirely by the Node bridge.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="security-boundaries">Security Boundaries</h2>
+                        <ul>
+                            <li><strong>Logged-in pages</strong> &mdash; the app and admin panel sit behind login, 2FA, and role/permission checks.</li>
+                            <li><strong>Token-protected endpoints</strong> &mdash; the bridge and webhook endpoints run outside the browser login system. Bridge calls carry a shared secret header (compared safely), Twilio callbacks are verified by signature, and the browser extension uses bearer tokens. Keeping these off the login system is what lets the bridge's busy path run without competing for the browser session lock.</li>
+                            <li><strong>Encrypted secrets</strong> &mdash; engine credentials are encrypted at rest and only decrypted at the moment of a send (or when handing one number's settings to the bridge).</li>
+                            <li><strong>Emergency halt</strong> &mdash; an admin can freeze every outbound send platform-wide; both dispatchers check this before sending.</li>
+                        </ul>
+                        <p>For the full security model see the <strong>Security</strong> section of these docs.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="next">Where to Go Next</h2>
+                        <ul>
+                            <li><a href="./engines.html">WhatsApp Engines</a> &mdash; how a send picks a provider and the per-engine payload differences.</li>
+                            <li><a href="./node-bridge.html">Node Bridge &amp; Realtime</a> &mdash; the Express service, its endpoints, auth, and inbound flow.</li>
+                            <li><a href="./customization.html">Customization Guide</a> &mdash; theming, branding, the asset build, languages, and environment settings.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">The Big Picture</a></li>
+                    <li class="toc-h2"><a href="#repo-layout" class="toc-link">Repository Layout</a></li>
+                    <li class="toc-h2"><a href="#tech-stack" class="toc-link">Technology Stack</a></li>
+                    <li class="toc-h2"><a href="#request-lifecycle" class="toc-link">Request &amp; Send Lifecycle</a></li>
+                    <li class="toc-h2"><a href="#multi-tenancy" class="toc-link">Multi-Tenancy &amp; Engine Resolution</a></li>
+                    <li class="toc-h2"><a href="#data-model" class="toc-link">Core Concepts</a></li>
+                    <li class="toc-h2"><a href="#queue-and-scheduling" class="toc-link">Queue &amp; Scheduling Model</a></li>
+                    <li class="toc-h2"><a href="#security-boundaries" class="toc-link">Security Boundaries</a></li>
+                    <li class="toc-h2"><a href="#next" class="toc-link">Where to Go Next</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Errors &amp; Solutions – WaDesk SaaS Docs</title>
+    <meta name="description" content="Errors &amp; Solutions — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Errors &amp; Solutions</h1>
+
+                    <p>Specific error messages you may see in WaDesk, and how to fix each one. For setup and hosting questions see the <a href="installation.html">Installation FAQs</a>; for a step-by-step walkthrough see the <a href="../installation/troubleshooting.html">Troubleshooting</a> page.</p>
+
+                    <section class="mb-12">
+                        <h2 id="install-errors">Installation &amp; Database Errors</h2>
+
+                        <div class="mb-6">
+                            <h3 id="error-on-db"><strong>Error: "Error on DB" during installation (often on Hostinger)</strong></h3>
+                            <p><strong>Why am I getting this?</strong> The installer could not connect to (or write to) the database with the details you entered. This is a credentials/permissions issue, <strong>not a script bug</strong>.</p>
+                            <p><strong>Solution &mdash; check each of these:</strong></p>
+                            <ul>
+                                <li>The <strong>database, user, and password exist and are spelled correctly</strong>. On Hostinger (and cPanel) the real names are prefixed &mdash; e.g. <code>u123456789_wadesk</code> and <code>u123456789_wauser</code> &mdash; so use the <em>full prefixed</em> values, not the short ones.</li>
+                                <li>The database user has <strong>ALL PRIVILEGES</strong> on that database.</li>
+                                <li>The <strong>Host</strong> is correct. Try <code>localhost</code> first; if it fails, use the specific MySQL host Hostinger shows on the database page &mdash; some hosts require that instead of <code>localhost</code>.</li>
+                                <li>The database is <strong>empty</strong> (create the database and user only &mdash; do not add tables; the installer creates them).</li>
+                                <li>You are on <strong>MySQL 8 / MariaDB 10.6+</strong> and the <code>pdo_mysql</code> extension is enabled.</li>
+                            </ul>
+                            <p>See <a href="../installation/web-installer.html#create-database">Creating the Database</a> for step-by-step panel instructions, and the <a href="installation.html#no-driver">"Could not find driver"</a> FAQ if the driver itself is missing.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="ai-errors">AI &amp; API Errors</h2>
+
+                        <div class="mb-6">
+                            <h3 id="ai-no-content"><strong>Error: "AI provider returned no content — check API key + model id."</strong></h3>
+                            <p><strong>Why am I getting this issue?</strong> This is happening because your <strong>OpenAI API key has exceeded its current quota</strong>. The log shows a <strong>429 &ndash; Insufficient Quota</strong> error, which means the AI provider is rejecting the request because the available credits or billing quota has been exhausted.</p>
+                            <p><strong>Solution:</strong></p>
+                            <ul>
+                                <li>Check your <strong>OpenAI billing and quota</strong> at <a href="https://platform.openai.com/account/billing" target="_blank" rel="noopener">platform.openai.com</a> and confirm the account still has available credits.</li>
+                                <li>Use an API key that has credits, or restore / top up the quota on the existing key.</li>
+                                <li>Make sure the <strong>model id</strong> configured in WaDesk is one your account is allowed to use.</li>
+                            </ul>
+                            <p>Update the key under <strong>Admin &rarr; <a href="../admin-panel/ai-keys.html">AI &amp; API Keys</a></strong>. Once the quota is restored, the AI features will start working normally again &mdash; no reinstall needed.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connection-errors">Connection &amp; QR Errors</h2>
+
+                        <div class="mb-6">
+                            <h3 id="qr-failed"><strong>Error: QR code generation failed</strong></h3>
+                            <p><strong>Why is the QR code not generating?</strong> The pairing QR is rendered by the <strong>Node helper service</strong>. Even when your Node.js setup has been completed and configured properly, the QR will not generate if the <strong>Node.js URL has not been updated in System Message Settings</strong> yet.</p>
+                            <p><strong>Solution:</strong></p>
+                            <ol>
+                                <li>Go to <strong>Admin &rarr; System Message Settings</strong> and set the <strong>Node.js URL</strong> &mdash; the address the Node bridge listens on, for example <code>http://localhost:8888</code> or your server's bridge URL.</li>
+                                <li>Confirm the <strong>Node helper service is running</strong> &mdash; see <a href="../installation/post-install.html#node-bridge">Starting the Node Helper Service</a>.</li>
+                                <li>Save the setting and try generating the QR code again.</li>
+                            </ol>
+                            <blockquote class="info"><strong>Tip:</strong> The web installer's <a href="../installation/web-installer.html#step-6-node">Node Bridge step</a> normally writes this URL for you. You only need to set it manually here if it was left blank or later changed.</blockquote>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="qr-disconnect"><strong>Error: QR scans but disconnects and gets stuck at 50% (device not linked)</strong></h3>
+                            <p><strong>Why does this happen?</strong> The QR code appears and you scan it, but the connection drops and stalls at 50%, so the device is never linked. This usually happens when <strong>multiple QR generation requests are made continuously</strong> &mdash; WhatsApp temporarily blocks or delays the linking process when there are too many connection attempts in a short period of time.</p>
+                            <p><strong>Solution:</strong></p>
+                            <ol>
+                                <li>Delete the current device / session from the system.</li>
+                                <li>Wait a few minutes before generating a new QR code.</li>
+                                <li>Generate a fresh QR code and scan it again.</li>
+                            </ol>
+                            <p>After waiting a few minutes and reconnecting with a fresh session, the device usually links correctly.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="server-errors">Server Errors</h2>
+
+                        <div class="mb-6">
+                            <h3 id="error-503"><strong>Error: 503 (Service Unavailable)</strong></h3>
+                            <p><strong>A:</strong> A <strong>503 error is not a code issue</strong>. It is usually caused by the server being busy, a request timeout, or a temporary server/DNS issue. Since the page works again after refreshing, that indicates the problem is coming from the <strong>server</strong> rather than the application code.</p>
+                            <p>If it keeps happening, check your server's resources (CPU / RAM), any rate limits or firewall throttling, and confirm the status with your hosting provider.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="billing">Billing &amp; Payments</h2>
+
+                        <div class="mb-6">
+                            <h3 id="manual-payment-approval"><strong>How do I approve a manual payment?</strong></h3>
+                            <p><strong>A:</strong> You can approve manual payments from the <strong>Billing History</strong> section. Open <strong>Admin &rarr; <a href="../admin-panel/billing-finance.html">Billing &amp; Finance</a></strong>, find the pending manual payment in Billing History, and approve it.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="branding-config">Branding &amp; Configuration</h2>
+
+                        <div class="mb-6">
+                            <h3 id="change-app-name"><strong>How do I remove the "WaDesk" name / change the application name to my own brand?</strong></h3>
+                            <p><strong>A:</strong> The application name comes from the <code>APP_NAME</code> value in your <code>.env</code> file. To rebrand it:</p>
+                            <ol>
+                                <li>Open the <code>.env</code> file in your project root (it is a hidden dotfile &mdash; see <a href="installation.html#env-missing">My .env file is missing</a> if you cannot see it).</li>
+                                <li>Change <code>APP_NAME</code> to your brand (wrap it in quotes if it contains spaces):</li>
+                            </ol>
+                            <pre>APP_NAME="Your Brand"</pre>
+                            <ol start="3">
+                                <li>Save the file, then clear the cache so the change is read:</li>
+                            </ol>
+                            <pre>php artisan config:clear
+php artisan cache:clear</pre>
+                            <p>Your brand name now shows across the app. Logos, colours, and other visual branding are set in the admin panel &mdash; see <strong>Admin &rarr; <a href="../admin-panel/appearance.html">Appearance &amp; Theme Colours</a></strong>.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="edit-legal-pages"><strong>Where do I edit the legal pages (Terms, Privacy Policy, etc.)?</strong></h3>
+                            <p><strong>A:</strong> Edit them from the admin panel: <strong>Admin Panel &rarr; <a href="../admin-panel/system-settings.html">Settings</a> &rarr; Legal Pages</strong>. Update the content there and save &mdash; the changes appear on your public site immediately.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#install-errors" class="toc-link">Installation &amp; Database Errors</a></li>
+                    <li class="toc-h2"><a href="#ai-errors" class="toc-link">AI &amp; API Errors</a></li>
+                    <li class="toc-h2"><a href="#connection-errors" class="toc-link">Connection &amp; QR Errors</a></li>
+                    <li class="toc-h2"><a href="#server-errors" class="toc-link">Server Errors</a></li>
+                    <li class="toc-h2"><a href="#billing" class="toc-link">Billing &amp; Payments</a></li>
+                    <li class="toc-h2"><a href="#branding-config" class="toc-link">Branding &amp; Configuration</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

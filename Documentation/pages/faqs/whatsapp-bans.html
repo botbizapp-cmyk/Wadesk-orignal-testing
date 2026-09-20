@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp &amp; Ban Safety – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp &amp; Ban Safety — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp &amp; Ban Safety</h1>
+
+                    <blockquote class="warning">
+                        <strong>Read this honestly, before you buy.</strong> No WhatsApp tool &mdash; including WaDesk &mdash; can guarantee your number will never be blocked. WhatsApp blocks numbers based on <em>recipient behavior and sending patterns</em>, not on which software you use. The guidance below explains the real risk of each engine and how to lower it. WaDesk gives you the controls; the sending discipline is up to you.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="risk-by-engine">Risk by Engine</h2>
+
+                        <div class="mb-6">
+                            <h3 id="unofficial-risk"><strong>Q: How risky is the Unofficial API?</strong></h3>
+                            <p><strong>A:</strong> The Unofficial API connects through the same channel as WhatsApp Web. It is <strong>not an approved automation method</strong>, and WhatsApp actively detects and blocks numbers that send in automated or spammy patterns over this channel. The convenience is real &mdash; scan a QR code and you are live &mdash; but so is the risk: a number can be temporarily or permanently banned at any time, with no appeal guarantee. Treat any number on the Unofficial API as <strong>expendable</strong>, and never use a personal or business-critical number you cannot afford to lose.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="cloud-risk"><strong>Q: Is the official Cloud API safe from bans?</strong></h3>
+                            <p><strong>A:</strong> It is far <strong>lower risk</strong>, because you are operating inside Meta's approved system rather than around it. You use a verified WhatsApp Business Account, send pre-approved templates for business-initiated messages, and operate under Meta's published messaging limits and quality rating. You can still be restricted &mdash; a poor <strong>quality rating</strong> (driven by blocks and reports from recipients) lowers your messaging tier and can pause sending &mdash; but you are not fighting active anti-automation detection the way you are on the unofficial channel. For any serious, long-term, or compliance-sensitive use, the Cloud API is the right choice.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="twilio-risk"><strong>Q: What about Twilio?</strong></h3>
+                            <p><strong>A:</strong> Twilio WhatsApp is also built on the official WhatsApp Business Platform, so it shares the Cloud API's lower risk profile and the same template and opt-in requirements. The difference is operational: Twilio is the BSP (Business Solution Provider) handling your connection and billing, and you must also follow Twilio's own acceptable-use and messaging policies.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="warm-up">Pacing &amp; Warm-Up</h2>
+
+                        <div class="mb-6">
+                            <h3 id="what-is-warmup"><strong>Q: What does "warming up" a number mean?</strong></h3>
+                            <p><strong>A:</strong> A brand-new number that suddenly blasts hundreds or thousands of messages looks exactly like spam, and is one of the fastest ways to get blocked. Warming up means starting with a <strong>low daily volume</strong> and increasing it gradually over days and weeks as the number builds a normal, two-way conversation history. Healthy two-way replies signal to WhatsApp that real people want your messages.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="pacing-controls"><strong>Q: Does WaDesk help me pace my sending?</strong></h3>
+                            <p><strong>A:</strong> Yes. Campaigns and broadcasts are processed through background queues with <strong>throttle / pacing controls</strong> rather than fired all at once, and sends are spread over time instead of in a single burst. This smooths your sending pattern, but you still set sensible volumes &mdash; the software paces what you tell it to send, it does not decide your audience or cadence for you.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="safe-pace"><strong>Q: What is a safe sending pace?</strong></h3>
+                            <p><strong>A:</strong> There is no public number that is universally "safe", because WhatsApp does not publish unofficial-channel thresholds and they change. The principles that matter most:</p>
+                            <ul>
+                                <li>Start small on a new number and ramp up slowly.</li>
+                                <li>Add randomized delays between messages rather than sending at a fixed machine-gun interval.</li>
+                                <li>Prioritize conversations where the recipient has replied or messaged you first.</li>
+                                <li>Watch your block/report signals and slow down immediately if they rise.</li>
+                            </ul>
+                            <p>On the Cloud API, respect your account's official messaging tier rather than trying to exceed it.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="templates">Template Approval</h2>
+
+                        <div class="mb-6">
+                            <h3 id="why-templates"><strong>Q: Why do I need approved templates on the official engines?</strong></h3>
+                            <p><strong>A:</strong> On the Cloud API and Twilio, any message you send to <em>start</em> a conversation, or to message someone outside the 24-hour customer service window, must use a <strong>pre-approved message template</strong>. Meta reviews templates to keep business-initiated messaging relevant and non-spammy. WaDesk includes a template manager to create, submit, track approval status, and reuse templates per workspace.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="template-rejected"><strong>Q: Why was my template rejected?</strong></h3>
+                            <p><strong>A:</strong> Common reasons include overtly promotional or misleading wording, placeholder/variable misuse, formatting errors, or content in a category Meta restricts. Keep templates clear, accurate, and matched to the right category (for example utility versus marketing). WaDesk surfaces the approved, pending, and rejected states so you can fix and resubmit quickly.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="24-hour-window"><strong>Q: What is the 24-hour window?</strong></h3>
+                            <p><strong>A:</strong> On the official platform, once a customer messages you, you have a <strong>24-hour customer service window</strong> in which you can reply with free-form (non-template) messages. Outside that window, you must use an approved template to re-open the conversation. WaDesk's inbox is built around this rule so agents do not accidentally send a free-form message that will silently fail.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="opt-in">Opt-In Best Practices</h2>
+
+                        <div class="mb-6">
+                            <h3 id="why-opt-in"><strong>Q: Why does opt-in matter so much?</strong></h3>
+                            <p><strong>A:</strong> Blocks and reports from recipients are the single biggest driver of bans and quality downgrades. The most reliable protection is to <strong>only message people who asked to hear from you</strong>. A clean, opted-in list that engages with your messages protects your number far more than any technical setting. Buying or scraping contact lists is the fastest route to getting blocked.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="how-to-collect-opt-in"><strong>Q: How should I collect opt-in?</strong></h3>
+                            <p><strong>A:</strong> Get clear, explicit consent before messaging &mdash; for example a checkout opt-in checkbox, a website form, a Click-to-WhatsApp ad where the user initiates the chat, or a keyword opt-in. Tell people what they are signing up for and how often you will message them. Keep a record of consent. Always honor opt-out requests promptly and make stopping easy.</p>
+                        </div>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="what-increases-risk">What Increases Ban Risk</h2>
+
+                        <div class="mb-6">
+                            <h3 id="risk-factors"><strong>Q: What behaviors get numbers blocked?</strong></h3>
+                            <p><strong>A:</strong> The patterns most strongly associated with bans:</p>
+                            <ul>
+                                <li><strong>Messaging people who never opted in</strong> &mdash; purchased, scraped, or random lists.</li>
+                                <li><strong>High-volume blasts from a cold number</strong> with no warm-up.</li>
+                                <li><strong>Low reply rates and high block/report rates</strong> &mdash; recipients tapping "Block" or "Report" is the loudest negative signal.</li>
+                                <li><strong>Identical message sent to many contacts at once</strong>, especially with links, at a fixed rapid interval.</li>
+                                <li><strong>Using a fresh, unverified number</strong> for the Unofficial API and treating it as if it were established.</li>
+                                <li><strong>Sending content that violates WhatsApp's Business and Commerce policies</strong> (prohibited goods, deceptive offers, etc.).</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="how-to-reduce-risk"><strong>Q: What is the single best way to reduce risk?</strong></h3>
+                            <p><strong>A:</strong> Use the <strong>official Cloud API</strong> for anything that matters, send only to <strong>opted-in contacts</strong>, keep messages relevant and personal, pace your sending, and watch your quality signals. If you choose the Unofficial API for speed or cost, accept the risk explicitly and use a dedicated, disposable number.</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h3 id="who-is-responsible"><strong>Q: If my number gets banned, is WaDesk responsible?</strong></h3>
+                            <p><strong>A:</strong> No. WhatsApp account standing is between you and WhatsApp/Meta (and Twilio, if applicable). WaDesk is a tool that provides pacing controls, template management, and opt-in workflows to help you send responsibly, but you are solely responsible for how you use it, who you message, and compliance with WhatsApp's terms and your local laws. See the <a href="disclaimer.html">Disclaimer</a> for the full statement.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#risk-by-engine" class="toc-link">Risk by Engine</a></li>
+                    <li class="toc-h2"><a href="#warm-up" class="toc-link">Pacing &amp; Warm-Up</a></li>
+                    <li class="toc-h2"><a href="#templates" class="toc-link">Template Approval</a></li>
+                    <li class="toc-h2"><a href="#opt-in" class="toc-link">Opt-In Best Practices</a></li>
+                    <li class="toc-h2"><a href="#what-increases-risk" class="toc-link">What Increases Ban Risk</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Workspace – WaDesk SaaS Docs</title>
+    <meta name="description" content="Google Workspace — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Google Workspace</h1>
+
+                    <blockquote class="warning" style="border-left-color: #0a7d68;">
+                        <strong>Two roles:</strong> A <strong>platform administrator</strong> registers one Google OAuth client once (steps 1&ndash;4 below). After that, each <strong>workspace operator</strong> just clicks <em>Connect Google account</em> and approves the consent screen. Credentials never leave the admin settings; operators never see a Client ID or Secret.
+                    </blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>A single Google sign-in connects an entire workspace to Google Workspace and unlocks several features at once: Calendar slot pickers for appointment booking, on-demand <strong>Google Meet</strong> links inside flows and the inbox composer, and the <strong>Sheets</strong>, <strong>Docs</strong>, and <strong>Forms</strong> flow-builder nodes.</p>
+                        <p>You manage the connection from <strong>More &rarr; Google account</strong>. Connect once per workspace &mdash; the connection is stored securely (encrypted) against that workspace and reused everywhere Google is needed.</p>
+                        <blockquote class="info"><strong>Note:</strong> The Google account belongs to whoever clicks <strong>Connect</strong> first. Calendar events and Meet links appear in <em>that</em> user's Google Calendar &mdash; typically the workspace owner. There is a hard cap of one Google account per workspace.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="admin-oauth">Admin: create the Google OAuth client</h2>
+                        <p>Do this once for the whole platform in the <a href="https://console.cloud.google.com" target="_blank" rel="noopener">Google Cloud Console</a>.</p>
+
+                        <h3>Step 1 &mdash; Project + OAuth consent screen</h3>
+                        <ol>
+                            <li>Create (or select) a Google Cloud <strong>project</strong>.</li>
+                            <li>Open <strong>APIs &amp; Services &rarr; OAuth consent screen</strong>. Choose <em>External</em> (unless every connecting user is inside your own Google Workspace org, in which case <em>Internal</em>). Fill in the app name, support email, and authorized domain.</li>
+                            <li>Add the scopes you intend to use (listed in step 3 / the <a href="#scopes">scope table</a>). While the app is in <em>Testing</em>, add the Google accounts that will connect as <strong>Test users</strong>; publish the app to remove that limit.</li>
+                        </ol>
+
+                        <h3 id="enable-apis">Step 2 &mdash; Enable the required APIs</h3>
+                        <p>Under <strong>APIs &amp; Services &rarr; Library</strong>, enable each of these (search by name, click <em>Enable</em>):</p>
+                        <ul>
+                            <li><strong>Google Calendar API</strong> &mdash; slot pickers + Meet link generation.</li>
+                            <li><strong>Google Sheets API</strong> &mdash; the Sheets flow node.</li>
+                            <li><strong>Google Docs API</strong> &mdash; the Docs flow node.</li>
+                            <li><strong>Google Drive API</strong> &mdash; doc copy/share + the file pickers.</li>
+                            <li><strong>Google Forms API</strong> &mdash; the Forms flow node.</li>
+                        </ul>
+                        <blockquote class="warning">If an API isn't enabled, calls to it return a Google error even when the OAuth scope was granted. Enable all five up front so every flow node works.</blockquote>
+
+                        <h3 id="redirect-uri">Step 3 &mdash; Create the OAuth 2.0 Client (Web) + redirect URI</h3>
+                        <ol>
+                            <li>Open <strong>APIs &amp; Services &rarr; Credentials &rarr; Create credentials &rarr; OAuth client ID</strong>.</li>
+                            <li>Application type: <strong>Web application</strong>.</li>
+                            <li>Under <strong>Authorized redirect URIs</strong>, click <em>Add URI</em> and paste exactly:</li>
+                        </ol>
+                        <p><code>https://YOUR-DOMAIN/appointments/oauth/google/callback</code></p>
+                        <p>Replace <code>YOUR-DOMAIN</code> with the real host WaDesk runs on (protocol, host, and path must match character-for-character, with no trailing slash). This is the single callback WaDesk uses for the whole Google integration &mdash; Calendar, Meet, Sheets, Docs, and Forms all return here.</p>
+                        <ol start="4">
+                            <li>Click <strong>Create</strong>. Google shows the <strong>Client ID</strong> and <strong>Client Secret</strong> &mdash; copy both.</li>
+                        </ol>
+
+                        <h3>Step 4 &mdash; Paste the credentials into WaDesk (admin)</h3>
+                        <ol>
+                            <li>Go to <strong>Admin &rarr; Settings &rarr; Integrations &rarr; Google</strong>.</li>
+                            <li>Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> (the secret is encrypted and never shown again).</li>
+                            <li>Turn <strong>Enable</strong> on and save. A readiness strip confirms the credentials are saved, the feature is on, and the redirect is set.</li>
+                        </ol>
+                        <p>The redirect URI defaults to <code>https://YOUR-DOMAIN/appointments/oauth/google/callback</code>; there's an optional override field if your setup needs a different one &mdash; whatever you use must match what you registered in step 3 exactly. The standard set of permissions is pre-filled (see the <a href="#scopes">scope table</a>), and you can trim it if you want to request less.</p>
+                        <blockquote class="warning"><strong>Until this is done:</strong> the workspace Google account page shows an <em>Admin setup needed</em> banner and the Connect button is disabled. Workspace operators cannot self-configure this &mdash; it is a one-time platform setup.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="connect">Operator: connecting your account</h2>
+                        <ol>
+                            <li>Open <strong>More &rarr; Google account</strong>.</li>
+                            <li>Click <strong>Connect Google account</strong>. You're taken to Google's consent screen. (WaDesk asks Google for the kind of access that lets the connection renew itself in the background, so you don't have to keep signing in again.)</li>
+                            <li>Sign in and approve the access. Google shows you exactly what you're granting.</li>
+                            <li>You land back on the page. The status flips to <strong>connected</strong>, and the connection row shows your account email and avatar, the selected calendar, the access you granted, and the connection time.</li>
+                        </ol>
+                        <p>The page also shows a four-stat row: connection <strong>Status</strong>, number of <strong>Calendars</strong> available, how many permissions you granted, and whether the auto-renew is active. A side panel lists everything this connection powers (the Book Appointment node, the Google Meet node, the inbox Send Meet button, and the Sheets/Docs/Forms nodes).</p>
+                        <blockquote class="info"><strong>Tip:</strong> Your main Google calendar is selected automatically on connect, so Meet links work right away. If you have more than one calendar, a <strong>Change calendar</strong> action (in the connection row and on the Appointments settings page) lets you pick which calendar appointment events are written to.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="scopes">OAuth scopes &amp; privacy</h2>
+                        <p>WaDesk requests the minimum scopes needed for the features it powers, bundled into one consent so a single approval unlocks every flow node. These are the exact scopes the default consent requests:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Feature</th><th>Scope</th><th>Access</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Calendar &amp; Meet</td><td><code>auth/calendar</code></td><td>Check your free/busy times, create and update calendar events, and generate Meet links</td></tr>
+                                <tr><td>Sheets node</td><td><code>auth/spreadsheets</code></td><td>Add and read rows in your spreadsheets</td></tr>
+                                <tr><td>Docs node</td><td><code>auth/documents</code></td><td>Copy a template document and fill in its placeholders</td></tr>
+                                <tr><td>Drive (file pickers + sharing)</td><td><code>auth/drive</code></td><td>List your existing Sheets/Docs/Forms so the flow-builder pickers can show them, copy a Docs template you choose, and share the copy. A narrower Drive permission won't work here &mdash; it would only see files WaDesk itself created, leaving the pickers empty.</td></tr>
+                                <tr><td>Forms node</td><td><code>auth/forms.body.readonly</code></td><td>Read a form's structure and its responder link</td></tr>
+                            </tbody>
+                        </table>
+                        <p>WaDesk also requests the basic profile permissions (<code>openid</code>, <code>userinfo.email</code>, <code>userinfo.profile</code>) so the account page can show your email and avatar.</p>
+                        <blockquote class="warning"><strong>Privacy:</strong> The <code>drive</code> permission is needed so the flow builder can list and copy the files you choose. WaDesk only reads or writes the specific files you pick in a flow node &mdash; it never touches the rest of your Drive.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="reconnect">Reconnecting for new scopes</h2>
+                        <p>If your Google account was connected before the Sheets/Docs/Forms nodes existed, the page compares your granted scopes against the required set and shows a <strong>Reconnect to unlock new flow nodes</strong> banner listing exactly which scopes are missing. Click <strong>Reconnect</strong> to re-run OAuth with the full scope set. Existing Calendar and Meet features keep working throughout &mdash; the reconnect only adds access, it never breaks the current connection.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="meet">Calendar &amp; Meet links</h2>
+                        <p>Once connected, the Google token powers three Meet/Calendar touchpoints:</p>
+                        <ul>
+                            <li><strong>Book Appointment node</strong> &mdash; offers the customer real open time slots (your availability minus whatever is already busy on your Google calendar) and writes the booking to your calendar.</li>
+                            <li><strong>Google Meet node</strong> &mdash; creates a fresh Meet link inside a flow and sends it to the customer.</li>
+                            <li><strong>Inbox &ldquo;Send Meet link&rdquo;</strong> &mdash; a button in the Team Inbox composer. The operator picks a duration and a Meet link is generated and dropped into the reply. The button is hidden until Google is connected.</li>
+                        </ul>
+                        <blockquote class="info"><strong>Note:</strong> If you disconnect Google, your saved flows stay intact, but any flows currently running that hit a Calendar or Meet node will fail, and the inbox Send Meet button disappears. Reconnect anytime &mdash; everything resumes immediately with the same settings.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="flow-nodes">Sheets, Docs &amp; Forms flow nodes</h2>
+                        <p>Connecting Google enables these nodes in the visual flow builder. Each node reads its target file through a Drive picker populated from your account, so you select the file by name rather than pasting IDs.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Node</th><th>What it does</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Google Sheets</strong></td><td>Append a row to a sheet (e.g. log a lead) or look up a row by matching a column value, then map the result onto flow variables.</td></tr>
+                                <tr><td><strong>Google Docs</strong></td><td>Copy a template document, replace <code>{{placeholder}}</code> and <code>{placeholder}</code> tokens with flow variables, optionally make it shareable (anyone-with-the-link can read), and return the link to the new doc.</td></tr>
+                                <tr><td><strong>Google Forms</strong></td><td>Send a form's link to the customer, pause the flow, and resume it when the customer submits the form.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The picker for each node lists the matching files from your account (spreadsheets, documents, or forms), with the most recently edited ones first.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="forms-resume">Forms: resuming a paused flow</h2>
+                        <p>The Google Forms node uses a small Google Apps Script so that submitting the form can resume a paused WhatsApp flow. When you set up a Forms node, WaDesk generates a ready-to-paste script with your connection details already filled in &mdash; you never edit anything by hand.</p>
+                        <ol>
+                            <li>Open your Google Form, then the three-dot menu (&#8942;) &rarr; <strong>Script editor</strong>.</li>
+                            <li>Paste the entire generated script and save it.</li>
+                            <li>Open <strong>Triggers</strong> (the clock icon) and add a trigger: function <code>onWaDeskFormSubmit</code>, event source <em>From form</em>, type <em>On form submit</em>.</li>
+                            <li>Save and grant the permissions Google asks for.</li>
+                        </ol>
+                        <p>From then on, each submission sends the answers securely to WaDesk, which finds the paused flow and continues it down its &ldquo;submitted&rdquo; path, with the answers available as flow variables.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="sheets-addon">Google Sheets Add-on (manage your shop from a Sheet)</h2>
+                        <p>Separate from the Sheets <em>flow node</em> above, WaDesk also ships a <strong>Google Sheets add-on</strong> that lets you build and manage your WhatsApp storefront straight from a spreadsheet &mdash; one row per product. Find it under <strong>More &rarr; Integrations &rarr; Sheets Add-on</strong>.</p>
+                        <blockquote class="info"><strong>No address to set here.</strong> Unlike the browser extension, you never enter a server address for the Sheets add-on. The script WaDesk gives you already points at your install and signs in with a personal API key &mdash; so the only thing you paste in is that key.</blockquote>
+
+                        <h3 id="sheets-addon-key">Step 1 &mdash; Generate your Sheets API key</h3>
+                        <p>On the Sheets Add-on page click <strong>Generate API key</strong>. You get a key (it looks like <code>wsn_live_&hellip;</code>), shown only once &mdash; copy it right away. The server only keeps a scrambled version (with the last few characters for display), so it can never be read back. You can <strong>revoke or regenerate</strong> it from the same page anytime, which instantly cancels the old key.</p>
+
+                        <h3 id="sheets-addon-install">Step 2 &mdash; Install the add-on script</h3>
+                        <p>Two routes, both offered on the page:</p>
+                        <ul>
+                            <li><strong>Marketplace</strong> &mdash; install the add-on from the Google Workspace Marketplace in one click (if you publish it there).</li>
+                            <li><strong>Manual</strong> &mdash; create a new Apps Script project at <a href="https://script.google.com" target="_blank">script.google.com</a> and copy in the files WaDesk provides (<code>Code.gs</code>, <code>appsscript.json</code>, and a few HTML files). The page has a <strong>Download</strong> button and step-by-step paste-in instructions. Save and grant the permissions Google asks for.</li>
+                        </ul>
+
+                        <h3 id="sheets-addon-use">Step 3 &mdash; Use it in a Sheet</h3>
+                        <ol>
+                            <li>Open any Google Sheet, then <strong>Extensions &rarr; [Your app] WhatsApp Shop &rarr; Open</strong>.</li>
+                            <li>Paste your API key into the add-on's Settings sidebar.</li>
+                            <li>The sidebar lists your existing shops and lets you <strong>create a new shop from the sheet's rows</strong> &mdash; one product per row (title, price, image, and so on).</li>
+                        </ol>
+                        <blockquote class="info"><strong>White-label note:</strong> the add-on's menu name and the script WaDesk gives you both pick up your platform's <strong>app name</strong> automatically &mdash; so when you rename WaDesk in admin settings, the Sheet add-on follows along with no edits to the script.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="disconnect">Disconnecting</h2>
+                        <p>Use the <strong>Disconnect</strong> button on the Google account page to remove the connection. You'll be asked to confirm, because disconnecting stops the Book Appointment and Google Meet nodes and hides the inbox Send Meet button until you reconnect. Your flows and their node settings are kept &mdash; only the live connection is removed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>redirect_uri_mismatch</strong> on the Google consent screen</td><td>The redirect URI registered in Cloud Console doesn't match the one WaDesk sends.</td><td>In Cloud Console &rarr; Credentials &rarr; your OAuth client, set <strong>Authorized redirect URIs</strong> to exactly <code>https://YOUR-DOMAIN/appointments/oauth/google/callback</code> &mdash; same protocol, host, and path, no trailing slash. If the admin set a custom <em>Redirect URI</em> override in WaDesk, register that instead.</td></tr>
+                                <tr><td><em>Admin setup needed</em> banner / Connect button disabled</td><td>The platform OAuth client isn't set up, or the feature is off.</td><td>An administrator pastes the Client ID and Secret under <strong>Admin &rarr; Settings &rarr; Integrations &rarr; Google</strong> and turns <strong>Enable</strong> on.</td></tr>
+                                <tr><td>A flow node fails with "missing scope" / "insufficient permission"</td><td>The connection predates that node, so the scope was never granted.</td><td>Click <strong>Reconnect</strong> on the Google account page to re-run OAuth with the full scope set (the page tells you which scopes are missing).</td></tr>
+                                <tr><td>Connection works but a Sheets/Docs/Forms call errors despite the scope</td><td>The matching Google API isn't enabled on the Cloud project.</td><td>Admin enables Calendar, Sheets, Docs, Drive, and Forms APIs in <strong>APIs &amp; Services &rarr; Library</strong> (see <a href="#enable-apis">step 2</a>).</td></tr>
+                                <tr><td>Auto-renew shows as missing on the stat row; the connection drops after about an hour</td><td>Google only enables background renewal when you go through the full consent screen; a quick re-sign-in that skips it doesn't.</td><td>Click <strong>Disconnect</strong>, then <strong>Connect</strong> again so Google shows the consent screen and enables auto-renew.</td></tr>
+                                <tr><td>"access blocked: app not verified" or only test users can connect</td><td>The OAuth consent screen is still in <em>Testing</em>.</td><td>Add the operator's Google account as a <strong>Test user</strong>, or publish the consent screen to production.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#admin-oauth" class="toc-link">Admin: create OAuth client</a></li>
+                    <li class="toc-h2"><a href="#connect" class="toc-link">Operator: connecting</a></li>
+                    <li class="toc-h2"><a href="#scopes" class="toc-link">OAuth scopes &amp; privacy</a></li>
+                    <li class="toc-h2"><a href="#reconnect" class="toc-link">Reconnecting for new scopes</a></li>
+                    <li class="toc-h2"><a href="#meet" class="toc-link">Calendar &amp; Meet links</a></li>
+                    <li class="toc-h2"><a href="#flow-nodes" class="toc-link">Sheets, Docs &amp; Forms nodes</a></li>
+                    <li class="toc-h2"><a href="#forms-resume" class="toc-link">Forms: resuming a flow</a></li>
+                    <li class="toc-h2"><a href="#sheets-addon" class="toc-link">Google Sheets Add-on</a></li>
+                    <li class="toc-h2"><a href="#disconnect" class="toc-link">Disconnecting</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

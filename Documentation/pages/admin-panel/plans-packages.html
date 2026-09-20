@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans &amp; Packages – WaDesk SaaS Docs</title>
+    <meta name="description" content="Plans &amp; Packages — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Plans &amp; Packages</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p><strong>Packages</strong> (a.k.a. plans) are the products you sell. Each package bundles a price, a set of numeric limits, and a set of feature toggles. When a workspace subscribes to a package, those limits and toggles govern what the workspace can do. You'll find the Packages area under <strong>Admin &rarr; Packages</strong>.</p>
+                        <p>This is the heart of your SaaS monetisation: build a tier ladder (for example Starter &rarr; Growth &rarr; Pro &rarr; Enterprise), price each rung, and decide exactly which features and quotas each rung unlocks.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="package-list">The Package List</h2>
+                        <p>The index shows every package as a card, ordered by sort order then price, with a count of how many workspaces are on each. A KPI strip summarises active plans, trial (free) plans, archived plans, total subscribed workspaces, and total MRR (sum of each paid, active plan's price &times; its workspace count).</p>
+                        <p>From the list you can create a new package, edit or view an existing one, toggle it active/inactive, or delete it.</p>
+                        <blockquote class="warning"><strong>Caution:</strong> A package <strong>cannot be deleted</strong> while any workspace is on it &mdash; the delete is blocked and tells you how many workspaces are using it. Migrate those workspaces to another plan first, or simply deactivate the package (toggle it off) so it disappears from the pricing page without affecting existing subscribers.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="create-stepper">Creating a Package: the Four-Step Stepper</h2>
+                        <p>Creating or editing a package uses a guided four-step form &mdash; the same form handles both. A progress bar at the top tracks which step you're on, and you can jump between steps by clicking them.</p>
+                        <table>
+                            <thead><tr><th>Step</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>1. Basics</strong></td><td>Name, pricing, currency, billing period, description, and the headline toggles.</td></tr>
+                                <tr><td><strong>2. Limits</strong></td><td>The numeric quotas (devices, messages, contacts, and dozens more).</td></tr>
+                                <tr><td><strong>3. Features</strong></td><td>The on/off feature gates that decide what the plan can access.</td></tr>
+                                <tr><td><strong>4. Display &amp; review</strong></td><td>Call-to-action label/URL, sort order, and a live summary before you save.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-basics">Step 1 &mdash; Basics &amp; Pricing</h2>
+                        <p>Set the commercial terms of the plan.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Package name</strong></td><td>Required. The plan's display name (Starter / Growth / Pro / Enterprise).</td></tr>
+                                <tr><td><strong>Subtitle</strong></td><td>A short tagline shown under the name on the pricing page.</td></tr>
+                                <tr><td><strong>Price</strong></td><td>Required. The recurring amount. <code>0</code> = free (also turn on the Free toggle).</td></tr>
+                                <tr><td><strong>Offer price</strong></td><td>Optional discounted price shown struck-through against the regular price.</td></tr>
+                                <tr><td><strong>Currency</strong></td><td>Required. Drawn from your active <a href="./localization.html">currencies</a>.</td></tr>
+                                <tr><td><strong>Billing period</strong></td><td>A number plus a unit (days / weeks / months / years). 1 month = monthly recurring; 1 year = annual.</td></tr>
+                                <tr><td><strong>Description</strong></td><td>Selling text shown to customers under the plan name.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>Six headline toggles sit at the bottom of this step:</p>
+                        <table>
+                            <thead><tr><th>Toggle</th><th>Effect</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Free plan</strong></td><td>No charge, no recurring billing.</td></tr>
+                                <tr><td><strong>Lifetime</strong></td><td>One-time payment, never renews.</td></tr>
+                                <tr><td><strong>Active</strong></td><td>Visible on the public pricing page. (On by default.)</td></tr>
+                                <tr><td><strong>Default for signups</strong></td><td>New workspaces are placed on this plan automatically.</td></tr>
+                                <tr><td><strong>Highlight as popular</strong></td><td>Adds a "Most popular" badge on the pricing page.</td></tr>
+                                <tr><td><strong>Custom quote</strong></td><td>Hides the price and shows "Contact sales" instead.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-limits">Step 2 &mdash; Numeric Limits</h2>
+                        <p>This step sets the quotas. There are dozens of limit columns, organised into logical groups so the form is navigable. <strong>Leave a field blank to mean unlimited</strong> &mdash; the placeholder shows the infinity symbol as a reminder.</p>
+                        <table>
+                            <thead><tr><th>Group</th><th>Example limits</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Messaging caps</strong></td><td>Messages / month, broadcasts, broadcast size, campaign messages, automation messages, scheduled campaigns, total &amp; active campaigns, daily media MB.</td></tr>
+                                <tr><td><strong>Workspace caps</strong></td><td>Devices, team seats, contacts, groups, workspaces per owner, tags.</td></tr>
+                                <tr><td><strong>Content caps</strong></td><td>Templates, flows, steps per flow, keyword auto-replies, chatbots, quick replies.</td></tr>
+                                <tr><td><strong>AI &amp; voice caps</strong></td><td>WABA calling minutes / mo, AI voice minutes / mo, AI chat messages / mo, AI agents, AI training sources, AI tokens / mo.</td></tr>
+                                <tr><td><strong>Commerce &amp; SLA</strong></td><td>WA storefronts, chatbot website widgets, SLA policies, translation chars / mo, drip campaigns, appointments / mo.</td></tr>
+                                <tr><td><strong>Other caps</strong></td><td>Outbound webhooks, routing rules.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Note:</strong> The <strong>AI tokens / month</strong> cap applies when a workspace falls back to your global admin AI keys &mdash; it stops a cheap plan from running up your AI bill.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-features">Step 3 &mdash; Feature Toggles</h2>
+                        <p>This step is the set of roughly thirty on/off feature gates. A toggle that's <strong>on</strong> grants the feature to workspaces on this plan; <strong>off</strong> blocks it (the app hides or gates the feature for that workspace). New packages default these on so you don't accidentally ship a plan with everything disabled. Like limits, they're grouped:</p>
+                        <table>
+                            <thead><tr><th>Group</th><th>Representative toggles</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Messaging</strong></td><td>Auto-reply system, bulk messaging, scheduled messages, campaigns, flow builder, broadcasts, templates, carousel templates, drip campaigns, keyword auto-replies, edit sent messages, message reactions.</td></tr>
+                                <tr><td><strong>Inbox &amp; team</strong></td><td>Internal notes, routing rules, business hours, team performance, Kanban view, appointment booking, SLA policies, role-based permissions.</td></tr>
+                                <tr><td><strong>AI &amp; calling</strong></td><td>WhatsApp Cloud-API voice calling, call recording, AI voice agent, AI chat assistant, AI training sources, inline "Generate with AI" buttons, AI agents, Bring your own AI keys, AI reply suggestions.</td></tr>
+                                <tr><td><strong>Commerce</strong></td><td>WhatsApp Storefront / catalog, commerce-aware flows, chatbot website widgets, Shopify integration, WooCommerce integration.</td></tr>
+                                <tr><td><strong>Integrations</strong></td><td>HubSpot, Google Calendar, Google Sheets, outbound webhooks.</td></tr>
+                                <tr><td><strong>Advanced</strong></td><td>Meta Ads integration, Click-to-WhatsApp ads, analytics dashboard, multi-device sending, file-type upload restrictions, multilingual auto-translation, data residency drivers, remove branding.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="info"><strong>Two toggles worth understanding:</strong> <strong>Bring your own AI keys</strong> &mdash; when on, the workspace's own AI provider keys take precedence over your global keys (off by default so cheap plans don't bypass your billing). <strong>Remove branding</strong> &mdash; white-labels the app for that plan by stripping the platform name from the UI and message footers.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step-display">Step 4 &mdash; Display, CTA &amp; Review</h2>
+                        <p>The final step controls how the plan appears on the pricing page and shows a live review before saving.</p>
+                        <table>
+                            <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>CTA label</strong></td><td>The button text on the pricing card (default "Get started").</td></tr>
+                                <tr><td><strong>CTA URL</strong></td><td>Where the button goes. Blank routes to the normal checkout.</td></tr>
+                                <tr><td><strong>Sort order</strong></td><td>Lower numbers appear first on the pricing page. Use this to order your tier ladder.</td></tr>
+                            </tbody>
+                        </table>
+                        <p>The <strong>Review</strong> panel summarises the plan from the current form state so you can sanity-check pricing, limits, and feature gates before committing. Hit <strong>Create package</strong> (or <strong>Save changes</strong> when editing) to persist.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-limits-apply">How Limits &amp; Gates Are Enforced</h2>
+                        <p>When the form saves, an empty limit is stored as <em>unlimited</em> and an unchecked toggle is stored as <em>blocked</em>. At runtime the app reads these values to decide what a workspace can do &mdash; a limit check stops a workspace exceeding its quota, and a feature gate hides or disables features the plan doesn't include.</p>
+                        <p>Individual workspaces can be granted exceptions to any numeric limit via <a href="./workspaces.html#overrides">per-workspace overrides</a> on the workspace detail page, so you don't have to clone a whole plan for a single special-case customer.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="analytics">Plan Analytics</h2>
+                        <p>The packages area includes an analytics view covering a 30/90/365-day window. It shows total MRR, average revenue per account, a lifetime-value estimate, churn, trial-to-paid conversion, a per-plan leaderboard, a plan-share donut chart, the weekly MRR trend for your top plans, upgrade/downgrade paths between tiers, and feature adoption across paying workspaces. Use it to see which rung of your ladder is pulling the weight and where customers are upgrading.</p>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#package-list" class="toc-link">The Package List</a></li>
+                    <li class="toc-h2"><a href="#create-stepper" class="toc-link">The Four-Step Stepper</a></li>
+                    <li class="toc-h2"><a href="#step-basics" class="toc-link">Step 1 — Basics &amp; Pricing</a></li>
+                    <li class="toc-h2"><a href="#step-limits" class="toc-link">Step 2 — Numeric Limits</a></li>
+                    <li class="toc-h2"><a href="#step-features" class="toc-link">Step 3 — Feature Toggles</a></li>
+                    <li class="toc-h2"><a href="#step-display" class="toc-link">Step 4 — Display &amp; Review</a></li>
+                    <li class="toc-h2"><a href="#how-limits-apply" class="toc-link">How Limits Are Enforced</a></li>
+                    <li class="toc-h2"><a href="#analytics" class="toc-link">Plan Analytics</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

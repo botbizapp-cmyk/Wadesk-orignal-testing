@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Gateways – WaDesk SaaS Docs</title>
+    <meta name="description" content="Checkout Gateways — the complete step-by-step guide to selling on WhatsApp with WaDesk: set up your store, add products, connect a payment gateway, and take in-chat payments across 30+ providers.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Checkout Gateways &mdash; Sell &amp; Get Paid on WhatsApp</h1>
+
+                    <p>This is the <strong>complete, start-to-finish guide</strong> to selling on WhatsApp with WaDesk: create your store, add products one by one, connect your own payment gateway, and take a real in-chat payment &mdash; across <strong>30+ providers</strong> (Stripe, Razorpay, Paystack, Flutterwave, PayU and more). The money settles into <strong>your own gateway account</strong>, no card data ever touches WhatsApp or WaDesk, and it works on <strong>both</strong> the WhatsApp Cloud API and the Unofficial API.</p>
+
+                    <blockquote class="info"><strong>Follow the steps in order.</strong> Store &rarr; Products &rarr; Gateway keys &rarr; Webhook &rarr; Send checkout. Each step below is a screen in WaDesk, with every field explained. If you only want the payments part, jump to <a href="#step3">Step 3</a>.</blockquote>
+
+                    <section class="mb-12">
+                        <h2 id="overview">How the whole thing fits together</h2>
+                        <ol>
+                            <li>You build a <strong>store</strong> (a storefront + products).</li>
+                            <li>A customer <strong>orders</strong> &mdash; from your storefront page, from a chat with your AI/agent, or you add the order by hand.</li>
+                            <li>You add your <strong>gateway keys</strong> once, and for any order you <strong>send a checkout link</strong>.</li>
+                            <li>The customer <strong>pays</strong> on the gateway's secure page.</li>
+                            <li>WaDesk marks the order <strong>paid</strong>, sends the customer a <strong>receipt</strong>, and syncs the status back to WooCommerce/Shopify if the order came from there.</li>
+                        </ol>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="before">Before you start</h2>
+                        <ul>
+                            <li><strong>Connect a WhatsApp number.</strong> Open <strong>Devices</strong> and connect a number (Cloud API or Unofficial API). See <a href="../getting-started/connect-channel.html">Connecting a Channel</a>. Checkout works on either engine.</li>
+                            <li><strong>Have a gateway account.</strong> Sign up with the provider you want (for example Stripe, Razorpay, Paystack) and be able to reach its <strong>API keys</strong> page.</li>
+                            <li><strong>A public domain</strong> is needed for automatic payment confirmation (see <a href="#step4">Step 4</a>). You can still test on a local address using the gateway's forwarding tool.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step1">Step 1 &mdash; Set up your store (Storefront)</h2>
+                        <p>Go to <strong>Store &rarr; Storefront</strong>. This is your public shop page. Fill in:</p>
+                        <ul>
+                            <li><strong>Enabled</strong> &mdash; turn the storefront on so its public URL works.</li>
+                            <li><strong>Store URL (slug)</strong> &mdash; the address of your shop, e.g. <code>your-domain/s/my-shop</code>. Choose a short, readable slug. (You can also connect a <strong>custom domain</strong>.)</li>
+                            <li><strong>Currency</strong> &mdash; the currency all prices and the checkout total use (e.g. INR, USD, KES). Set this <em>before</em> adding products so prices are consistent.</li>
+                            <li><strong>Branding</strong> &mdash; logo, brand colour, theme, hero text and footer text, so the shop looks like yours.</li>
+                            <li><strong>Shipping</strong> &mdash; an optional flat shipping fee, a &ldquo;free above&rdquo; threshold, and a shipping note.</li>
+                            <li><strong>Cart recovery</strong> (optional) &mdash; automatically message customers who abandon their cart after a delay.</li>
+                        </ul>
+                        <p>Click <strong>Save</strong>. Use <strong>Open</strong> (top of the store sidebar) to preview the live shop, or <strong>Copy</strong> to grab its public link.</p>
+                        <blockquote class="info"><strong>Set the currency first.</strong> Products inherit the store currency, and the checkout total is charged in it &mdash; changing currency later means re-checking your prices.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step2">Step 2 &mdash; Add your products (one by one)</h2>
+                        <p>Go to <strong>Store &rarr; Products &rarr; Add product</strong> (the <strong>+ Add product</strong> button). Fill in one product, Save, then repeat for the next. Every field:</p>
+                        <ul>
+                            <li><strong>Name</strong> <em>(required)</em> &mdash; the product title customers see, e.g. &ldquo;Complete Business Growth Package&rdquo;.</li>
+                            <li><strong>Price</strong> <em>(required)</em> &mdash; the selling price in your store currency. Enter the whole amount, e.g. <code>10000</code> for &#8377;10,000.</li>
+                            <li><strong>Compare-at price</strong> <em>(optional)</em> &mdash; a higher &ldquo;was&rdquo; price shown struck-through to signal a discount.</li>
+                            <li><strong>SKU</strong> <em>(optional)</em> &mdash; your internal product code (also used as the item reference when syncing to a catalog).</li>
+                            <li><strong>Category</strong> and <strong>Tags</strong> <em>(optional)</em> &mdash; help organise and filter products.</li>
+                            <li><strong>Description</strong> &mdash; the short summary; the rich <strong>body</strong> is the longer detail shown on the product page.</li>
+                            <li><strong>Image</strong> &mdash; upload a photo (or paste an image URL). Good images sell &mdash; use a clear, square image.</li>
+                            <li><strong>Stock quantity</strong> and <strong>In stock</strong> &mdash; how many you have and whether it's available to buy.</li>
+                            <li><strong>Weight</strong> <em>(optional)</em> &mdash; used for shipping if you price by weight.</li>
+                            <li><strong>Status</strong> &mdash; set to <strong>Active</strong> to publish it to the storefront (Draft keeps it hidden).</li>
+                            <li><strong>Sort order</strong> <em>(optional)</em> &mdash; controls where it appears in the list.</li>
+                        </ul>
+                        <p>Click <strong>Save</strong>. The product now shows under <strong>Store &rarr; Products</strong> and on your live storefront. Repeat <strong>Add product</strong> for each item you sell.</p>
+                        <blockquote class="info"><strong>Zero-decimal currencies</strong> (e.g. IDR, JPY) are handled automatically &mdash; enter the whole amount and WaDesk formats it correctly on the shop and at checkout.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step3">Step 3 &mdash; Add your checkout gateway keys</h2>
+                        <p>Go to <strong>Store &rarr; Checkout gateways</strong>. You'll see every supported provider. For the one you use:</p>
+                        <ol>
+                            <li><strong>Expand the gateway</strong> (for example Stripe). Each field is labelled with the exact key that gateway expects:
+                                <ul>
+                                    <li><strong>Stripe</strong> &mdash; Secret key (<code>sk_live_&hellip;</code> / <code>sk_test_&hellip;</code>) and, for confirmation, the Webhook secret (<code>whsec_&hellip;</code>).</li>
+                                    <li><strong>Razorpay</strong> &mdash; Key ID (<code>rzp_&hellip;</code>), Key secret, and optional Webhook secret.</li>
+                                    <li><strong>Paystack / Flutterwave</strong> &mdash; Public key and Secret key (Flutterwave also has an optional webhook hash).</li>
+                                    <li>Every other gateway shows its own required fields with a hint.</li>
+                                </ul>
+                            </li>
+                            <li>Paste the keys from your gateway dashboard. Choose <strong>Live</strong> or <strong>Test</strong> mode, and tick <strong>Active</strong>.</li>
+                            <li>Click <strong>Save</strong>. Keys are stored <strong>encrypted</strong>. To change one later, edit just that field &mdash; a blank field keeps its saved value.</li>
+                        </ol>
+                        <p>You can enable as many gateways as you like and pick one per order.</p>
+                        <blockquote class="info"><strong>Test first.</strong> Use the gateway's <strong>Test</strong> keys and Test mode, and later pay with a test card (Stripe: <code>4242 4242 4242 4242</code>, any future date, any CVC) to confirm the whole flow before going live.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step4">Step 4 &mdash; Connect the webhook (so payments confirm)</h2>
+                        <p>The <strong>webhook</strong> is how your gateway tells WaDesk a payment succeeded &mdash; this is what marks the order paid and sends the receipt. On each gateway's card, WaDesk shows a <strong>Webhook URL</strong>.</p>
+                        <ol>
+                            <li>Copy the shown Webhook URL &mdash; it looks like <code>https://your-domain/wa/checkout/webhook/&lt;gateway&gt;</code>.</li>
+                            <li>In your gateway's dashboard, add it as a <strong>webhook endpoint</strong> (Stripe: select the <code>checkout.session.completed</code> event).</li>
+                            <li>Copy the gateway's <strong>webhook signing secret</strong> back into that gateway's card in WaDesk and Save.</li>
+                        </ol>
+                        <blockquote class="warning"><strong>The webhook must be reachable from the internet.</strong> On a live public domain it just works. If you are testing on a local or LAN address (for example <code>192.168.x.x</code>), gateways cannot reach it &mdash; use the gateway's local forwarding tool while testing (for Stripe: <code>stripe listen --forward-to your-address/wa/checkout/webhook/stripe</code>), or test on your public domain.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step5">Step 5 &mdash; Get an order</h2>
+                        <p>An order can arrive three ways &mdash; all of them show under <strong>Store &rarr; Orders</strong>:</p>
+                        <ul>
+                            <li><strong>From your storefront.</strong> A customer opens your shop link, adds products to the cart, enters their name/phone, and places the order.</li>
+                            <li><strong>From a chat.</strong> Your AI assistant or an agent captures the order during a WhatsApp conversation.</li>
+                            <li><strong>Manually.</strong> You create the order yourself for a customer.</li>
+                        </ul>
+                        <p>Open <strong>Store &rarr; Orders</strong> to see them, filter by status (New, Pending, Paid, &hellip;), and open any order for its full detail.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step6">Step 6 &mdash; Send the checkout link</h2>
+                        <ol>
+                            <li>Open the order under <strong>Store &rarr; Orders</strong>.</li>
+                            <li>In the <strong>Send checkout (hosted pay link)</strong> box, choose a gateway from the dropdown and click <strong>Send checkout link</strong>.</li>
+                            <li>WaDesk creates a secure payment page on that gateway for the exact order total, <strong>WhatsApps the link to the customer</strong>, and saves it on the order's <strong>Payment link</strong> field.</li>
+                        </ol>
+                        <p>You can also trigger this automatically from a <a href="../automation/flows.html">Flow</a> or the AI order assistant, so the pay link goes out without an agent doing it by hand.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="step7">Step 7 &mdash; Customer pays, order is confirmed</h2>
+                        <ol>
+                            <li>The customer taps the link and pays on the gateway's secure page (cards, UPI, mobile money, wallets &mdash; whatever that gateway supports).</li>
+                            <li>The gateway notifies WaDesk (the webhook from Step 4), WaDesk verifies it, and the order flips to <strong>Paid</strong>.</li>
+                            <li>The customer automatically receives a <strong>&ldquo;Payment received&rdquo; receipt</strong> on WhatsApp, and the order status is pushed back to WooCommerce/Shopify if it originated there.</li>
+                        </ol>
+                        <p>That's the full loop &mdash; browse, order, pay, and confirm &mdash; largely inside WhatsApp.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="gateways">Supported gateways</h2>
+                        <p>Configure any of these with your own keys. Which payment methods appear depends on the gateway and your country.</p>
+                        <ul>
+                            <li><strong>Global cards &amp; wallets:</strong> Stripe, PayPal, Braintree, 2Checkout, Square, Mollie, Paddle, Lemon Squeezy, Authorize.Net, Skrill.</li>
+                            <li><strong>India:</strong> Razorpay, PayU, Paytm, PhonePe, Cashfree, Instamojo.</li>
+                            <li><strong>Africa:</strong> Paystack, Flutterwave (cards, mobile money incl. M-Pesa), CinetPay.</li>
+                            <li><strong>South-East Asia:</strong> Midtrans, Xendit, Duitku.</li>
+                            <li><strong>Middle East &amp; T&uuml;rkiye:</strong> Tap Payments, HyperPay, iyzico, PayTR.</li>
+                            <li><strong>Latin America:</strong> Mercado Pago.</li>
+                            <li><strong>Bangladesh:</strong> SSLCommerz.</li>
+                            <li><strong>Crypto:</strong> Coinbase Commerce.</li>
+                            <li><strong>Offline:</strong> Bank Transfer and Offline / Cash for manually-settled orders.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="troubleshooting">Troubleshooting</h2>
+                        <ul>
+                            <li><strong>&ldquo;Send checkout link&rdquo; isn't showing on the order.</strong> No gateway is configured yet &mdash; the order shows &ldquo;Add gateway keys&rdquo;. Finish <a href="#step3">Step 3</a> first, then refresh the order.</li>
+                            <li><strong>Customer paid but the order still says New.</strong> The confirmation webhook didn't reach your server. On a public domain, re-check the webhook endpoint and secret in <a href="#step4">Step 4</a>. On a local/LAN address, use the gateway's forwarding tool.</li>
+                            <li><strong>&ldquo;Add your &lt;gateway&gt; API keys first.&rdquo;</strong> The chosen gateway has no saved keys, or it's set to inactive. Add/activate it under Checkout gateways.</li>
+                            <li><strong>The pay page shows the wrong amount.</strong> Check the product prices and the store currency (Step 1) &mdash; the checkout total is the order total in your store currency.</li>
+                            <li><strong>&ldquo;Request payment on WhatsApp&rdquo; does nothing.</strong> That is the separate <a href="./whatsapp-pay.html">WhatsApp Pay</a> button (Meta-native, India + Cloud API only) &mdash; not this feature. Use <strong>Send checkout link</strong> for gateway checkout.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements &amp; caveats</h2>
+                        <ul>
+                            <li>You need an account with the gateway and its API keys. Payments settle into <strong>your</strong> gateway account.</li>
+                            <li>The <strong>webhook URL must be publicly reachable</strong> for orders to auto-confirm and receipts to send.</li>
+                            <li>This is separate from <a href="./whatsapp-pay.html">WhatsApp Pay</a> (Meta's native, region-locked payment). Use Checkout Gateways when you need a global provider or a non-Cloud-API number.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan">Plan availability</h2>
+                        <p>The Store/commerce module &mdash; storefront, products, orders and checkout gateways &mdash; depends on your <strong>plan</strong> being enabled for your workspace.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./storefront.html">Storefront &amp; Orders</a> &mdash; the shop page and the order list in depth.</li>
+                            <li><a href="./catalog.html">Catalog</a> &mdash; syncing your products to the WhatsApp product catalog.</li>
+                            <li><a href="./whatsapp-pay.html">WhatsApp Pay</a> &mdash; Meta's native in-chat payment (region-locked alternative).</li>
+                            <li><a href="../integrations/woocommerce.html">WooCommerce Order Webhooks</a> &mdash; orders that sync back to paid.</li>
+                            <li><a href="../getting-started/connect-channel.html">Connect a Channel</a> &mdash; connecting the WhatsApp number checkout sends from.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">How it fits together</a></li>
+                    <li class="toc-h2"><a href="#before" class="toc-link">Before you start</a></li>
+                    <li class="toc-h2"><a href="#step1" class="toc-link">Step 1 — Set up your store</a></li>
+                    <li class="toc-h2"><a href="#step2" class="toc-link">Step 2 — Add products</a></li>
+                    <li class="toc-h2"><a href="#step3" class="toc-link">Step 3 — Add gateway keys</a></li>
+                    <li class="toc-h2"><a href="#step4" class="toc-link">Step 4 — Connect the webhook</a></li>
+                    <li class="toc-h2"><a href="#step5" class="toc-link">Step 5 — Get an order</a></li>
+                    <li class="toc-h2"><a href="#step6" class="toc-link">Step 6 — Send the checkout link</a></li>
+                    <li class="toc-h2"><a href="#step7" class="toc-link">Step 7 — Paid &amp; receipt</a></li>
+                    <li class="toc-h2"><a href="#gateways" class="toc-link">Supported gateways</a></li>
+                    <li class="toc-h2"><a href="#troubleshooting" class="toc-link">Troubleshooting</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements &amp; caveats</a></li>
+                    <li class="toc-h2"><a href="#plan" class="toc-link">Plan availability</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Enforcement – WaDesk SaaS Docs</title>
+    <meta name="description" content="Plan Enforcement — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>Plan Enforcement</h1>
+
+                    <section class="mb-12">
+                        <h2 id="overview">Overview</h2>
+                        <p>WaDesk runs as a multi-tenant SaaS, so every premium capability is gated by the workspace's plan. The enforcement is layered and happens entirely on the server &mdash; hiding a button in the interface is never what actually protects a feature. Three layers do the work:</p>
+                        <ul>
+                            <li>An <strong>in-context check</strong> &mdash; the single place the code asks "is this allowed?" wherever a limited action happens.</li>
+                            <li>A <strong>whole-page gate</strong> &mdash; protects entire feature pages declaratively.</li>
+                            <li>A <strong>trial gate</strong> &mdash; the hard stop that blocks free trials once they expire.</li>
+                        </ul>
+                        <p>The upgrade prompt and the small premium badge both read the exact same plan data as the server, so what the interface shows and what the server allows never disagree.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="effective-plan">Effective Plan Resolution</h2>
+                        <p>Every gate ultimately asks one question: <em>does this workspace's effective plan allow this?</em> The answer is worked out in a set order:</p>
+                        <ol>
+                            <li><strong>Per-workspace override.</strong> If an administrator set a custom value for this workspace, that wins &mdash; for both limits and on/off features.</li>
+                            <li><strong>The plan.</strong> Otherwise the value comes from the workspace's plan.</li>
+                            <li><strong>Fallback.</strong> If neither defines it (for example a brand-new setting the plans haven't been updated with yet), a safe default is used.</li>
+                        </ol>
+                        <p>WaDesk looks up the plan reliably no matter how it was saved, and remembers the answer for the rest of the request so it isn't recalculated.</p>
+                        <blockquote class="info"><strong>Account-wide vs. per-workspace billing.</strong> By default, each workspace is billed on its own plan. If an administrator switches billing to <strong>account-wide</strong> (under Admin &rarr; Settings &rarr; General), the owner's <em>best</em> paid plan across all the workspaces they own applies to every one of them &mdash; so buying one paid plan unlocks the whole account and avoids hitting a second trial gate.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan-limit-guard">In-context checks (counts &amp; features)</h2>
+                        <p>Wherever a limited action happens, the code checks the plan right there before letting it through. It can:</p>
+                        <ul>
+                            <li><strong>Check a count limit</strong> &mdash; blocks once you've reached the plan's limit (so it stops you as you try to create the one that would go over). A limit of zero or none set means <strong>unlimited</strong>.</li>
+                            <li><strong>Check an on/off feature</strong> &mdash; blocks if the feature isn't included in the plan.</li>
+                        </ul>
+                        <p>When blocked, an app or automated caller gets a clear "limit reached" error response; a normal page submission is sent back with an upgrade message.</p>
+                        <p>These in-context checks cover features that don't have a page of their own &mdash; for example the Kanban view, message reactions and edits, internal notes, carousel templates, using your own AI key, business hours, drip campaigns, and call recording. They're enforced exactly where the action happens.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="route-middleware">Whole-page gating</h2>
+                        <p>Features that have their own page are protected at the page level. A page can require one feature or several at once (in which case the plan must include all of them). What happens when the feature is missing depends on what the user is trying to do:</p>
+                        <table>
+                            <thead>
+                                <tr><th>Action</th><th>If the feature is missing</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Trying to change something</strong> (save, create, update, delete)</td><td>Blocked outright, with an upgrade message. The action can never run on the server, even if someone bypasses the interface.</td></tr>
+                                <tr><td><strong>Just viewing the page</strong></td><td>The page still loads, but the upgrade prompt slides up over it. There's no redirect &mdash; the user stays on the feature page and sees exactly what upgrading would unlock.</td></tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="paywall">The Paywall &amp; Crown</h2>
+                        <p>Two on-screen elements turn a missing feature into an upgrade prompt, and both read the exact same plan data as the server:</p>
+                        <ul>
+                            <li><strong>The paywall</strong> &mdash; a slide-up panel shown over a gated page. It loads the actual plans that include the feature you're trying to use, so you can pick one and check out without leaving the page.</li>
+                            <li><strong>The crown badge</strong> &mdash; a small gold crown shown next to a feature your current plan doesn't include. Clicking it takes you to your account's Plans page.</li>
+                        </ul>
+                        <p>This page-level gating covers features that have a <strong>page of their own</strong> &mdash; campaigns, broadcasts, flows, AI assistants and training, calling, storefront, analytics, integrations, and so on. Features without their own page are checked in context instead, as described above.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="trial-gate">Trial Gate</h2>
+                        <p>This is the hard stop for expired free trials. Once a workspace's free trial has run out, the user can no longer <em>use</em> any feature: opening a feature page sends them to the Plans page with a warning (or returns a "payment required" response with an upgrade link for app/automated requests). Features still appear in the menu (so the user can see what buying a plan unlocks), but opening or saving in one is blocked.</p>
+                        <p>So a user is never stuck, these areas always stay reachable while the trial is expired:</p>
+                        <ul>
+                            <li>Account, plans, profile, billing, and invoices</li>
+                            <li>Checkout and payment confirmations (so they can pay)</li>
+                            <li>Support tickets, email verification, and the onboarding steps</li>
+                            <li>Switching to another (non-expired) workspace, and logout</li>
+                            <li>Public marketing and pricing pages</li>
+                        </ul>
+                        <blockquote class="info"><strong>Fails open by design.</strong> If anything ever goes wrong inside the trial gate, the request is let through rather than blocked &mdash; so a bug in the gate can never accidentally lock the whole app. Paid plans, and free plans with no expiry, are never "expired", so the gate does nothing for them.</blockquote>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="admin-bypass">Admin Bypass</h2>
+                        <p>Platform administrators are never blocked by their own product. All three enforcement layers follow the same rule: a user with the <strong>Super Admin</strong> or <strong>Admin</strong> role bypasses every check.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Layer</th><th>For admins</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>In-context checks</td><td>Treated as allowed for every limit and feature.</td></tr>
+                                <tr><td>Whole-page gating</td><td>Bypassed automatically.</td></tr>
+                                <tr><td>Trial gate</td><td>Skipped before any trial check runs.</td></tr>
+                                <tr><td>Paywall &amp; crown badge</td><td>Show nothing &mdash; admins aren't "missing" anything.</td></tr>
+                            </tbody>
+                        </table>
+                        <blockquote class="warning"><strong>Recommended:</strong> The admin bypass is broad &mdash; the Super Admin and Admin roles override every plan limit and trial gate. Give those roles only to staff who genuinely run the platform. For day-to-day work, use the narrower Platform Support or Auditor roles, so a compromised account can't quietly run unlimited sends.</blockquote>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">Overview</a></li>
+                    <li class="toc-h2"><a href="#effective-plan" class="toc-link">Effective Plan Resolution</a></li>
+                    <li class="toc-h2"><a href="#plan-limit-guard" class="toc-link">In-context checks</a></li>
+                    <li class="toc-h2"><a href="#route-middleware" class="toc-link">Whole-page gating</a></li>
+                    <li class="toc-h2"><a href="#paywall" class="toc-link">The Paywall &amp; Crown</a></li>
+                    <li class="toc-h2"><a href="#trial-gate" class="toc-link">Trial Gate</a></li>
+                    <li class="toc-h2"><a href="#admin-bypass" class="toc-link">Admin Bypass</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>

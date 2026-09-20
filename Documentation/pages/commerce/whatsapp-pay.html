@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Pay – WaDesk SaaS Docs</title>
+    <meta name="description" content="WhatsApp Pay — part of WaDesk SaaS, the AI-Powered WhatsApp CRM, Marketing Automation, Chatbot Builder &amp; Bulk Messaging Platform.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <link rel="icon" type="image/png" href="../../assets/favicon.png">
+    <script src="../../assets/script.js" defer></script>
+</head>
+
+<body class="gitbook-theme">
+    <header class="site-header">
+        <div class="header-left flex items-center">
+            <a href="../../index.html" class="logo-container">
+                <button class="hamburger-btn" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <img src="../../assets/logo.png" alt="WaDesk" class="header-logo ml-3" onerror="this.style.display='none'">
+            </a>
+        </div>
+        <div class="header-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 16 16">
+                        <path d="M11.5 7a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM16 14.5L13.5 12a6.5 6.5 0 10-1.5 1.5l2.5 2.5 1-1z" />
+                    </svg>
+                    <input type="text" id="global-search" placeholder="Search...">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav"></nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-body">
+                <div class="content-wrapper">
+                    <h1>WhatsApp Pay</h1>
+
+                    <p><strong>WhatsApp Pay</strong> lets a customer pay directly inside the WhatsApp conversation &mdash; without leaving the chat or opening a browser. WaDesk sends a native payment message containing the order's items and total, and the customer completes the payment within WhatsApp itself. This is a <strong>v1.2</strong> feature.</p>
+
+                    <section class="mb-12">
+                        <h2 id="overview">What it is</h2>
+                        <p>WhatsApp Pay is <strong>native in-chat payment</strong>. Instead of sending a link that opens a separate checkout page, WaDesk sends WhatsApp's <code>order_details</code> payment message. The customer sees the order summary and a pay action right inside the conversation, pays there, and the order is confirmed on payment.</p>
+                        <p>This keeps the entire buying journey &mdash; browse, order, and pay &mdash; in one WhatsApp thread, which removes the friction of redirecting customers to an external site.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="why-use">Why and when to use it</h2>
+                        <ul>
+                            <li><strong>Fewer drop-offs.</strong> Customers do not have to leave the chat or open a browser, so fewer abandon at the payment step.</li>
+                            <li><strong>A single, trusted surface.</strong> The order and the payment happen in the same conversation, which feels seamless and reassuring to the customer.</li>
+                            <li><strong>Conversational commerce.</strong> It is ideal for stores that sell directly through chat, where the order is already being agreed in the conversation.</li>
+                        </ul>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="how-it-works">How it works</h2>
+                        <ol>
+                            <li>The order is built up in the conversation (for example through the storefront or catalog).</li>
+                            <li>WaDesk sends an <code>order_details</code> interactive (or template) message that lists the order's line items and the total.</li>
+                            <li>The customer reviews the summary and completes the payment <strong>within WhatsApp</strong>, using the payment method WhatsApp offers in their region.</li>
+                            <li>The order is <strong>confirmed on payment</strong>, so it is marked paid once WhatsApp reports the payment as complete.</li>
+                        </ol>
+                        <p>Because the payment runs through WhatsApp itself, the actual payment provider is configured on Meta's side rather than inside WaDesk &mdash; WaDesk's job is to compose and send the <code>order_details</code> message and react when the payment is confirmed.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="usage">How to use it</h2>
+                        <p>WhatsApp Pay is used at <strong>storefront / order checkout</strong>. When an order is ready, WaDesk sends the in-chat payment message for that order; the customer pays inside WhatsApp and the order moves to paid automatically. The payment configuration itself is set up on Meta's side (see the requirements below) &mdash; it is not a self-serve setting inside WaDesk.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="requirements">Requirements &amp; caveats</h2>
+                        <blockquote class="warning"><strong>Caution:</strong> WhatsApp Pay is <strong>region-locked by Meta</strong>. Availability and the supported payment methods vary by country, and in some regions it is <strong>testing-only</strong>. The payment provider/configuration is set up <strong>on Meta's side</strong> &mdash; it is <em>not</em> a self-serve setting inside WaDesk. WhatsApp Pay requires the <strong>WhatsApp Cloud API</strong> engine.</blockquote>
+                        <p>Before relying on WhatsApp Pay, confirm that it is available for your country and that your Meta payment configuration is in place. If it is not supported in your region, use a standard pay link at checkout instead.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="where-to-find">Where to find it</h2>
+                        <p>WhatsApp Pay surfaces at storefront and order checkout, where the in-chat payment message is sent for an order. The payment provider settings that power it live in the Meta side of your WhatsApp Cloud API setup, not in the WaDesk admin.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="plan">Plan availability</h2>
+                        <p>Availability depends on your <strong>plan</strong> and on <strong>Meta's regional availability</strong>. Even on a plan that includes it, WhatsApp Pay can only be used in countries where Meta has enabled it.</p>
+                    </section>
+
+                    <section class="mb-12">
+                        <h2 id="related">Related Pages</h2>
+                        <ul>
+                            <li><a href="./storefront.html">Storefront</a> &mdash; where orders are placed before payment.</li>
+                            <li><a href="./catalog.html">Catalog</a> &mdash; the products and prices that make up an order.</li>
+                            <li><a href="../getting-started/connect-channel.html">Connect a Channel</a> &mdash; setting up the WhatsApp Cloud API engine that WhatsApp Pay requires.</li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="page-navigation"></div>
+
+                <footer class="content-footer">
+                    <span class="last-updated">WaDesk Documentation</span>
+                </footer>
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">ON THIS PAGE</div>
+                <ul class="toc-list">
+                    <li class="toc-h2"><a href="#overview" class="toc-link">What it is</a></li>
+                    <li class="toc-h2"><a href="#why-use" class="toc-link">Why and when to use it</a></li>
+                    <li class="toc-h2"><a href="#how-it-works" class="toc-link">How it works</a></li>
+                    <li class="toc-h2"><a href="#usage" class="toc-link">How to use it</a></li>
+                    <li class="toc-h2"><a href="#requirements" class="toc-link">Requirements &amp; caveats</a></li>
+                    <li class="toc-h2"><a href="#where-to-find" class="toc-link">Where to find it</a></li>
+                    <li class="toc-h2"><a href="#plan" class="toc-link">Plan availability</a></li>
+                    <li class="toc-h2"><a href="#related" class="toc-link">Related Pages</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+<script>var DOC_BASE = '../../';</script>
+<script src="../../assets/sidebar.js"></script>
+</body>
+
+</html>
