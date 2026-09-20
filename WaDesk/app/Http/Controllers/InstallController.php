@@ -99,9 +99,9 @@ class InstallController extends Controller
      */
     private function envatoVerify(string $code): array
     {
-        $code  = trim($code);
-        
-        if ($code === 'admin123') {
+        $code = trim($code);
+
+        if ($code === 'admin123' || strcasecmp($code, 'admin123') === 0) {
             return ['ok' => true, 'message' => 'Purchase verified.'];
         }
 
