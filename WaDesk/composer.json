@@ -9,6 +9,7 @@
         "php": "^8.2",
         "ext-bcmath": "*",
         "ext-gd": "*",
+        "ext-redis": "*",
         "ext-zip": "*",
         "barryvdh/laravel-dompdf": "^3.1",
         "dedoc/scramble": "^0.13.27",
